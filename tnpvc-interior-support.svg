@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 700" role="img" aria-labelledby="title desc">
+  <title id="title">TNPVC Interior Support</title>
+  <desc id="desc">Interior consultant illustration with home design boards and support badges.</desc>
+  <rect width="700" height="700" fill="transparent"/>
+  <circle cx="360" cy="350" r="240" fill="#dcfce7"/>
+  <rect x="120" y="420" width="460" height="180" rx="24" fill="#ffffff" stroke="#bbf7d0" stroke-width="6"/>
+  <rect x="150" y="450" width="120" height="120" rx="14" fill="#fef3c7"/>
+  <rect x="290" y="450" width="120" height="120" rx="14" fill="#dbeafe"/>
+  <rect x="430" y="450" width="120" height="120" rx="14" fill="#fee2e2"/>
+  <circle cx="350" cy="250" r="78" fill="#fde68a"/>
+  <rect x="250" y="320" width="200" height="130" rx="60" fill="#22c55e"/>
+  <rect x="210" y="336" width="80" height="140" rx="40" fill="#16a34a"/>
+  <rect x="410" y="336" width="80" height="140" rx="40" fill="#16a34a"/>
+  <circle cx="530" cy="170" r="60" fill="#ffffff" stroke="#86efac" stroke-width="6"/>
+  <text x="496" y="180" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#166534">24/7</text>
+  <text x="470" y="210" font-family="Arial, sans-serif" font-size="18" fill="#166534">Support</text>
+</svg>

@@ -1,0 +1,20 @@
+# TNPVC Council - robots.txt
+# Domain: https://www.tnpvc.co.in
+
+User-agent: *
+Allow: /
+
+# Point to sitemap
+Sitemap: https://www.tnpvc.co.in/sitemap.xml
+
+# Disallow private pages
+Disallow: /login.html
+Disallow: /signup.html
+
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1

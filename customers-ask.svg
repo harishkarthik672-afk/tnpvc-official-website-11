@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 240" role="img" aria-label="Ask questions">
+  <rect width="360" height="240" fill="transparent"/>
+  <rect x="92" y="78" width="128" height="126" rx="26" fill="#67a8ff"/>
+  <path d="M213 173l28 18-8-30z" fill="#67a8ff"/>
+  <ellipse cx="158" cy="112" rx="47" ry="50" fill="#edf1f4"/>
+  <path d="M122 138c11-20 29-27 38-27 20 0 35 13 39 33l-2 35h-76z" fill="#f5cd62"/>
+  <path d="M140 88c8-8 25-10 37-6 10 3 17 12 20 20-7-5-11-7-17-8 0 7-4 12-10 16-8 5-16 6-24 2-7-3-10-11-6-24z" fill="#6e7278"/>
+  <circle cx="154" cy="120" r="3.6" fill="#5f6771"/>
+  <circle cx="174" cy="120" r="3.6" fill="#5f6771"/>
+  <path d="M157 133c5 3 11 3 16 0" stroke="#5f6771" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <text x="120" y="67" font-family="Arial, sans-serif" font-size="24" fill="#67a8ff">?</text>
+  <text x="149" y="55" font-family="Arial, sans-serif" font-size="20" fill="#67a8ff">?</text>
+  <text x="177" y="67" font-family="Arial, sans-serif" font-size="24" fill="#67a8ff">?</text>
+</svg>

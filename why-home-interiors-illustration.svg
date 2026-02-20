@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 620" role="img" aria-labelledby="title desc">
+  <title id="title">House Interior Illustration</title>
+  <desc id="desc">Single-color line art style illustration of a designer with a laptop for home interiors.</desc>
+  <g fill="none" stroke="#007f6a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M70 565h660"/>
+    <path d="M110 565c20-55 18-122 34-180 20-72 77-120 150-136 50-11 102-5 145 18 50 27 82 75 90 131l19 167"/>
+    <path d="M252 185c8-45 46-78 92-82 53-6 102 29 115 79"/>
+    <circle cx="350" cy="198" r="47"/>
+    <path d="M303 202c0 44 25 79 57 79s57-35 57-79"/>
+    <path d="M262 314c42-17 82-14 123 11 27 17 44 43 53 73"/>
+    <path d="M205 332c18-42 65-72 110-72"/>
+    <path d="M457 322c43-4 86 19 111 58 21 33 28 72 34 110l11 75"/>
+    <path d="M155 470c-24-3-43-22-43-46 0-23 17-42 40-46"/>
+    <path d="M570 518h180l-38 47H526z"/>
+    <rect x="312" y="476" width="158" height="78" rx="14"/>
+    <path d="M328 476c8-24 20-44 37-58 23-19 56-24 84-12 23 10 40 29 53 51"/>
+    <path d="M336 515h112"/>
+    <path d="M548 498h150"/>
+    <path d="M375 554l-6 22h44l-4-22"/>
+    <circle cx="146" cy="575" r="28"/>
+    <path d="M238 603l45-57 52 57z"/>
+    <rect x="314" y="554" width="55" height="49"/>
+    <path d="M300 263c-24-42-57-74-102-93-55-23-126-17-173 19"/>
+    <path d="M388 264c24-36 63-58 106-59"/>
+  </g>
+</svg>

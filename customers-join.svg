@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 240" role="img" aria-label="Join groups">
+  <rect width="360" height="240" fill="transparent"/>
+  <g transform="translate(96 28)">
+    <rect width="48" height="48" fill="#b4c6ff"/>
+    <rect x="48" width="48" height="48" fill="#f6cb70"/>
+    <rect x="96" width="48" height="48" fill="#80dfd8"/>
+    <rect y="48" width="48" height="48" fill="#d7f2f0"/>
+    <rect x="48" y="48" width="48" height="48" fill="#ffd0de"/>
+    <rect x="96" y="48" width="48" height="48" fill="#c4c8ff"/>
+    <rect y="96" width="48" height="48" fill="#a7e4f7"/>
+    <rect x="48" y="96" width="48" height="48" fill="#f3b5cb"/>
+    <rect x="96" y="96" width="48" height="48" fill="#f7e081"/>
+
+    <circle cx="24" cy="24" r="12" fill="#4b5563"/>
+    <circle cx="72" cy="24" r="12" fill="#4b5563"/>
+    <circle cx="120" cy="24" r="12" fill="#4b5563"/>
+    <circle cx="72" cy="72" r="12" fill="#4b5563"/>
+    <circle cx="24" cy="120" r="12" fill="#4b5563"/>
+    <circle cx="120" cy="120" r="12" fill="#4b5563"/>
+  </g>
+</svg>
