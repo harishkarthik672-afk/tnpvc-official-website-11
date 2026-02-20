@@ -4212,6 +4212,69 @@ body {
         font-size: 1.5rem;
         cursor: pointer;
     }
+
+    /* About Page Mobile Fixes */
+    .help-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+    }
+
+    .help-card {
+        padding: 2.5rem 1.5rem !important;
+        text-align: center !important;
+    }
+
+    .help-icon {
+        margin: 0 auto 1.5rem !important;
+    }
+
+    .help-link {
+        display: block !important;
+        margin-top: 1rem !important;
+    }
+
+    .responsive-grid {
+        grid-template-columns: 1fr !important;
+        gap: 3rem !important;
+        text-align: center !important;
+    }
+
+    .responsive-grid>div {
+        text-align: center !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .region-item {
+        padding: 1.2rem !important;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .region-content {
+        padding: 1.2rem !important;
+        text-align: center !important;
+    }
+
+    .help-hero-section h1 {
+        font-size: 2.2rem !important;
+        line-height: 1.2;
+    }
+
+    .help-hero-section {
+        padding: 6rem 0 3rem !important;
+    }
+
+    .help-grid-wrapper {
+        margin-top: -2rem !important;
+        padding-bottom: 4rem;
+    }
+
+    .help-tag {
+        margin: 0 auto 1rem !important;
+        display: inline-block !important;
+    }
 }
 
 @keyframes fadeIn {
@@ -4229,6 +4292,11 @@ body {
 .mobile-sticky-btn,
 .mobile-bottom-nav {
     display: none;
+}
+
+/* Base Responsive Grid Class */
+.responsive-grid {
+    display: grid;
 }
 
 
