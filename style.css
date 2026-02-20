@@ -4246,6 +4246,14 @@ body {
         align-items: center;
     }
 
+    /* Fixed Oversized Illustrations */
+    .responsive-grid img {
+        max-width: 280px !important;
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 auto 2rem !important;
+    }
+
     .region-item {
         padding: 1.2rem !important;
         flex-direction: column;
