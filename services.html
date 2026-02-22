@@ -105,28 +105,53 @@
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="i18n.js" defer></script>
 </head>
 
 <body>
     <header class="navbar" itemscope itemtype="https://schema.org/SiteNavigationElement">
         <div class="container nav-container">
-            <div style="display: flex; align-items: center; gap: 2.5rem;">
-                <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 8px;" itemprop="url">
+            <!-- Mobile Menu Toggle (Left) -->
+            <button class="mobile-menu-toggle-btn-top" id="mobileMenuBtn">
+                <i data-lucide="menu"></i>
+            </button>
+
+            <div class="nav-left-group">
+                <a href="index.html" class="logo" itemprop="url">
                     <img src="logo.png" alt="TNPVC Logo - Tamil Nadu PVC Council"
-                        title="TNPVC Council Header Logo - Srinivasan"
-                        style="height: 32px; width: auto; object-fit: contain;" itemprop="image">
-                    <span style="font-weight: 800; color: #000; font-size: 1.3rem;" itemprop="name">TNPVC</span>
+                        title="TNPVC Council Official Logo - Srinivasan" itemprop="image">
+                    <span itemprop="name">TNPVC</span>
                 </a>
                 <nav class="nav-links">
-                    <a href="about.html" itemprop="url"><span itemprop="name">About</span></a>
-                    <a href="services.html" class="active" itemprop="url"><span itemprop="name">Services</span></a>
-                    <a href="customers.html" itemprop="url"><span itemprop="name">Customers</span></a>
+                    <a href="about.html" itemprop="url"><span itemprop="name" data-i18n="nav_about">About</span></a>
+                    <a href="services.html" class="active" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_services">Services</span></a>
+                    <a href="customers.html" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_customers">Customers</span></a>
+                    <a href="gallery.html" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_gallery">Gallery</span></a>
+                    <a href="pvc-doors.html" itemprop="url"><span itemprop="name" data-i18n="nav_pvc_doors">PVC
+                            Doors</span></a>
                 </nav>
             </div>
-            <div class="nav-right" style="display: flex; align-items: center; gap: 1.5rem;">
-                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho"
-                    style="background: #25D366; color: white; border: none; padding: 0.6rem 1.5rem; display: flex; align-items: center; gap: 8px;">
-                    <i data-lucide="message-circle" style="width: 18px;"></i> Join Now
+
+            <div class="nav-right">
+                <!-- Language Switcher -->
+                <div class="lang-switcher">
+                    <button class="lang-btn" id="langBtn">
+                        <img src="tnpvc-community-globe.svg" alt="Globe" class="globe-icon">
+                        <span id="currentLang">EN</span>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <a href="#" data-lang="en">English</a>
+                        <a href="#" data-lang="ta">தமிழ்</a>
+                        <a href="#" data-lang="hi">हिन्दी</a>
+                    </div>
+                </div>
+
+                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="join-whatsapp-btn join-btn-desktop"
+                    title="Join TNPVC on WhatsApp">
+                    <i data-lucide="message-circle"></i>
                 </a>
             </div>
         </div>
@@ -134,11 +159,13 @@
         <div class="mobile-nav-overlay" id="mobileNav">
             <button class="close-menu" id="closeMenu">&times;</button>
             <div class="mobile-nav-content">
-                <a href="about.html">About</a>
-                <a href="services.html">Services</a>
-                <a href="customers.html">Customers</a>
+                <a href="about.html" data-i18n="nav_about">About</a>
+                <a href="services.html" data-i18n="nav_services">Services</a>
+                <a href="customers.html" data-i18n="nav_customers">Customers</a>
+                <a href="gallery.html" data-i18n="nav_gallery">Gallery</a>
+                <a href="pvc-doors.html" data-i18n="nav_pvc_doors">PVC Doors</a>
                 <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho"
-                    style="background: #25D366; margin-top: 1rem;">Join Now</a>
+                    style="margin-top: 1rem;"><span data-i18n="nav_join_now">Join Now</span></a>
             </div>
         </div>
     </header>
@@ -188,28 +215,7 @@
                 <h2 class="section-title">Transparent Interior Execution</h2>
                 <p class="section-subtitle">No more tracking delays via messy phone calls. Get real-time updates on site
                     work, material arrivals, and budget utilization with our integrated interior dashboard.</p>
-                <div class="viz-container">
-                    <div class="main-dashboard-mockup">
-                        <img src="analytics-dashboard.png"
-                            alt="Interior Analytics Dashboard - Digital Site Tracking by TNPVC"
-                            title="TNPVC Digital Dashboard: Real-time interior project management" class="mockup-img"
-                            loading="lazy" itemprop="image">
-                        <div class="floating-ui-card card-flow animate-float">
-                            <div class="flow-item">Design Finalized</div>
-                            <div class="flow-arrow">↓</div>
-                            <div class="flow-item">Material Delivered</div>
-                            <div class="flow-arrow">↓</div>
-                            <div class="flow-item">Execution Started</div>
-                        </div>
-                        <div class="floating-ui-card card-happiness animate-float" style="animation-delay: 1.5s;">
-                            <span>Customer Satisfaction</span>
-                            <div class="happiness-score">
-                                <span class="emoji">Home</span>
-                                <strong>98%</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Image removed as requested -->
             </div>
         </section>
 
@@ -267,13 +273,15 @@
                     <p>Track your home interior progress even when you're at work. TNPVC's mobile apps let you approve
                         design changes, release payments, and view daily site photos at a glance.</p>
                     <div class="btn-group">
-                        <a href="#" class="btn-pill-outline">Download Wolky Tolky App <i data-lucide="arrow-right"
-                                style="width: 14px;"></i></a>
+                        <a href="javascript:void(0)" class="btn-pill-outline" id="downloadAppBtn">
+                            <span data-i18n="download_app">Download TNPVC App</span>
+                            <i data-lucide="arrow-right" style="width: 14px;"></i>
+                        </a>
                     </div>
                 </div>
                 <div class="mobile-visual">
-                    <img src="wolky-tolky-ui.svg" alt="Wolky Tolky App Interface - TNPVC Mobile Solution"
-                        title="Wolky Tolky Mobile App by TNPVC for site coordination"
+                    <img src="wolky-tolky-ui.svg" alt="TNPVC App Interface - Mobile Solution"
+                        title="TNPVC Mobile App for site coordination"
                         style="width: 100%; border-radius: 30px; border: 8px solid #333;" loading="lazy"
                         itemprop="image">
                 </div>
@@ -463,14 +471,14 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h4>Networks</h4>
+                    <h4>uPVC/PVC Services</h4>
                     <ul>
-                        <li><a href="labours.html">Labours Platform</a></li>
-                        <li><a href="contractors.html">Contractor Network</a></li>
-                        <li><a href="suppliers.html">Supplier Suite</a></li>
-                        <li><a href="services.html">Managed Tools</a></li>
-                        <li><a href="#">Enterprise Solutions</a></li>
-                        <li><a href="#">Government Panels</a></li>
+                        <li><a href="services.html">uPVC Windows</a></li>
+                        <li><a href="pvc-doors.html">Premium PVC Doors</a></li>
+                        <li><a href="services.html">False Ceiling</a></li>
+                        <li><a href="services.html">Wall Cladding</a></li>
+                        <li><a href="gallery.html">Project Gallery</a></li>
+                        <li><a href="contact.html">Request Quote</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -554,32 +562,79 @@
     </footer>
 
     <script>
-        lucide.createIcons();
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
 
-        // Mobile Menu Logic
-        const mobileToggle = document.getElementById('mobileMenuBtn');
-        const mobileNav = document.getElementById('mobileNav');
-        const closeMenu = document.getElementById('closeMenu');
+            // Mobile Menu Logic
+            const mobileToggle = document.getElementById('mobileMenuBtn');
+            const mobileNav = document.getElementById('mobileNav');
+            const closeMenu = document.getElementById('closeMenu');
 
-        if (mobileToggle && mobileNav && closeMenu) {
-            mobileToggle.addEventListener('click', () => {
-                mobileNav.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
+            if (mobileToggle && mobileNav && closeMenu) {
+                mobileToggle.addEventListener('click', () => {
+                    mobileNav.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
 
-            closeMenu.addEventListener('click', () => {
-                mobileNav.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-
-            mobileNav.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
+                closeMenu.addEventListener('click', () => {
                     mobileNav.classList.remove('active');
                     document.body.style.overflow = '';
                 });
-            });
-        }
+
+                mobileNav.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileNav.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+
+            // App Download Popup Logic
+            const downloadAppBtn = document.getElementById('downloadAppBtn');
+            const appModal = document.getElementById('appDownloadModal');
+            const appModalClose = document.getElementById('appModalClose');
+
+            if (downloadAppBtn && appModal && appModalClose) {
+                downloadAppBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    appModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+
+                const closePopup = () => {
+                    appModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                };
+
+                appModalClose.addEventListener('click', closePopup);
+                appModal.addEventListener('click', (e) => {
+                    if (e.target === appModal) closePopup();
+                });
+            }
+        });
     </script>
+
+    <!-- App Download Popup Modal -->
+    <div id="appDownloadModal" class="app-popup-overlay">
+        <div class="app-popup-content">
+            <button id="appModalClose" class="app-popup-close">&times;</button>
+            <div class="app-popup-header">
+                <div class="app-popup-icon">
+                    <i data-lucide="rocket"></i>
+                </div>
+                <h3 data-i18n="download_app">Download TNPVC App</h3>
+            </div>
+            <div class="app-popup-body">
+                <p data-i18n="app_coming_soon">Coming Soon! Dexaz professional developers are working on it.</p>
+                <div class="dexaz-branding">
+                    <span>Powered by</span>
+                    <img src="siranthan-siran.jpg" alt="Dexaz"
+                        style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                    <strong>Dexaz</strong>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

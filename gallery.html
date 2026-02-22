@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="https://schema.org/WebPage">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gallery | TNPVC - uPVC & PVC Interior Showcase Tamil Nadu</title>
+    <meta name="title" content="Gallery | TNPVC - uPVC & PVC Interior Showcase Tamil Nadu">
+    <meta name="description"
+        content="Explore our portfolio of uPVC windows, PVC doors, false ceilings, and interior work across Tamil Nadu. Premium finishes and expert installation gallery.">
+
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="i18n.js" defer></script>
+
+    <style>
+        .gallery-hero {
+            padding: 100px 0 60px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            text-align: center;
+        }
+
+        .gallery-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .gallery-hero p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .gallery-container {
+            padding: 80px 0;
+            background: #fff;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 0 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 4/5;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 60%);
+            opacity: 0;
+            display: flex;
+            align-items: flex-end;
+            padding: 2rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-info h3 {
+            color: #fff;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+
+        .gallery-info p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        /* Lightbox Styles */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            transform: scale(0.9);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .lightbox.active .lightbox-content {
+            transform: scale(1);
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 12px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            background: #fff;
+            color: #000;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .gallery-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar" itemscope itemtype="https://schema.org/SiteNavigationElement">
+        <div class="container nav-container">
+            <!-- Mobile Menu Toggle (Left) -->
+            <button class="mobile-menu-toggle-btn-top" id="mobileMenuBtn">
+                <i data-lucide="menu"></i>
+            </button>
+
+            <div class="nav-left-group">
+                <a href="index.html" class="logo" itemprop="url">
+                    <img src="logo.png" alt="TNPVC Logo" title="TNPVC Council" itemprop="image">
+                    <span itemprop="name">TNPVC</span>
+                </a>
+                <nav class="nav-links">
+                    <a href="about.html" itemprop="url"><span itemprop="name" data-i18n="nav_about">About</span></a>
+                    <a href="services.html" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_services">Services</span></a>
+                    <a href="customers.html" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_customers">Customers</span></a>
+                    <a href="gallery.html" class="active" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_gallery">Gallery</span></a>
+                    <a href="pvc-doors.html" itemprop="url"><span itemprop="name" data-i18n="nav_pvc_doors">PVC
+                            Doors</span></a>
+                </nav>
+            </div>
+
+            <div class="nav-right">
+                <div class="lang-switcher">
+                    <button class="lang-btn" id="langBtn">
+                        <img src="tnpvc-community-globe.svg" alt="Globe" class="globe-icon">
+                        <span id="currentLang">EN</span>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <a href="#" data-lang="en">English</a>
+                        <a href="#" data-lang="ta">தமிழ்</a>
+                        <a href="#" data-lang="hi">हिन्दी</a>
+                    </div>
+                </div>
+                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="join-whatsapp-btn join-btn-desktop">
+                    <i data-lucide="message-circle"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu Overlay -->
+        <div class="mobile-nav-overlay" id="mobileNav">
+            <button class="close-menu" id="closeMenu">&times;</button>
+            <div class="mobile-nav-content">
+                <a href="about.html" data-i18n="nav_about">About</a>
+                <a href="services.html" data-i18n="nav_services">Services</a>
+                <a href="customers.html" data-i18n="nav_customers">Customers</a>
+                <a href="gallery.html" data-i18n="nav_gallery">Gallery</a>
+                <a href="pvc-doors.html" data-i18n="nav_pvc_doors">PVC Doors</a>
+                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho" style="margin-top: 1rem;">
+                    <span data-i18n="nav_join_now">Join Now</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="gallery-hero">
+            <div class="container">
+                <h1 data-i18n="gallery_title">Our Project Showcase</h1>
+                <p data-i18n="gallery_subtitle">A closer look at the craftsmanship and quality delivered by TNPVC across
+                    Tamil Nadu. From modern uPVC windows to elegant PVC interiors.</p>
+            </div>
+        </section>
+
+        <section class="gallery-container">
+            <div class="container gallery-grid" id="galleryGrid">
+                <!-- Gallery items will be populated here -->
+            </div>
+        </section>
+    </main>
+
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightboxClose"><i data-lucide="x"></i></button>
+            <img src="" alt="Showcase Image" id="lightboxImg">
+        </div>
+    </div>
+
+    <!-- Mega Footer (Standard) -->
+    <footer class="mega-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>uPVC/PVC Services</h4>
+                    <ul>
+                        <li><a href="services.html">uPVC Window Installation</a></li>
+                        <li><a href="services.html">PVC Door & Panel Works</a></li>
+                        <li><a href="services.html">False Ceiling Solutions</a></li>
+                        <li><a href="services.html">Wall Cladding & Partitions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="gallery.html">Project Gallery</a></li>
+                        <li><a href="customers.html">Testimonials</a></li>
+                        <li><a href="contact.html">Request Quote</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col contact-col">
+                    <div class="contact-info">
+                        <p><strong>Phone</strong><br><a href="tel:8870826404">88708 26404</a></p>
+                        <p><strong>Email</strong><br><a href="mailto:support@tnpvc.org">support@tnpvc.org</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026, TNPVC Council Pvt. Ltd. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+
+            // Populate Gallery
+            const galleryGrid = document.getElementById('galleryGrid');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            const lightboxClose = document.getElementById('lightboxClose');
+
+            for (let i = 1; i <= 24; i++) {
+                if (i === 7) continue; // showcase-7.jpg is missing
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.innerHTML = `
+                    <img src="showcase-${i}.jpg" alt="TNPVC Showcase ${i}" loading="lazy">
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h3>TNPVC Project ${i}</h3>
+                            <p>Quality Interior Solution</p>
+                        </div>
+                    </div>
+                `;
+
+                item.addEventListener('click', () => {
+                    lightboxImg.src = `showcase-${i}.jpg`;
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+
+                galleryGrid.appendChild(item);
+            }
+
+            // Lightbox Close Logic
+            const closeLightbox = () => {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            };
+
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+
+            // Mobile Menu Logic
+            const mobileToggle = document.getElementById('mobileMenuBtn');
+            const mobileNav = document.getElementById('mobileNav');
+            const closeMenu = document.getElementById('closeMenu');
+
+            if (mobileToggle && mobileNav && closeMenu) {
+                mobileToggle.addEventListener('click', () => {
+                    mobileNav.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+
+                closeMenu.addEventListener('click', () => {
+                    mobileNav.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

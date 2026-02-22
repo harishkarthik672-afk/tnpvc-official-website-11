@@ -107,101 +107,126 @@
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        .contact-hero {
-            background: #fdfcfb;
-            padding: 8rem 0 4rem;
-            text-align: center;
-        }
+    <script src="i18n.js" defer></script>
+</head>
+<style>
+    .contact-hero {
+        background: #fdfcfb;
+        padding: 1.5rem 0 4rem;
+        text-align: center;
+    }
 
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            margin-top: 4rem;
-        }
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        margin-top: 4rem;
+    }
 
-        .contact-form-card {
-            background: white;
-            padding: 3rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            border: 1px solid #eee;
-        }
+    .contact-form-card {
+        background: white;
+        padding: 3rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        border: 1px solid #eee;
+    }
 
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
 
-        .input-group {
-            margin-bottom: 1.5rem;
-        }
+    .input-group {
+        margin-bottom: 1.5rem;
+    }
 
-        .input-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
+    .input-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
 
-        .input-group input,
-        .input-group textarea,
-        .input-group select {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #eee;
-            border-radius: 6px;
-            font-family: inherit;
-        }
+    .input-group input,
+    .input-group textarea,
+    .input-group select {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #eee;
+        border-radius: 6px;
+        font-family: inherit;
+    }
 
-        .contact-info-list {
-            padding: 2rem 0;
-        }
+    .contact-info-list {
+        padding: 2rem 0;
+    }
 
-        .info-item {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-        }
+    .info-item {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
 
-        .info-icon {
-            width: 48px;
-            height: 48px;
-            background: #f0f7ff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #0060b4;
-            flex-shrink: 0;
-        }
-    </style>
+    .info-icon {
+        width: 48px;
+        height: 48px;
+        background: #f0f7ff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #0060b4;
+        flex-shrink: 0;
+    }
+</style>
 </head>
 
 <body>
-    <header class="navbar">
+    <header class="navbar" itemscope itemtype="https://schema.org/SiteNavigationElement">
         <div class="container nav-container">
-            <div style="display: flex; align-items: center; gap: 2.5rem;">
-                <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 8px;" itemprop="url">
+            <!-- Mobile Menu Toggle (Left) -->
+            <button class="mobile-menu-toggle-btn-top" id="mobileMenuBtn">
+                <i data-lucide="menu"></i>
+            </button>
+
+            <div class="nav-left-group">
+                <a href="index.html" class="logo" itemprop="url">
                     <img src="logo.png" alt="TNPVC Logo - Tamil Nadu PVC Council"
-                        title="TNPVC Council Header Logo - Srinivasan"
-                        style="height: 32px; width: auto; object-fit: contain;" itemprop="image">
-                    <span style="font-weight: 800; color: #000; font-size: 1.3rem;" itemprop="name">TNPVC</span>
+                        title="TNPVC Council Official Logo - Srinivasan" itemprop="image">
+                    <span itemprop="name">TNPVC</span>
                 </a>
                 <nav class="nav-links">
-                    <a href="about.html">About</a>
-                    <a href="services.html">Services</a>
-                    <a href="customers.html">Customers</a>
-
+                    <a href="about.html" itemprop="url"><span itemprop="name" data-i18n="nav_about">About</span></a>
+                    <a href="services.html" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_services">Services</span></a>
+                    <a href="customers.html" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_customers">Customers</span></a>
+                    <a href="gallery.html" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_gallery">Gallery</span></a>
+                    <a href="pvc-doors.html" itemprop="url"><span itemprop="name" data-i18n="nav_pvc_doors">PVC
+                            Doors</span></a>
                 </nav>
             </div>
-            <div class="nav-right" style="display: flex; align-items: center; gap: 1.5rem;">
-                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho"
-                    style="background: #25D366; color: white; border: none; padding: 0.6rem 1.5rem; display: flex; align-items: center; gap: 8px;">
-                    <i data-lucide="message-circle" style="width: 18px;"></i> Join Now
+
+            <div class="nav-right">
+                <!-- Language Switcher -->
+                <div class="lang-switcher">
+                    <button class="lang-btn" id="langBtn">
+                        <img src="tnpvc-community-globe.svg" alt="Globe" class="globe-icon">
+                        <span id="currentLang">EN</span>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <a href="#" data-lang="en">English</a>
+                        <a href="#" data-lang="ta">தமிழ்</a>
+                        <a href="#" data-lang="hi">हिन्दी</a>
+                    </div>
+                </div>
+
+                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="join-whatsapp-btn join-btn-desktop"
+                    title="Join TNPVC on WhatsApp">
+                    <i data-lucide="message-circle"></i>
                 </a>
             </div>
         </div>
@@ -212,6 +237,8 @@
                 <a href="about.html">About</a>
                 <a href="services.html">Services</a>
                 <a href="customers.html">Customers</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="pvc-doors.html">PVC Doors</a>
                 <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho"
                     style="background: #25D366; margin-top: 1rem;">Join Now</a>
             </div>
@@ -320,14 +347,12 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h4>Networks</h4>
+                    <h4>uPVC/PVC Services</h4>
                     <ul>
-                        <li><a href="labours.html">Labours Platform</a></li>
-                        <li><a href="contractors.html">Contractor Network</a></li>
-                        <li><a href="suppliers.html">Supplier Suite</a></li>
-                        <li><a href="services.html">Managed Tools</a></li>
-                        <li><a href="#">Enterprise Solutions</a></li>
-                        <li><a href="#">Government Panels</a></li>
+                        <li><a href="services.html">uPVC Windows</a></li>
+                        <li><a href="pvc-doors.html">PVC Doors</a></li>
+                        <li><a href="services.html">Interiors</a></li>
+                        <li><a href="gallery.html">Project Gallery</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">

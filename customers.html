@@ -106,6 +106,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="i18n.js" defer></script>
     <style>
         :root {
             --customer-red: #EA4335;
@@ -143,26 +144,49 @@
 
 <body>
     <!-- SECTION 1: Navbar -->
-    <header class="navbar">
+    <header class="navbar" itemscope itemtype="https://schema.org/SiteNavigationElement">
         <div class="container nav-container">
-            <div style="display: flex; align-items: center; gap: 2.5rem;">
-                <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 8px;" itemprop="url">
+            <!-- Mobile Menu Toggle (Left) -->
+            <button class="mobile-menu-toggle-btn-top" id="mobileMenuBtn">
+                <i data-lucide="menu"></i>
+            </button>
+
+            <div class="nav-left-group">
+                <a href="index.html" class="logo" itemprop="url">
                     <img src="logo.png" alt="TNPVC Logo - Tamil Nadu PVC Council"
-                        title="TNPVC Council Header Logo - Srinivasan"
-                        style="height: 32px; width: auto; object-fit: contain;" itemprop="image">
-                    <span style="font-weight: 800; color: #000; font-size: 1.3rem;" itemprop="name">TNPVC</span>
+                        title="TNPVC Council Official Logo - Srinivasan" itemprop="image">
+                    <span itemprop="name">TNPVC</span>
                 </a>
                 <nav class="nav-links">
-                    <a href="about.html">About</a>
-                    <a href="services.html">Services</a>
-                    <a href="customers.html" class="active">Customers</a>
-
+                    <a href="about.html" itemprop="url"><span itemprop="name" data-i18n="nav_about">About</span></a>
+                    <a href="services.html" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_services">Services</span></a>
+                    <a href="customers.html" class="active" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_customers">Customers</span></a>
+                    <a href="gallery.html" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_gallery">Gallery</span></a>
+                    <a href="pvc-doors.html" itemprop="url"><span itemprop="name" data-i18n="nav_pvc_doors">PVC
+                            Doors</span></a>
                 </nav>
             </div>
-            <div class="nav-right" style="display: flex; align-items: center; gap: 1.5rem;">
-                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho"
-                    style="background: #25D366; color: white; border: none; padding: 0.6rem 1.5rem; display: flex; align-items: center; gap: 8px;">
-                    <i data-lucide="message-circle" style="width: 18px;"></i> Join Now
+
+            <div class="nav-right">
+                <!-- Language Switcher -->
+                <div class="lang-switcher">
+                    <button class="lang-btn" id="langBtn">
+                        <img src="tnpvc-community-globe.svg" alt="Globe" class="globe-icon">
+                        <span id="currentLang">EN</span>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <a href="#" data-lang="en">English</a>
+                        <a href="#" data-lang="ta">தமிழ்</a>
+                        <a href="#" data-lang="hi">हिन्दी</a>
+                    </div>
+                </div>
+
+                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="join-whatsapp-btn join-btn-desktop"
+                    title="Join TNPVC on WhatsApp">
+                    <i data-lucide="message-circle"></i>
                 </a>
             </div>
         </div>
@@ -170,79 +194,70 @@
         <div class="mobile-nav-overlay" id="mobileNav">
             <button class="close-menu" id="closeMenu">&times;</button>
             <div class="mobile-nav-content">
-                <a href="about.html">About</a>
-                <a href="services.html">Services</a>
-                <a href="customers.html">Customers</a>
+                <a href="about.html" data-i18n="nav_about">About</a>
+                <a href="services.html" data-i18n="nav_services">Services</a>
+                <a href="customers.html" data-i18n="nav_customers">Customers</a>
+                <a href="gallery.html" data-i18n="nav_gallery">Gallery</a>
+                <a href="pvc-doors.html" data-i18n="nav_pvc_doors">PVC Doors</a>
                 <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho"
-                    style="background: #25D366; margin-top: 1rem;">Join Now</a>
+                    style="margin-top: 1rem;"><span data-i18n="nav_join_now">Join Now</span></a>
             </div>
         </div>
     </header>
 
     <!-- Sticky Mobile Bottom Bar -->
     <div class="mobile-bottom-nav">
-        <button class="mobile-menu-toggle-btn" id="mobileMenuBtn">
+        <button class="mobile-menu-toggle-btn" id="mobileMenuBtnBottom">
             <i data-lucide="menu"></i>
-            <span>Menu</span>
+            <span data-i18n="nav_menu">Menu</span>
         </button>
         <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="mobile-join-btn">
             <i data-lucide="message-circle"></i>
-            <span>Join Now</span>
+            <span data-i18n="nav_join_now">Join Now</span>
         </a>
     </div>
 
     <main>
         <!-- SECTION 2: Hero Section -->
-        <section style="background: white; padding: 10rem 0 6rem; overflow: hidden;">
-            <div class="container hero-grid" style="align-items: center;">
+        <section class="customer-hero-section">
+            <div class="container customer-hero-grid">
                 <div class="hero-content animate">
-                    <span class="badge"
-                        style="background: #fff5f5; color: #e53e3e; border: 1px solid #fed7d7; margin-bottom: 2rem; display: inline-block; font-weight: 700; text-transform: uppercase;">FOR
-                        HOME OWNERS</span>
-                    <h1
-                        style="font-size: 4.5rem; line-height: 1.1; margin-bottom: 2.5rem; font-weight: 800; letter-spacing: -0.02em; color: #1a202c;">
-                        Your Dream Project, <br><span style="color: #1a202c;">Managed with Integrity</span>
-                    </h1>
-                    <p
-                        style="font-size: 1.4rem; color: #4a5568; margin-bottom: 3.5rem; line-height: 1.6; max-width: 600px;">
-                        Build or renovate your home with verified professionals. TNPVC Council ensures every rupee you
-                        spend is tracked, every material is audited, and every worker verified.</p>
-                    <div style="display: flex; gap: 1.5rem;">
-                        <a href="contact.html" class="btn-zoho"
-                            style="background: #e53e3e; padding: 1.5rem 3.5rem; font-weight: 700; border-radius: 8px; font-size: 1.1rem; box-shadow: 0 10px 15px rgba(229, 62, 62, 0.1);">BOOK
-                            A FREE CONSULTATION</a>
+                    <span class="badge red-badge">FOR HOME OWNERS</span>
+                    <h1 class="hero-title">Your Dream Project, <br>Managed with Integrity</h1>
+                    <p class="hero-desc">Build or renovate your home with verified professionals. TNPVC Council ensures
+                        every rupee you spend is tracked, every material is audited, and every worker verified.</p>
+                    <div class="hero-btns-wrap">
+                        <a href="contact.html" class="btn-zoho btn-red">BOOK A FREE CONSULTATION</a>
                     </div>
                 </div>
                 <div class="hero-visual animate">
                     <img src="customer-hero-illustration.png" alt="TNPVC Customers - Managed with Integrity"
-                        title="Homeowners managing house interiors with TNPVC Council"
-                        style="width: 100%; max-width: 800px; transform: scale(1.1);" loading="lazy" itemprop="image">
+                        title="Homeowners managing house interiors with TNPVC Council" loading="lazy" itemprop="image">
                 </div>
             </div>
         </section>
 
         <!-- SECTION 3: Stats Ribbon -->
         <section style="background: #111; padding: 5rem 0; color: white;">
-            <div class="container"
-                style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;">
+            <div class="container stats-grid" style="display: grid; gap: 2rem; text-align: center;">
                 <div class="animate">
-                    <h3 style="font-size: 3rem; margin-bottom: 0.5rem; font-weight: 800;">5k+</h3>
-                    <p style="opacity: 0.6; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px;">
+                    <h3 style="margin-bottom: 0.5rem; font-weight: 800;" class="stat-num">5k+</h3>
+                    <p style="opacity: 0.6; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;">
                         Completed Homes</p>
                 </div>
                 <div class="animate" style="animation-delay: 0.1s;">
-                    <h3 style="font-size: 3rem; margin-bottom: 0.5rem; font-weight: 800;">100%</h3>
-                    <p style="opacity: 0.6; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px;">Quality
+                    <h3 style="margin-bottom: 0.5rem; font-weight: 800;" class="stat-num">100%</h3>
+                    <p style="opacity: 0.6; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;">Quality
                         Audited</p>
                 </div>
                 <div class="animate" style="animation-delay: 0.2s;">
-                    <h3 style="font-size: 3rem; margin-bottom: 0.5rem; font-weight: 800;">₹0</h3>
-                    <p style="opacity: 0.6; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px;">Hidden
+                    <h3 style="margin-bottom: 0.5rem; font-weight: 800;" class="stat-num">₹0</h3>
+                    <p style="opacity: 0.6; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;">Hidden
                         Charges</p>
                 </div>
                 <div class="animate" style="animation-delay: 0.3s;">
-                    <h3 style="font-size: 3rem; margin-bottom: 0.5rem; font-weight: 800;">25yr+</h3>
-                    <p style="opacity: 0.6; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px;">Trust
+                    <h3 style="margin-bottom: 0.5rem; font-weight: 800;" class="stat-num">25yr+</h3>
+                    <p style="opacity: 0.6; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;">Trust
                         Legacy</p>
                 </div>
             </div>
@@ -250,17 +265,17 @@
 
         <!-- SECTION 4: Core Value Grid -->
         <section class="section-padding" style="background: #fafafa;">
-            <div class="container" style="text-align: center; margin-bottom: 6rem;">
+            <div class="container section-center" style="text-align: center; margin-bottom: 6rem;">
                 <span
                     style="color: var(--customer-red); font-weight: 800; text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem;">The
                     TNPVC Standard</span>
-                <h2 style="font-size: 3.5rem; font-weight: 800; margin-top: 1rem; color: #000;">Building with Absolute
-                    Integrity</h2>
-                <p style="max-width: 700px; margin: 2rem auto; font-size: 1.2rem; color: #666; line-height: 1.8;">We've
+                <h2 style="font-weight: 800; margin-top: 1rem; color: #000;" class="section-title">Building with
+                    Absolute Integrity</h2>
+                <p style="max-width: 700px; margin: 2rem auto; font-size: 1.1rem; color: #666; line-height: 1.8;">We've
                     eliminated the friction of construction. Our platform connects you with the best while protecting
                     your interests at every step.</p>
             </div>
-            <div class="container" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4rem;">
+            <div class="container help-grid" style="display: grid; gap: 4rem;">
                 <div class="help-card animate"
                     style="background: white; padding: 4rem 3rem; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.03);">
                     <div class="icon-circle" style="background: #f7fee7; margin-bottom: 2.5rem;"><i
@@ -302,10 +317,11 @@
                             loading="lazy" itemprop="image">
                     </div>
                 </div>
-                <div class="animate" style="padding-left: 2rem;">
-                    <h2 style="font-size: 3rem; margin-bottom: 2rem; font-weight: 800;">Real-time Construction <br><span
-                            style="color: var(--customer-red);">at your fingertips.</span></h2>
-                    <p style="font-size: 1.25rem; color: #555; line-height: 1.8; margin-bottom: 3rem;">No more
+                <div class="animate feature-text-col">
+                    <h2 class="section-title" style="margin-bottom: 2rem; font-weight: 800;">Real-time Construction
+                        <br><span style="color: var(--customer-red);">at your fingertips.</span>
+                    </h2>
+                    <p style="font-size: 1.1rem; color: #555; line-height: 1.8; margin-bottom: 3rem;">No more
                         unannounced site visits in the heat. Track every detail of your home's construction through our
                         industry-leading portal.</p>
                     <ul class="checklist" style="list-style: none; padding: 0;">
@@ -340,16 +356,16 @@
 
         <!-- SECTION 6: Feature Detail (Materials) -->
         <section class="section-padding bg-soft" style="background: #fdf2f2; text-align: center;">
-            <div class="container" style="max-width: 800px; margin: 0 auto;">
+            <div class="container section-center" style="max-width: 800px; margin: 0 auto;">
                 <div class="animate">
-                    <h2 style="font-size: 3rem; margin-bottom: 2rem; font-weight: 800;">Only the Finest Materials,
+                    <h2 class="section-title" style="margin-bottom: 2rem; font-weight: 800;">Only the Finest Materials,
                         <span style="color: var(--customer-red);">Audited.</span>
                     </h2>
-                    <p style="font-size: 1.25rem; color: #555; line-height: 1.8; margin-bottom: 3rem;">We believe the
+                    <p style="font-size: 1.1rem; color: #555; line-height: 1.8; margin-bottom: 3rem;">We believe the
                         foundation of trust is quality. TNPVC sources and audits every batch of cement, steel, and wood
                         used in your project to ensure lifetime durability.</p>
-                    <div
-                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+                    <div class="stats-grid"
+                        style="display: grid; gap: 2rem; margin-bottom: 3rem; max-width: 500px; margin-left: auto; margin-right: auto;">
                         <div
                             style="background: white; padding: 1.5rem; border-radius: 20px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.03);">
                             <i data-lucide="test-tube" style="color: var(--customer-red); margin-bottom: 1rem;"></i>
@@ -370,10 +386,10 @@
 
         <!-- SECTION 7: Testimonial Grid -->
         <section class="section-padding bg-soft">
-            <div class="container" style="text-align: center; margin-bottom: 5rem;">
-                <h2>What homeowners are saying</h2>
+            <div class="container section-center" style="text-align: center; margin-bottom: 5rem;">
+                <h2 class="section-title">What homeowners are saying</h2>
             </div>
-            <div class="container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+            <div class="container help-grid" style="display: grid; gap: 3rem;">
                 <div class="help-card" style="padding: 3rem; background: white;">
                     <i data-lucide="quote" style="color: #ddd; margin-bottom: 1.5rem;"></i>
                     <p style="font-family: Georgia; font-size: 1.3rem; line-height: 1.7; font-style: italic;">"TNPVC
@@ -393,28 +409,27 @@
 
         <!-- SECTION 8: How it Works -->
         <section class="section-padding">
-            <div class="container" style="text-align: center; margin-bottom: 5rem;">
-                <h2>Your journey to a dream home</h2>
+            <div class="container section-center" style="text-align: center; margin-bottom: 5rem;">
+                <h2 class="section-title">Your journey to a dream home</h2>
             </div>
-            <div class="container journey-grid"
-                style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; position: relative;">
+            <div class="container journey-grid" style="display: grid; gap: 2rem; position: relative;">
                 <div style="text-align: center;">
-                    <div style="font-size: 3rem; color: #ccc; font-weight: 800;">01</div>
+                    <div style="color: #ccc; font-weight: 800;" class="stat-num">01</div>
                     <h4 style="margin: 1rem 0;">Consultation</h4>
                     <p style="font-size: 0.9rem;">Free site visit and project estimate.</p>
                 </div>
                 <div style="text-align: center;">
-                    <div style="font-size: 3rem; color: #ccc; font-weight: 800;">02</div>
+                    <div style="color: #ccc; font-weight: 800;" class="stat-num">02</div>
                     <h4 style="margin: 1rem 0;">Design & Match</h4>
                     <p style="font-size: 0.9rem;">Get matched with verified builders.</p>
                 </div>
                 <div style="text-align: center;">
-                    <div style="font-size: 3rem; color: #ccc; font-weight: 800;">03</div>
+                    <div style="color: #ccc; font-weight: 800;" class="stat-num">03</div>
                     <h4 style="margin: 1rem 0;">Escrow Setup</h4>
-                    <p style="font-size: 0.9rem;">Secure your project funds.</p>
+                    <p style=" font-size: 0.9rem;">Secure your project funds.</p>
                 </div>
                 <div style="text-align: center;">
-                    <div style="font-size: 3rem; color: #ccc; font-weight: 800;">04</div>
+                    <div style="color: #ccc; font-weight: 800;" class="stat-num">04</div>
                     <h4 style="margin: 1rem 0;">Live Tracking</h4>
                     <p style="font-size: 0.9rem;">Watch your home being built on the app.</p>
                 </div>
@@ -423,11 +438,11 @@
 
         <!-- SECTION 9: Ready Banner -->
         <section class="section-padding" style="background: var(--customer-red); color: white; text-align: center;">
-            <div class="container">
-                <h2 style="font-size: 3rem; margin-bottom: 2rem;">Ready to build with transparency?</h2>
+            <div class="container section-center">
+                <h2 class="section-title" style="margin-bottom: 2rem;">Ready to build with transparency?</h2>
                 <a href="contact.html" class="btn-zoho"
-                    style="background: white; color: var(--customer-red); font-weight: 800; padding: 1.2rem 3rem;">BOOK
-                    FREE SITE VISIT</a>
+                    style="background: white; color: var(--customer-red); padding: 1.5rem 4rem; font-weight: 800; border-radius: 12px; font-size: 1.2rem; box-shadow: 0 15px 30px rgba(0,0,0,0.1);">GET
+                    STARTED NOW</a>
             </div>
         </section>
 
@@ -436,14 +451,12 @@
             <div class="container">
                 <div class="footer-grid">
                     <div class="footer-col">
-                        <h4>Networks</h4>
+                        <h4>uPVC/PVC Services</h4>
                         <ul>
-                            <li><a href="labours.html">Labours Platform</a></li>
-                            <li><a href="contractors.html">Contractor Network</a></li>
-                            <li><a href="suppliers.html">Supplier Suite</a></li>
-                            <li><a href="services.html">Managed Tools</a></li>
-                            <li><a href="#">Enterprise Solutions</a></li>
-                            <li><a href="#">Government Panels</a></li>
+                            <li><a href="services.html">uPVC Windows</a></li>
+                            <li><a href="pvc-doors.html">PVC Doors</a></li>
+                            <li><a href="services.html">Interiors</a></li>
+                            <li><a href="gallery.html">Project Gallery</a></li>
                         </ul>
                     </div>
                     <div class="footer-col">
@@ -531,26 +544,28 @@
         lucide.createIcons();
 
         // Mobile Menu Logic
-        const mobileToggle = document.getElementById('mobileMenuBtn');
+        const mobileToggleTop = document.getElementById('mobileMenuBtn');
+        const mobileToggleBottom = document.getElementById('mobileMenuBtnBottom');
         const mobileNav = document.getElementById('mobileNav');
         const closeMenu = document.getElementById('closeMenu');
 
-        if (mobileToggle && mobileNav && closeMenu) {
-            mobileToggle.addEventListener('click', () => {
-                mobileNav.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
+        const openMenu = () => {
+            mobileNav.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
 
-            closeMenu.addEventListener('click', () => {
-                mobileNav.classList.remove('active');
-                document.body.style.overflow = '';
-            });
+        const hideMenu = () => {
+            mobileNav.classList.remove('active');
+            document.body.style.overflow = '';
+        };
 
+        if (mobileToggleTop) mobileToggleTop.addEventListener('click', openMenu);
+        if (mobileToggleBottom) mobileToggleBottom.addEventListener('click', openMenu);
+        if (closeMenu) closeMenu.addEventListener('click', hideMenu);
+
+        if (mobileNav) {
             mobileNav.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileNav.classList.remove('active');
-                    document.body.style.overflow = '';
-                });
+                link.addEventListener('click', hideMenu);
             });
         }
     </script>

@@ -142,120 +142,126 @@
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="i18n.js" defer></script>
 </head>
 
 <body>
     <header class="navbar" itemscope itemtype="https://schema.org/SiteNavigationElement">
         <div class="container nav-container">
-            <div class="nav-left-group" style="display: flex; align-items: center; gap: 2.5rem;">
-                <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 8px;" itemprop="url">
+            <!-- Mobile Menu Toggle (Left) -->
+            <button class="mobile-menu-toggle-btn-top" id="mobileMenuBtn">
+                <i data-lucide="menu"></i>
+            </button>
+
+            <div class="nav-left-group">
+                <a href="index.html" class="logo" itemprop="url">
                     <img src="logo.png" alt="TNPVC Logo - Tamil Nadu PVC Council"
-                        title="TNPVC Council Official Logo - Srinivasan"
-                        style="height: 32px; width: auto; object-fit: contain;" itemprop="image">
-                    <span style="font-weight: 800; color: #000; font-size: 1.3rem;" itemprop="name">TNPVC</span>
+                        title="TNPVC Council Official Logo - Srinivasan" itemprop="image">
+                    <span itemprop="name">TNPVC</span>
                 </a>
                 <nav class="nav-links">
-                    <a href="about.html" itemprop="url"><span itemprop="name">About</span></a>
-                    <a href="services.html" itemprop="url"><span itemprop="name">Services</span></a>
-                    <a href="customers.html" itemprop="url"><span itemprop="name">Customers</span></a>
+                    <a href="about.html" itemprop="url"><span itemprop="name" data-i18n="nav_about">About</span></a>
+                    <a href="services.html" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_services">Services</span></a>
+                    <a href="customers.html" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_customers">Customers</span></a>
+                    <a href="gallery.html" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_gallery">Gallery</span></a>
+                    <a href="pvc-doors.html" itemprop="url"><span itemprop="name" data-i18n="nav_pvc_doors">PVC
+                            Doors</span></a>
                 </nav>
             </div>
-            <div class="nav-right" style="display: flex; align-items: center; gap: 1.5rem;">
-                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho join-btn-desktop"
-                    style="background: #25D366; color: white; border: none; padding: 0.6rem 1.5rem; display: flex; align-items: center; gap: 8px;">
-                    <i data-lucide="message-circle" style="width: 18px;"></i> Join Now
+
+            <div class="nav-right">
+                <!-- Language Switcher -->
+                <div class="lang-switcher">
+                    <button class="lang-btn" id="langBtn">
+                        <img src="tnpvc-community-globe.svg" alt="Globe" class="globe-icon">
+                        <span id="currentLang">EN</span>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <a href="#" data-lang="en">English</a>
+                        <a href="#" data-lang="ta">தமிழ்</a>
+                        <a href="#" data-lang="hi">हिन्दी</a>
+                    </div>
+                </div>
+
+                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="join-whatsapp-btn join-btn-desktop"
+                    title="Join TNPVC on WhatsApp">
+                    <i data-lucide="message-circle"></i>
                 </a>
             </div>
         </div>
+
         <!-- Mobile Navigation Menu Overlay -->
         <div class="mobile-nav-overlay" id="mobileNav">
             <button class="close-menu" id="closeMenu">&times;</button>
             <div class="mobile-nav-content">
-                <a href="about.html">About</a>
-                <a href="services.html">Services</a>
-                <a href="customers.html">Customers</a>
+                <a href="about.html" data-i18n="nav_about">About</a>
+                <a href="services.html" data-i18n="nav_services">Services</a>
+                <a href="customers.html" data-i18n="nav_customers">Customers</a>
+                <a href="gallery.html" data-i18n="nav_gallery">Gallery</a>
+                <a href="pvc-doors.html" data-i18n="nav_pvc_doors">PVC Doors</a>
                 <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho"
-                    style="background: #25D366; margin-top: 1rem;">Join Now</a>
+                    style="margin-top: 1rem;"><span data-i18n="nav_join_now">Join Now</span></a>
             </div>
         </div>
     </header>
 
-    <!-- Sticky Mobile Bottom Bar -->
-    <div class="mobile-bottom-nav">
-        <button class="mobile-menu-toggle-btn" id="mobileMenuBtn">
-            <i data-lucide="menu"></i>
-            <span>Menu</span>
-        </button>
-        <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="mobile-join-btn">
-            <i data-lucide="message-circle"></i>
-            <span>Join Now</span>
-        </a>
-    </div>
-
     <main>
         <section class="hero">
-            <div class="container hero-grid">
-                <div class="hero-content animate">
-                    <h1>Your building's future,<br>powered by our platform</h1>
-                    <div class="red-line"></div>
-                    <p>A unique and powerful software suite to transform the way you construct. Designed for projects of
-                        all sizes, built by a council that <span class="dotted">values your transparency.</span></p>
-                    <div style="display: flex; gap: 1rem; margin-bottom: 3rem;">
-                        <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho">
-                            Get Started
-                        </a>
+            <div class="container hero-grid"
+                style="grid-template-columns: 1fr; text-align: center; justify-items: center;">
+                <div class="hero-content animate" style="max-width: 800px;">
+                    <h1 data-i18n="hero_title">Trusted uPVC & PVC Solutions<br>for Homes and Buildings</h1>
+                    <p data-i18n="hero_subtitle" style="margin: 0 auto 2.5rem;">TNPVC connects homeowners and builders
+                        with verified teams for uPVC
+                        windows, PVC doors, ceilings, wall panels, and complete on-site installation across Tamil Nadu.
+                    </p>
+                    <div style="display: flex; gap: 1rem; margin-bottom: 3rem; justify-content: center;">
                         <a href="about.html" class="btn-zoho"
-                            style="background: transparent; border: 1px solid #ccc; color: #333;">
-                            Access your network
+                            style="background: transparent; border: 1px solid #ccc; color: #333;"
+                            data-i18n="access_network">
+                            View Our Services
                         </a>
                     </div>
-                    <div class="hero-overview-img">
+                    <div class="hero-overview-img" style="margin: 3rem auto 0;">
                         <img src="./platform-overview.png"
                             alt="TNPVC Platform Overview - Digital Site Management by Srinivasan"
                             title="TNPVC Digital Platform for House Interiors and Construction Tracking" loading="lazy"
                             itemprop="image">
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="hero-right animate" style="animation-delay: 0.2s;">
-                    <div class="featured-card">
-                        <h3>Featured Networks</h3>
-                        <div class="app-list">
-                            <a href="about.html" class="app-item">
-                                <i data-lucide="briefcase" style="width: 32px; height: 32px; color: #4285F4;"></i>
-                                <div class="app-info">
-                                    <h4>Contractors</h4>
-                                    <p>Verified builders for large-scale projects.</p>
-                                </div>
-                                <i data-lucide="chevron-right" class="chevron"></i>
-                            </a>
-                            <a href="about.html" class="app-item">
-                                <i data-lucide="users" style="width: 32px; height: 32px; color: #34A853;"></i>
-                                <div class="app-info">
-                                    <h4>Workers</h4>
-                                    <p>Skilled labor platform for site execution.</p>
-                                </div>
-                                <i data-lucide="chevron-right" class="chevron"></i>
-                            </a>
-                            <a href="about.html" class="app-item">
-                                <i data-lucide="truck" style="width: 32px; height: 32px; color: #FBBC05;"></i>
-                                <div class="app-info">
-                                    <h4>Suppliers</h4>
-                                    <p>Direct procurement from verified material hubs.</p>
-                                </div>
-                                <i data-lucide="chevron-right" class="chevron"></i>
-                            </a>
-                            <a href="about.html" class="app-item">
-                                <i data-lucide="shield-check" style="width: 32px; height: 32px; color: #EA4335;"></i>
-                                <div class="app-info">
-                                    <h4>Managed Tools</h4>
-                                    <p>Compliance and project tracking suite.</p>
-                                </div>
-                                <i data-lucide="chevron-right" class="chevron"></i>
-                            </a>
+        <section class="about-short-intro">
+            <div class="container">
+                <div class="about-short-card">
+                    <div class="about-short-header">
+                        <div>
+                            <h2>About TNPVC</h2>
+                            <p class="about-short-lead">Who we are, why we started, and the mission that drives every
+                                TNPVC project.</p>
                         </div>
-                        <div class="card-footer">
-                            <a href="about.html">Explore all products <i data-lucide="chevron-right"></i></a>
+                        <a href="about.html" class="about-read-more-btn">Read More</a>
+                    </div>
+                    <div class="about-short-grid">
+                        <div class="about-short-item">
+                            <h3>Who We Are</h3>
+                            <p>TNPVC is a Tamil Nadu based uPVC and PVC association that connects homeowners, builders,
+                                contractors, fabricators, and suppliers under one trusted network.</p>
+                        </div>
+                        <div class="about-short-item">
+                            <h3>Why We Started</h3>
+                            <p>We started TNPVC to bring quality standards, verified teams, and transparent execution to
+                                uPVC/PVC projects, so customers get reliable results without confusion.</p>
+                        </div>
+                        <div class="about-short-item">
+                            <h3>Mission & Vision</h3>
+                            <p>Our mission is to deliver durable uPVC/PVC solutions through skilled execution and honest
+                                service. Our vision is to build Tamil Nadu's most dependable network for modern door,
+                                window, and interior panel works.</p>
                         </div>
                     </div>
                 </div>
@@ -265,7 +271,7 @@
         <section class="floating-banner">
             <div class="container animate">
                 <div class="floating-banner-content">
-                    <h2>India's No.1 Biggest Network TNPVC</h2>
+                    <h2 data-i18n="india_no1">Tamil Nadu's Trusted uPVC & PVC Network - TNPVC</h2>
                 </div>
             </div>
         </section>
@@ -274,16 +280,14 @@
         <section class="network-suite">
             <div class="container suite-grid">
                 <div class="suite-left animate">
-                    <span class="badge">All-in-one suite</span>
-                    <h2>TNPVC Network</h2>
-                    <span class="tagline">The digital foundation for construction.</span>
-                    <p>Run your entire project workflow on TNPVC with our unified ecosystem suite, designed to help
-                        you
-                        break down site management silos and increase organizational efficiency across every phase
-                        of
-                        building.</p>
+                    <span class="badge" data-i18n="all_in_one">End-to-end PVC solutions</span>
+                    <h2 data-i18n="tnpvc_network">TNPVC Service Network</h2>
+                    <span class="tagline" data-i18n="digital_foundation">Planning, fabrication, and installation in one
+                        flow.</span>
+                    <p data-i18n="network_desc">Manage your complete uPVC/PVC project with TNPVC from design
+                        consultation to material selection, fabrication, delivery, and final installation.</p>
                     <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho"
-                        style="background: var(--primary-red);">TRY TNPVC NETWORK
+                        style="background: var(--primary-red);" data-i18n="try_network">GET TNPVC SUPPORT
                         <i data-lucide="chevron-right" style="width: 18px;"></i></a>
                 </div>
                 <div class="suite-right animate">
@@ -291,17 +295,25 @@
                         <div class="quote-icon">
                             <i data-lucide="quote" fill="currentColor" style="width: 18px;"></i>
                         </div>
-                        <blockquote>
-                            "You can be a local contractor, a mid-sized builder, or even a large infrastructure
-                            firm—TNPVC Network is a boon for all."
+                        <blockquote data-i18n="testimonial_quote">
+                            "Whether it is one home, an apartment block, or a commercial space, TNPVC delivered clean
+                            finishing and on-time installation."
                         </blockquote>
                         <div class="author">
                             <img src="siranthan-siran.jpg" alt="Siranthan Siran - Member of TNPVC Council"
                                 title="Siranthan Siran, CEO & Founder - TNPVC Testimonial" loading="lazy"
                                 itemprop="image">
-                            <div class="author-info">
-                                <h5>siranthan siran</h5>
-                                <p>CEO & Founder</p>
+                            <div class="author-info"
+                                style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                                <h5 style="text-transform: capitalize; margin-bottom: 4px; font-size: 1.2rem;">siranthan
+                                    siran</h5>
+                                <p
+                                    style="font-size: 0.9rem; color: #e7ddff; margin: 0 0 1rem 0; opacity: 0.9; font-weight: 600;">
+                                    CEO & Founder, DEXAZ</p>
+                                <a href="https://dexaz.in" target="_blank"
+                                    style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: #fff; text-decoration: none; font-size: 0.75rem; font-weight: 700; padding: 6px 16px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; width: fit-content;">
+                                    Learn More <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -309,17 +321,19 @@
             </div>
         </section>
 
+        <section class="pvc-doors-showcase">
+            <div class="pvc-doors-header">
+                <h2>PVC Doors in Multiple Colours</h2>
+                <p>White, Wood, and Charcoal finish options for homes and commercial spaces.</p>
+            </div>
+            <img class="pvc-doors-full-image" src="doors-grid.jpg" alt="PVC doors in different colours" loading="lazy">
+        </section>
+
         <!-- Leadership Section - PIXEL PERFECT RECONSTRUCTION -->
         <section class="leadership-section">
             <div class="container lead-grid">
                 <!-- Left Content: Illustration + Quote -->
                 <div class="lead-left animate">
-                    <!-- The background illustration exactly as in Zoho Enterprise -->
-                    <div class="lead-illustration">
-                        <img src="https://www.zohowebstatic.com/sites/zweb/images/zoho_general_pages/zh-enterprise-illus.svg"
-                            alt="Enterprise Illustration">
-                    </div>
-
                     <!-- Quote and MD Profile Section -->
                     <div class="quote-container-grid">
                         <div class="quote-text-side">
@@ -328,20 +342,22 @@
                             </div>
                             <blockquote
                                 style="font-family: Georgia, serif; font-size: 1.5rem; line-height: 1.6; color: #000; margin-bottom: 1.5rem;">
-                                "With our complete business under control, our productivity is up by 80% in the last
-                                year that we have been using TNPVC."
+                                "From measurement to final fitting, TNPVC handled our uPVC and PVC work professionally
+                                and delivered exactly on schedule."
                             </blockquote>
                             <h4 style="font-weight: 700; font-size: 1.15rem; margin-bottom: 0.2rem;">Srinivasan</h4>
                             <p style="color: #666; font-size: 0.95rem; margin-bottom: 1.5rem;">Managing Director,
                                 TNPVC
                                 Council</p>
-                            <a href="about.html" class="read-story-link">READ THE STORY <i data-lucide="chevron-right"
-                                    style="width: 12px;"></i></a>
+                            <a href="story.html" class="btn-zoho"
+                                style="background: #0060b4; padding: 0.7rem 1.8rem; font-size: 0.85rem; border-radius: 4px; display: inline-flex; align-items: center; gap: 8px;">
+                                READ OUR STORY <i data-lucide="chevron-right" style="width: 14px;"></i>
+                            </a>
                         </div>
 
                         <div class="md-profile-side">
                             <div class="md-image-box">
-                                <img src="srinivasan.png"
+                                <img src="srinivasan.jpg"
                                     alt="Srinivasan - Founder and Managing Director of TNPVC Council"
                                     title="Srinivasan MD - The Visionary behind TNPVC Council Tamil Nadu" loading="lazy"
                                     itemprop="image">
@@ -352,23 +368,25 @@
 
                 <!-- Right Content: Enterprise Branding -->
                 <div class="lead-right animate">
-                    <div class="ent-branding">
+                    <div class="ent-branding"
+                        style="flex-direction: column; align-items: center; text-align: center; gap: 1.5rem;">
                         <img src="logo.png" alt="TNPVC Branding Logo" title="TNPVC Enterprise Solutions by Srinivasan"
-                            style="width: 48px; height: 48px; object-fit: contain;" loading="lazy" itemprop="image">
+                            style="width: 100px; height: 100px; object-fit: contain;" loading="lazy" itemprop="image">
                         <div class="ent-header-text">
-                            <span
-                                style="font-size: 0.9rem; color: #666; font-weight: 600; text-transform: uppercase;">TNPVC
+                            <span style="font-size: 1.1rem; color: #666; font-weight: 600; text-transform: uppercase;"
+                                data-i18n="enterprise_for">TNPVC
                                 FOR</span>
-                            <h3 style="font-size: 1.8rem; margin-top: -5px;">Enterprise</h3>
+                            <h3 style="font-size: 2.2rem; margin-top: 0.5rem;" data-i18n="enterprise">Builders &
+                                Homeowners</h3>
                         </div>
                     </div>
-                    <p class="description">Experience the breadth and depth of the TNPVC ecosystem, with the
-                        professional services, infrastructure, support, and security that a large business needs.
-                        Streamline complex business processes, build strong relationships with your suppliers, and
-                        drive
-                        growth at scale.</p>
-                    <a href="about.html" class="btn-enterprise-blue">LEARN MORE <i data-lucide="chevron-right"
-                            style="width: 18px;"></i></a>
+                    <p class="description" data-i18n="enterprise_desc">Get dedicated execution support for villas,
+                        apartments, and commercial projects with TNPVC's verified uPVC/PVC vendor ecosystem and
+                        project-ready teams.</p>
+                    <a href="labours.html" class="btn-enterprise-blue" style="margin-top: 2.5rem;">
+                        <span data-i18n="learn_more">VIEW DETAILS</span>
+                        <i data-lucide="chevron-right" style="width: 18px;"></i>
+                    </a>
                 </div>
             </div>
         </section>
@@ -381,38 +399,38 @@
             </div>
             <div class="container stats-container">
                 <div class="stats-header animate">
-                    <h2>Made in Tamil Nadu.<br>Made for the World.</h2>
+                    <h2 data-i18n="made_in_tn">Built in Tamil Nadu.<br>Built for Durable Spaces.</h2>
                 </div>
 
                 <div class="stats-grid">
                     <div class="stat-item animate">
                         <div class="stat-number">2000+</div>
                         <div class="stat-info">
-                            <p>Professional<br>Workers</p>
+                            <p data-i18n="prof_workers">Skilled<br>Installers</p>
                         </div>
                     </div>
                     <div class="stat-item animate" style="animation-delay: 0.1s;">
                         <div class="stat-number">2000+</div>
                         <div class="stat-info">
-                            <p>Verified<br>Contractors</p>
+                            <p data-i18n="ver_contractors">Verified<br>Project Partners</p>
                         </div>
                     </div>
                     <div class="stat-item animate" style="animation-delay: 0.2s;">
                         <div class="stat-number">1000+</div>
                         <div class="stat-info">
-                            <p>High Quality<br>Material Suppliers</p>
+                            <p data-i18n="high_quality_suppliers">Premium Grade<br>PVC/uPVC Suppliers</p>
                         </div>
                     </div>
                     <div class="stat-item animate" style="animation-delay: 0.3s;">
                         <div class="stat-number">38+</div>
                         <div class="stat-info">
-                            <p>Districts Across<br>Tamil Nadu Served</p>
+                            <p data-i18n="districts_served">Districts Across<br>Tamil Nadu Covered</p>
                         </div>
                     </div>
                     <div class="stat-item animate" style="animation-delay: 0.4s;">
                         <div class="stat-number">25+</div>
                         <div class="stat-info">
-                            <p>Years of Building<br>Trust & Integrity</p>
+                            <p data-i18n="years_trust">Years of On-site<br>Execution Experience</p>
                         </div>
                     </div>
                 </div>
@@ -426,12 +444,17 @@
                     </div>
                     <div class="manager-info">
                         <h4>Anuprintha</h4>
-                        <p>Manager</p>
+                        <p data-i18n="manager">Operations Manager</p>
                     </div>
                 </div>
             </div>
         </section>
 
+
+        <section class="wood-finish-showcase">
+            <img class="wood-finish-full-image" src="wood-finish.jpg" alt="PVC wood finish color options"
+                loading="lazy">
+        </section>
 
         <!-- Privacy Section -->
         <section class="privacy-section section">
@@ -439,13 +462,12 @@
                 <div class="privacy-icon-box">
                     <i data-lucide="shield-check" style="width: 60px; height: 60px; color: #34a853;"></i>
                 </div>
-                <h2 style="font-size: 3.5rem; font-weight: 700; margin-bottom: 2rem; color: #1a1a1a;">Your privacy is
-                    our responsibility</h2>
-                <p
-                    style="max-width: 900px; margin: 0 auto; color: #444; font-size: 1.3rem; line-height: 1.8; font-weight: 400;">
-                    We believe that trust is paramount in a relationship. We do not own or sell your data, and we
-                    most certainly do not bank on advertising-based business models. The only way we make
-                    money is from the software license fees you pay us.</p>
+                <h2 style="font-size: 3.5rem; font-weight: 700; margin-bottom: 2rem; color: #1a1a1a;"
+                    data-i18n="privacy_title">Your project details are safe with TNPVC</h2>
+                <p style="max-width: 900px; margin: 0 auto; color: #444; font-size: 1.3rem; line-height: 1.8; font-weight: 400;"
+                    data-i18n="privacy_desc">
+                    From site measurements to customer contacts, we handle every detail responsibly and use your
+                    information only to plan, execute, and support your uPVC/PVC work.</p>
             </div>
         </section>
 
@@ -458,43 +480,76 @@
             </div>
             <div class="values-card-overlay">
                 <div class="values-card animate">
-                    <h2>The core values and<br>principles that drive us</h2>
+                    <h2 data-i18n="core_values">The values that guide<br>every TNPVC project</h2>
                     <div class="values-grid">
                         <div class="value-item">
                             <div class="value-icon">
                                 <i data-lucide="award" style="color: #ea4335;"></i>
                             </div>
-                            <h3>Long-term commitment</h3>
-                            <p>25+ years of running a professional organization gives us a good sense of challenges
-                                that
-                                a growing business faces. We take pride in running a sustainable council that's
-                                powered
-                                by you, our members.</p>
+                            <h3 data-i18n="long_term">Long-term reliability</h3>
+                            <p data-i18n="long_term_desc">We build lasting customer relationships through consistent
+                                service quality, durable materials, and dependable after-installation support.</p>
                         </div>
                         <div class="value-item">
                             <div class="value-icon">
                                 <i data-lucide="settings" style="color: #34a853;"></i>
                             </div>
-                            <h3>Quality & Professionalism</h3>
-                            <p>Construction is our craft and we back it up with our relentless focus on quality
-                                standards. We prefer to own the entire professional stack, including verifying every
-                                labor and contractor in our network.</p>
+                            <h3 data-i18n="quality_prof">Quality & workmanship</h3>
+                            <p data-i18n="quality_prof_desc">Every profile, fitting, and installation step is checked
+                                for finish, alignment, and durability to maintain high project standards.</p>
                         </div>
                         <div class="value-item">
                             <div class="value-icon">
                                 <i data-lucide="users" style="color: #fbbc05;"></i>
                             </div>
-                            <h3>Member-first philosophy</h3>
-                            <p>In all these years, it's our members' trust and goodwill that has helped us establish
-                                a
-                                strong position. No matter the scale of your project, we're here to help you grow
-                                with
-                                integrity.</p>
+                            <h3 data-i18n="member_first">Customer-first approach</h3>
+                            <p data-i18n="member_first_desc">From first consultation to final handover, our teams focus
+                                on clear communication, transparent pricing, and on-time completion.</p>
                         </div>
                     </div>
                     <div class="values-footer">
-                        <a href="about.html" class="btn-values">READ OUR STORY</a>
+                        <a href="about.html" class="btn-values" data-i18n="read_story">READ CLIENT STORIES</a>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Successful Projects Section -->
+        <section class="success-projects-section">
+            <h2 data-i18n="recent_projects">Our Recent Successful Projects</h2>
+            <div class="success-gallery">
+                <div class="success-item animate">
+                    <img src="project-1.jpg" alt="Successful PVC Project - Kitchen Cabinets"
+                        title="PVC Kitchen Interior by TNPVC">
+                </div>
+                <div class="success-item animate">
+                    <img src="project-2.jpg" alt="Premium Louvers Project"
+                        title="Louverite Premium Louvers Catalog Selection">
+                </div>
+                <div class="success-item animate">
+                    <img src="project-3.jpg" alt="Wall Paneling Success"
+                        title="Marble Finish Wall Cladding with Slat Partitions">
+                </div>
+                <div class="success-item animate">
+                    <img src="project-4.jpg" alt="Modern TV Unit Work"
+                        title="Integrated Wall Unit with TV and Decorative Panels">
+                </div>
+                <div class="success-item animate">
+                    <img src="project-5.jpg" alt="Full PVC Interior"
+                        title="PVC False Ceiling and Wall Paneling Installation">
+                </div>
+                <div class="success-item animate">
+                    <img src="project-6.jpg" alt="PVC Door Installation" title="Premium PVC Door Fitting by TNPVC">
+                </div>
+                <div class="success-item animate">
+                    <img src="project-7.jpg" alt="uPVC Window Project"
+                        title="Modern uPVC Window Installation with Glass">
+                </div>
+                <div class="success-item animate">
+                    <img src="project-8.jpg" alt="Interior PVC Work" title="Decorative PVC Wall Paneling by TNPVC">
+                </div>
+                <div class="success-item animate">
+                    <img src="project-9.jpg" alt="Custom PVC Solutions" title="On-site PVC Installation Success">
                 </div>
             </div>
         </section>
@@ -502,10 +557,11 @@
         <!-- CTA Section -->
         <section class="ready-section">
             <div class="container animate">
-                <h2>Ready to do your best work?</h2>
-                <p>Let's get you started.</p>
-                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-ready">JOIN THE NETWORK <i
-                        data-lucide="chevron-right" style="width: 18px;"></i></a>
+                <h2 data-i18n="ready_work">Planning a uPVC or PVC project?</h2>
+                <p data-i18n="lets_start">Let's schedule your site inspection.</p>
+                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-ready"><span
+                        data-i18n="join_network_cta">CONNECT WITH TNPVC</span> <i data-lucide="chevron-right"
+                        style="width: 18px;"></i></a>
             </div>
         </section>
 
@@ -514,46 +570,35 @@
             <div class="container">
                 <div class="footer-grid">
                     <div class="footer-col">
-                        <h4>Networks</h4>
+                        <h4>uPVC/PVC Services</h4>
                         <ul>
-                            <li><a href="labours.html">Labours Platform</a></li>
-                            <li><a href="contractors.html">Contractor Network</a></li>
-                            <li><a href="suppliers.html">Supplier Suite</a></li>
-                            <li><a href="services.html">Managed Tools</a></li>
-                            <li><a href="#">Enterprise Solutions</a></li>
-                            <li><a href="#">Government Panels</a></li>
+                            <li><a href="services.html">uPVC Windows</a></li>
+                            <li><a href="pvc-doors.html">Premium PVC Doors</a></li>
+                            <li><a href="services.html">False Ceiling</a></li>
+                            <li><a href="services.html">Wall Cladding</a></li>
+                            <li><a href="gallery.html">Project Gallery</a></li>
+                            <li><a href="contact.html">Request Quote</a></li>
                         </ul>
                     </div>
                     <div class="footer-col">
-                        <h4>Learn</h4>
+                        <h4>Quick Links</h4>
                         <ul>
-                            <li><a href="about.html">About TNPVC Council</a></li>
-                            <li><a href="#">The TNPVC Story</a></li>
-                            <li><a href="#">Success Stories</a></li>
-                            <li><a href="#">Knowledge Base</a></li>
-                            <li><a href="#">Resource Center</a></li>
-                            <li><a href="#">Newsletters</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-col">
-                        <h4>Community</h4>
-                        <ul>
-                            <li><a href="#">User Community</a></li>
-                            <li><a href="#">Member Stories</a></li>
-                            <li><a href="#">Work with TNPVC</a></li>
-                            <li><a href="#">Events & Workshops</a></li>
-                            <li><a href="#">Affiliate Program</a></li>
-                            <li><a href="#">Humans of TNPVC</a></li>
+                            <li><a href="about.html">About TNPVC</a></li>
+                            <li><a href="services.html">Our Services</a></li>
+                            <li><a href="customers.html">Customers</a></li>
+                            <li><a href="gallery.html">Work Gallery</a></li>
+                            <li><a href="pvc-doors.html">Door Designs</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
                         </ul>
                     </div>
                     <div class="footer-col">
                         <h4>Company</h4>
                         <ul>
                             <li><a href="about.html">Who We Are</a></li>
-                            <li><a href="#">Our Ethics</a></li>
-                            <li><a href="#">Leadership</a></li>
-                            <li><a href="#">Press Releases</a></li>
-                            <li><a href="#">Careers</a></li>
+                            <li><a href="about.html">Quality Standards</a></li>
+                            <li><a href="about.html">Leadership Team</a></li>
+                            <li><a href="customers.html">Project Gallery</a></li>
+                            <li><a href="contact.html">Business Enquiries</a></li>
                             <li><a href="contact.html">Contact Us</a></li>
                         </ul>
                     </div>
@@ -565,7 +610,7 @@
                             <p><strong>Email</strong><br>
                                 <a href="mailto:support@tnpvc.org">support@tnpvc.org</a>
                             </p>
-                            <p><a href="contact.html">Talk to Concierge ></a></p>
+                            <p><a href="contact.html">Talk to TNPVC Team ></a></p>
                         </div>
                     </div>
                 </div>
@@ -580,16 +625,16 @@
 
                 <div class="legal-bar">
                     <div class="legal-links">
-                        <a href="#">Contact Us</a>
+                        <a href="contact.html">Contact Us</a>
                         <a href="#">Security</a>
-                        <a href="#">Compliance</a>
+                        <a href="#">Workmanship Compliance</a>
                         <a href="#">IPR Complaints</a>
-                        <a href="#">Anti-spam Policy</a>
+                        <a href="#">Site Safety Policy</a>
                         <a href="#">Terms of Service</a>
                         <a href="#">Privacy Policy</a>
-                        <a href="#">Trademark Policy</a>
+                        <a href="#">Brand Usage Policy</a>
                         <a href="#">Cookie Policy</a>
-                        <a href="#">GDPR Compliance</a>
+                        <a href="#">Customer Data Compliance</a>
                     </div>
                 </div>
             </div>
