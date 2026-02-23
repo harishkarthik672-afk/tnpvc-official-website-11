@@ -251,8 +251,9 @@
                 <!-- Language Switcher -->
                 <div class="lang-switcher">
                     <button class="lang-btn" id="langBtn">
-                        <img src="tnpvc-community-globe.svg" alt="Globe" class="globe-icon">
-                        <span id="currentLang">EN</span>
+                        <i data-lucide="globe" class="globe-icon"></i>
+                        <span id="currentLang">English</span>
+                        <i data-lucide="chevron-down" class="chevron-icon"></i>
                     </button>
                     <div class="lang-dropdown" id="langDropdown">
                         <a href="#" data-lang="en">English</a>
@@ -260,11 +261,6 @@
                         <a href="#" data-lang="hi">हिन्दी</a>
                     </div>
                 </div>
-
-                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="join-whatsapp-btn join-btn-desktop"
-                    title="Join TNPVC on WhatsApp">
-                    <i data-lucide="message-circle"></i>
-                </a>
             </div>
         </div>
 
@@ -292,12 +288,23 @@
                         with verified teams for uPVC
                         windows, PVC doors, ceilings, wall panels, and complete on-site installation across Tamil Nadu.
                     </p>
-                    <div style="display: flex; gap: 1rem; margin-bottom: 4rem; justify-content: center;">
+                    <div
+                        style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-bottom: 4rem;">
                         <a href="about.html" class="btn-zoho"
                             style="background: transparent; border: 1px solid #ccc; color: #333;"
                             data-i18n="access_network">
                             View Our Services
                         </a>
+                        <div class="app-download-section">
+                            <button class="btn-download-app" id="downloadAppBtn">
+                                <i data-lucide="download"></i>
+                                Download TNPVC Official App
+                            </button>
+                            <div class="countdown-container">
+                                <div class="countdown-label">Wait for massive updates</div>
+                                <div class="countdown-timer" id="massiveUpdateTimer">00d 00h 00m 00s</div>
+                            </div>
+                        </div>
                     </div>
                     <div class="hero-overview-img">
                         <img src="./platform-overview.png"
@@ -397,15 +404,7 @@
             </div>
         </section>
 
-        <section class="pvc-doors-showcase">
-            <div class="pvc-doors-header">
-                <h2>PVC Doors in Multiple Colours</h2>
-                <p>White, Wood, and Charcoal finish options for homes and commercial spaces.</p>
-            </div>
-            <img class="pvc-doors-full-image" src="doors-grid.jpg"
-                alt="TNPVC Premium PVC Doors - Multiple Color Options (Teak, White, Charcoal)"
-                title="PVC Door Color Variants for Modern Interiors in Tamil Nadu" loading="lazy">
-        </section>
+
 
         <!-- Leadership Section - PIXEL PERFECT RECONSTRUCTION -->
         <section class="leadership-section reveal">
@@ -733,6 +732,24 @@
             </div>
         </footer>
 
+        <!-- Floating WhatsApp Button -->
+        <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="floating-whatsapp"
+            title="Join TNPVC on WhatsApp">
+            <i data-lucide="message-circle"></i>
+        </a>
+
+        <!-- App Coming Soon Modal -->
+        <div class="custom-modal" id="appModal">
+            <div class="modal-content">
+                <div class="modal-icon">
+                    <i data-lucide="smartphone"></i>
+                </div>
+                <h3>Coming Soon!</h3>
+                <p>Dexaz professional developers are working on it. App is coming soon.</p>
+                <button class="btn-modal-close" id="closeModal">Great, Thanks!</button>
+            </div>
+        </div>
+
         <script>
             lucide.createIcons();
 
@@ -760,6 +777,69 @@
                     });
                 });
             }
+
+            // App Modal Logic
+            const downloadBtn = document.getElementById('downloadAppBtn');
+            const appModal = document.getElementById('appModal');
+            const closeModal = document.getElementById('closeModal');
+
+            if (downloadBtn && appModal && closeModal) {
+                downloadBtn.addEventListener('click', () => {
+                    appModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+
+                closeModal.addEventListener('click', () => {
+                    appModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+
+                appModal.addEventListener('click', (e) => {
+                    if (e.target === appModal) {
+                        appModal.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+
+            // Countdown Timer Logic
+            function updateTimer() {
+                // Target: Next week Monday 6:00 AM
+                const now = new Date();
+                let targetDate = new Date();
+
+                // Today is Monday (1). Find days until next Monday.
+                let daysUntilMonday = (1 + 7 - now.getDay()) % 7;
+                if (daysUntilMonday === 0 && now.getHours() >= 6) {
+                    daysUntilMonday = 7;
+                }
+
+                targetDate.setDate(now.getDate() + daysUntilMonday);
+                targetDate.setHours(6, 0, 0, 0); // 6:00 AM
+
+                const diff = targetDate - now;
+
+                if (diff <= 0) {
+                    document.getElementById('massiveUpdateTimer').innerHTML = "Update is Live!";
+                    return;
+                }
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                const d = days.toString().padStart(2, '0');
+                const h = hours.toString().padStart(2, '0');
+                const m = minutes.toString().padStart(2, '0');
+                const s = seconds.toString().padStart(2, '0');
+
+                document.getElementById('massiveUpdateTimer').innerHTML =
+                    `${d}d ${h}h ${m}m ${s}s`;
+            }
+
+            setInterval(updateTimer, 1000);
+            updateTimer();
         </script>
 </body>
 

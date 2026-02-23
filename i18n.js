@@ -256,7 +256,12 @@ function updateLanguage(lang) {
 
     const currentLangText = document.getElementById('currentLang');
     if (currentLangText) {
-        currentLangText.textContent = lang.toUpperCase();
+        const langNames = {
+            'en': 'English',
+            'ta': 'தமிழ்',
+            'hi': 'हिन्दी'
+        };
+        currentLangText.textContent = langNames[lang] || lang.toUpperCase();
     }
 
     if (window.lucide) {
