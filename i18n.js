@@ -60,7 +60,25 @@ const translations = {
         "join_network_cta": "CONNECT WITH TNPVC",
         "recent_projects": "Our Recent Successful Projects",
         "download_app": "Download TNPVC App",
-        "app_coming_soon": "Coming Soon! Dexaz professional developers are working on it."
+        "app_coming_soon": "Coming Soon! Dexaz professional developers are working on it.",
+        "customer_hero_badge": "FOR HOME OWNERS",
+        "customer_hero_title": "Your Dream Project, <br>Managed with Integrity",
+        "customer_hero_desc": "Build or renovate your home with verified professionals. TNPVC Council ensures every rupee you spend is tracked, every material is audited, and every worker verified.",
+        "book_consultation": "BOOK A FREE CONSULTATION",
+        "read_our_story": "READ OUR STORY",
+        "footer_rights": "All Rights Reserved.",
+        "developing_by": "Developing by",
+        "learn_more_btn": "Learn More",
+        "legal_contact": "Contact Us",
+        "legal_security": "Security",
+        "legal_compliance": "Workmanship Compliance",
+        "legal_ipr": "IPR Complaints",
+        "legal_safety": "Site Safety Policy",
+        "legal_tos": "Terms of Service",
+        "legal_privacy": "Privacy Policy",
+        "legal_brand": "Brand Usage Policy",
+        "legal_cookie": "Cookie Policy",
+        "legal_data": "Customer Data Compliance"
     },
     "ta": {
         "nav_about": "பற்றி",
@@ -110,7 +128,6 @@ const translations = {
         "manager": "மேலாளர்",
         "privacy_title": "உங்கள் திட்ட தகவல்கள் TNPVC-இல் பாதுகாப்பாக உள்ளன",
         "privacy_desc": "நம்பிக்கையே ஒரு உறவில் முதன்மையானது என்று நாங்கள் நம்புகிறோம். உங்கள் தரவை நாங்கள் விற்க மாட்டோம். மென்பொருள் உரிமக் கட்டணத்திலிருந்து மட்டுமே நாங்கள் பணம் சம்பாதிக்கிறோம்.",
-        "privacy_desc": "நம்பிக்கையே ஒரு உறவில் முதன்மையானது என்று நாங்கள் நம்புகிறோம். உங்கள் தரவை நாங்கள் விற்க மாட்டோம். மென்பொருள் உரிமக் கட்டணத்திலிருந்து மட்டுமே நாங்கள் பணம் சம்பாதிக்கிறோம்.",
         "core_values": "எங்களை வழிநடத்தும்<br>அடிப்படை மதிப்புகள் மற்றும் கொள்கைகள்",
         "long_term": "நீண்ட கால அர்ப்பணிப்பு",
         "long_term_desc": "25+ ஆண்டுகால தொழில்முறை அமைப்பு, வளரும் வணிகம் எதிர்கொள்ளும் சவால்களைப் பற்றிய நல்ல புரிதலை எங்களுக்கு வழங்குகிறது.",
@@ -124,7 +141,25 @@ const translations = {
         "join_network_cta": "TNPVC-ஐ தொடர்பு கொள்ளுங்கள்",
         "recent_projects": "எங்கள் சமீபத்திய வெற்றிகரமான திட்டங்கள்",
         "download_app": "TNPVC செயலியைப் பதிவிறக்கவும்",
-        "app_coming_soon": "விரைவில் வரும்! Dexaz நிபுணத்துவ உருவாக்குநர்கள் இதற்காக உழைக்கிறார்கள்."
+        "app_coming_soon": "விரைவில் வரும்! Dexaz நிபுணத்துவ உருவாக்குநர்கள் இதற்காக உழைக்கிறார்கள்.",
+        "customer_hero_badge": "வீட்டு உரிமையாளர்களுக்கு",
+        "customer_hero_title": "உங்கள் கனவுத் திட்டம், <br>நேர்மையுடன் நிர்வகிக்கப்படுகிறது",
+        "customer_hero_desc": "சரிபார்க்கப்பட்ட நிபுணர்களுடன் உங்கள் வீட்டை உருவாக்குங்கள் அல்லது புதுப்பியுங்கள். நீங்கள் செலவிடும் ஒவ்வொரு ரூபாயும் கண்காணிக்கப்படுவதையும், ஒவ்வொரு பொருளும் தணிக்கை செய்யப்படுவதையும் TNPVC கவுன்சில் உறுதி செய்கிறது.",
+        "book_consultation": "இலவச ஆलोசனையை பதிவு செய்யுங்கள்",
+        "read_our_story": "எங்கள் கதையை படிக்கவும்",
+        "footer_rights": "அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
+        "developing_by": "உருவாக்கம்",
+        "learn_more_btn": "மேலும் அறிய",
+        "legal_contact": "தொடர்பு கொள்ள",
+        "legal_security": "பாதுகாப்பு",
+        "legal_compliance": "பணி இணக்கம்",
+        "legal_ipr": "IPR புகார்கள்",
+        "legal_safety": "தள பாதுகாப்பு கொள்கை",
+        "legal_tos": "சேவை விதிமுறைகள்",
+        "legal_privacy": "தனியுரிமைக் கொள்கை",
+        "legal_brand": "பிராண்ட் பயன்பாட்டுக் கொள்கை",
+        "legal_cookie": "குக்கீ கொள்கை",
+        "legal_data": "வாடிக்கையாளர் தரவு இணக்கம்"
     },
     "hi": {
         "nav_about": "हमारे बारे में",
@@ -187,12 +222,31 @@ const translations = {
         "join_network_cta": "TNPVC से संपर्क करें",
         "recent_projects": "हमारी हालिया सफल परियोजनाएं",
         "download_app": "TNPVC ऐप डाउनलोड करें",
-        "app_coming_soon": "जल्द ही आ रहा है! Dexaz पेशेवर डेवलपर्स इस पर काम कर रहे हैं।"
+        "app_coming_soon": "जल्द ही आ रहा है! Dexaz पेशेवर डेवलपर्स इस पर काम कर रहे हैं.",
+        "customer_hero_badge": "घर के मालिकों के लिए",
+        "customer_hero_title": "आपका सपनों का प्रोजेक्ट, <br>ईमानदारी के साथ प्रबंधित",
+        "customer_hero_desc": "सत्यापित पेशेवरों के साथ अपने घर का निर्माण या नवीनीकरण करें। TNPVC काउंसिल यह सुनिश्चित करती है कि आपके द्वारा खर्च किया गया हर रुपया ट्रैक किया जाए, हर सामग्री का ऑडिट किया जाए और हर कर्मचारी सत्यापित हो।",
+        "book_consultation": "नि:शुल्क परामर्श बुक करें",
+        "read_our_story": "हमारी कहानी पढ़ें",
+        "footer_rights": "सर्वाधिकार सुरक्षित।",
+        "developing_by": "विकासक",
+        "learn_more_btn": "अधिक जानें",
+        "legal_contact": "संपर्क करें",
+        "legal_security": "सुरक्षा",
+        "legal_compliance": "कार्य अनुपालन",
+        "legal_ipr": "IPR शिकायतें",
+        "legal_safety": "साइट सुरक्षा नीति",
+        "legal_tos": "सेवा की शर्तें",
+        "legal_privacy": "गोपनीयता नीति",
+        "legal_brand": "ब्रांड उपयोग नीति",
+        "legal_cookie": "कुकी नीति",
+        "legal_data": "ग्राहक डेटा अनुपालन"
     }
 };
 
 function updateLanguage(lang) {
     localStorage.setItem('selectedLang', lang);
+    document.documentElement.lang = lang;
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (translations[lang] && translations[lang][key]) {
@@ -200,43 +254,131 @@ function updateLanguage(lang) {
         }
     });
 
-    // Update current lang text
     const currentLangText = document.getElementById('currentLang');
     if (currentLangText) {
         currentLangText.textContent = lang.toUpperCase();
     }
 
-    // Special case for Lucide icons after translation
     if (window.lucide) {
         window.lucide.createIcons();
     }
 }
 
+// Exported Globals for dynamic content pages
+window.TNPVC = {
+    initScrollReveal: null
+};
+
 document.addEventListener('DOMContentLoaded', () => {
-    const savedLang = localStorage.getItem('selectedLang') || 'en';
+    let savedLang = 'en';
+    try {
+        savedLang = localStorage.getItem('selectedLang') || 'en';
+    } catch (e) {
+        // Silent catch for production
+    }
     updateLanguage(savedLang);
 
-    // Language switcher toggle
     const langBtn = document.getElementById('langBtn');
     const langDropdown = document.getElementById('langDropdown');
+    let touchHandled = false;
 
     if (langBtn && langDropdown) {
-        langBtn.addEventListener('click', (e) => {
+        const toggleDropdown = (e) => {
+            e.preventDefault();
             e.stopPropagation();
+            if (touchHandled) return;
             langDropdown.classList.toggle('active');
-        });
+        };
 
-        document.addEventListener('click', () => {
-            langDropdown.classList.remove('active');
+        langBtn.addEventListener('click', toggleDropdown);
+
+        langBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            touchHandled = true;
+            langDropdown.classList.toggle('active');
+            setTimeout(() => { touchHandled = false; }, 400);
+        }, { passive: false });
+
+        document.addEventListener('click', (e) => {
+            if (!langBtn.contains(e.target) && !langDropdown.contains(e.target)) {
+                langDropdown.classList.remove('active');
+            }
         });
 
         langDropdown.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 const lang = link.getAttribute('data-lang');
                 updateLanguage(lang);
                 langDropdown.classList.remove('active');
             });
         });
+    }
+
+    // Global Scroll Reveal Initialization
+    const initScrollReveal = () => {
+        const revealOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, revealOptions);
+
+        // Targeted elements for animation
+        const selectors = [
+            '.reveal', '.reveal-left', '.reveal-right', '.reveal-scale', '.stagger-parent',
+            'section:not(.no-animate):not(.gallery-container):not(.pvc-container)',
+            '.hero-content', '.feature-grid', '.app-item',
+            '.help-card', '.pvc-item', '.gallery-item', '.team-card', '.footer-bottom > *'
+        ];
+
+        document.querySelectorAll(selectors.join(', ')).forEach(el => {
+            if (!el.classList.contains('active')) {
+                // Check if it should be revealed (avoiding elements that should already be visible)
+                if (!el.classList.contains('reveal') &&
+                    !el.classList.contains('reveal-left') &&
+                    !el.classList.contains('reveal-right') &&
+                    !el.classList.contains('reveal-scale') &&
+                    !el.classList.contains('stagger-parent')) {
+                    el.classList.add('reveal');
+                }
+                observer.observe(el);
+            }
+        });
+    };
+
+    window.TNPVC.initScrollReveal = initScrollReveal;
+    initScrollReveal();
+
+    const fixHeroVisibility = () => {
+        if (window.innerWidth <= 768) {
+            document.querySelectorAll('.hero-visual, .hero-overview-img, .customer-hero-visual').forEach(el => {
+                el.style.opacity = '1';
+                el.style.visibility = 'visible';
+                el.style.display = 'block';
+                el.classList.add('active'); // Force active for mobile hero
+            });
+        }
+    };
+    fixHeroVisibility();
+    window.addEventListener('resize', fixHeroVisibility);
+
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'selectedLang') {
+            updateLanguage(e.newValue);
+        }
+    });
+
+    // Auto-fix for dynamic content pages (Gallery/PVC)
+    if (document.getElementById('galleryGrid') || document.getElementById('pvcGrid')) {
+        setTimeout(initScrollReveal, 500); // Small delay to let loops finish
     }
 });

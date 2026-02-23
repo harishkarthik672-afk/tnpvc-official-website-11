@@ -4,10 +4,10 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-  <!-- Homepage - Highest Priority -->
+  <!-- Homepage -->
   <url>
     <loc>https://www.tnpvc.co.in/</loc>
-    <lastmod>2026-02-20</lastmod>
+    <lastmod>2026-02-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -15,47 +15,55 @@
   <!-- About Page -->
   <url>
     <loc>https://www.tnpvc.co.in/about.html</loc>
-    <lastmod>2026-02-20</lastmod>
+    <lastmod>2026-02-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- Services Page - Key SEO Page -->
+  <!-- Our Story -->
+  <url>
+    <loc>https://www.tnpvc.co.in/story.html</loc>
+    <lastmod>2026-02-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Anuprintha Story -->
+  <url>
+    <loc>https://www.tnpvc.co.in/anuprintha-story.html</loc>
+    <lastmod>2026-02-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Services Page -->
   <url>
     <loc>https://www.tnpvc.co.in/services.html</loc>
-    <lastmod>2026-02-20</lastmod>
+    <lastmod>2026-02-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- Customers / Homeowners Page -->
+  <!-- PVC Doors Collection -->
+  <url>
+    <loc>https://www.tnpvc.co.in/pvc-doors.html</loc>
+    <lastmod>2026-02-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Gallery / Project Showcase -->
+  <url>
+    <loc>https://www.tnpvc.co.in/gallery.html</loc>
+    <lastmod>2026-02-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Customers / Homeowners -->
   <url>
     <loc>https://www.tnpvc.co.in/customers.html</loc>
-    <lastmod>2026-02-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Skilled Workers / Labours Page -->
-  <url>
-    <loc>https://www.tnpvc.co.in/labours.html</loc>
-    <lastmod>2026-02-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Contractors Page -->
-  <url>
-    <loc>https://www.tnpvc.co.in/contractors.html</loc>
-    <lastmod>2026-02-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Material Suppliers Page -->
-  <url>
-    <loc>https://www.tnpvc.co.in/suppliers.html</loc>
-    <lastmod>2026-02-20</lastmod>
+    <lastmod>2026-02-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -63,7 +71,7 @@
   <!-- Contact Page -->
   <url>
     <loc>https://www.tnpvc.co.in/contact.html</loc>
-    <lastmod>2026-02-20</lastmod>
+    <lastmod>2026-02-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

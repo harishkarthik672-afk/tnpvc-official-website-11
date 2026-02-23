@@ -4,18 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
     <title>Join TNPVC Council | Member Registration - Founded by Srinivasan</title>
     <meta name="description"
         content="Register to join the TNPVC Council network of over 4000 construction professionals in Tamil Nadu. Founded by Srinivasan.">
-
-    <!-- AEO & Branded Search Tags -->
-    <meta name="author" content="Srinivasan">
-    <meta name="founder" content="Srinivasan">
-    <meta name="publisher" content="TNPVC Council">
-
-    <!-- GEO Tags -->
-    <meta name="geo.region" content="IN-TN">
-    <meta name="geo.placename" content="Tamil Nadu, India">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,121 +28,167 @@
             justify-content: center;
             min-height: 100vh;
             padding: 2rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        .signup-container {
+        .signup-card {
             background: white;
             width: 100%;
-            max-width: 1000px;
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            border-radius: 20px;
-            box-shadow: var(--shadow-zoho);
-            overflow: hidden;
+            max-width: 500px;
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            border: 1px solid #f1f1f1;
         }
 
-        .signup-info {
-            background: #000;
-            color: white;
-            padding: 4rem;
+        .logo {
             display: flex;
-            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            position: relative;
+            gap: 0.8rem;
+            text-decoration: none;
+            color: #1a1a1a;
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
         }
 
-        .signup-info::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=800') center/cover;
-            opacity: 0.2;
+        .logo img {
+            height: 40px;
         }
 
-        .signup-form {
-            padding: 4rem;
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            text-align: left;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
+            text-align: left;
+        }
+
+        .full-width {
+            grid-column: span 2;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .form-group input,
         .form-group select {
             width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #eee;
-            border-radius: 6px;
+            padding: 0.85rem 1rem;
+            border: 1.5px solid #eee;
+            border-radius: 12px;
             font-family: inherit;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            outline: none;
+            background: #fafafa;
         }
 
-        @media (max-width: 900px) {
-            .signup-container {
+        .form-group input:focus {
+            border-color: #e3001b;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(227, 0, 27, 0.05);
+        }
+
+        .btn-signup {
+            background: #e3001b;
+            color: white;
+            width: 100%;
+            padding: 1.1rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 1rem;
+        }
+
+        .btn-signup:hover {
+            background: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 480px) {
+            .form-grid {
                 grid-template-columns: 1fr;
             }
 
-            .signup-info {
-                display: none;
+            .full-width {
+                grid-column: span 1;
+            }
+
+            .signup-card {
+                padding: 2rem;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="signup-container animate">
-        <div class="signup-info" style="position: relative; z-index: 1;">
-            <div style="position: relative; z-index: 2;">
-                <h2 style="color: white; font-size: 3rem; margin-bottom: 2rem; line-height: 1.1;">Building a legacy of
-                    transparency.</h2>
-                <p style="opacity: 0.8; font-size: 1.2rem; margin-bottom: 3rem; line-height: 1.6;">Join 4000+
-                    professionals and be part of the most trusted construction ecosystem in Tamil Nadu. The TNPVC
-                    Council provides you with the digital tools to grow, manage, and succeed.</p>
-                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                    <div style="display: flex; gap: 1rem;"><i data-lucide="check-circle" style="color: #34A853;"></i>
-                        <span>Verified Digital Profile</span>
-                    </div>
-                    <div style="display: flex; gap: 1rem;"><i data-lucide="check-circle" style="color: #34A853;"></i>
-                        <span>Escrow-Protected Contracts</span>
-                    </div>
-                    <div style="display: flex; gap: 1rem;"><i data-lucide="check-circle" style="color: #34A853;"></i>
-                        <span>Real-time Site Monitoring</span>
-                    </div>
+    <div class="signup-card">
+        <a href="index.html" class="logo">
+            <img src="logo.png" alt="TNPVC Logo">
+            <span>TNPVC</span>
+        </a>
+        <h2 style="margin-bottom: 0.5rem; font-size: 1.8rem; font-weight: 800;">Join the Council</h2>
+        <p style="color: #666; margin-bottom: 2.5rem; font-size: 0.95rem;">Empowering Tamil Nadu's PVC Professionals</p>
+
+        <form action="#" method="POST" autocomplete="off">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" placeholder="e.g. Arul" required>
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" placeholder="e.g. Mozhi" required>
+                </div>
+                <div class="form-group full-width">
+                    <label>Email Address</label>
+                    <input type="email" placeholder="name@company.com" required>
+                </div>
+                <div class="form-group full-width">
+                    <label>Phone Number</label>
+                    <input type="tel" placeholder="+91 XXXXX XXXXX" required>
+                </div>
+                <div class="form-group full-width">
+                    <label>Profession</label>
+                    <select required>
+                        <option value="">Select your role</option>
+                        <option>Contractor</option>
+                        <option>Fabricator</option>
+                        <option>Material Supplier</option>
+                        <option>Architect / Designer</option>
+                        <option>Home Owner</option>
+                    </select>
+                </div>
+                <div class="form-group full-width">
+                    <label>Password</label>
+                    <input type="password" placeholder="Create a strong password" required>
                 </div>
             </div>
-        </div>
-        <div class="signup-form">
-            <a href="index.html" class="logo" style="margin-bottom: 3rem;">
-                <img src="logo.png" alt="TNPVC Logo">
-                <span>TNPVC</span>
-            </a>
-            <h3 style="margin-bottom: 1rem; font-size: 1.8rem;">Join the Council</h3>
-            <p style="color: #888; margin-bottom: 2.5rem;">Create your free account today.</p>
-            <form>
-                <div class="form-group"><label>Full Name</label><input type="text" placeholder="John Doe"></div>
-                <div class="form-group"><label>Joining As</label><select>
-                        <option>Skilled Labour / Workforce</option>
-                        <option>General Contractor</option>
-                        <option>Material Supplier</option>
-                        <option>Project Owner / Builder</option>
-                    </select></div>
-                <div class="form-group"><label>Email Address</label><input type="email" placeholder="name@company.com">
-                </div>
-                <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+91"></div>
-                <button class="btn-zoho" style="width: 100%; padding: 1rem; margin-top: 1rem;">Create Account</button>
-            </form>
-            <p style="margin-top: 2rem; font-size: 0.85rem; text-align: center;">Already a member? <a href="login.html"
-                    style="color: var(--primary-blue); font-weight: 700; text-decoration: none;">Login</a></p>
-        </div>
+            <button type="submit" class="btn-signup">Create Account</button>
+        </form>
+
+        <p style="margin-top: 2rem; font-size: 0.9rem; color: #666;">
+            Already a member?
+            <a href="login.html" style="color: #e3001b; font-weight: 700; text-decoration: none;">Sign In</a>
+        </p>
     </div>
     <script>lucide.createIcons();</script>
 </body>

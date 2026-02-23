@@ -1,0 +1,52 @@
+# TNPVC Council - Production Server Configuration
+# Optimized for Security and Performance
+
+# 1. SECURITY HEADERS
+<IfModule mod_headers.c>
+    # Protect against XSS
+    Header set X-XSS-Protection "1; mode=block"
+    
+    # Prevent MIME type sniffing
+    Header set X-Content-Type-Options "nosniff"
+    
+    # Protect against Clickjacking
+    Header set X-Frame-Options "SAMEORIGIN"
+    
+    # Strict Referrer Policy
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Content Security Policy (CSP)
+    # Allowing local assets, Google Fonts, and Lucide icons from unpkg
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:;"
+    
+    # Force HSTS (Uncomment if you have a valid SSL certificate)
+    # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+</IfModule>
+
+# 2. PERFORMANCE & CACHING
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 month"
+    
+    # Images
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    
+    # CSS/JS
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+# 3. GZIP COMPRESSION
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript
+</IfModule>
+
+# 4. PREVENT DIRECTORY LISTING
+Options -Indexes
+
+# 5. ERROR PAGES
+ErrorDocument 404 /404.html

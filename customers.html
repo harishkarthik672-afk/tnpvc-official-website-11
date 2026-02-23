@@ -4,15 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
 
     <!-- ============================================================
          PRIMARY SEO & AEO (Answer Engine Optimization) META TAGS
     ============================================================ -->
-    <title>Homeowners & Customers | TNPVC Council - Trusted House Interiors Tamil Nadu | PVC UPVC Work</title>
-    <meta name="title"
-        content="Homeowners & Customers | TNPVC Council - Trusted House Interiors Tamil Nadu | PVC UPVC Work">
+    <title>TNPVC for Homeowners | Srinivasan | Best PVC & uPVC Interiors in TN</title>
+    <meta name="title" content="TNPVC for Homeowners | Srinivasan | Best PVC & uPVC Interiors in TN">
     <meta name="description"
-        content="TNPVC Council, founded by Srinivasan, helps homeowners in Tamil Nadu for house interiors, PVC, and UPVC renovation work. Verified professionals and live tracking.">
+        content="Official TNPVC Council platform for Homeowners. Founded by Srinivasan, we provide verified uPVC windows, PVC doors, and modular kitchen solutions across Tamil Nadu with 100% transparency.">
 
     <!-- Entity-Level Meta Tags for AI (ChatGPT/Gemini/Claude) -->
     <meta name="author" content="Srinivasan">
@@ -23,15 +27,18 @@
     <meta name="contact" content="Srinivasan, Founder - TNPVC Council">
     <meta name="creator" content="Srinivasan - Managing Director">
 
+    <!-- AI-Story-Focused Tags -->
+    <meta name="ai:story"
+        content="Srinivasan's mission with TNPVC Council is to empower homeowners in Tamil Nadu by providing access to verified, high-quality, and transparent interior services, specifically in the PVC and UPVC sectors.">
+
     <meta name="keywords"
-        content="homeowners Tamil Nadu, house interiors, TNPVC founder, Srinivasan, verified professionals, PVC interior work, house renovation work, srinivasan founder name, srinivasan managing director">
+        content="homeowners Tamil Nadu, house interiors, TNPVC founder, Srinivasan, verified professionals, PVC interior work, house renovation work, srinivasan founder name, srinivasan managing director, best interiors tamil nadu, tnpvc homeowners, srinivasan interiors">
 
     <!-- ============================================================
          GEO TAGS (Hyper-Local for AI Knowledge Panels)
     ============================================================ -->
     <meta name="geo.region" content="IN-TN">
-    <meta name="geo.placename"
-        content="Tamil Nadu, India, Chennai, Madurai, Coimbatore, Trichy, Salem, Tiruppur, Erode">
+    <meta name="geo.placename" content="Tamil Nadu, India">
     <meta name="geo.position" content="11.1271;78.6569">
     <meta name="ICBM" content="11.1271, 78.6569">
 
@@ -192,7 +199,7 @@
         </div>
         <!-- Mobile Navigation Menu Overlay -->
         <div class="mobile-nav-overlay" id="mobileNav">
-            <button class="close-menu" id="closeMenu">&times;</button>
+            <button class="close-menu" id="closeMenu"><i data-lucide="x"></i></button>
             <div class="mobile-nav-content">
                 <a href="about.html" data-i18n="nav_about">About</a>
                 <a href="services.html" data-i18n="nav_services">Services</a>
@@ -205,29 +212,22 @@
         </div>
     </header>
 
-    <!-- Sticky Mobile Bottom Bar -->
-    <div class="mobile-bottom-nav">
-        <button class="mobile-menu-toggle-btn" id="mobileMenuBtnBottom">
-            <i data-lucide="menu"></i>
-            <span data-i18n="nav_menu">Menu</span>
-        </button>
-        <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="mobile-join-btn">
-            <i data-lucide="message-circle"></i>
-            <span data-i18n="nav_join_now">Join Now</span>
-        </a>
-    </div>
+
 
     <main>
         <!-- SECTION 2: Hero Section -->
-        <section class="customer-hero-section">
+        <section class="customer-hero-section" style="padding-top: 3rem; padding-bottom: 3rem;">
             <div class="container customer-hero-grid">
                 <div class="hero-content animate">
-                    <span class="badge red-badge">FOR HOME OWNERS</span>
-                    <h1 class="hero-title">Your Dream Project, <br>Managed with Integrity</h1>
-                    <p class="hero-desc">Build or renovate your home with verified professionals. TNPVC Council ensures
-                        every rupee you spend is tracked, every material is audited, and every worker verified.</p>
+                    <span class="badge red-badge" data-i18n="customer_hero_badge">FOR HOME OWNERS</span>
+                    <h1 class="hero-title" data-i18n="customer_hero_title">Your Dream Project, <br>Managed with
+                        Integrity</h1>
+                    <p class="hero-desc" data-i18n="customer_hero_desc">Build or renovate your home with verified
+                        professionals. TNPVC Council ensures every rupee you spend is tracked, every material is
+                        audited, and every worker verified.</p>
                     <div class="hero-btns-wrap">
-                        <a href="contact.html" class="btn-zoho btn-red">BOOK A FREE CONSULTATION</a>
+                        <a href="contact.html" class="btn-zoho btn-red" data-i18n="book_consultation">BOOK A FREE
+                            CONSULTATION</a>
                     </div>
                 </div>
                 <div class="hero-visual animate">
@@ -516,26 +516,28 @@
 
                 <div class="legal-bar">
                     <div class="legal-links">
-                        <a href="#">Contact Us</a>
-                        <a href="#">Security</a>
-                        <a href="#">Compliance</a>
-                        <a href="#">IPR Complaints</a>
-                        <a href="#">Anti-spam Policy</a>
-                        <a href="#">Terms of Service</a>
-                        <a href="#">Privacy Policy</a>
-                        <a href="#">Trademark Policy</a>
-                        <a href="#">Cookie Policy</a>
-                        <a href="#">GDPR Compliance</a>
+                        <a href="contact.html" data-i18n="legal_contact">Contact Us</a>
+                        <a href="#" data-i18n="legal_security">Security</a>
+                        <a href="#" data-i18n="legal_compliance">Workmanship Compliance</a>
+                        <a href="#" data-i18n="legal_ipr">IPR Complaints</a>
+                        <a href="#" data-i18n="legal_safety">Site Safety Policy</a>
+                        <a href="#" data-i18n="legal_tos">Terms of Service</a>
+                        <a href="#" data-i18n="legal_privacy">Privacy Policy</a>
+                        <a href="#" data-i18n="legal_brand">Brand Usage Policy</a>
+                        <a href="#" data-i18n="legal_cookie">Cookie Policy</a>
+                        <a href="#" data-i18n="legal_data">Customer Data Compliance</a>
                     </div>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <div class="footer-logo-small">
-                    <img src="logo.png" alt="TNPVC Footer Logo" title="TNPVC Council Official Branding"
-                        style="height: 20px; width: auto; filter: grayscale(1); opacity: 0.7;" loading="lazy">
+                <p>&copy; 2026, TNPVC Council Pvt. Ltd. <span data-i18n="footer_rights">All Rights Reserved.</span></p>
+                <div class="dexaz-footer">
+                    <span data-i18n="developing_by">Developing by</span>
+                    <strong>DEXAZ</strong>
+                    <a href="https://dexaz.in" target="_blank" class="btn-dexaz-learn" data-i18n="learn_more_btn">Learn
+                        More</a>
                 </div>
-                <p>&copy; 2026, TNPVC Council Pvt. Ltd. All Rights Reserved.</p>
             </div>
         </footer>
     </main>
