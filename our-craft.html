@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Craft | TNPVC Council — Sponsored uPVC & PVC Partners</title>
+    <meta name="description"
+        content="Discover TNPVC's trusted craft partners and sponsored businesses. Naresh UPVC — Premium UPVC Windows in India, sponsored by TNPVC Council.">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="i18n.js" defer></script>
+    <style>
+        body {
+            background: #f4f7f9;
+            overflow-x: hidden;
+        }
+
+        /* ── Hero Section ── */
+        .oc-hero {
+            width: 100%;
+            background: #0a0010;
+            line-height: 0;
+        }
+
+        .oc-hero img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        /* ── Page Wrapper ── */
+        .oc-wrapper {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 4rem;
+        }
+
+        /* ── Section Heading ── */
+        .oc-section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1b0f3a;
+            margin-bottom: 0.3rem;
+        }
+
+        .oc-section-sub {
+            font-size: 0.92rem;
+            color: #888;
+            margin-bottom: 2rem;
+        }
+
+        /* ── Google-Style Sponsored Card ── */
+        .oc-sponsored-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #555;
+            margin-bottom: 0.6rem;
+            letter-spacing: 0.2px;
+        }
+
+        .oc-sponsored-label span.dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #4b2491;
+            display: inline-block;
+        }
+
+        .oc-ad-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 1.4rem 1.6rem;
+            border: 1px solid #e8e0f8;
+            box-shadow: 0 4px 18px rgba(75, 36, 145, 0.07);
+            margin-bottom: 1.2rem;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            text-decoration: none;
+            display: block;
+            cursor: pointer;
+        }
+
+        .oc-ad-card:hover {
+            box-shadow: 0 10px 35px rgba(75, 36, 145, 0.16);
+            transform: translateY(-3px);
+        }
+
+        .oc-ad-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 0.5rem;
+        }
+
+        .oc-ad-favicon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+
+        .oc-ad-favicon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .oc-ad-favicon i {
+            width: 18px;
+            height: 18px;
+            color: #4b2491;
+        }
+
+        .oc-ad-site-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .oc-ad-site-name {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: #1b0f3a;
+            line-height: 1.2;
+        }
+
+        .oc-ad-url {
+            font-size: 0.8rem;
+            color: #1a7f37;
+            font-weight: 500;
+        }
+
+        .oc-ad-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #1a0dab;
+            margin-bottom: 0.35rem;
+            line-height: 1.3;
+        }
+
+        .oc-ad-title:hover {
+            text-decoration: underline;
+        }
+
+        .oc-ad-desc {
+            font-size: 0.9rem;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .oc-ad-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #1b0f3a, #4b2491);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 100px;
+            margin-top: 0.7rem;
+            letter-spacing: 0.3px;
+        }
+
+        .oc-ad-badge i {
+            width: 11px;
+            height: 11px;
+        }
+
+        /* ── Info Banner ── */
+        .oc-info-banner {
+            background: linear-gradient(135deg, #1b0f3a, #4b2491);
+            border-radius: 16px;
+            padding: 2rem 2rem;
+            color: #fff;
+            margin-top: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .oc-info-banner i {
+            width: 36px;
+            height: 36px;
+            flex-shrink: 0;
+            opacity: 0.85;
+        }
+
+        .oc-info-banner h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+        }
+
+        .oc-info-banner p {
+            font-size: 0.85rem;
+            opacity: 0.82;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 480px) {
+            .oc-info-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* ── Want to list? CTA ── */
+        .oc-list-cta {
+            text-align: center;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 14px;
+            border: 1px solid #e8e0f8;
+            margin-top: 1.5rem;
+        }
+
+        .oc-list-cta p {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .oc-list-cta a {
+            background: linear-gradient(135deg, #1b0f3a, #4b2491);
+            color: #fff;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(75, 36, 145, 0.3);
+        }
+
+        .oc-list-cta a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(75, 36, 145, 0.45);
+        }
+
+        .oc-list-cta a i {
+            width: 16px;
+            height: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <button class="mobile-menu-toggle-btn-top" id="mobileMenuBtn">
+                <i data-lucide="menu"></i>
+            </button>
+            <div class="nav-left-group">
+                <a href="index.html" class="logo">
+                    <img src="logo.png" alt="TNPVC Council">
+                    <span>TNPVC</span>
+                </a>
+            </div>
+            <div class="nav-right">
+                <div class="lang-switcher">
+                    <button class="lang-btn" id="langBtn">
+                        <i data-lucide="swatch-book" class="globe-icon"></i>
+                        <span id="currentLang">English</span>
+                        <i data-lucide="chevron-down" class="chevron-icon"></i>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <a href="#" data-lang="en">English</a>
+                        <a href="#" data-lang="ta">தமிழ்</a>
+                        <a href="#" data-lang="hi">हिन्दी</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-nav-overlay" id="mobileNav">
+            <button class="close-menu" id="closeMenu"><i data-lucide="x"></i></button>
+            <div class="mobile-nav-content">
+                <a href="about.html">About</a>
+                <a href="services.html">Services</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho"
+                    style="margin-top: 1rem;">Join Now</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Site Construction Notice -->
+    <div class="site-notice-bar">
+        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
+        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
+    </div>
+
+    <main>
+        <!-- Hero Image: Full Width, No Text -->
+        <section class="oc-hero">
+            <img src="ourcrafthero.png" alt="Our Craft — TNPVC Council's Partnered Trade Network">
+        </section>
+
+        <!-- Content Section -->
+        <div class="oc-wrapper">
+
+            <h1 class="oc-section-title">Our Craft Partners</h1>
+            <p class="oc-section-sub">Trusted and verified businesses sponsored by TNPVC Council</p>
+
+            <!-- Sponsored Label -->
+            <div class="oc-sponsored-label">
+                <span class="dot"></span>
+                Sponsored
+            </div>
+
+            <!-- Sponsored Ad Card 1: Naresh UPVC -->
+            <a href="https://www.nareshupvc.in" target="_blank" class="oc-ad-card">
+                <div class="oc-ad-top">
+                    <div class="oc-ad-favicon">
+                        <img src="https://www.nareshupvc.in/favicon.ico" alt="Naresh UPVC"
+                            onerror="this.style.display='none'; this.parentElement.innerHTML='<i data-lucide=\'globe\'></i>'; lucide.createIcons();">
+                    </div>
+                    <div class="oc-ad-site-info">
+                        <span class="oc-ad-site-name">nareshupvc</span>
+                        <span class="oc-ad-url">https://www.nareshupvc.in</span>
+                    </div>
+                </div>
+                <div class="oc-ad-title">Premium UPVC Windows India — UPVC Window Company — Safe & Stylish</div>
+                <p class="oc-ad-desc">
+                    Experience the Naresh UPVC difference: Quality, durability, and style. Naresh UPVC: Durable,
+                    energy-efficient, and stylish home solutions for every home in Tamil Nadu.
+                </p>
+                <span class="oc-ad-badge">
+                    <i data-lucide="shield-check"></i>
+                    Sponsored by TNPVC
+                </span>
+            </a>
+
+            <!-- Info Banner -->
+            <div class="oc-info-banner">
+                <i data-lucide="info"></i>
+                <div>
+                    <h3>What is TNPVC Sponsorship?</h3>
+                    <p>TNPVC verifies and sponsors trusted uPVC and PVC businesses so homeowners can find quality
+                        vendors with confidence. Every sponsored listing is reviewed and approved by TNPVC Council.</p>
+                </div>
+            </div>
+
+
+
+        </div>
+    </main>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="floating-whatsapp" title="Join TNPVC on WhatsApp">
+        <i data-lucide="message-circle"></i>
+    </a>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="our-craft.html" class="bottom-nav-item active">
+            <i data-lucide="swatch-book"></i>
+            <span data-i18n="nav_our_craft">Our Craft</span>
+        </a>
+        <a href="ads.html" class="bottom-nav-item">
+            <i data-lucide="rocket"></i>
+            <span data-i18n="nav_ads">Ads</span>
+        </a>
+        <a href="index.html" class="bottom-nav-item center-btn">
+            <img src="logo.png" class="center-logo" alt="TNPVC Home">
+        </a>
+        <a href="feed.html" class="bottom-nav-item">
+            <i data-lucide="layout-list"></i>
+            <span data-i18n="nav_blog">Feed</span>
+        </a>
+        <a href="dexaz-partnership.html" class="bottom-nav-item">
+            <img src="dexaz.png" class="bottom-nav-img" alt="Dexaz">
+            <span data-i18n="nav_dexaz">Dexaz</span>
+        </a>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+
+            // Mobile Menu
+            const mobileToggle = document.getElementById('mobileMenuBtn');
+            const mobileNav = document.getElementById('mobileNav');
+            const closeMenu = document.getElementById('closeMenu');
+
+            if (mobileToggle && mobileNav && closeMenu) {
+                mobileToggle.addEventListener('click', () => {
+                    mobileNav.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+                closeMenu.addEventListener('click', () => {
+                    mobileNav.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+                mobileNav.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileNav.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+
+            // Language Switcher
+            const langBtn = document.getElementById('langBtn');
+            const langDropdown = document.getElementById('langDropdown');
+            if (langBtn && langDropdown) {
+                langBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    langDropdown.classList.toggle('active');
+                });
+                document.addEventListener('click', () => {
+                    langDropdown.classList.remove('active');
+                });
+            }
+        });
+    </script>
+
+
+    
+    
+    <!-- Payangarama Development Popup Modal -->
+    <div id="devModal" class="dev-modal">
+        <div class="dev-modal-content">
+            <div class="dev-modal-icon">
+                <i data-lucide="construction"></i>
+            </div>
+            <h3>Site Under Development</h3>
+            <p>Welcome to TNPVC Council. We are currently building a powerful experience with <strong class="dexaz-brand">Dexaz</strong>. Stay tuned!</p>
+            <button class="btn-dev-close" onclick="closeDevModal()">Enter Site</button>
+        </div>
+    </div>
+    <script>
+        function closeDevModal() {
+            document.getElementById('devModal').classList.remove('active');
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const modal = document.getElementById('devModal');
+                if (modal) {
+                    modal.classList.add('active');
+                    console.log('Modal activated');
+                }
+                if(window.lucide) {
+                    lucide.createIcons();
+                }
+            }, 500);
+        });
+    </script>
+
+
+
+</body>
+
+</html>

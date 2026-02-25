@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TNPVC Community Feed | Showcase Your Work</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="i18n.js" defer></script>
+    <style>
+        :root {
+            --fb-bg: #f0f2f5;
+            --fb-white: #ffffff;
+            --fb-blue: #1877f2;
+            --fb-gray: #65676b;
+            --fb-border: #dddfe2;
+        }
+
+        body {
+            background-color: var(--fb-bg);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .feed-container {
+            max-width: 680px;
+            margin: 80px auto 40px;
+            padding: 0 15px;
+        }
+
+        /* Create Post Card */
+        .create-post {
+            background: var(--fb-white);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .create-post-top {
+            display: flex;
+            gap: 10px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--fb-border);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: #eee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .user-avatar i {
+            color: #888;
+        }
+
+        .create-post-input {
+            flex: 1;
+            background: #f0f2f5;
+            border-radius: 20px;
+            padding: 10px 15px;
+            color: var(--fb-gray);
+            cursor: pointer;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .create-post-bottom {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 10px;
+        }
+
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+            color: var(--fb-gray);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .post-action:hover {
+            background: #f2f2f2;
+        }
+
+        .post-action.photo i {
+            color: #45bd62;
+        }
+
+        .post-action.tag i {
+            color: #1877f2;
+        }
+
+        .post-action.feeling i {
+            color: #f7b928;
+        }
+
+        /* Post Card */
+        .post-card {
+            background: var(--fb-white);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+        }
+
+        .post-author-info h4 {
+            margin: 0;
+            font-size: 1rem;
+            color: #050505;
+        }
+
+        .post-time {
+            font-size: 0.8rem;
+            color: var(--fb-gray);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .post-content {
+            padding: 0 15px 12px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #050505;
+        }
+
+        .post-media {
+            width: 100%;
+            background: #eee;
+        }
+
+        .post-media img {
+            width: 100%;
+            display: block;
+        }
+
+        .post-stats {
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--fb-border);
+            color: var(--fb-gray);
+            font-size: 0.9rem;
+        }
+
+        .post-footer {
+            display: flex;
+            padding: 4px 15px;
+        }
+
+        .post-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: var(--fb-gray);
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .post-btn:hover {
+            background: #f2f2f2;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #fff;
+            width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+            padding: 0;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--fb-border);
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+
+        .modal-body {
+            padding: 15px 20px;
+        }
+
+        .post-input-field {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 1.25rem;
+            min-height: 150px;
+            resize: none;
+        }
+
+        .post-submit-btn {
+            width: 100%;
+            background: var(--fb-blue);
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .post-submit-btn:disabled {
+            background: #e4e6eb;
+            color: #bcc0c4;
+            cursor: not-allowed;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .post-card {
+            animation: fadeIn 0.5s ease backwards;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="container nav-container">
+            <!-- Mobile Menu Toggle (Left) -->
+            <button class="mobile-menu-toggle-btn-top" id="mobileMenuBtn">
+                <i data-lucide="menu"></i>
+            </button>
+
+            <div class="nav-left-group">
+                <a href="index.html" class="logo">
+                    <img src="logo.png" alt="TNPVC">
+                    <span>TNPVC</span>
+                </a>
+            </div>
+            <div class="nav-right">
+                <div class="lang-switcher">
+                    <button class="lang-btn" id="langBtn">
+                        <i data-lucide="swatch-book"></i>
+                        <span id="currentLang">English</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Navigation Menu Overlay -->
+        <div class="mobile-nav-overlay" id="mobileNav">
+            <button class="close-menu" id="closeMenu"><i data-lucide="x"></i></button>
+            <div class="mobile-nav-content">
+                <a href="about.html">About</a>
+                <a href="services.html">Services</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho"
+                    style="margin-top: 1rem;">Join Now</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Site Construction Notice -->
+    <div class="site-notice-bar">
+        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
+        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
+    </div>
+
+    <main class="feed-container">
+        <!-- Create Post Section -->
+        <div class="create-post">
+            <div class="create-post-top">
+                <div class="user-avatar">
+                    <i data-lucide="user"></i>
+                </div>
+                <div class="create-post-input" id="openPostModal">
+                    What's on your mind? Share your recent work...
+                </div>
+            </div>
+            <div class="create-post-bottom">
+                <div class="post-action photo">
+                    <i data-lucide="image"></i> Photo/video
+                </div>
+                <div class="post-action tag">
+                    <i data-lucide="user-plus"></i> Tag People
+                </div>
+                <div class="post-action feeling">
+                    <i data-lucide="smile"></i> Feeling/activity
+                </div>
+            </div>
+        </div>
+
+        <!-- Scrollable Feed -->
+        <div id="postsList">
+            <!-- Initial Posts -->
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="user-avatar">
+                        <img src="srinivasan.jpg" alt="Srinivasan">
+                    </div>
+                    <div class="post-author-info">
+                        <h4>Srinivasan</h4>
+                        <div class="post-time">2 hours ago · <i data-lucide="swatch-book" style="width:12px;"></i></div>
+                    </div>
+                </div>
+                <div class="post-content">
+                    Completed a premium uPVC window installation for a villa in Coimbatore. Quality audit passed with
+                    100% compliance.
+                </div>
+                <div class="post-media">
+                    <img src="project-1.jpg" alt="Villa Project">
+                </div>
+                <div class="post-stats">
+                    <span>42 Likes</span>
+                    <span>12 Comments</span>
+                </div>
+                <div class="post-footer">
+                    <div class="post-btn"><i data-lucide="thumbs-up"></i> Like</div>
+                    <div class="post-btn"><i data-lucide="message-square"></i> Comment</div>
+                    <div class="post-btn"><i data-lucide="share-2"></i> Share</div>
+                </div>
+            </div>
+
+            <div class="post-card" style="animation-delay: 0.1s;">
+                <div class="post-header">
+                    <div class="user-avatar">
+                        <img src="anuprintha.png" alt="Anuprintha">
+                    </div>
+                    <div class="post-author-info">
+                        <h4>Anuprintha</h4>
+                        <div class="post-time">5 hours ago · <i data-lucide="swatch-book" style="width:12px;"></i></div>
+                    </div>
+                </div>
+                <div class="post-content">
+                    Operations check for the new Chennai region projects. Our workers are doing an amazing job with PVC
+                    door paneling!
+                </div>
+                <div class="post-media">
+                    <img src="project-3.jpg" alt="Chennai Project">
+                </div>
+                <div class="post-stats">
+                    <span>28 Likes</span>
+                    <span>5 Comments</span>
+                </div>
+                <div class="post-footer">
+                    <div class="post-btn"><i data-lucide="thumbs-up"></i> Like</div>
+                    <div class="post-btn"><i data-lucide="message-square"></i> Comment</div>
+                    <div class="post-btn"><i data-lucide="share-2"></i> Share</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="our-craft.html" class="bottom-nav-item">
+            <i data-lucide="swatch-book"></i>
+            <span data-i18n="nav_our_craft">Our Craft</span>
+        </a>
+        <a href="ads.html" class="bottom-nav-item">
+            <i data-lucide="rocket"></i>
+            <span data-i18n="nav_ads">Ads</span>
+        </a>
+        <a href="index.html" class="bottom-nav-item center-btn">
+            <img src="logo.png" class="center-logo" alt="TNPVC Home">
+        </a>
+        <a href="feed.html" class="bottom-nav-item active">
+            <i data-lucide="layout-list"></i>
+            <span data-i18n="nav_blog">Feed</span>
+        </a>
+        <a href="dexaz-partnership.html" class="bottom-nav-item">
+            <img src="dexaz.png" class="bottom-nav-img" alt="Dexaz">
+            <span data-i18n="nav_dexaz">Dexaz</span>
+        </a>
+    </nav>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="floating-whatsapp" title="Join TNPVC on WhatsApp">
+        <i data-lucide="message-circle"></i>
+    </a>
+
+    <!-- Post Modal -->
+    <div class="modal" id="postModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Post</h3>
+                <button type="button" id="closeModal" style="border:none; background:none; cursor:pointer;"><i
+                        data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body">
+                <textarea class="post-input-field" id="postInput" placeholder="What's your project about?"></textarea>
+                <button class="post-submit-btn" id="submitPost" disabled>Post</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+
+            const openModalBtn = document.getElementById('openPostModal');
+            const closeModalBtn = document.getElementById('closeModal');
+            const modal = document.getElementById('postModal');
+            const postInput = document.getElementById('postInput');
+            const submitBtn = document.getElementById('submitPost');
+            const postsList = document.getElementById('postsList');
+
+            openModalBtn.addEventListener('click', () => {
+                modal.classList.add('active');
+                postInput.focus();
+            });
+
+            closeModalBtn.addEventListener('click', () => {
+                modal.classList.remove('active');
+            });
+
+            postInput.addEventListener('input', () => {
+                submitBtn.disabled = postInput.value.trim() === '';
+            });
+
+            submitBtn.addEventListener('click', () => {
+                const text = postInput.value.trim();
+                if (!text) return;
+
+                const newPost = document.createElement('div');
+                newPost.className = 'post-card';
+                newPost.innerHTML = `
+                    <div class="post-header">
+                        <div class="user-avatar">
+                            <i data-lucide="user"></i>
+                        </div>
+                        <div class="post-author-info">
+                            <h4>New Member</h4>
+                            <div class="post-time">Just now · <i data-lucide="swatch-book" style="width:12px;"></i></div>
+                        </div>
+                    </div>
+                    <div class="post-content">${text}</div>
+                    <div class="post-stats">
+                        <span>0 Likes</span>
+                        <span>0 Comments</span>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-btn"><i data-lucide="thumbs-up"></i> Like</div>
+                        <div class="post-btn"><i data-lucide="message-square"></i> Comment</div>
+                        <div class="post-btn"><i data-lucide="share-2"></i> Share</div>
+                    </div>
+                `;
+
+                postsList.prepend(newPost);
+                lucide.createIcons();
+
+                postInput.value = '';
+                submitBtn.disabled = true;
+                modal.classList.remove('active');
+            });
+
+            // Close modal on outside click
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.remove('active');
+            });
+
+            // Mobile Menu Logic
+            const mobileToggle = document.getElementById('mobileMenuBtn');
+            const mobileNav = document.getElementById('mobileNav');
+            const closeMenu = document.getElementById('closeMenu');
+
+            if (mobileToggle && mobileNav && closeMenu) {
+                mobileToggle.addEventListener('click', () => {
+                    mobileNav.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+
+                closeMenu.addEventListener('click', () => {
+                    mobileNav.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+
+                mobileNav.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileNav.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+        });
+    </script>
+
+    
+    
+    <!-- Payangarama Development Popup Modal -->
+    <div id="devModal" class="dev-modal">
+        <div class="dev-modal-content">
+            <div class="dev-modal-icon">
+                <i data-lucide="construction"></i>
+            </div>
+            <h3>Site Under Development</h3>
+            <p>Welcome to TNPVC Council. We are currently building a powerful experience with <strong class="dexaz-brand">Dexaz</strong>. Stay tuned!</p>
+            <button class="btn-dev-close" onclick="closeDevModal()">Enter Site</button>
+        </div>
+    </div>
+    <script>
+        function closeDevModal() {
+            document.getElementById('devModal').classList.remove('active');
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const modal = document.getElementById('devModal');
+                if (modal) {
+                    modal.classList.add('active');
+                    console.log('Modal activated');
+                }
+                if(window.lucide) {
+                    lucide.createIcons();
+                }
+            }, 500);
+        });
+    </script>
+
+
+
+</body>
+
+</html>

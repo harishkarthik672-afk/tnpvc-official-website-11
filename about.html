@@ -135,12 +135,8 @@
                             data-i18n="nav_about">About</span></a>
                     <a href="services.html" itemprop="url"><span itemprop="name"
                             data-i18n="nav_services">Services</span></a>
-                    <a href="customers.html" itemprop="url"><span itemprop="name"
-                            data-i18n="nav_customers">Customers</span></a>
                     <a href="gallery.html" itemprop="url"><span itemprop="name"
                             data-i18n="nav_gallery">Gallery</span></a>
-                    <a href="pvc-doors.html" itemprop="url"><span itemprop="name" data-i18n="nav_pvc_doors">PVC
-                            Doors</span></a>
                 </nav>
             </div>
 
@@ -148,7 +144,7 @@
                 <!-- Language Switcher -->
                 <div class="lang-switcher">
                     <button class="lang-btn" id="langBtn">
-                        <i data-lucide="globe" class="globe-icon"></i>
+                        <i data-lucide="swatch-book" class="globe-icon"></i>
                         <span id="currentLang">English</span>
                         <i data-lucide="chevron-down" class="chevron-icon"></i>
                     </button>
@@ -169,14 +165,18 @@
             <div class="mobile-nav-content">
                 <a href="about.html" data-i18n="nav_about">About</a>
                 <a href="services.html" data-i18n="nav_services">Services</a>
-                <a href="customers.html" data-i18n="nav_customers">Customers</a>
                 <a href="gallery.html" data-i18n="nav_gallery">Gallery</a>
-                <a href="pvc-doors.html" data-i18n="nav_pvc_doors">PVC Doors</a>
                 <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho"
                     style="margin-top: 1rem;"><span data-i18n="nav_join_now">Join Now</span></a>
             </div>
         </div>
     </header>
+
+    <!-- Site Construction Notice -->
+    <div class="site-notice-bar">
+        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
+        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
+    </div>
 
     <main>
         <!-- Blue Hero Section -->
@@ -575,7 +575,7 @@
                 <div class="responsive-grid about-inquiry-grid" style="gap: 1.5rem; margin-bottom: 1.5rem;">
                     <!-- Public Relations -->
                     <div style="background: #fff; padding: 2.5rem; border-radius: 8px;">
-                        <i data-lucide="megaphone"
+                        <i data-lucide="rocket"
                             style="width: 32px; height: 32px; color: #333; margin-bottom: 1.5rem;"></i>
                         <h4 style="font-size: 1.25rem; margin-bottom: 1rem;">Media & Press</h4>
                         <a href="mailto:media@tnpvc.org"
@@ -644,7 +644,6 @@
                         <h4>uPVC/PVC Services</h4>
                         <ul>
                             <li><a href="services.html">uPVC Windows</a></li>
-                            <li><a href="pvc-doors.html">Premium PVC Doors</a></li>
                             <li><a href="services.html">False Ceiling</a></li>
                             <li><a href="services.html">Wall Cladding</a></li>
                             <li><a href="gallery.html">Project Gallery</a></li>
@@ -732,6 +731,35 @@
                 </div>
             </div>
         </footer>
+        <!-- Bottom Navigation Bar -->
+        <nav class="bottom-nav">
+            <a href="our-craft.html" class="bottom-nav-item">
+                <i data-lucide="swatch-book"></i>
+                <span data-i18n="nav_our_craft">Our Craft</span>
+            </a>
+            <a href="ads.html" class="bottom-nav-item">
+                <i data-lucide="rocket"></i>
+                <span data-i18n="nav_ads">Ads</span>
+            </a>
+            <a href="index.html" class="bottom-nav-item center-btn">
+                <img src="logo.png" class="center-logo" alt="TNPVC Home">
+            </a>
+            <a href="feed.html" class="bottom-nav-item">
+                <i data-lucide="layout-list"></i>
+                <span data-i18n="nav_blog">Feed</span>
+            </a>
+            <a href="dexaz-partnership.html" class="bottom-nav-item">
+                <img src="dexaz.png" class="bottom-nav-img" alt="Dexaz">
+                <span data-i18n="nav_dexaz">Dexaz</span>
+            </a>
+        </nav>
+
+        <!-- Floating WhatsApp Button -->
+        <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="floating-whatsapp"
+            title="Join TNPVC on WhatsApp">
+            <i data-lucide="message-circle"></i>
+        </a>
+
 
     </main>
 
@@ -829,6 +857,40 @@
             });
         }
     </script>
+
+    
+    
+    <!-- Payangarama Development Popup Modal -->
+    <div id="devModal" class="dev-modal">
+        <div class="dev-modal-content">
+            <div class="dev-modal-icon">
+                <i data-lucide="construction"></i>
+            </div>
+            <h3>Site Under Development</h3>
+            <p>Welcome to TNPVC Council. We are currently building a powerful experience with <strong class="dexaz-brand">Dexaz</strong>. Stay tuned!</p>
+            <button class="btn-dev-close" onclick="closeDevModal()">Enter Site</button>
+        </div>
+    </div>
+    <script>
+        function closeDevModal() {
+            document.getElementById('devModal').classList.remove('active');
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const modal = document.getElementById('devModal');
+                if (modal) {
+                    modal.classList.add('active');
+                    console.log('Modal activated');
+                }
+                if(window.lucide) {
+                    lucide.createIcons();
+                }
+            }, 500);
+        });
+    </script>
+
+
+
 </body>
 
 </html>

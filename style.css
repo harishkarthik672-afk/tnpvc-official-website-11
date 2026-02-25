@@ -1,6 +1,7 @@
 ﻿:root {
     --primary-red: #e3001b;
     --primary-blue: #0067ff;
+    --primary-purple: #7c3aed;
     --primary-green: #34a853;
     --primary-yellow: #fbbc05;
     --text-main: #000000;
@@ -96,10 +97,17 @@ body {
     display: flex;
     align-items: center;
     border-bottom: 1px solid #eeeeee;
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    width: 100%;
     z-index: 1000;
     color: #333;
+}
+
+body {
+    padding-top: 135px;
+    /* Offset for navbar (90px) + notice bar (45px) */
 }
 
 .nav-container {
@@ -157,6 +165,341 @@ body {
     gap: 1.5rem;
 }
 
+/* Bottom Navigation Bar */
+.bottom-nav {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background: rgba(27, 15, 58, 0.85);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 12px 0 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+.bottom-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.7rem;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    flex: 1;
+}
+
+.bottom-nav-item i {
+    width: 24px;
+    height: 24px;
+    stroke-width: 1.5px;
+    transition: all 0.3s ease;
+}
+
+.bottom-nav-item.active {
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.bottom-nav-item.active i {
+    color: #a78bfa;
+    filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.8));
+    stroke-width: 2px;
+}
+
+.bottom-nav-item:hover {
+    color: #ffffff;
+    transform: translateY(-4px);
+}
+
+.bottom-nav-item:hover i {
+    transform: scale(1.15) rotate(-8deg);
+    color: #ffffff;
+}
+
+/* Center TNPVC Logo Button */
+.bottom-nav-item.center-btn {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    margin-top: -42px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), 0 0 0 4px #1b0f3a, 0 0 0 7px rgba(167, 139, 250, 0.3);
+    background: #ffffff;
+    flex: none;
+    justify-content: center;
+    padding: 0;
+    overflow: hidden;
+    border: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.bottom-nav-item.center-btn img.center-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    filter: none;
+    opacity: 1;
+}
+
+.bottom-nav-item.center-btn i {
+    width: 30px;
+    height: 30px;
+}
+
+.bottom-nav-item.center-btn span {
+    font-size: 0.65rem;
+    margin-top: 4px;
+    color: rgba(27, 15, 58, 0.5);
+}
+
+.bottom-nav-item.center-btn:hover {
+    transform: translateY(-8px) scale(1.1);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 0 4px #1b0f3a, 0 0 0 8px rgba(167, 139, 250, 0.5);
+}
+
+/* Adjust layout for bottom nav */
+body {
+    padding-bottom: 100px;
+}
+
+@media (max-width: 768px) {
+    .bottom-nav {
+        width: calc(100% - 30px);
+        left: 15px;
+        right: 15px;
+        bottom: 15px;
+        padding: 10px 0 14px;
+        border-radius: 24px;
+    }
+
+    .bottom-nav-item span {
+        font-size: 0.65rem;
+    }
+
+    .bottom-nav-item.center-btn {
+        width: 66px;
+        height: 66px;
+        margin-top: -38px;
+    }
+}
+
+@media (min-width: 769px) {
+    .bottom-nav {
+        flex-direction: column;
+        justify-content: center;
+        width: 100px;
+        height: auto;
+        min-height: 520px;
+        left: 30px;
+        right: auto;
+        top: 50%;
+        bottom: auto;
+        transform: translateY(-50%);
+        border-radius: 50px;
+        padding: 50px 10px;
+        gap: 2.8rem;
+        background: #1b0f3a;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    }
+
+    body {
+        padding-left: 160px;
+        padding-top: 0px;
+    }
+
+    .navbar,
+    .site-notice-bar,
+    header.ads-header {
+        width: calc(100% - 160px) !important;
+        left: 160px !important;
+    }
+
+    .bottom-nav-item {
+        width: 100%;
+        padding: 10px 0;
+        border-radius: 16px;
+    }
+
+    .bottom-nav-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+        transform: translateX(5px);
+    }
+
+    .bottom-nav-item.center-btn {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        width: 70px;
+        height: 70px;
+        order: -1;
+    }
+
+    .bottom-nav-item i,
+    .bottom-nav-img {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+/* Integrated Site Notice Bar */
+.site-notice-bar {
+    position: fixed;
+    top: 90px;
+    left: 0;
+    width: 100%;
+    height: 45px;
+    background: #ffffff;
+    border-bottom: 1px solid #eeeeee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    z-index: 998;
+    padding: 0 20px;
+}
+
+.notice-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1b0f3a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.notice-text strong {
+    color: #7c3aed;
+}
+
+.btn-notice-learn {
+    background: #7c3aed;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-notice-learn:hover {
+    background: #1b0f3a;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+}
+
+@media (max-width: 768px) {
+    .site-notice-bar {
+        height: 40px;
+        top: 90px;
+        gap: 10px;
+        padding: 0 10px;
+    }
+
+    .notice-text {
+        font-size: 0.75rem;
+    }
+
+    body {
+        padding-top: 130px;
+    }
+}
+
+.bottom-nav-item span {
+    font-size: 0.75rem;
+    margin-top: 6px;
+}
+
+/* Custom PNG Icon in Bottom Nav */
+.bottom-nav-img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    filter: brightness(0) invert(1) opacity(0.5);
+    transition: all 0.3s ease;
+}
+
+.bottom-nav-item:hover .bottom-nav-img,
+.bottom-nav-item.active .bottom-nav-img {
+    filter: brightness(0) invert(1) opacity(1) drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+}
+
+/* =============================================
+   App Coming Soon Toast Notification
+   ============================================= */
+.app-coming-toast {
+    position: fixed;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%) translateY(30px);
+    background: #1b0f3a;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.8rem;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(27, 15, 58, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    z-index: 99999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    min-width: 280px;
+    max-width: 90vw;
+    pointer-events: none;
+}
+
+.app-coming-toast.toast-show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.app-toast-icon {
+    width: 42px;
+    height: 42px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.app-toast-icon i {
+    width: 20px;
+    height: 20px;
+    color: #fff;
+}
+
+.app-toast-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.app-toast-text strong {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+.app-toast-text span {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.4;
+}
+
 .logo {
     display: flex !important;
     align-items: center !important;
@@ -189,8 +532,8 @@ body {
 /* Floating WhatsApp Button */
 .floating-whatsapp {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
+    bottom: 100px;
+    right: 25px;
     width: 60px;
     height: 60px;
     background-color: #25D366;
@@ -293,143 +636,248 @@ body {
     color: #4b2491;
 }
 
-/* App Download Button & Timer */
-.app-download-section {
-    margin-top: 1.5rem;
+/* Service Highlight Section (Replaced App Download) */
+.service-highlight-section {
+    margin: 2rem 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 1.2rem;
 }
 
+.btn-service-highlight {
+    background: #ffffff !important;
+    padding: 1.1rem 2.8rem !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+    font-size: 1.05rem !important;
+    color: #1b0f3a !important;
+    border: 2px solid rgba(27, 15, 58, 0.1) !important;
+    font-weight: 700 !important;
+}
+
+.btn-service-highlight:hover {
+    transform: translateY(-3px) scale(1.02);
+    background: #f0f0f0 !important;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* Download TNPVC App Button */
 .btn-download-app {
-    background: #000;
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 0.95rem;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    gap: 0.6rem;
+    background: #ffffff;
+    color: #1b0f3a;
+    padding: 0.9rem 2.4rem;
+    border-radius: 12px;
     text-decoration: none;
-    transition: var(--transition-smooth);
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+    border: 2px solid rgba(27, 15, 58, 0.12);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-download-app::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.04), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-download-app:hover::before {
+    left: 100%;
 }
 
 .btn-download-app:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    background: #f0f0f0;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+    border-color: rgba(27, 15, 58, 0.2);
 }
 
-.countdown-container {
-    text-align: center;
-    background: rgba(75, 36, 145, 0.05);
-    padding: 10px 20px;
-    border-radius: 50px;
-    border: 1px dashed #4b2491;
+.btn-download-app:active {
+    transform: scale(0.97);
 }
 
-.countdown-label {
-    font-size: 0.8rem;
-    color: #4b2491;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 4px;
-}
-
-.countdown-timer {
-    font-family: monospace;
-    font-size: 1.1rem;
-    font-weight: 700;
+.btn-download-app i {
+    width: 18px;
+    height: 18px;
     color: #1b0f3a;
 }
 
-/* Popup/Modal Styles */
-.custom-modal {
+.service-micro-tag {
+    background: rgba(227, 0, 27, 0.05);
+    border: 1px solid rgba(227, 0, 27, 0.1);
+    padding: 8px 24px;
+    border-radius: 100px;
+}
+
+.service-micro-tag p {
+    font-size: 0.9rem !important;
+    color: #e3001b !important;
+    margin: 0 !important;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* Payangarama (Fierce) Development Popup Modal */
+.dev-modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px);
+    background: rgba(10, 5, 20, 0.9);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10000;
+    z-index: 100000;
     opacity: 0;
     visibility: hidden;
-    transition: var(--transition-smooth);
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.custom-modal.active {
+.dev-modal.active {
     opacity: 1;
     visibility: visible;
 }
 
-.modal-content {
-    background: #fff;
-    padding: 40px;
-    border-radius: 20px;
-    max-width: 450px;
+.dev-modal-content {
+    background: #1b0f3a;
+    padding: 4rem 3rem;
+    border-radius: 40px;
+    max-width: 550px;
     width: 90%;
     text-align: center;
     position: relative;
-    transform: scale(0.8);
-    transition: var(--transition-smooth);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transform: perspective(1500px) rotateY(-30deg) scale(0.8) translateZ(-200px);
+    transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    color: #fff;
 }
 
-.custom-modal.active .modal-content {
-    transform: scale(1);
+.dev-modal.active .dev-modal-content {
+    transform: perspective(1500px) rotateY(0deg) scale(1) translateZ(0);
 }
 
-.modal-icon {
-    width: 80px;
-    height: 80px;
-    background: #f4f3ff;
-    color: #4b2491;
-    border-radius: 50%;
+.dev-modal-content::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(225deg, transparent 0%, rgba(124, 58, 237, 0.1) 50%, transparent 100%);
+    pointer-events: none;
+    animation: sweep 3s infinite linear;
+}
+
+@keyframes sweep {
+    0% {
+        transform: translateX(-100%) translateY(-100%);
+    }
+
+    100% {
+        transform: translateX(100%) translateY(100%);
+    }
+}
+
+.dev-modal-icon {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, #7c3aed, #4b2491);
+    color: #fff;
+    border-radius: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 20px;
+    margin: 0 auto 2.5rem;
+    box-shadow: 0 20px 50px rgba(124, 58, 237, 0.4);
+    position: relative;
+    animation: float 3s ease-in-out infinite;
 }
 
-.modal-icon i {
-    width: 40px;
-    height: 40px;
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0);
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(5deg);
+    }
 }
 
-.modal-content h3 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
+.dev-modal-icon i {
+    width: 56px;
+    height: 56px;
+    stroke-width: 1px;
+}
+
+.dev-modal-content h3 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    letter-spacing: -1.5px;
+    background: linear-gradient(to right, #fff, #a78bfa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.dev-modal-content p {
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.dev-modal-content strong.dexaz-brand {
+    color: #a78bfa;
+    text-shadow: 0 0 15px rgba(167, 139, 250, 0.5);
+}
+
+.btn-dev-close {
+    background: #ffffff;
     color: #1b0f3a;
-}
-
-.modal-content p {
-    color: #666;
-    line-height: 1.6;
-    margin-bottom: 30px;
-}
-
-.btn-modal-close {
-    background: #4b2491;
-    color: #fff;
     border: none;
-    padding: 12px 30px;
-    border-radius: 8px;
-    font-weight: 700;
+    padding: 1.4rem 3.5rem;
+    border-radius: 24px;
+    font-weight: 900;
+    font-size: 1.1rem;
     cursor: pointer;
-    transition: var(--transition-smooth);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-.btn-modal-close:hover {
-    background: #5d2fb1;
+.btn-dev-close:hover {
+    transform: scale(1.05);
+    background: #a78bfa;
+    color: #fff;
+    box-shadow: 0 20px 40px rgba(167, 139, 250, 0.3);
+}
+
+@media (max-width: 480px) {
+    .dev-modal-content {
+        padding: 2.5rem 2rem;
+        border-radius: 30px;
+    }
 }
 
 /* Hero Section */

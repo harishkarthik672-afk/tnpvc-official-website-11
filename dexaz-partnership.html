@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TNPVC × Dexaz | Digital Partnership for Tamil Nadu's Trade Community</title>
+    <meta name="description"
+        content="TNPVC partners with Dexaz to digitally empower contractors and workers across Tamil Nadu — websites, apps, and digital tools built for every trade professional.">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="i18n.js" defer></script>
+    <style>
+        /* =============================================
+           DEXAZ PARTNERSHIP PAGE STYLES
+        ============================================= */
+
+        body {
+            background: #fff;
+            overflow-x: hidden;
+        }
+
+        /* ── Hero Section ── */
+        .dp-hero {
+            width: 100%;
+            background: #0a0010;
+            position: relative;
+            margin-top: 0;
+            line-height: 0;
+        }
+
+        .dp-hero img.hero-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        /* ── Section Wrapper ── */
+        .dp-section {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+        }
+
+        /* ── Partnership Badge ── */
+        .dp-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #1b0f3a, #4b2491);
+            color: #fff;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 8px 20px;
+            border-radius: 100px;
+            margin-bottom: 1.5rem;
+        }
+
+        .dp-badge i {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* ── Story Title ── */
+        .dp-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            color: #1b0f3a;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .dp-title span {
+            background: linear-gradient(135deg, #4b2491, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .dp-lead {
+            font-size: 1.15rem;
+            color: #555;
+            line-height: 1.8;
+            max-width: 720px;
+            margin-bottom: 3rem;
+        }
+
+        /* ── Story Cards ── */
+        .dp-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .dp-story-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .dp-story-card {
+            background: linear-gradient(145deg, #f9f7ff, #f0ebff);
+            border: 1px solid rgba(75, 36, 145, 0.12);
+            border-radius: 20px;
+            padding: 2.2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dp-story-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(75, 36, 145, 0.15);
+        }
+
+        .dp-card-logo {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            object-fit: contain;
+            margin-bottom: 1.2rem;
+            background: #fff;
+            padding: 6px;
+            box-shadow: 0 4px 14px rgba(75, 36, 145, 0.15);
+        }
+
+        .dp-story-card h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #1b0f3a;
+            margin-bottom: 0.6rem;
+        }
+
+        .dp-story-card p {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.75;
+        }
+
+        /* ── What Dexaz does ── */
+        .dp-what-section {
+            background: linear-gradient(135deg, #1b0f3a 0%, #341a66 50%, #4b2491 100%);
+            border-radius: 24px;
+            padding: 3.5rem;
+            color: #fff;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dp-what-section::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, 0.15);
+            pointer-events: none;
+        }
+
+        .dp-what-section::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: -40px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, 0.1);
+            pointer-events: none;
+        }
+
+        .dp-what-section h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.6rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dp-what-section .dp-what-lead {
+            font-size: 1rem;
+            opacity: 0.85;
+            margin-bottom: 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dp-services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .dp-services-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .dp-what-section {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dp-services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .dp-service-item {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            padding: 1.4rem;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .dp-service-item:hover {
+            background: rgba(255, 255, 255, 0.14);
+            transform: translateY(-3px);
+        }
+
+        .dp-service-item i {
+            width: 28px;
+            height: 28px;
+            color: #c4b5fd;
+            margin-bottom: 0.8rem;
+        }
+
+        .dp-service-item h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            color: #fff;
+        }
+
+        .dp-service-item p {
+            font-size: 0.82rem;
+            opacity: 0.75;
+            line-height: 1.5;
+        }
+
+        /* ── Founders Section ── */
+        .dp-founders-section {
+            margin-bottom: 4rem;
+        }
+
+        .dp-founders-section h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1b0f3a;
+            margin-bottom: 0.5rem;
+        }
+
+        .dp-founders-section .dp-sub {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .dp-founders-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 640px) {
+            .dp-founders-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dp-founders-section h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        .dp-founder-card {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dp-founder-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(75, 36, 145, 0.2);
+        }
+
+        .dp-founder-photo {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            object-position: top center;
+            display: block;
+        }
+
+        .dp-founder-info {
+            padding: 1.5rem;
+            background: linear-gradient(145deg, #1b0f3a, #341a66);
+            color: #fff;
+        }
+
+        .dp-founder-company-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            margin-bottom: 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .dp-founder-info h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 0.2rem;
+        }
+
+        .dp-founder-info .dp-role {
+            font-size: 0.85rem;
+            opacity: 0.75;
+            margin-bottom: 0.8rem;
+        }
+
+        .dp-founder-info p {
+            font-size: 0.88rem;
+            opacity: 0.85;
+            line-height: 1.6;
+        }
+
+        /* ── CTA Section ── */
+        .dp-cta {
+            background: linear-gradient(135deg, #f9f7ff, #ede9fe);
+            border: 1px solid rgba(75, 36, 145, 0.12);
+            border-radius: 24px;
+            padding: 3.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .dp-cta h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1b0f3a;
+            margin-bottom: 0.8rem;
+        }
+
+        .dp-cta p {
+            color: #555;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            max-width: 560px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .dp-cta-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .dp-btn-primary,
+        .dp-btn-secondary {
+            background: linear-gradient(135deg, #1b0f3a, #4b2491);
+            color: #fff;
+            padding: 0.95rem 2.4rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(75, 36, 145, 0.35);
+            border: none;
+            min-width: 200px;
+        }
+
+        .dp-btn-primary:hover,
+        .dp-btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(75, 36, 145, 0.5);
+            background: linear-gradient(135deg, #25134f, #5d2fb1);
+        }
+
+        .dp-btn-primary i,
+        .dp-btn-secondary i {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Scrollbar for page */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #4b2491;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <button class="mobile-menu-toggle-btn-top" id="mobileMenuBtn">
+                <i data-lucide="menu"></i>
+            </button>
+            <div class="nav-left-group">
+                <a href="index.html" class="logo">
+                    <img src="logo.png" alt="TNPVC Council">
+                    <span>TNPVC</span>
+                </a>
+            </div>
+            <div class="nav-right">
+                <div class="lang-switcher">
+                    <button class="lang-btn" id="langBtn">
+                        <i data-lucide="swatch-book" class="globe-icon"></i>
+                        <span id="currentLang">English</span>
+                        <i data-lucide="chevron-down" class="chevron-icon"></i>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <a href="#" data-lang="en">English</a>
+                        <a href="#" data-lang="ta">தமிழ்</a>
+                        <a href="#" data-lang="hi">हिन्दी</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu Overlay -->
+        <div class="mobile-nav-overlay" id="mobileNav">
+            <button class="close-menu" id="closeMenu"><i data-lucide="x"></i></button>
+            <div class="mobile-nav-content">
+                <a href="about.html">About</a>
+                <a href="services.html">Services</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho"
+                    style="margin-top: 1rem;">Join Now</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Site Construction Notice -->
+    <div class="site-notice-bar">
+        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
+        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
+    </div>
+
+    <main>
+        <!-- Hero Section: Partnership Image — Full Width, No Text Overlay -->
+        <section class="dp-hero">
+            <img class="hero-img" src="dexazhero.png"
+                alt="TNPVC partners with Dexaz — Digital empowerment for Tamil Nadu's trade community">
+        </section>
+
+        <!-- Story Section -->
+        <div class="dp-section">
+
+            <!-- Badge -->
+            <div class="dp-badge">
+                <i data-lucide="handshake"></i>
+                Official Partnership
+            </div>
+
+            <!-- Main Title -->
+            <h1 class="dp-title">
+                TNPVC × <span>Dexaz</span><br>
+                Building Digital Tamil Nadu
+            </h1>
+
+            <p class="dp-lead">
+                TNPVC connects Tamil Nadu's best contractors, workers, and fabricators with homeowners for quality
+                uPVC and PVC work. Dexaz powers their digital future — building professional websites, apps, and
+                digital tools so every tradesperson can grow their business beyond word-of-mouth.
+            </p>
+
+            <!-- Story Cards -->
+            <div class="dp-story-grid">
+                <div class="dp-story-card">
+                    <img src="logo.png" class="dp-card-logo" alt="TNPVC Council">
+                    <h3>The TNPVC Story</h3>
+                    <p>
+                        Srinivasan founded TNPVC Council to organise Tamil Nadu's uPVC and PVC industry — bringing
+                        verified contractors, skilled workers, and trusted suppliers together under one network.
+                        TNPVC ensures quality work, transparent pricing, and on-time delivery for every home project
+                        across all 38 districts.
+                    </p>
+                </div>
+                <div class="dp-story-card">
+                    <img src="dexaz.png" class="dp-card-logo" alt="Dexaz">
+                    <h3>The Dexaz Story</h3>
+                    <p>
+                        Siranthan Siran founded Dexaz as a technology company focused on building clean, powerful
+                        digital tools for growing businesses. When TNPVC's contractors and workers needed websites,
+                        apps, and an online presence, Dexaz stepped in — making digital growth simple, affordable,
+                        and effective for every tradesperson.
+                    </p>
+                </div>
+            </div>
+
+            <!-- What Dexaz Does for TNPVC Network -->
+            <div class="dp-what-section">
+                <h2>What Dexaz Does for TNPVC's Network</h2>
+                <p class="dp-what-lead">
+                    Every contractor and worker in the TNPVC network gets access to world-class digital tools through
+                    Dexaz — from a professional website to a full mobile app.
+                </p>
+                <div class="dp-services-grid">
+                    <div class="dp-service-item">
+                        <i data-lucide="swatch-book"></i>
+                        <h4>Professional Websites</h4>
+                        <p>Custom websites for contractors and fabricators to showcase their work and get more
+                            enquiries.</p>
+                    </div>
+                    <div class="dp-service-item">
+                        <i data-lucide="smartphone"></i>
+                        <h4>Mobile Apps</h4>
+                        <p>Android and iOS apps for worker teams, customer tracking, and project management.</p>
+                    </div>
+                    <div class="dp-service-item">
+                        <i data-lucide="bar-chart-2"></i>
+                        <h4>Digital Marketing</h4>
+                        <p>Social media, SEO, and online ads to help TNPVC partners reach homeowners everywhere.</p>
+                    </div>
+                    <div class="dp-service-item">
+                        <i data-lucide="layout-list"></i>
+                        <h4>Business Dashboards</h4>
+                        <p>Track projects, workers, payments, and clients from one clean business panel.</p>
+                    </div>
+                    <div class="dp-service-item">
+                        <i data-lucide="shopping-bag"></i>
+                        <h4>Online Presence</h4>
+                        <p>Google business setup, WhatsApp business tools, and local directory listings.</p>
+                    </div>
+                    <div class="dp-service-item">
+                        <i data-lucide="headphones"></i>
+                        <h4>Tech Support</h4>
+                        <p>Dedicated digital support for every TNPVC member who needs technical help.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Founders Section -->
+            <div class="dp-founders-section">
+                <h2>The Visionaries Behind the Partnership</h2>
+                <p class="dp-sub">Two founders, one shared mission — making Tamil Nadu's trade network the strongest in
+                    India.</p>
+                <div class="dp-founders-grid">
+                    <!-- Srinivasan - TNPVC -->
+                    <div class="dp-founder-card">
+                        <img src="srinivasan.jpg" class="dp-founder-photo" alt="Srinivasan - Founder of TNPVC Council">
+                        <div class="dp-founder-info">
+                            <img src="logo.png" class="dp-founder-company-logo" alt="TNPVC">
+                            <h3>Srinivasan</h3>
+                            <p class="dp-role">Founder & Managing Director, TNPVC Council</p>
+                            <p>Srinivasan built TNPVC from the ground up — creating a trusted network of 4000+ verified
+                                workers, contractors, and suppliers across Tamil Nadu to deliver quality uPVC and PVC
+                                solutions to every home.</p>
+                        </div>
+                    </div>
+                    <!-- Siranthan Siran - Dexaz -->
+                    <div class="dp-founder-card">
+                        <img src="siranthan-siran.jpg" class="dp-founder-photo" alt="Siranthan Siran - CEO of Dexaz">
+                        <div class="dp-founder-info">
+                            <img src="dexaz.png" class="dp-founder-company-logo" alt="Dexaz">
+                            <h3>Siranthan Siran</h3>
+                            <p class="dp-role">CEO & Founder, Dexaz</p>
+                            <p>Siranthan Siran leads Dexaz with a vision to digitally empower Tamil Nadu's growing
+                                businesses. Through TNPVC, he is building real digital tools for real tradespeople —
+                                giving every contractor an online presence they deserve.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="dp-cta">
+                <h2>Is Your Trade Business Ready to Go Digital?</h2>
+                <p>
+                    If you're a contractor, worker, or fabricator in the TNPVC network and want a website, app, or
+                    digital presence — Dexaz is ready to help you grow.
+                </p>
+                <div class="dp-cta-btns">
+                    <a href="https://dexaz.in" target="_blank" class="dp-btn-primary">
+                        <i data-lucide="external-link"></i>
+                        Visit Dexaz
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="floating-whatsapp" title="Join TNPVC on WhatsApp">
+        <i data-lucide="message-circle"></i>
+    </a>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="our-craft.html" class="bottom-nav-item">
+            <i data-lucide="swatch-book"></i>
+            <span data-i18n="nav_our_craft">Our Craft</span>
+        </a>
+        <a href="ads.html" class="bottom-nav-item">
+            <i data-lucide="rocket"></i>
+            <span data-i18n="nav_ads">Ads</span>
+        </a>
+        <a href="index.html" class="bottom-nav-item center-btn">
+            <img src="logo.png" class="center-logo" alt="TNPVC Home">
+        </a>
+        <a href="feed.html" class="bottom-nav-item">
+            <i data-lucide="layout-list"></i>
+            <span data-i18n="nav_blog">Feed</span>
+        </a>
+        <a href="dexaz-partnership.html" class="bottom-nav-item active">
+            <img src="dexaz.png" class="bottom-nav-img" alt="Dexaz">
+            <span data-i18n="nav_dexaz">Dexaz</span>
+        </a>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+
+            // Mobile Menu
+            const mobileToggle = document.getElementById('mobileMenuBtn');
+            const mobileNav = document.getElementById('mobileNav');
+            const closeMenu = document.getElementById('closeMenu');
+
+            if (mobileToggle && mobileNav && closeMenu) {
+                mobileToggle.addEventListener('click', () => {
+                    mobileNav.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+                closeMenu.addEventListener('click', () => {
+                    mobileNav.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+                mobileNav.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileNav.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+
+            // Language Switcher
+            const langBtn = document.getElementById('langBtn');
+            const langDropdown = document.getElementById('langDropdown');
+            if (langBtn && langDropdown) {
+                langBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    langDropdown.classList.toggle('active');
+                });
+                document.addEventListener('click', () => {
+                    langDropdown.classList.remove('active');
+                });
+            }
+
+            // Scroll reveal animation
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.dp-story-card, .dp-service-item, .dp-founder-card').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+
+
+    
+    
+    <!-- Payangarama Development Popup Modal -->
+    <div id="devModal" class="dev-modal">
+        <div class="dev-modal-content">
+            <div class="dev-modal-icon">
+                <i data-lucide="construction"></i>
+            </div>
+            <h3>Site Under Development</h3>
+            <p>Welcome to TNPVC Council. We are currently building a powerful experience with <strong class="dexaz-brand">Dexaz</strong>. Stay tuned!</p>
+            <button class="btn-dev-close" onclick="closeDevModal()">Enter Site</button>
+        </div>
+    </div>
+    <script>
+        function closeDevModal() {
+            document.getElementById('devModal').classList.remove('active');
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const modal = document.getElementById('devModal');
+                if (modal) {
+                    modal.classList.add('active');
+                    console.log('Modal activated');
+                }
+                if(window.lucide) {
+                    lucide.createIcons();
+                }
+            }, 500);
+        });
+    </script>
+
+
+
+</body>
+
+</html>

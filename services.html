@@ -135,12 +135,8 @@
                     <a href="about.html" itemprop="url"><span itemprop="name" data-i18n="nav_about">About</span></a>
                     <a href="services.html" class="active" itemprop="url"><span itemprop="name"
                             data-i18n="nav_services">Services</span></a>
-                    <a href="customers.html" itemprop="url"><span itemprop="name"
-                            data-i18n="nav_customers">Customers</span></a>
                     <a href="gallery.html" itemprop="url"><span itemprop="name"
                             data-i18n="nav_gallery">Gallery</span></a>
-                    <a href="pvc-doors.html" itemprop="url"><span itemprop="name" data-i18n="nav_pvc_doors">PVC
-                            Doors</span></a>
                 </nav>
             </div>
 
@@ -170,14 +166,18 @@
             <div class="mobile-nav-content">
                 <a href="about.html" data-i18n="nav_about">About</a>
                 <a href="services.html" data-i18n="nav_services">Services</a>
-                <a href="customers.html" data-i18n="nav_customers">Customers</a>
                 <a href="gallery.html" data-i18n="nav_gallery">Gallery</a>
-                <a href="pvc-doors.html" data-i18n="nav_pvc_doors">PVC Doors</a>
                 <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho"
                     style="margin-top: 1rem;"><span data-i18n="nav_join_now">Join Now</span></a>
             </div>
         </div>
     </header>
+
+    <!-- Site Construction Notice -->
+    <div class="site-notice-bar">
+        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
+        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
+    </div>
 
 
 
@@ -264,24 +264,22 @@
             </div>
         </section>
 
-        <!-- Fully Mobile Interiors -->
+        <!-- Premium Service Showcase -->
         <section class="mobile-section">
             <div class="container mobile-grid animate">
                 <div class="mobile-content">
-                    <h2>Your Site in Your Pocket</h2>
-                    <p>Track your home interior progress even when you're at work. TNPVC's mobile apps let you approve
-                        design changes, release payments, and view daily site photos at a glance.</p>
+                    <h2 data-i18n="nav_services">Our Premium Services</h2>
+                    <p data-i18n="app_coming_soon">Explore premium PVC and uPVC solutions curated for your home.</p>
                     <div class="btn-group">
-                        <a href="javascript:void(0)" class="btn-pill-outline" id="downloadAppBtn">
-                            <span data-i18n="download_app">Download TNPVC App</span>
+                        <a href="gallery.html" class="btn-pill-outline">
+                            <span data-i18n="download_app">View Our Services</span>
                             <i data-lucide="arrow-right" style="width: 14px;"></i>
                         </a>
                     </div>
                 </div>
                 <div class="mobile-visual">
-                    <img src="wolky-tolky-ui.svg" alt="TNPVC App Interface - Mobile Solution"
-                        title="TNPVC Mobile App for site coordination"
-                        style="width: 100%; border-radius: 30px; border: 8px solid #333;" loading="lazy"
+                    <img src="project-9.jpg" alt="TNPVC Premium Interior Work" title="TNPVC Service Showcase"
+                        style="width: 100%; border-radius: 30px; border: 8px solid #eee;" loading="lazy"
                         itemprop="image">
                 </div>
             </div>
@@ -423,7 +421,7 @@
                             data-lucide="instagram"></i><span>Instagram</span></div>
                     <div class="channel-icon-badge badge-messenger"><i
                             data-lucide="message-square"></i><span>Messenger</span></div>
-                    <div class="channel-icon-badge badge-webchat"><i data-lucide="globe"></i><span>Web Chat</span></div>
+                    <div class="channel-icon-badge badge-webchat"><i data-lucide="swatch-book"></i><span>Web Chat</span></div>
                     <div class="channel-icon-badge badge-wechat-top"><i
                             data-lucide="message-circle"></i><span>WeChat</span></div>
                     <div class="channel-icon-badge badge-wechat-bottom"><i
@@ -475,7 +473,6 @@
                     <h4>uPVC/PVC Services</h4>
                     <ul>
                         <li><a href="services.html">uPVC Windows</a></li>
-                        <li><a href="pvc-doors.html">Premium PVC Doors</a></li>
                         <li><a href="services.html">False Ceiling</a></li>
                         <li><a href="services.html">Wall Cladding</a></li>
                         <li><a href="gallery.html">Project Gallery</a></li>
@@ -562,6 +559,35 @@
                     More</a>
             </div>
         </div>
+        <!-- Bottom Navigation Bar -->
+        <nav class="bottom-nav">
+            <a href="our-craft.html" class="bottom-nav-item">
+                <i data-lucide="swatch-book"></i>
+                <span data-i18n="nav_our_craft">Our Craft</span>
+            </a>
+            <a href="ads.html" class="bottom-nav-item">
+                <i data-lucide="rocket"></i>
+                <span data-i18n="nav_ads">Ads</span>
+            </a>
+            <a href="index.html" class="bottom-nav-item center-btn">
+                <img src="logo.png" class="center-logo" alt="TNPVC Home">
+            </a>
+            <a href="feed.html" class="bottom-nav-item">
+                <i data-lucide="layout-list"></i>
+                <span data-i18n="nav_blog">Feed</span>
+            </a>
+            <a href="dexaz-partnership.html" class="bottom-nav-item">
+                <img src="dexaz.png" class="bottom-nav-img" alt="Dexaz">
+                <span data-i18n="nav_dexaz">Dexaz</span>
+            </a>
+        </nav>
+
+        <!-- Floating WhatsApp Button -->
+        <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="floating-whatsapp"
+            title="Join TNPVC on WhatsApp">
+            <i data-lucide="message-circle"></i>
+        </a>
+
     </footer>
 
     <script>
@@ -591,53 +617,44 @@
                     });
                 });
             }
-
-            // App Download Popup Logic
-            const downloadAppBtn = document.getElementById('downloadAppBtn');
-            const appModal = document.getElementById('appDownloadModal');
-            const appModalClose = document.getElementById('appModalClose');
-
-            if (downloadAppBtn && appModal && appModalClose) {
-                downloadAppBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    appModal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                });
-
-                const closePopup = () => {
-                    appModal.classList.remove('active');
-                    document.body.style.overflow = '';
-                };
-
-                appModalClose.addEventListener('click', closePopup);
-                appModal.addEventListener('click', (e) => {
-                    if (e.target === appModal) closePopup();
-                });
-            }
         });
     </script>
 
-    <!-- App Download Popup Modal -->
-    <div id="appDownloadModal" class="app-popup-overlay">
-        <div class="app-popup-content">
-            <button id="appModalClose" class="app-popup-close">&times;</button>
-            <div class="app-popup-header">
-                <div class="app-popup-icon">
-                    <i data-lucide="rocket"></i>
-                </div>
-                <h3 data-i18n="download_app">Download TNPVC App</h3>
+
+
+    
+    
+    <!-- Payangarama Development Popup Modal -->
+    <div id="devModal" class="dev-modal">
+        <div class="dev-modal-content">
+            <div class="dev-modal-icon">
+                <i data-lucide="construction"></i>
             </div>
-            <div class="app-popup-body">
-                <p data-i18n="app_coming_soon">Coming Soon! Dexaz professional developers are working on it.</p>
-                <div class="dexaz-branding">
-                    <span>Powered by</span>
-                    <img src="siranthan-siran.jpg" alt="Dexaz"
-                        style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
-                    <strong>Dexaz</strong>
-                </div>
-            </div>
+            <h3>Site Under Development</h3>
+            <p>Welcome to TNPVC Council. We are currently building a powerful experience with <strong class="dexaz-brand">Dexaz</strong>. Stay tuned!</p>
+            <button class="btn-dev-close" onclick="closeDevModal()">Enter Site</button>
         </div>
     </div>
+    <script>
+        function closeDevModal() {
+            document.getElementById('devModal').classList.remove('active');
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const modal = document.getElementById('devModal');
+                if (modal) {
+                    modal.classList.add('active');
+                    console.log('Modal activated');
+                }
+                if(window.lucide) {
+                    lucide.createIcons();
+                }
+            }, 500);
+        });
+    </script>
+
+
+
 </body>
 
 </html>
