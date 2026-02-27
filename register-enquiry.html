@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Inquiry | TNPVC Council</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="i18n.js" defer></script>
+    <style>
+        .form-hero {
+            background: linear-gradient(135deg, #4b2491 0%, #3a1b75 100%);
+            padding: 5rem 0 3rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('hero image.png') center/cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .form-hero .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-container-box {
+            max-width: 600px;
+            margin: -4rem auto 4rem;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+            position: relative;
+            z-index: 10;
+            border: 1px solid #eee;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1.1rem;
+            border: 1.5px solid #eee;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: #fdfdfd;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4b2491;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(75, 36, 145, 0.1);
+        }
+
+        .btn-submit {
+            background: #4b2491;
+            color: white;
+            border: none;
+            padding: 1.3rem;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-submit:hover {
+            background: #3a1b75;
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(75, 36, 145, 0.3);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .form-header h2 {
+            font-size: 2rem;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+
+        .form-header p {
+            color: #4b2491;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-container-box {
+                margin: -2rem 1.2rem 4rem;
+                padding: 2rem 1.5rem;
+            }
+
+            .form-hero h1 {
+                font-size: 2.2rem !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="about-page">
+    <div class="site-notice-bar">
+        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
+        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
+    </div>
+
+    <header class="navbar" itemscope itemtype="https://schema.org/SiteNavigationElement">
+        <div class="container nav-container">
+            <button class="mobile-menu-toggle-btn-top" id="mobileMenuBtn">
+                <i data-lucide="menu"></i>
+            </button>
+
+            <div class="nav-left-group">
+                <a href="index.html" class="logo" itemprop="url">
+                    <img src="logo.png" alt="TNPVC Council" itemprop="image">
+                    <span itemprop="name">TNPVC</span>
+                </a>
+                <nav class="nav-links">
+                    <a href="about.html" class="active" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_about">About</span></a>
+                    <a href="services.html" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_services">Services</span></a>
+                    <a href="gallery.html" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_gallery">Gallery</span></a>
+                </nav>
+            </div>
+
+            <div class="nav-right">
+                <div class="lang-switcher">
+                    <button class="lang-btn" id="langBtn">
+                        <i data-lucide="swatch-book" class="globe-icon"></i>
+                        <span id="currentLang">English</span>
+                        <i data-lucide="chevron-down" class="chevron-icon"></i>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <a href="#" data-lang="en">English</a>
+                        <a href="#" data-lang="ta">தமிழ்</a>
+                        <a href="#" data-lang="hi">हिन्दी</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mobile-nav-overlay" id="mobileNav">
+            <button class="close-menu" id="closeMenu"><i data-lucide="x"></i></button>
+            <div class="mobile-nav-content">
+                <a href="about.html" data-i18n="nav_about">About</a>
+                <a href="services.html" data-i18n="nav_services">Services</a>
+                <a href="gallery.html" data-i18n="nav_gallery">Gallery</a>
+                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho"
+                    style="margin-top: 1rem;"><span data-i18n="nav_join_now">Join Now</span></a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="form-hero">
+            <div class="container">
+                <h1 style="font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem;">Join the Network</h1>
+                <p style="font-size: 1.2rem; opacity: 0.9;">Member registration for workers, contractors & suppliers.
+                </p>
+            </div>
+        </section>
+
+        <div class="form-container-box">
+            <div class="form-header">
+                <h2>Member Enrollment</h2>
+                <p>register@tnpvc.org</p>
+            </div>
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="name" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="phone" placeholder="Enter mobile number" required>
+                </div>
+                <div class="form-group">
+                    <label>Registration Type</label>
+                    <select id="regType" required>
+                        <option value="">Select Category</option>
+                        <option value="Worker">Worker</option>
+                        <option value="Contractor">Contractor</option>
+                        <option value="Material Supplier">Material Supplier</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Location (City/District)</label>
+                    <input type="text" id="location" placeholder="e.g. Chennai, Madurai" required>
+                </div>
+                <div class="form-group">
+                    <label>Brief Experience/Details</label>
+                    <textarea id="message" rows="4" placeholder="Tell us more about your work..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">
+                    SEND ENQUIRY <i data-lucide="send"></i>
+                </button>
+            </form>
+        </div>
+
+        <footer class="mega-footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-col">
+                        <h4>uPVC/PVC Services</h4>
+                        <ul>
+                            <li><a href="services.html">uPVC Windows</a></li>
+                            <li><a href="services.html">Interiors</a></li>
+                            <li><a href="gallery.html">Project Gallery</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="legal-bar"
+                    style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
+                    <p style="color: rgba(255,255,255,0.5); font-size: 0.8rem; text-align: center;">© 2026 TNPVC Council
+                        Pvt. Ltd. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        <nav class="bottom-nav">
+            <a href="our-craft.html" class="bottom-nav-item">
+                <i data-lucide="swatch-book"></i>
+                <span data-i18n="nav_our_craft">Our Craft</span>
+            </a>
+            <a href="index.html" class="bottom-nav-item center-btn">
+                <img src="logo.png" alt="TNPVC Home">
+            </a>
+            <a href="dexaz-partnership.html" class="bottom-nav-item">
+                <img src="dexaz.png" style="width:24px;">
+                <span data-i18n="nav_dexaz">Dexaz</span>
+            </a>
+        </nav>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        // Mobile Menu
+        const mobileToggle = document.getElementById('mobileMenuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        const closeMenu = document.getElementById('closeMenu');
+
+        if (mobileToggle && mobileNav && closeMenu) {
+            mobileToggle.addEventListener('click', () => {
+                mobileNav.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            closeMenu.addEventListener('click', () => {
+                mobileNav.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        }
+
+        // WhatsApp Logic
+        document.getElementById('registrationForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const type = document.getElementById('regType').value;
+            const location = document.getElementById('location').value;
+            const message = document.getElementById('message').value || "No additional details provided.";
+
+            const whatsappMessage = `*New Registration Inquiry*%0A*Email:* register@tnpvc.org%0A%0A*Name:* ${name}%0A*Phone:* ${phone}%0A*Type:* ${type}%0A*Location:* ${location}%0A*Message:* ${message}`;
+            window.open(`https://wa.me/918870826404?text=${whatsappMessage}`, '_blank');
+        });
+    </script>
+</body>
+
+</html>

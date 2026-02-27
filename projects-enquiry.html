@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Inquiries | TNPVC Council</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="i18n.js" defer></script>
+    <style>
+        .form-hero {
+            background: linear-gradient(135deg, #4b2491 0%, #3a1b75 100%);
+            padding: 5rem 0 3rem;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .form-container-box {
+            max-width: 600px;
+            margin: -4rem auto 4rem;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+            position: relative;
+            z-index: 10;
+            border: 1px solid #eee;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1.1rem;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .btn-submit {
+            background: #4b2491;
+            color: white;
+            border: none;
+            padding: 1.3rem;
+            border-radius: 12px;
+            font-weight: 800;
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-transform: uppercase;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .form-header h2 {
+            font-size: 2rem;
+            color: #1a1a1a;
+            font-weight: 800;
+        }
+
+        @media (max-width: 768px) {
+            .form-container-box {
+                margin: -2rem 1.2rem 4rem;
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="about-page">
+    <div class="site-notice-bar">
+        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
+        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
+    </div>
+
+    <header class="navbar">
+        <div class="container nav-container">
+            <button class="mobile-menu-toggle-btn-top" id="mobileMenuBtn"><i data-lucide="menu"></i></button>
+            <div class="nav-left-group">
+                <a href="index.html" class="logo"><img src="logo.png" alt="TNPVC"><span>TNPVC</span></a>
+            </div>
+        </div>
+        <div class="mobile-nav-overlay" id="mobileNav">
+            <button class="close-menu" id="closeMenu"><i data-lucide="x"></i></button>
+            <div class="mobile-nav-content">
+                <a href="about.html">About</a>
+                <a href="services.html">Services</a>
+                <a href="gallery.html">Gallery</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="form-hero">
+            <div class="container">
+                <h1 style="font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem;">Project Hub</h1>
+                <p>Launch your website, app, or ecommerce store.</p>
+            </div>
+        </section>
+
+        <div class="form-container-box">
+            <div class="form-header">
+                <h2>New Project Request</h2>
+                <p>projects@tnpvc.org</p>
+            </div>
+            <form id="projectsForm">
+                <div class="form-group"><label>Full Name</label><input type="text" id="name" required></div>
+                <div class="form-group"><label>Phone Number</label><input type="tel" id="phone" required></div>
+                <div class="form-group"><label>Project Type</label><select id="projectType" required>
+                        <option value="">Select Option</option>
+                        <option value="Website">Website</option>
+                        <option value="Mobile App">Mobile App</option>
+                        <option value="E-commerce">E-commerce Website</option>
+                        <option value="Software">Business Software</option>
+                    </select></div>
+                <div class="form-group"><label>Project Details</label><textarea id="message" rows="4"
+                        required></textarea></div>
+                <button type="submit" class="btn-submit">LAUNCH PROJECT <i data-lucide="rocket"></i></button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+        const mobileToggle = document.getElementById('mobileMenuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        const closeMenu = document.getElementById('closeMenu');
+        if (mobileToggle && mobileNav && closeMenu) {
+            mobileToggle.addEventListener('click', () => { mobileNav.classList.add('active'); document.body.style.overflow = 'hidden'; });
+            closeMenu.addEventListener('click', () => { mobileNav.classList.remove('active'); document.body.style.overflow = ''; });
+        }
+
+        document.getElementById('projectsForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const whatsappMessage = `*Digital Project Inquiry*%0A*Name:* ${document.getElementById('name').value}%0A*Phone:* ${document.getElementById('phone').value}%0A*Type:* ${document.getElementById('projectType').value}%0A*Details:* ${document.getElementById('message').value}`;
+            window.open(`https://wa.me/918870826404?text=${whatsappMessage}`, '_blank');
+        });
+    </script>
+</body>
+
+</html>

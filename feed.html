@@ -8,567 +8,1414 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="i18n.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=MedievalSharp&display=swap"
+        rel="stylesheet">
     <style>
         :root {
-            --fb-bg: #f0f2f5;
-            --fb-white: #ffffff;
-            --fb-blue: #1877f2;
-            --fb-gray: #65676b;
-            --fb-border: #dddfe2;
+            --ig-bg: #fafafa;
+            --ig-white: #ffffff;
+            --ig-border: #dbdbdb;
+            --ig-text: #262626;
+            --ig-gray: #8e8e8e;
+            --ig-blue: #C20E4D;
+            /* Brighter Shining Berry */
+            --ig-teal: #800834;
+            /* Deep Berry */
+            --ig-orange-gradient: linear-gradient(135deg, #C20E4D 0%, #800834 100%);
+            --ig-glow: 0 0 20px rgba(194, 14, 77, 0.45);
         }
 
         body {
-            background-color: var(--fb-bg);
+            background-color: var(--ig-bg);
             font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0;
-            padding: 0;
+            color: var(--ig-text);
+            padding-top: 70px;
+            /* Offset for fixed header */
+            padding-bottom: 70px;
         }
 
         .feed-container {
-            max-width: 680px;
-            margin: 80px auto 40px;
-            padding: 0 15px;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        /* Create Post Card */
-        .create-post {
-            background: var(--fb-white);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .create-post-top {
+        /* Navbar Styling */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(194, 14, 77, 0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            z-index: 1000;
             display: flex;
-            gap: 10px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--fb-border);
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
 
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            background: #eee;
+        .nav-container {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 60px 1fr 60px;
+            align-items: center;
+            padding: 0;
+        }
+
+        .header-add-btn {
+            background: #f0f2f5;
+            border: none;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .header-profile-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
             overflow: hidden;
-        }
-
-        .user-avatar i {
-            color: #888;
-        }
-
-        .create-post-input {
-            flex: 1;
-            background: #f0f2f5;
-            border-radius: 20px;
-            padding: 10px 15px;
-            color: var(--fb-gray);
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 1px #dbdbdb;
             cursor: pointer;
-            font-size: 0.95rem;
+        }
+
+        .header-profile-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .navbar .logo {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            color: #000;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .header-btn-container {
+            width: 100%;
             display: flex;
             align-items: center;
+            justify-content: center;
         }
 
-        .create-post-bottom {
-            display: flex;
-            justify-content: space-around;
-            padding-top: 10px;
+        /* Views */
+        .view-section {
+            display: none;
+            width: 100%;
         }
 
-        .post-action {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background 0.2s;
-            color: var(--fb-gray);
-            font-weight: 600;
-            font-size: 0.9rem;
+        .view-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
         }
 
-        .post-action:hover {
-            background: #f2f2f2;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
-        .post-action.photo i {
-            color: #45bd62;
-        }
-
-        .post-action.tag i {
-            color: #1877f2;
-        }
-
-        .post-action.feeling i {
-            color: #f7b928;
-        }
-
-        /* Post Card */
+        /* Post Card Styling */
         .post-card {
-            background: var(--fb-white);
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            background: var(--ig-white);
+            border: 1px solid var(--ig-border);
+            border-radius: 12px;
+            margin-bottom: 24px;
             overflow: hidden;
         }
 
         .post-header {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .post-user {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px 15px;
         }
 
-        .post-author-info h4 {
+        .post-user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid #efefef;
+            overflow: hidden;
+        }
+
+        .post-user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .post-user-info h4 {
             margin: 0;
-            font-size: 1rem;
-            color: #050505;
+            font-size: 0.9rem;
+            font-weight: 700;
         }
 
-        .post-time {
-            font-size: 0.8rem;
-            color: var(--fb-gray);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .post-content {
-            padding: 0 15px 12px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            color: #050505;
+        .post-location {
+            font-size: 0.75rem;
+            color: var(--ig-gray);
         }
 
         .post-media {
             width: 100%;
-            background: #eee;
+            aspect-ratio: 4 / 5;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
         }
 
         .post-media img {
             width: 100%;
-            display: block;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .post-stats {
-            padding: 10px 15px;
+        .post-actions {
+            padding: 12px 16px 8px;
             display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--fb-border);
-            color: var(--fb-gray);
-            font-size: 0.9rem;
-        }
-
-        .post-footer {
-            display: flex;
-            padding: 4px 15px;
-        }
-
-        .post-btn {
-            flex: 1;
-            display: flex;
+            gap: 16px;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 8px;
-            border-radius: 4px;
+        }
+
+        .post-action-btn {
+            background: none;
+            border: none;
             cursor: pointer;
-            color: var(--fb-gray);
+            color: var(--ig-text);
+            transition: transform 0.1s;
+            padding: 0;
+        }
+
+        .post-action-btn:active {
+            transform: scale(1.2);
+        }
+
+        .post-likes {
+            padding: 0 16px 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .post-caption {
+            padding: 0 16px 12px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .post-time {
+            padding: 0 16px 16px;
+            font-size: 0.7rem;
+            color: var(--ig-gray);
+            text-transform: uppercase;
+        }
+
+        /* Tabs */
+        .feed-tabs {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            margin-bottom: 25px;
+            padding: 0 15px;
+        }
+
+        .feed-tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--ig-border);
+            border-radius: 20px;
+            background: white;
+            color: var(--ig-gray);
+            font-size: 0.85rem;
             font-weight: 600;
-            transition: background 0.2s;
+            cursor: pointer;
+            transition: 0.2s;
         }
 
-        .post-btn:hover {
-            background: #f2f2f2;
+        .feed-tab-btn.active {
+            background: var(--ig-orange-gradient);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 6px 15px rgba(194, 14, 77, 0.3);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
-        /* Modal */
-        .modal {
+        /* Modals */
+        .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.6);
             z-index: 2000;
             display: none;
             align-items: center;
             justify-content: center;
         }
 
-        .modal.active {
+        .modal-overlay.active {
             display: flex;
         }
 
         .modal-content {
-            background: #fff;
-            width: 500px;
-            border-radius: 8px;
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
-            padding: 0;
+            background: white;
+            width: 90%;
+            max-width: 450px;
+            border-radius: 12px;
+            overflow: hidden;
+            animation: slideUp 0.3s;
         }
 
-        .modal-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--fb-border);
-        }
-
-        .modal-header h3 {
-            margin: 0;
-            font-size: 1.25rem;
-        }
-
-        .modal-body {
-            padding: 15px 20px;
-        }
-
-        .post-input-field {
-            width: 100%;
-            border: none;
-            outline: none;
-            font-size: 1.25rem;
-            min-height: 150px;
-            resize: none;
-        }
-
-        .post-submit-btn {
-            width: 100%;
-            background: var(--fb-blue);
-            color: #fff;
-            border: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 15px;
-        }
-
-        .post-submit-btn:disabled {
-            background: #e4e6eb;
-            color: #bcc0c4;
-            cursor: not-allowed;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
+        @keyframes slideUp {
             from {
+                transform: translateY(30px);
                 opacity: 0;
-                transform: translateY(10px);
             }
 
             to {
-                opacity: 1;
                 transform: translateY(0);
+                opacity: 1;
             }
         }
 
-        .post-card {
-            animation: fadeIn 0.5s ease backwards;
+        .modal-header {
+            padding: 14px;
+            border-bottom: 1px solid #efefef;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 12px;
+            border-top: 1px solid #efefef;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn-post {
+            background: var(--ig-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-cancel {
+            background: none;
+            border: none;
+            color: #ed4956;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Auth Overlay Premium Teal Style */
+        #authOverlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%);
+            z-index: 3000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #authOverlay .login-card {
+            background: rgba(255, 255, 255, 0.98);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px 30px;
+            border-radius: 28px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #authOverlay .main-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            background: white;
+            padding: 5px;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        #authOverlay .brand-title {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 2.8rem;
+            margin: 0 0 10px;
+            color: #1a1a1a;
+        }
+
+        #authOverlay .brand-subtitle {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.4;
+        }
+
+        .google-btn {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-weight: 700;
+            width: 100%;
+            transition: 0.3s;
+            color: #444;
+        }
+
+        .google-btn:hover {
+            background: #fafafa;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Bottom Nav - Flush to Bottom Redesign */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 75px;
+            background: var(--ig-orange-gradient);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            z-index: 2000;
+            border-radius: 0;
+            box-shadow: 0 -5px 25px rgba(128, 8, 52, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0 10px;
+        }
+
+        .bottom-nav-item {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.7rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 10px;
+            border-radius: 15px;
+        }
+
+        .bottom-nav-item:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .bottom-nav-item.active {
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .bottom-nav-item.active i {
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+        }
+
+        .bottom-nav-item.center-btn {
+            background: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translateY(-10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 4px var(--ig-blue);
+            border: 2px solid #fff;
+            transition: 0.4s;
+        }
+
+        .bottom-nav-item.center-btn:hover {
+            transform: translateY(-15px) scale(1.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 20px rgba(75, 36, 145, 0.5);
+        }
+
+        .center-logo {
+            width: 38px;
+            height: auto;
+            transition: 0.3s;
+        }
+
+        .bottom-nav-img {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+        }
+
+        /* Fixed Profile Setup Overlay */
+        #setupOverlay {
+            position: fixed;
+            inset: 0;
+            background: white;
+            z-index: 4000;
+            display: none;
+            flex-direction: column;
+            padding: 40px 30px;
+            overflow-y: auto;
+        }
+
+        .setup-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #dbdbdb;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .profile-upload {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #f0f2f5;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            overflow: hidden;
+            border: 2px dashed #dbdbdb;
+        }
+
+        .profile-upload img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     </style>
 </head>
 
 <body>
-    <header class="navbar">
-        <div class="container nav-container">
-            <!-- Mobile Menu Toggle (Left) -->
-            <button class="mobile-menu-toggle-btn-top" id="mobileMenuBtn">
-                <i data-lucide="menu"></i>
-            </button>
 
-            <div class="nav-left-group">
-                <a href="index.html" class="logo">
-                    <img src="logo.png" alt="TNPVC">
-                    <span>TNPVC</span>
-                </a>
+    <!-- Auth Gate -->
+    <div id="authOverlay">
+        <div class="login-card">
+            <img src="logo.png" alt="TNPVC Logo" class="main-logo">
+            <h1 class="brand-title">TNPVC</h1>
+            <p class="brand-subtitle">Professional PVC Community of Tamil Nadu</p>
+
+            <div id="g_id_onload"
+                data-client_id="1026459426577-ftv9ca9tsgu5s8cs393heve228vnh95g.apps.googleusercontent.com"
+                data-context="signin" data-ux_mode="popup" data-callback="handleCredentialResponse"
+                data-auto_prompt="false">
             </div>
-            <div class="nav-right">
-                <div class="lang-switcher">
-                    <button class="lang-btn" id="langBtn">
-                        <i data-lucide="swatch-book"></i>
-                        <span id="currentLang">English</span>
-                    </button>
-                </div>
+            <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
+                data-text="signin_with" data-size="large" data-logo_alignment="left" data-width="320">
+            </div>
+
+            <div style="margin-top: 20px; width: 100%;">
+                <button class="google-btn" onclick="handleDemoLogin()">
+                    <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" width="20" alt="G">
+                    Demo Quick Login
+                </button>
             </div>
         </div>
-        <!-- Mobile Navigation Menu Overlay -->
-        <div class="mobile-nav-overlay" id="mobileNav">
-            <button class="close-menu" id="closeMenu"><i data-lucide="x"></i></button>
-            <div class="mobile-nav-content">
-                <a href="about.html">About</a>
-                <a href="services.html">Services</a>
-                <a href="gallery.html">Gallery</a>
-                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho"
-                    style="margin-top: 1rem;">Join Now</a>
+    </div>
+
+    <!-- Moving setup overlay to script start -->
+
+    <!-- Load Google Library -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <!-- Header -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="header-btn-container" style="justify-content: flex-start; padding-left: 10px;">
+                <button class="header-add-btn" onclick="handleHeaderAddClick()"
+                    style="background:none; border:none; color:#000; padding:0; display:flex; align-items:center;">
+                    <i data-lucide="plus" style="width:28px; height:28px; stroke-width:2.5px;"></i>
+                </button>
+            </div>
+            <a href="#" class="logo">TNPVC FEED</a>
+            <div class="header-btn-container" style="justify-content: flex-end; padding-right: 10px;">
+                <div class="header-profile-btn" id="headerProfile" onclick="switchView('account')"
+                    style="width:36px; height:36px; border:2px solid var(--ig-blue); display:flex; align-items:center; justify-content:center;">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="P"
+                        id="headerAvatar" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Site Construction Notice -->
-    <div class="site-notice-bar">
-        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
-        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
-    </div>
-
     <main class="feed-container">
-        <!-- Create Post Section -->
-        <div class="create-post">
-            <div class="create-post-top">
-                <div class="user-avatar">
-                    <i data-lucide="user"></i>
-                </div>
-                <div class="create-post-input" id="openPostModal">
-                    What's on your mind? Share your recent work...
-                </div>
+        <!-- HOME VIEW -->
+        <div id="homeView" class="view-section active">
+            <div class="feed-tabs">
+                <button class="feed-tab-btn active" onclick="switchFeedTab('media')">Photo/Video</button>
+                <button class="feed-tab-btn" onclick="switchFeedTab('ads')">Ads</button>
+                <button class="feed-tab-btn" onclick="switchFeedTab('marketplace')">Products</button>
             </div>
-            <div class="create-post-bottom">
-                <div class="post-action photo">
-                    <i data-lucide="image"></i> Photo/video
-                </div>
-                <div class="post-action tag">
-                    <i data-lucide="user-plus"></i> Tag People
-                </div>
-                <div class="post-action feeling">
-                    <i data-lucide="smile"></i> Feeling/activity
+
+            <!-- Posts List -->
+            <div id="mediaContent" class="tab-content">
+                <div id="postsList"></div>
+            </div>
+
+            <!-- Ad Content -->
+            <div id="adsContent" class="tab-content" style="display: none;">
+                <div id="adsList"></div>
+            </div>
+
+            <!-- Product Content -->
+            <div id="marketplaceContent" class="tab-content" style="display: none;">
+                <div id="productsList"
+                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 10px;"></div>
+            </div>
+        </div>
+
+        <!-- UPDATES VIEW -->
+        <div id="updatesView" class="view-section">
+            <div style="padding: 20px;">
+                <h3>Notifications</h3>
+                <div style="margin-top:20px; color:#8e8e8e; text-align:center; padding: 40px 0;">
+                    <i data-lucide="bell" size="48" style="margin-bottom:15px;"></i>
+                    <p>No new updates yet.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Scrollable Feed -->
-        <div id="postsList">
-            <!-- Initial Posts -->
-            <div class="post-card">
-                <div class="post-header">
-                    <div class="user-avatar">
-                        <img src="srinivasan.jpg" alt="Srinivasan">
-                    </div>
-                    <div class="post-author-info">
-                        <h4>Srinivasan</h4>
-                        <div class="post-time">2 hours ago · <i data-lucide="swatch-book" style="width:12px;"></i></div>
-                    </div>
+        <!-- SEARCH VIEW -->
+        <div id="searchView" class="view-section">
+            <div style="padding: 10px;">
+                <div
+                    style="background:#efefef; padding: 10px; border-radius: 10px; display: flex; align-items: center; gap: 8px; margin-bottom: 20px;">
+                    <i data-lucide="search" size="16" color="#8e8e8e"></i>
+                    <input type="text" id="memberSearch" placeholder="Search members..."
+                        style="background:none; border:none; outline:none; width:100%; font-size:0.9rem;">
                 </div>
-                <div class="post-content">
-                    Completed a premium uPVC window installation for a villa in Coimbatore. Quality audit passed with
-                    100% compliance.
-                </div>
-                <div class="post-media">
-                    <img src="project-1.jpg" alt="Villa Project">
-                </div>
-                <div class="post-stats">
-                    <span>42 Likes</span>
-                    <span>12 Comments</span>
-                </div>
-                <div class="post-footer">
-                    <div class="post-btn"><i data-lucide="thumbs-up"></i> Like</div>
-                    <div class="post-btn"><i data-lucide="message-square"></i> Comment</div>
-                    <div class="post-btn"><i data-lucide="share-2"></i> Share</div>
+                <div id="searchResults" style="display: flex; flex-direction: column; gap: 15px;">
+                    <!-- User list will appear here -->
                 </div>
             </div>
+        </div>
 
-            <div class="post-card" style="animation-delay: 0.1s;">
-                <div class="post-header">
-                    <div class="user-avatar">
-                        <img src="anuprintha.png" alt="Anuprintha">
+        <!-- ACCOUNT VIEW -->
+        <div id="accountView" class="view-section">
+            <div style="padding: 16px 16px 0;">
+                <!-- Profile Row: Avatar + Stats -->
+                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+                    <img id="accountAvatar" src=""
+                        style="width:90px; height:90px; min-width:90px; border-radius:50%; border:2px solid #dbdbdb; object-fit:cover; flex-shrink:0;">
+                    <div style="flex:1; display:flex; justify-content:space-around;">
+                        <div style="text-align:center;">
+                            <strong style="font-size:1.05rem;">14</strong><br>
+                            <span style="color:#8e8e8e; font-size:0.75rem;">posts</span>
+                        </div>
+                        <div style="text-align:center;">
+                            <strong style="font-size:1.05rem;">1.2k</strong><br>
+                            <span style="color:#8e8e8e; font-size:0.75rem;">followers</span>
+                        </div>
+                        <div style="text-align:center;">
+                            <strong style="font-size:1.05rem;">412</strong><br>
+                            <span style="color:#8e8e8e; font-size:0.75rem;">following</span>
+                        </div>
                     </div>
-                    <div class="post-author-info">
-                        <h4>Anuprintha</h4>
-                        <div class="post-time">5 hours ago · <i data-lucide="swatch-book" style="width:12px;"></i></div>
+                </div>
+
+                <!-- Name + Buttons -->
+                <div style="margin-bottom:12px;">
+                    <h2 id="accountName" style="margin:0 0 8px; font-size:1rem; font-weight:700;">User Name</h2>
+                    <div style="display:flex; gap:8px;">
+                        <button onclick="openEditProfileModal()"
+                            style="background:var(--ig-blue); color:white; border:none; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.8rem; flex:1;">Edit
+                            Profile</button>
+                        <button onclick="logout()"
+                            style="background:#f0f2f5; border:none; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.8rem; flex:1;">Logout</button>
                     </div>
                 </div>
-                <div class="post-content">
-                    Operations check for the new Chennai region projects. Our workers are doing an amazing job with PVC
-                    door paneling!
+                <!-- Bio Container -->
+                <div id="userBioSection" style="margin-bottom:14px; font-size:0.88rem; line-height:1.5;"></div>
+                <!-- Account Tabs -->
+                <div class="feed-tabs"
+                    style="border-top:1px solid #eee; padding-top:10px; margin:0 -16px; padding-left:16px; padding-right:16px; margin-bottom:0;">
+                    <button class="feed-tab-btn active" onclick="switchAccountTab('media')">Photo/Video</button>
+                    <button class="feed-tab-btn" onclick="switchAccountTab('ads')">Ads</button>
+                    <button class="feed-tab-btn" onclick="switchAccountTab('marketplace')">Products</button>
                 </div>
-                <div class="post-media">
-                    <img src="project-3.jpg" alt="Chennai Project">
+            </div>
+            <!-- Account Content Area (full width) -->
+            <div id="accountContentArea" style="margin-top:3px;">
+                <div id="accountMedia" class="account-tab-content">
+                    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:3px;" id="accountGrid"></div>
                 </div>
-                <div class="post-stats">
-                    <span>28 Likes</span>
-                    <span>5 Comments</span>
+                <div id="accountAds" class="account-tab-content" style="display:none;">
+                    <div id="accountAdsList" style="padding:16px;"></div>
                 </div>
-                <div class="post-footer">
-                    <div class="post-btn"><i data-lucide="thumbs-up"></i> Like</div>
-                    <div class="post-btn"><i data-lucide="message-square"></i> Comment</div>
-                    <div class="post-btn"><i data-lucide="share-2"></i> Share</div>
+                <div id="accountMarketplace" class="account-tab-content" style="display:none;">
+                    <div id="accountProductsList"
+                        style="display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:16px;"></div>
                 </div>
+            </div>
+        </div>
+
+        <!-- USER PROFILE VIEW (Visiting others) -->
+        <div id="userProfileView" class="view-section">
+            <div style="padding: 16px 16px 0;">
+                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+                    <img id="visitorAvatar" src=""
+                        style="width:90px; height:90px; min-width:90px; border-radius:50%; border:2px solid #dbdbdb; object-fit:cover; flex-shrink:0;">
+                    <div style="flex:1; display:flex; justify-content:space-around;">
+                        <div style="text-align:center;">
+                            <strong style="font-size:1.05rem;">28</strong><br>
+                            <span style="color:#8e8e8e; font-size:0.75rem;">posts</span>
+                        </div>
+                        <div style="text-align:center;">
+                            <strong style="font-size:1.05rem;">3.4k</strong><br>
+                            <span style="color:#8e8e8e; font-size:0.75rem;">followers</span>
+                        </div>
+                        <div style="text-align:center;">
+                            <strong style="font-size:1.05rem;">890</strong><br>
+                            <span style="color:#8e8e8e; font-size:0.75rem;">following</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom:12px;">
+                    <h2 id="visitorName" style="margin:0 0 8px; font-size:1rem; font-weight:700;">User Name</h2>
+                    <div style="display:flex; gap:8px;">
+                        <button onclick="toggleFollow(this)"
+                            style="background:var(--ig-blue); color:white; border:none; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.8rem; flex:1;">Follow</button>
+                        <button onclick="alert('Message feature coming soon!')"
+                            style="background:#f0f2f5; border:none; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.8rem; flex:1;">Message</button>
+                    </div>
+                </div>
+                <div id="visitorBioSection" style="margin-bottom:14px; font-size:0.88rem; line-height:1.5;"></div>
+                <div class="feed-tabs"
+                    style="border-top:1px solid #eee; padding-top:10px; margin:0 -16px; padding-left:16px; padding-right:16px; margin-bottom:0;">
+                    <button class="feed-tab-btn active">Posts</button>
+                </div>
+            </div>
+            <div style="margin-top:3px;">
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:3px;" id="visitorGrid"></div>
             </div>
         </div>
     </main>
 
-    <!-- Bottom Navigation Bar -->
+
+    <!-- Bottom Nav -->
     <nav class="bottom-nav">
-        <a href="our-craft.html" class="bottom-nav-item">
-            <i data-lucide="swatch-book"></i>
-            <span data-i18n="nav_our_craft">Our Craft</span>
+        <a href="javascript:void(0)" onclick="switchView('home')" class="bottom-nav-item active" id="nav-home">
+            <i data-lucide="home"></i>
+            <span>Home</span>
         </a>
-        <a href="ads.html" class="bottom-nav-item">
-            <i data-lucide="rocket"></i>
-            <span data-i18n="nav_ads">Ads</span>
+        <a href="javascript:void(0)" onclick="switchView('updates')" class="bottom-nav-item" id="nav-updates">
+            <i data-lucide="bell"></i>
+            <span>Updates</span>
         </a>
         <a href="index.html" class="bottom-nav-item center-btn">
             <img src="logo.png" class="center-logo" alt="TNPVC Home">
         </a>
-        <a href="feed.html" class="bottom-nav-item active">
-            <i data-lucide="layout-list"></i>
-            <span data-i18n="nav_blog">Feed</span>
+        <a href="javascript:void(0)" onclick="switchView('search')" class="bottom-nav-item" id="nav-search">
+            <i data-lucide="search"></i>
+            <span>Search</span>
         </a>
-        <a href="dexaz-partnership.html" class="bottom-nav-item">
-            <img src="dexaz.png" class="bottom-nav-img" alt="Dexaz">
-            <span data-i18n="nav_dexaz">Dexaz</span>
+        <a href="javascript:void(0)" onclick="switchView('account')" class="bottom-nav-item" id="nav-account">
+            <i data-lucide="user"></i>
+            <span>Account</span>
         </a>
     </nav>
 
-    <!-- Floating WhatsApp Button -->
-    <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="floating-whatsapp" title="Join TNPVC on WhatsApp">
-        <i data-lucide="message-circle"></i>
-    </a>
+    <!-- Post Options Modal -->
+    <div id="optionsModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 300px;">
+            <div style="display: flex; flex-direction: column;" id="optionsContent">
+                <button onclick="alert('Reported'); closeModals()"
+                    style="padding: 15px; border: none; background: none; border-bottom: 1px solid #efefef; color: #ed4956; font-weight: 700; cursor: pointer;">Report</button>
+                <button onclick="alert('Not Interested'); closeModals()"
+                    style="padding: 15px; border: none; background: none; border-bottom: 1px solid #efefef; color: #ed4956; font-weight: 700; cursor: pointer;">Not
+                    Interested</button>
+                <button
+                    onclick="navigator.clipboard.writeText(window.location.href); alert('Link copied'); closeModals()"
+                    style="padding: 15px; border: none; background: none; border-bottom: 1px solid #efefef; cursor: pointer;">Copy
+                    Link</button>
+                <button onclick="closeModals()"
+                    style="padding: 15px; border: none; background: none; cursor: pointer;">Cancel</button>
+            </div>
+        </div>
+    </div>
 
-    <!-- Post Modal -->
-    <div class="modal" id="postModal">
+    <!-- Comment Modal -->
+    <div id="commentModal" class="modal-overlay">
+        <div class="modal-content" style="max-height: 80vh; display: flex; flex-direction: column;">
+            <div class="modal-header">Comments</div>
+            <div id="commentsList" class="modal-body" style="flex: 1; overflow-y: auto; min-height: 200px;">
+                <p style="text-align: center; color: #8e8e8e; margin-top: 50px;">No comments yet.</p>
+            </div>
+            <div class="modal-footer" style="padding: 10px; display: flex; gap: 10px;">
+                <input type="text" id="commentInput" placeholder="Add a comment..."
+                    style="flex: 1; border: 1px solid #dbdbdb; padding: 10px; border-radius: 20px; outline: none;">
+                <button onclick="submitComment()"
+                    style="color: var(--ig-blue); background: none; border: none; font-weight: 700; cursor: pointer;">Post</button>
+            </div>
+        </div>
+    </div>
+    <!-- Post/Product Modals -->
+    <div id="postModal" class="modal-overlay">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3>Create Post</h3>
-                <button type="button" id="closeModal" style="border:none; background:none; cursor:pointer;"><i
-                        data-lucide="x"></i></button>
-            </div>
+            <div class="modal-header">Create New Post</div>
             <div class="modal-body">
-                <textarea class="post-input-field" id="postInput" placeholder="What's your project about?"></textarea>
-                <button class="post-submit-btn" id="submitPost" disabled>Post</button>
+                <input type="file" id="postFile" hidden onchange="handleFile(this)">
+                <div onclick="document.getElementById('postFile').click()" id="uploadPreview"
+                    style="width:100%; aspect-ratio:4/5; border:1px dashed #dbdbdb; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden;">
+                    <div style="text-align:center; color:#8e8e8e;">
+                        <i data-lucide="image" size="40"></i>
+                        <p>Click to add photo</p>
+                    </div>
+                </div>
+                <textarea id="postText" placeholder="Write a caption..."
+                    style="width:100%; border:none; margin-top:15px; resize:none; outline:none; font-family:inherit; min-height:80px;"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-post" onclick="submitPost()">Share Feed</button>
+                <button class="btn-cancel" onclick="closeModals()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">Sell Your Product</div>
+            <div class="modal-body">
+                <input type="text" id="pName" placeholder="Product Name"
+                    style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #efefef; border-radius:5px;">
+                <input type="number" id="pPrice" placeholder="Rate (₹)"
+                    style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #efefef; border-radius:5px;">
+                <input type="text" id="pContact" placeholder="WhatsApp Contact"
+                    style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #efefef; border-radius:5px;">
+
+                <input type="file" id="pImgInput" hidden onchange="handleProductFile(this)">
+                <div onclick="document.getElementById('pImgInput').click()" id="pUploadPreview"
+                    style="width:100%; aspect-ratio:1/1; border:1px dashed #dbdbdb; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden; background:#f9f9f9;">
+                    <div style="text-align:center; color:#8e8e8e;">
+                        <i data-lucide="image" size="30"></i>
+                        <p style="font-size:0.8rem;">Add Product Image</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-post" onclick="submitProduct()">Post Ad</button>
+                <button class="btn-cancel" onclick="closeModals()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">Edit Profile</div>
+            <div class="modal-body">
+                <div class="profile-upload" onclick="document.getElementById('editPfpInput').click()"
+                    style="margin: 0 auto 15px;">
+                    <img id="editPfpPreview" src="" style="width:100%; height:100%; object-fit:cover;">
+                    <input type="file" id="editPfpInput" hidden onchange="previewEditPfp(this)">
+                </div>
+                <p
+                    style="text-align:center; font-size:0.8rem; color:var(--ig-blue); margin-top:-10px; margin-bottom:15px;">
+                    Change Photo</p>
+                <input type="text" id="editName" placeholder="Full Name" class="setup-input">
+                <input type="text" id="editShop" placeholder="Shop Name" class="setup-input">
+                <input type="text" id="editLocation" placeholder="Location" class="setup-input">
+                <textarea id="editBio" class="setup-input" placeholder="Bio" style="height:70px;"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-post" onclick="saveProfile()">Save Changes</button>
+                <button class="btn-cancel" onclick="closeModals()">Cancel</button>
             </div>
         </div>
     </div>
 
     <script>
+        let currentUser = null;
+        let selectedFile = null;
+        let selectedProductFile = null;
+        let setupPfpData = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200";
+
         document.addEventListener('DOMContentLoaded', () => {
+            initAuth();
             lucide.createIcons();
-
-            const openModalBtn = document.getElementById('openPostModal');
-            const closeModalBtn = document.getElementById('closeModal');
-            const modal = document.getElementById('postModal');
-            const postInput = document.getElementById('postInput');
-            const submitBtn = document.getElementById('submitPost');
-            const postsList = document.getElementById('postsList');
-
-            openModalBtn.addEventListener('click', () => {
-                modal.classList.add('active');
-                postInput.focus();
-            });
-
-            closeModalBtn.addEventListener('click', () => {
-                modal.classList.remove('active');
-            });
-
-            postInput.addEventListener('input', () => {
-                submitBtn.disabled = postInput.value.trim() === '';
-            });
-
-            submitBtn.addEventListener('click', () => {
-                const text = postInput.value.trim();
-                if (!text) return;
-
-                const newPost = document.createElement('div');
-                newPost.className = 'post-card';
-                newPost.innerHTML = `
-                    <div class="post-header">
-                        <div class="user-avatar">
-                            <i data-lucide="user"></i>
-                        </div>
-                        <div class="post-author-info">
-                            <h4>New Member</h4>
-                            <div class="post-time">Just now · <i data-lucide="swatch-book" style="width:12px;"></i></div>
-                        </div>
-                    </div>
-                    <div class="post-content">${text}</div>
-                    <div class="post-stats">
-                        <span>0 Likes</span>
-                        <span>0 Comments</span>
-                    </div>
-                    <div class="post-footer">
-                        <div class="post-btn"><i data-lucide="thumbs-up"></i> Like</div>
-                        <div class="post-btn"><i data-lucide="message-square"></i> Comment</div>
-                        <div class="post-btn"><i data-lucide="share-2"></i> Share</div>
-                    </div>
-                `;
-
-                postsList.prepend(newPost);
-                lucide.createIcons();
-
-                postInput.value = '';
-                submitBtn.disabled = true;
-                modal.classList.remove('active');
-            });
-
-            // Close modal on outside click
-            window.addEventListener('click', (e) => {
-                if (e.target === modal) modal.classList.remove('active');
-            });
-
-            // Mobile Menu Logic
-            const mobileToggle = document.getElementById('mobileMenuBtn');
-            const mobileNav = document.getElementById('mobileNav');
-            const closeMenu = document.getElementById('closeMenu');
-
-            if (mobileToggle && mobileNav && closeMenu) {
-                mobileToggle.addEventListener('click', () => {
-                    mobileNav.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                });
-
-                closeMenu.addEventListener('click', () => {
-                    mobileNav.classList.remove('active');
-                    document.body.style.overflow = '';
-                });
-
-                mobileNav.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', () => {
-                        mobileNav.classList.remove('active');
-                        document.body.style.overflow = '';
-                    });
-                });
-            }
+            loadInitialData();
         });
-    </script>
 
-    
-    
-    <!-- Payangarama Development Popup Modal -->
-    <div id="devModal" class="dev-modal">
-        <div class="dev-modal-content">
-            <div class="dev-modal-icon">
-                <i data-lucide="construction"></i>
+        function initAuth() {
+            const savedUser = localStorage.getItem('tnpvc_user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                if (!currentUser.setupComplete) {
+                    showSetup();
+                } else {
+                    applyUserUI();
+                    document.querySelector('.navbar').style.display = 'flex';
+                    document.querySelector('.bottom-nav').style.display = 'flex';
+                }
+            } else {
+                document.getElementById('authOverlay').style.display = 'flex';
+                document.querySelector('.navbar').style.display = 'none';
+                document.querySelector('.bottom-nav').style.display = 'none';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Real Google Auth Callback
+        function handleCredentialResponse(response) {
+            // Decodes JWT (simulated here for privacy/simplicity)
+            const responsePayload = decodeJwtResponse(response.credential);
+
+            currentUser = {
+                name: responsePayload.name,
+                email: responsePayload.email,
+                avatar: responsePayload.picture,
+                setupComplete: false
+            };
+
+            loginSuccess();
+        }
+
+        function handleDemoLogin() {
+            currentUser = {
+                name: "New TNPVC Member",
+                email: "demo@tnpvc.com",
+                avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200",
+                setupComplete: false
+            };
+            loginSuccess();
+        }
+
+        function decodeJwtResponse(token) {
+            try {
+                let base64Url = token.split('.')[1];
+                let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                let jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                return JSON.parse(jsonPayload);
+            } catch (e) {
+                console.error("JWT Decode failed", e);
+                return null;
+            }
+        }
+
+        function loginSuccess() {
+            localStorage.setItem('tnpvc_user', JSON.stringify(currentUser));
+            document.getElementById('authOverlay').style.display = 'none';
+            showSetup();
+        }
+
+        function showSetup() {
+            document.getElementById('setupOverlay').style.display = 'flex';
+            document.getElementById('setupName').value = currentUser.name;
+            document.getElementById('setupPfpPreview').src = currentUser.avatar;
+            setupPfpData = currentUser.avatar;
+            document.body.style.overflow = 'hidden';
+        }
+
+        function previewSetupPfp(input) {
+            if (input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    setupPfpData = e.target.result;
+                    document.getElementById('setupPfpPreview').src = setupPfpData;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function completeSetup() {
+            const name = document.getElementById('setupName').value;
+            const shop = document.getElementById('setupShop').value;
+            const loc = document.getElementById('setupLocation').value;
+            const bio = document.getElementById('setupBio').value;
+
+            if (!name || !loc) {
+                alert("Please at least enter your Name and Location.");
+                return;
+            }
+
+            currentUser.name = name;
+            currentUser.shop = shop;
+            currentUser.location = loc;
+            currentUser.bio = bio;
+            currentUser.avatar = setupPfpData;
+            currentUser.setupComplete = true;
+
+            localStorage.setItem('tnpvc_user', JSON.stringify(currentUser));
+
+            document.getElementById('setupOverlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            document.querySelector('.navbar').style.display = 'flex';
+            document.querySelector('.bottom-nav').style.display = 'flex';
+            applyUserUI();
+        }
+
+        function applyUserUI() {
+            document.getElementById('headerAvatar').src = currentUser.avatar;
+            document.getElementById('accountAvatar').src = currentUser.avatar;
+            document.getElementById('accountName').textContent = currentUser.name;
+
+            // Update account details
+            const bioContainer = document.getElementById('userBioSection');
+            if (currentUser.setupComplete && bioContainer) {
+                bioContainer.innerHTML = `
+    <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 4px;">${currentUser.name}</div>
+    <div style="font-size: 0.9rem; line-height: 1.5; color: #262626;">
+        ${currentUser.bio || 'PVC Professional'}<br>
+        🏢 <strong>Shop:</strong> ${currentUser.shop || 'Not specified'}<br>
+        📍 <strong>Location:</strong> ${currentUser.location}
+    </div>
+    `;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('tnpvc_user');
+            location.reload();
+        }
+
+        function switchView(view) {
+            document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+            document.getElementById(view + 'View').classList.add('active');
+
+            document.querySelectorAll('.bottom-nav-item').forEach(v => v.classList.remove('active'));
+            const nav = document.getElementById('nav-' + view);
+            if (nav) nav.classList.add('active');
+
+            window.scrollTo(0, 0);
+        }
+
+        function switchFeedTab(tab) {
+            document.querySelectorAll('#homeView .tab-content').forEach(c => c.style.display = 'none');
+            document.getElementById(tab + 'Content').style.display = 'block';
+
+            document.querySelectorAll('#homeView .feed-tab-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function switchAccountTab(tab) {
+            document.querySelectorAll('.account-tab-content').forEach(c => c.style.display = 'none');
+            const targetId = tab === 'media' ? 'accountMedia' : (tab === 'ads' ? 'accountAds' : 'accountMarketplace');
+            document.getElementById(targetId).style.display = 'block';
+
+            document.querySelectorAll('#accountView .feed-tab-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function handleHeaderAddClick() {
+            const currentView = document.querySelector('.view-section.active');
+            if (currentView && currentView.id === 'homeView') {
+                const activeTab = document.querySelector('#homeView .feed-tab-btn.active');
+                const tabText = activeTab ? activeTab.textContent.toLowerCase() : '';
+                if (tabText.includes('product')) openProductModal();
+                else if (tabText.includes('ads')) window.location.href = 'ads.html';
+                else openPostModal();
+            } else {
+                openPostModal();
+            }
+        }
+
+        function openPostModal() { document.getElementById('postModal').classList.add('active'); }
+        function openProductModal() { document.getElementById('productModal').classList.add('active'); }
+
+        function closeModals() {
+            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+        }
+
+        function openEditProfileModal() {
+            document.getElementById('editName').value = currentUser.name || '';
+            document.getElementById('editShop').value = currentUser.shop || '';
+            document.getElementById('editLocation').value = currentUser.location || '';
+            document.getElementById('editBio').value = currentUser.bio || '';
+            document.getElementById('editPfpPreview').src = currentUser.avatar || '';
+            document.getElementById('editProfileModal').classList.add('active');
+        }
+
+        function previewEditPfp(input) {
+            if (input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById('editPfpPreview').src = e.target.result;
+                    currentUser.avatar = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function saveProfile() {
+            const name = document.getElementById('editName').value;
+            const shop = document.getElementById('editShop').value;
+            const loc = document.getElementById('editLocation').value;
+            const bio = document.getElementById('editBio').value;
+
+            if (!name) { alert("Name is required."); return; }
+
+            currentUser.name = name;
+            currentUser.shop = shop;
+            currentUser.location = loc;
+            currentUser.bio = bio;
+            localStorage.setItem('tnpvc_user', JSON.stringify(currentUser));
+            applyUserUI();
+            closeModals();
+        }
+        function openOptionsModal(postId, isOwner) {
+            const optionsModal = document.getElementById('optionsModal');
+            const content = document.getElementById('optionsContent');
+
+            // Remove any existing delete button
+            const oldDelete = content.querySelector('.delete-btn');
+            if (oldDelete) oldDelete.remove();
+
+            if (isOwner) {
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.onclick = () => deletePost(postId);
+                deleteBtn.style.cssText = "padding:15px; border:none; background:none; border-bottom:1px solid #efefef; color:#ed4956; font-weight:700; cursor:pointer; width:100%; text-align:center;";
+                deleteBtn.textContent = "Delete Post";
+                content.insertBefore(deleteBtn, content.lastElementChild);
+            }
+
+            optionsModal.classList.add('active');
+        }
+
+        function deletePost(id) {
+            if (confirm('Delete this post?')) {
+                let posts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
+                posts = posts.filter(p => p.id != id);
+                localStorage.setItem('tnpvc_local_posts', JSON.stringify(posts));
+                renderPosts();
+                closeModals();
+            }
+        }
+
+        function submitComment() {
+            const input = document.getElementById('commentInput');
+            if (!input.value) return;
+            const list = document.getElementById('commentsList');
+            if (list.querySelector('p')) list.innerHTML = '';
+
+            const div = document.createElement('div');
+            div.style.marginBottom = '12px';
+            div.innerHTML = `<strong style="margin-right:8px;">${currentUser.name}</strong> ${input.value}`;
+            list.appendChild(div);
+            input.value = '';
+        }
+
+        function handleFile(input) {
+            if (input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    selectedFile = e.target.result;
+                    document.getElementById('uploadPreview').innerHTML = `<img src="${selectedFile}"
+        style="width:100%; height:100%; object-fit:cover;">`;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function handleProductFile(input) {
+            if (input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    selectedProductFile = e.target.result;
+                    document.getElementById('pUploadPreview').innerHTML = `<img src="${selectedProductFile}"
+        style="width:100%; height:100%; object-fit:cover;">`;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function submitPost() {
+            const text = document.getElementById('postText').value;
+            if (!selectedFile && !text) return;
+
+            const post = {
+                id: Date.now(),
+                user: currentUser.name,
+                avatar: currentUser.avatar,
+                media: selectedFile,
+                caption: text,
+                likes: 0,
+                liked: false,
+                time: "JUST NOW"
+            };
+
+            const localPosts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
+            localPosts.unshift(post);
+            localStorage.setItem('tnpvc_local_posts', JSON.stringify(localPosts));
+
+            renderPosts();
+            closeModals();
+            selectedFile = null;
+            document.getElementById('postText').value = '';
+            document.getElementById('uploadPreview').innerHTML = '<div style="text-align:center; color:#8e8e8e;"><i data-lucide="image" size="40"></i><p>Click to add photo</p></div>';
+            lucide.createIcons();
+        }
+
+        function submitProduct() {
+            const name = document.getElementById('pName').value;
+            const price = document.getElementById('pPrice').value;
+            const contact = document.getElementById('pContact').value;
+            if (!name || !price) return;
+
+            const prod = {
+                name,
+                price,
+                contact,
+                media: selectedProductFile || null
+            };
+            const localProds = JSON.parse(localStorage.getItem('tnpvc_local_prods') || '[]');
+            localProds.unshift(prod);
+            localStorage.setItem('tnpvc_local_prods', JSON.stringify(localProds));
+
+            renderProducts();
+            closeModals();
+            selectedProductFile = null;
+            document.getElementById('pUploadPreview').innerHTML = '<div style="text-align:center; color:#8e8e8e;"><i data-lucide="image" size="30"></i><p style="font-size:0.8rem;">Add Product Image</p></div>';
+            lucide.createIcons();
+        }
+
+        function toggleLike(id) {
+            const posts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
+            const post = posts.find(p => p.id == id);
+            if (post) {
+                post.liked = !post.liked;
+                post.likes = post.liked ? post.likes + 1 : post.likes - 1;
+                localStorage.setItem('tnpvc_local_posts', JSON.stringify(posts));
+                renderPosts();
+            }
+        }
+
+        function renderPosts() {
+            const list = document.getElementById('postsList');
+            const local = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
+
+            list.innerHTML = local.map(p => `
+    <div class="post-card">
+        <div class="post-header">
+            <div class="post-user" style="cursor:pointer" onclick="viewUserProfile('${p.user}', '${p.avatar}', 'Premium Member', 'Official TNPVC Verified Profile')">
+                <div class="post-user-avatar"><img src="${p.avatar}"></div>
+                <div class="post-user-info">
+                    <h4>${p.user}</h4>
+                    <div class="post-location">Tamil Nadu</div>
+                </div>
             </div>
-            <h3>Site Under Development</h3>
-            <p>Welcome to TNPVC Council. We are currently building a powerful experience with <strong class="dexaz-brand">Dexaz</strong>. Stay tuned!</p>
-            <button class="btn-dev-close" onclick="closeDevModal()">Enter Site</button>
+            <i data-lucide="more-horizontal" style="cursor:pointer"
+                onclick="openOptionsModal(${p.id}, ${p.user === currentUser.name})"></i>
+        </div>
+        <div class="post-media">${p.media ? `<img src="${p.media}">` : `<p style="padding:40px; text-align:center;">
+                ${p.caption}</p>`}</div>
+        <div class="post-actions">
+            <button class="post-action-btn" onclick="toggleLike(${p.id})">
+                <i data-lucide="heart" style="${p.liked ? 'fill:#ed4956; color:#ed4956' : ''}"></i>
+            </button>
+            <button class="post-action-btn" onclick="openCommentModal()">
+                <i data-lucide="message-circle"></i>
+            </button>
+        </div>
+        <div class="post-likes">${p.likes} likes</div>
+        <div class="post-caption"><strong style="cursor:pointer" onclick="viewUserProfile('${p.user}', '${p.avatar}', 'Premium Member', 'Official TNPVC Verified Profile')">${p.user}</strong> ${p.caption}</div>
+        <div class="post-time">${p.time}</div>
+    </div>
+    `).join('');
+            lucide.createIcons();
+        }
+
+        function renderProducts() {
+            const list = document.getElementById('productsList');
+            const local = JSON.parse(localStorage.getItem('tnpvc_local_prods') || '[]');
+            const savedAds = JSON.parse(localStorage.getItem('tnpvc_all_published_ads') || '[]');
+
+            // Render Marketplace Products
+            list.innerHTML = local.map(p => `
+    <div style="background:white; border-radius:10px; border:1px solid #efefef; overflow:hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+        <div
+            style="aspect-ratio:1/1; background:#f8f9fa; display:flex; align-items:center; justify-content:center; color:#ccc;">
+            ${p.media ? `<img src="${p.media}" style="width:100%; height:100%; object-fit:cover;">` : `<i data-lucide="package" size="40"></i>`}
+        </div>
+        <div style="padding:10px;">
+            <div style="font-weight:700; font-size:0.85rem; color:#333;">${p.name}</div>
+            <div style="color:#C20E4D; font-weight:800; font-size:0.9rem; margin:5px 0;">₹${p.price}</div>
+            <a href="https://wa.me/91${p.contact}"
+                style="color:#25D366; text-decoration:none; font-size:0.75rem; font-weight:700; display:flex; align-items:center; gap:4px;"><i
+                    data-lucide="message-circle" style="width:12px;"></i> Chat</a>
         </div>
     </div>
-    <script>
-        function closeDevModal() {
-            document.getElementById('devModal').classList.remove('active');
+    `).join('');
+
+            // Also update Ads List
+            const adList = document.getElementById('adsList');
+            adList.innerHTML = savedAds.map(ad => `
+    <div class="ad-card">
+        <span class="ad-tag">Ad</span>
+        <a href="${ad.url}" class="ad-title" target="_blank">${ad.headline}</a>
+        <p class="ad-desc">${ad.desc}</p>
+        <div style="font-size: 0.65rem; color: #8e8e8e; margin-top: 8px;">Promoted by ${ad.biz}</div>
+    </div>
+    `).join('') || '<p style="text-align:center; padding:40px; color:#8e8e8e;">No active ads</p>';
+
+            lucide.createIcons();
         }
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                const modal = document.getElementById('devModal');
-                if (modal) {
-                    modal.classList.add('active');
-                    console.log('Modal activated');
-                }
-                if(window.lucide) {
-                    lucide.createIcons();
-                }
-            }, 500);
-        });
+
+        function loadInitialData() {
+            // Prepopulate some sample posts if empty
+            if (!localStorage.getItem('tnpvc_local_posts')) {
+                const samples = [
+                    {
+                        id: 1, user: "Srinivasan_", avatar: "srinivasan.jpg",
+                        media: "project-1.jpg", caption: "Premium uPVC Window installation completed! #Coimbatore",
+                        likes: 125, liked: false, time: "2 HOURS AGO"
+                    },
+                    {
+                        id: 2, user: "Anuprintha_Ops", avatar: "anuprintha.png",
+                        media: "project-3.jpg", caption: "Quality check for the new PVC wall panel stock.",
+                        likes: 89, liked: false, time: "5 HOURS AGO"
+                    }
+                ];
+                localStorage.setItem('tnpvc_local_posts', JSON.stringify(samples));
+            }
+
+            renderPosts();
+            renderProducts();
+
+            // Render Search Results (Members Only)
+            const searchResults = document.getElementById('searchResults');
+            const members = [
+                { name: "Srinivasan_", shop: "TNPVC Studio", avatar: "srinivasan.jpg" },
+                { name: "Anuprintha_Ops", shop: "Operations", avatar: "anuprintha.png" },
+                { name: "Velumani_PVC", shop: "Chennai Traders", avatar: "https://i.pravatar.cc/100?u=1" },
+                { name: "Karthi_Design", shop: "Interior Hub", avatar: "https://i.pravatar.cc/100?u=2" }
+            ];
+
+            searchResults.innerHTML = members.map(m => `
+    <div
+        style="display: flex; align-items: center; gap: 12px; padding: 10px; background: white; border-radius: 12px; border: 1px solid #efefef; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+        <img src="${m.avatar}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; cursor:pointer" onclick="viewUserProfile('${m.name}', '${m.avatar}', '${m.shop}', 'Professional member of the TNPVC Council.')">
+        <div style="flex:1; cursor:pointer" onclick="viewUserProfile('${m.name}', '${m.avatar}', '${m.shop}', 'Professional member of the TNPVC Council.')">
+            <div style="font-weight:700; font-size:0.95rem;">${m.name}</div>
+            <div style="font-size:0.75rem; color:#8e8e8e;">${m.shop}</div>
+        </div>
+        <button onclick="toggleFollow(this, '${m.name}')"
+            style="background:var(--ig-blue); color:white; border:none; padding: 8px 16px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor:pointer; transition: 0.2s;">Follow</button>
+    </div>
+    `).join('');
+        }
+
+        function toggleFollow(btn, name) {
+            if (btn.textContent === 'Follow') {
+                btn.textContent = 'Following';
+                btn.style.background = '#efefef';
+                btn.style.color = '#262626';
+            } else {
+                btn.textContent = 'Follow';
+                btn.style.background = 'var(--ig-blue)';
+                btn.style.color = 'white';
+            }
+        }
+
+        function viewUserProfile(name, avatar, shop, bio) {
+            if (currentUser && name === currentUser.name) {
+                switchView('account');
+                return;
+            }
+
+            document.getElementById('visitorAvatar').src = avatar;
+            document.getElementById('visitorName').textContent = name;
+            document.getElementById('visitorBioSection').innerHTML = `
+                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 4px;">${name}</div>
+                <div style="font-size: 0.9rem; line-height: 1.5; color: #262626;">
+                    ${bio}<br>
+                    🏢 <strong>Shop:</strong> ${shop}
+                </div>
+            `;
+
+            // Dummy grid for visitor
+            const visitorGrid = document.getElementById('visitorGrid');
+            const sampleImgs = ["project-4.jpg", "project-5.jpg", "project-6.jpg", "pvc-8.jpg", "pvc-9.jpg", "pvc-10.jpg"];
+            visitorGrid.innerHTML = sampleImgs.map(img => `
+                <div style="aspect-ratio:1/1; background:#eee; overflow:hidden;">
+                    <img src="${img}" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+            `).join('');
+
+            switchView('userProfile');
+        }
+        // Set up Account Grid (3-column square thumbnails)
+        const accountGrid = document.getElementById('accountGrid');
+        const searchImgs = ["project-1.jpg", "project-2.jpg", "project-3.jpg", "pvc-1.jpg", "pvc-2.jpg", "pvc-3.jpg"];
+        accountGrid.innerHTML = searchImgs.map(img => `
+    <div style="aspect-ratio:1/1; background:#eee; overflow:hidden;">
+        <img src="${img}" style="width:100%; height:100%; object-fit:cover;">
+    </div>
+    `).join('');
+
     </script>
+    <!-- Profile Setup Overlay Moved -->
+    <div id="setupOverlay">
+        <h2 style="text-align:center; margin-bottom: 10px;">Complete Your Profile</h2>
+        <p style="text-align:center; color:#8e8e8e; margin-bottom: 30px;">Let the community know who you are.</p>
 
+        <div class="profile-upload" onclick="document.getElementById('setupPfpInput').click()">
+            <img id="setupPfpPreview" src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=100">
+            <input type="file" id="setupPfpInput" hidden onchange="previewSetupPfp(this)">
+        </div>
+        <p style="text-align:center; font-size:0.8rem; color:var(--ig-blue); margin-top:-10px; margin-bottom:20px;">
+            Change Photo</p>
 
+        <input type="text" id="setupName" class="setup-input" placeholder="Full Name (e.g. Srinivasan)">
+        <input type="text" id="setupShop" class="setup-input" placeholder="Shop Name (e.g. TNPVC Design Studio)">
+        <input type="text" id="setupLocation" class="setup-input" placeholder="Location (e.g. Coimbatore)">
+        <textarea id="setupBio" class="setup-input" placeholder="Bio (e.g. Specializing in uPVC Windows...)"
+            style="height:80px;"></textarea>
 
+        <button class="btn-post" style="width:100%; padding:15px; margin-top:10px;" onclick="completeSetup()">Start
+            Using Feed</button>
+    </div>
 </body>
 
 </html>

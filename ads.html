@@ -565,6 +565,12 @@
 </head>
 
 <body>
+    <!-- Site Construction Notice -->
+    <div class="site-notice-bar">
+        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
+        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
+    </div>
+
     <header class="ads-header">
         <div class="header-left">
             <!-- Mobile Menu Toggle (Left) -->
@@ -598,12 +604,6 @@
             </div>
         </div>
     </header>
-
-    <!-- Site Construction Notice -->
-    <div class="site-notice-bar">
-        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
-        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
-    </div>
 
     <div class="main-container" id="megaContainer">
         <aside class="stepper-sidebar">
@@ -683,6 +683,25 @@
                         </div>
                     </div>
                     <div class="card">
+                        <div style="display: grid; grid-template-columns: 100px 1fr; gap: 15px;">
+                            <div class="form-group">
+                                <label>Ad Logo</label>
+                                <input type="file" id="adLogoInput" hidden onchange="handleAdFile(this, 'Logo')">
+                                <div onclick="document.getElementById('adLogoInput').click()" id="logoPreview"
+                                    style="width:80px; height:80px; border:1px dashed #dbdbdb; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden; background:#f9f9f9;">
+                                    <i data-lucide="plus" size="20"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Campaign Image</label>
+                                <input type="file" id="adImgInput" hidden onchange="handleAdFile(this, 'Image')">
+                                <div onclick="document.getElementById('adImgInput').click()" id="imgPreview"
+                                    style="width:100%; height:80px; border:1px dashed #dbdbdb; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden; background:#f9f9f9;">
+                                    <i data-lucide="image" size="24"></i>
+                                    <span style="font-size:0.7rem; margin-left:5px; color:#8e8e8e;">Add Image</span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label>Keywords (For targeting)</label>
                             <textarea id="kw" rows="3" placeholder="upvc windows price, pvc doors near me, etc."
@@ -806,16 +825,25 @@
 
     <!-- Bottom Navigation Bar -->
     <nav class="bottom-nav">
-        <a href="our-craft.html" class="bottom-nav-item"><i data-lucide="swatch-book"></i><span data-i18n="nav_our_craft">Our
-                Craft</span></a>
-        <a href="ads.html" class="bottom-nav-item active"><i data-lucide="rocket"></i><span
-                data-i18n="nav_ads">Ads</span></a>
-        <a href="index.html" class="bottom-nav-item center-btn"><img src="logo.png" class="center-logo"
-                alt="TNPVC Home"></a>
-        <a href="feed.html" class="bottom-nav-item"><i data-lucide="layout-list"></i><span
-                data-i18n="nav_blog">Feed</span></a>
-        <a href="dexaz-partnership.html" class="bottom-nav-item"><img src="dexaz.png" class="bottom-nav-img"
-                alt="Dexaz"><span data-i18n="nav_dexaz">Dexaz</span></a>
+        <a href="our-craft.html" class="bottom-nav-item">
+            <i data-lucide="swatch-book"></i>
+            <span data-i18n="nav_our_craft">Our Craft</span>
+        </a>
+        <a href="ads.html" class="bottom-nav-item active">
+            <i data-lucide="rocket"></i>
+            <span data-i18n="nav_ads">Ads</span>
+        </a>
+        <a href="index.html" class="bottom-nav-item center-btn">
+            <img src="logo.png" class="center-logo" alt="TNPVC Home">
+        </a>
+        <a href="feed.html" class="bottom-nav-item">
+            <i data-lucide="layout-list"></i>
+            <span data-i18n="nav_blog">Feed</span>
+        </a>
+        <a href="dexaz-partnership.html" class="bottom-nav-item">
+            <img src="dexaz.png" class="bottom-nav-img" alt="Dexaz">
+            <span data-i18n="nav_dexaz">Dexaz</span>
+        </a>
     </nav>
 
     <script src="i18n.js"></script>
@@ -826,6 +854,26 @@
         let selectedGoal = 'Calls';
         let selectedDuration = '1 Day';
         let isPublishing = false;
+        let adLogoData = null;
+        let adImgData = null;
+
+        function handleAdFile(input, type) {
+            if (input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const data = e.target.result;
+                    if (type === 'Logo') {
+                        adLogoData = data;
+                        document.getElementById('logoPreview').innerHTML = `<img src="${data}" style="width:100%; height:100%; object-fit:contain;">`;
+                    } else {
+                        adImgData = data;
+                        document.getElementById('imgPreview').innerHTML = `<img src="${data}" style="width:100%; height:100%; object-fit:cover;">`;
+                    }
+                    liveUpdate();
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
 
         function setGoal(el, goal) {
             document.querySelectorAll('.goal-card').forEach(c => c.classList.remove('active'));
@@ -974,7 +1022,9 @@
                 kw: document.getElementById('kw').value,
                 budgetInput: document.getElementById('budgetInput').value,
                 selectedGoal: selectedGoal,
-                selectedDuration: selectedDuration
+                selectedDuration: selectedDuration,
+                adLogo: adLogoData,
+                adImg: adImgData
             };
             localStorage.setItem('tnpvc_ad_form_data', JSON.stringify(formData));
         }
@@ -1064,15 +1114,29 @@
             const upiUrl = `upi://pay?pa=8122696217@ybl&pn=TNPVC%20Ads&am=${amount}&cu=INR&tn=AD_SYNC_${biz.replace(/\s+/g, '_')}`;
 
             // Generate WhatsApp Sync Message
-            const msg = `⚡ *TNPVC GOOGLE ADS SYNC REQUEST*%0A---------------------------%0A🏢 *Business:* ${syncData.biz}%0A🎯 *Goal:* ${syncData.goal}%0A🕒 *Duration:* ${syncData.duration}%0A💰 *Total:* ₹${syncData.amount}%0A🔗 *URL:* ${syncData.url}%0A📝 *Headline:* ${syncData.ads}%0A📅 *Date:* ${syncData.timestamp}`;
+            let msg = `⚡ *TNPVC GOOGLE ADS SYNC REQUEST*%0A---------------------------%0A🏢 *Business:* ${syncData.biz}%0A🎯 *Goal:* ${syncData.goal}%0A🕒 *Duration:* ${syncData.duration}%0A💰 *Total:* ₹${syncData.amount}%0A🔗 *URL:* ${syncData.url}%0A📝 *Headline:* ${syncData.ads}%0A📅 *Date:* ${syncData.timestamp}`;
+            if (adLogoData) msg += `%0A🖼️ *Has Logo:* Yes`;
+            if (adImgData) msg += `%0A📸 *Has Banner Image:* Yes`;
+
             const waUrl = `https://wa.me/918122696217?text=${msg}`;
 
-            // 1. Open UPI for Payment
+            // 1. Save to Local Feed for Persistence
+            const publishedAds = JSON.parse(localStorage.getItem('tnpvc_all_published_ads') || '[]');
+            publishedAds.unshift({
+                biz: syncData.biz,
+                headline: syncData.ads,
+                desc: syncData.desc,
+                url: syncData.url,
+                time: syncData.timestamp
+            });
+            localStorage.setItem('tnpvc_all_published_ads', JSON.stringify(publishedAds));
+
+            // 2. Open UPI for Payment
             window.location.href = upiUrl;
 
-            // 2. Delay sync to WhatsApp to allow UPI intent to complete
+            // 3. Delay sync to WhatsApp to allow UPI intent to complete
             setTimeout(() => {
-                // Background Sync Simulation (Silent sending to WA via window.open is not possible without user action, so we use a clean redirect)
+                // Background Sync Simulation
                 window.location.href = waUrl;
 
                 // Show Success Screen
@@ -1100,6 +1164,11 @@
                 document.getElementById('budgetInput').value = data.budgetInput || 500;
                 selectedGoal = data.selectedGoal || 'Calls';
                 selectedDuration = data.selectedDuration || '1 Day';
+                adLogoData = data.adLogo || null;
+                adImgData = data.adImg || null;
+
+                if (adLogoData) document.getElementById('logoPreview').innerHTML = `<img src="${adLogoData}" style="width:100%; height:100%; object-fit:contain;">`;
+                if (adImgData) document.getElementById('imgPreview').innerHTML = `<img src="${adImgData}" style="width:100%; height:100%; object-fit:cover;">`;
 
                 // Restore active UI states
                 document.querySelectorAll('.goal-card').forEach(c => {
@@ -1154,36 +1223,9 @@
         liveUpdate();
     </script>
 
-    
-    
-    <!-- Payangarama Development Popup Modal -->
-    <div id="devModal" class="dev-modal">
-        <div class="dev-modal-content">
-            <div class="dev-modal-icon">
-                <i data-lucide="construction"></i>
-            </div>
-            <h3>Site Under Development</h3>
-            <p>Welcome to TNPVC Council. We are currently building a powerful experience with <strong class="dexaz-brand">Dexaz</strong>. Stay tuned!</p>
-            <button class="btn-dev-close" onclick="closeDevModal()">Enter Site</button>
-        </div>
-    </div>
-    <script>
-        function closeDevModal() {
-            document.getElementById('devModal').classList.remove('active');
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                const modal = document.getElementById('devModal');
-                if (modal) {
-                    modal.classList.add('active');
-                    console.log('Modal activated');
-                }
-                if(window.lucide) {
-                    lucide.createIcons();
-                }
-            }, 500);
-        });
-    </script>
+
+
+</body>
 
 
 

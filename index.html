@@ -218,9 +218,268 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="i18n.js" defer></script>
+    <style>
+        /* Welcome Popup Styles */
+        .welcome-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            padding: 20px;
+        }
+
+        .welcome-modal-overlay.active {
+            display: flex;
+        }
+
+        .welcome-modal-content {
+            background: #fff;
+            width: 88%;
+            max-width: 340px;
+            height: 520px;
+            /* Taller rectangular shape as requested */
+            max-height: 80vh;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            animation: popupScale 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes popupScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .close-welcome-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: #f0f0f0;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .welcome-header {
+            padding: 15px;
+            background: #1b0f3a;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .head-logo-circle {
+            width: 32px;
+            height: 32px;
+            background: #fff;
+            border-radius: 50%;
+            padding: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .head-logo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .head-tnpvc-text {
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .welcome-body {
+            padding: 15px;
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: #f4f4f4;
+        }
+
+        .box-section {
+            background: #fff;
+            border-radius: 16px;
+            padding: 15px;
+            width: 100%;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .box-section-label {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .highlight-section {
+            margin-bottom: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Craft Card in Popup */
+        .popup-craft-card {
+            background: #f8fafc;
+            border: 1px solid #e8e0f8;
+            border-radius: 16px;
+            padding: 15px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .popup-craft-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(75, 36, 145, 0.12);
+        }
+
+        .popup-craft-card {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .popup-craft-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .popup-craft-favicon {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid #eee;
+        }
+
+        .popup-craft-favicon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .popup-craft-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .popup-craft-name {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #1b0f3a;
+        }
+
+        .popup-craft-url {
+            font-size: 0.75rem;
+            color: #1a7f37;
+            font-weight: 600;
+        }
+
+        .popup-craft-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1a0dab;
+            margin-bottom: 5px;
+        }
+
+        .popup-craft-desc {
+            font-size: 0.8rem;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        /* Feed Grid in Popup */
+        .popup-feed-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .popup-feed-item {
+            aspect-ratio: 1/1;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f1f5f9;
+        }
+
+        .popup-feed-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .welcome-footer {
+            padding: 10px 15px 20px;
+            text-align: center;
+        }
+
+        .btn-explore {
+            background: linear-gradient(135deg, #1b0f3a, #4b2491);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(75, 36, 145, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-explore:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(75, 36, 145, 0.4);
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Site Construction Notice -->
+    <div class="site-notice-bar">
+        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
+        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
+    </div>
+
     <header class="navbar" itemscope itemtype="https://schema.org/SiteNavigationElement">
         <div class="container nav-container">
             <!-- Mobile Menu Toggle (Left) -->
@@ -273,29 +532,24 @@
         </div>
     </header>
 
-    <!-- Site Construction Notice -->
-    <div class="site-notice-bar">
-        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
-        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
-    </div>
-
     <main>
         <section class="hero">
             <div class="container hero-grid">
                 <div class="hero-content animate hero-centered">
                     <h1 data-i18n="hero_title">Trusted uPVC & PVC Solutions<br>for Homes and Buildings</h1>
-                    <p data-i18n="hero_subtitle" style="margin-bottom: 2.5rem;">TNPVC connects homeowners and builders
+                    <p data-i18n="hero_subtitle" style="margin-bottom: 2.5rem;">TNPVC connects homeowners and
+                        builders
                         with verified teams for uPVC
-                        windows, PVC doors, ceilings, wall panels, and complete on-site installation across Tamil Nadu.
+                        windows, PVC doors, ceilings, wall panels, and complete on-site installation across Tamil
+                        Nadu.
                     </p>
                     <div class="service-highlight-section">
+                        <a href="#" class="btn-zoho btn-service-highlight" id="downloadAppBtn">
+                            <span data-i18n="download_tnpvc_app">Download TNPVC Official App</span>
+                        </a>
                         <a href="services.html" class="btn-zoho btn-service-highlight">
                             <span data-i18n="view_services">View Our Services</span>
                         </a>
-                        <a href="#" class="btn-download-app" id="downloadAppBtn">
-                            <span data-i18n="download_tnpvc_app">Download TNPVC Official App</span>
-                        </a>
-
                     </div>
                     <div class="hero-overview-img">
                         <img src="./platform-overview.png"
@@ -315,7 +569,8 @@
                     <div class="about-short-header">
                         <div>
                             <h2>About TNPVC</h2>
-                            <p class="about-short-lead">Who we are, why we started, and the mission that drives every
+                            <p class="about-short-lead">Who we are, why we started, and the mission that drives
+                                every
                                 TNPVC project.</p>
                         </div>
                         <a href="about.html" class="about-read-more-btn">Read More</a>
@@ -323,18 +578,22 @@
                     <div class="about-short-grid">
                         <div class="about-short-item">
                             <h3>Who We Are</h3>
-                            <p>TNPVC is a Tamil Nadu based uPVC and PVC association that connects homeowners, builders,
+                            <p>TNPVC is a Tamil Nadu based uPVC and PVC association that connects homeowners,
+                                builders,
                                 contractors, fabricators, and suppliers under one trusted network.</p>
                         </div>
                         <div class="about-short-item">
                             <h3>Why We Started</h3>
-                            <p>We started TNPVC to bring quality standards, verified teams, and transparent execution to
+                            <p>We started TNPVC to bring quality standards, verified teams, and transparent
+                                execution to
                                 uPVC/PVC projects, so customers get reliable results without confusion.</p>
                         </div>
                         <div class="about-short-item">
                             <h3>Mission & Vision</h3>
-                            <p>Our mission is to deliver durable uPVC/PVC solutions through skilled execution and honest
-                                service. Our vision is to build Tamil Nadu's most dependable network for modern door,
+                            <p>Our mission is to deliver durable uPVC/PVC solutions through skilled execution and
+                                honest
+                                service. Our vision is to build Tamil Nadu's most dependable network for modern
+                                door,
                                 window, and interior panel works.</p>
                         </div>
                     </div>
@@ -356,12 +615,13 @@
                 <div class="suite-left reveal-left">
                     <span class="badge" data-i18n="all_in_one">End-to-end PVC solutions</span>
                     <h2 data-i18n="tnpvc_network">TNPVC Service Network</h2>
-                    <span class="tagline" data-i18n="digital_foundation">Planning, fabrication, and installation in one
+                    <span class="tagline" data-i18n="digital_foundation">Planning, fabrication, and installation in
+                        one
                         flow.</span>
                     <p data-i18n="network_desc">Manage your complete uPVC/PVC project with TNPVC from design
                         consultation to material selection, fabrication, delivery, and final installation.</p>
-                    <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho"
-                        style="background: var(--primary-red);" data-i18n="try_network">GET TNPVC SUPPORT
+                    <a href="contact.html" class="btn-zoho" style="background: var(--primary-red);"
+                        data-i18n="try_network">GET TNPVC SUPPORT
                         <i data-lucide="chevron-right" style="width: 18px;"></i></a>
                 </div>
                 <div class="suite-right reveal-right">
@@ -370,7 +630,8 @@
                             <i data-lucide="quote" fill="currentColor" style="width: 18px;"></i>
                         </div>
                         <blockquote data-i18n="testimonial_quote">
-                            "Whether it is one home, an apartment block, or a commercial space, TNPVC delivered clean
+                            "Whether it is one home, an apartment block, or a commercial space, TNPVC delivered
+                            clean
                             finishing and on-time installation."
                         </blockquote>
                         <div class="author">
@@ -379,7 +640,8 @@
                                 loading="lazy" itemprop="image">
                             <div class="author-info"
                                 style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-                                <h5 style="text-transform: capitalize; margin-bottom: 4px; font-size: 1.2rem;">siranthan
+                                <h5 style="text-transform: capitalize; margin-bottom: 4px; font-size: 1.2rem;">
+                                    siranthan
                                     siran</h5>
                                 <p
                                     style="font-size: 0.9rem; color: #e7ddff; margin: 0 0 1rem 0; opacity: 0.9; font-weight: 600;">
@@ -512,11 +774,6 @@
                         <p style="font-size: 0.95rem; color: #555; margin-bottom: 2rem; min-height: 80px;"
                             data-i18n="enterprise_desc">Get dedicated execution support for villas, apartments, and
                             commercial projects with TNPVC's verified teams.</p>
-                        <a href="labours.html" class="btn-enterprise-blue"
-                            style="border-radius: 6px; padding: 0.8rem 1.5rem; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; background: #0067ff; color: #fff; font-weight: 700; font-size: 0.9rem;">
-                            <span data-i18n="learn_more">VIEW DETAILS</span>
-                            <i data-lucide="chevron-right" style="width: 16px;"></i>
-                        </a>
                     </div>
 
                     <!-- Category 2: Contractors -->
@@ -531,13 +788,9 @@
                                 data-i18n="enterprise_contractors">Contractors</h3>
                         </div>
                         <p style="font-size: 0.95rem; color: #555; margin-bottom: 2rem; min-height: 80px;"
-                            data-i18n="enterprise_contractors_desc">Verified project partners for home and commercial
+                            data-i18n="enterprise_contractors_desc">Verified project partners for home and
+                            commercial
                             fitting work. Professional management from site survey to final delivery.</p>
-                        <a href="contractors.html" class="btn-enterprise-blue"
-                            style="border-radius: 6px; padding: 0.8rem 1.5rem; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; background: #0067ff; color: #fff; font-weight: 700; font-size: 0.9rem;">
-                            <span data-i18n="learn_more">VIEW DETAILS</span>
-                            <i data-lucide="chevron-right" style="width: 16px;"></i>
-                        </a>
                     </div>
 
                     <!-- Category 3: Material Suppliers -->
@@ -552,13 +805,9 @@
                                 data-i18n="enterprise_suppliers">Material Suppliers</h3>
                         </div>
                         <p style="font-size: 0.95rem; color: #555; margin-bottom: 2rem; min-height: 80px;"
-                            data-i18n="enterprise_suppliers_desc">Direct connection to premium grade PVC/uPVC material
+                            data-i18n="enterprise_suppliers_desc">Direct connection to premium grade PVC/uPVC
+                            material
                             traders. Sourcing verified profiles, hardware, and accessories easily.</p>
-                        <a href="suppliers.html" class="btn-enterprise-blue"
-                            style="border-radius: 6px; padding: 0.8rem 1.5rem; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; background: #0067ff; color: #fff; font-weight: 700; font-size: 0.9rem;">
-                            <span data-i18n="learn_more">VIEW DETAILS</span>
-                            <i data-lucide="chevron-right" style="width: 16px;"></i>
-                        </a>
                     </div>
 
                     <!-- Category 4: Engineers & Builders -->
@@ -573,13 +822,9 @@
                                 data-i18n="enterprise_engineers">Engineers & Builders</h3>
                         </div>
                         <p style="font-size: 0.95rem; color: #555; margin-bottom: 2rem; min-height: 80px;"
-                            data-i18n="enterprise_engineers_desc">Technical support and design-to-delivery management
+                            data-i18n="enterprise_engineers_desc">Technical support and design-to-delivery
+                            management
                             for large scale buildings, apartments, and premium interior projects.</p>
-                        <a href="builders.html" class="btn-enterprise-blue"
-                            style="border-radius: 6px; padding: 0.8rem 1.5rem; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; background: #0067ff; color: #fff; font-weight: 700; font-size: 0.9rem;">
-                            <span data-i18n="learn_more">VIEW DETAILS</span>
-                            <i data-lucide="chevron-right" style="width: 16px;"></i>
-                        </a>
                     </div>
                 </div>
 
@@ -666,7 +911,7 @@
                         </blockquote>
                         <h4 style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0px;">Srinivasan</h4>
                         <p style="color: #666; font-size: 0.9rem;">Managing Director, TNPVC Council</p>
-                        <a href="anuprintha-story.html" class="btn-zoho"
+                        <a href="story.html" class="btn-zoho"
                             style="background: #e3001b; padding: 0.6rem 1.5rem; font-size: 0.75rem; border-radius: 4px; border: none; color: #fff; cursor: pointer; text-decoration: none; font-weight: 700; display: inline-block; margin-top: 1rem;">
                             <span data-i18n="read_our_story">READ ARTICLE</span>
                         </a>
@@ -791,7 +1036,8 @@
                                 <i data-lucide="settings" style="color: #34a853;"></i>
                             </div>
                             <h3 data-i18n="quality_prof">Quality & workmanship</h3>
-                            <p data-i18n="quality_prof_desc">Every profile, fitting, and installation step is checked
+                            <p data-i18n="quality_prof_desc">Every profile, fitting, and installation step is
+                                checked
                                 for finish, alignment, and durability to maintain high project standards.</p>
                         </div>
                         <div class="value-item">
@@ -799,7 +1045,8 @@
                                 <i data-lucide="users" style="color: #fbbc05;"></i>
                             </div>
                             <h3 data-i18n="member_first">Customer-first approach</h3>
-                            <p data-i18n="member_first_desc">From first consultation to final handover, our teams focus
+                            <p data-i18n="member_first_desc">From first consultation to final handover, our teams
+                                focus
                                 on clear communication, transparent pricing, and on-time completion.</p>
                         </div>
                     </div>
@@ -920,22 +1167,23 @@
                 <div class="legal-bar">
                     <div class="legal-links">
                         <a href="contact.html" data-i18n="legal_contact">Contact Us</a>
-                        <a href="#" data-i18n="legal_security">Security</a>
-                        <a href="#" data-i18n="legal_compliance">Workmanship Compliance</a>
-                        <a href="#" data-i18n="legal_ipr">IPR Complaints</a>
-                        <a href="#" data-i18n="legal_safety">Site Safety Policy</a>
-                        <a href="#" data-i18n="legal_tos">Terms of Service</a>
-                        <a href="#" data-i18n="legal_privacy">Privacy Policy</a>
-                        <a href="#" data-i18n="legal_brand">Brand Usage Policy</a>
-                        <a href="#" data-i18n="legal_cookie">Cookie Policy</a>
-                        <a href="#" data-i18n="legal_data">Customer Data Compliance</a>
+                        <a href="security.html" data-i18n="legal_security">Security</a>
+                        <a href="workmanship-compliance.html" data-i18n="legal_compliance">Workmanship Compliance</a>
+                        <a href="ipr-complaints.html" data-i18n="legal_ipr">IPR Complaints</a>
+                        <a href="site-safety-policy.html" data-i18n="legal_safety">Site Safety Policy</a>
+                        <a href="terms-of-service.html" data-i18n="legal_tos">Terms of Service</a>
+                        <a href="privacy-policy.html" data-i18n="legal_privacy">Privacy Policy</a>
+                        <a href="brand-usage-policy.html" data-i18n="legal_brand">Brand Usage Policy</a>
+                        <a href="cookie-policy.html" data-i18n="legal_cookie">Cookie Policy</a>
+                        <a href="customer-data-compliance.html" data-i18n="legal_data">Customer Data Compliance</a>
                     </div>
                 </div>
             </div>
 
             <div class="footer-bottom">
 
-                <p>&copy; 2026, TNPVC Council Pvt. Ltd. <span data-i18n="footer_rights">All Rights Reserved.</span></p>
+                <p>&copy; 2026, TNPVC Council Pvt. Ltd. <span data-i18n="footer_rights">All Rights Reserved.</span>
+                </p>
                 <div class="dexaz-footer">
                     <span data-i18n="developing_by">Developing by</span>
                     <strong>DEXAZ</strong>
@@ -952,6 +1200,53 @@
         </a>
 
 
+
+        <!-- Welcome Modal Popup -->
+        <div id="welcomePopup" class="welcome-modal-overlay">
+            <div class="welcome-modal-content" style="height: 550px;">
+                <button class="close-welcome-btn" onclick="closeWelcomePopup()"
+                    style="color:#fff; background:rgba(255,255,255,0.1);">&times;</button>
+                <div class="welcome-header">
+                    <div class="head-logo-circle">
+                        <img src="logo.png" alt="TNPVC">
+                    </div>
+                    <span class="head-tnpvc-text">TNPVC</span>
+                </div>
+                <div class="welcome-body">
+                    <!-- Our Craft Box -->
+                    <div class="box-section">
+                        <span class="box-section-label">Featured Craft</span>
+                        <a href="https://www.nareshupvc.in" target="_blank" class="popup-craft-card"
+                            style="border:none; padding:0; background:none;">
+                            <div class="popup-craft-top">
+                                <div class="popup-craft-favicon">
+                                    <img src="https://www.nareshupvc.in/favicon.ico" alt="Naresh UPVC"
+                                        onerror="this.src='logo.png'">
+                                </div>
+                                <div class="popup-craft-info">
+                                    <span class="popup-craft-name">nareshupvc</span>
+                                    <span class="popup-craft-url">www.nareshupvc.in</span>
+                                </div>
+                            </div>
+                            <div class="popup-craft-title" style="font-size: 0.95rem;">Premium UPVC Windows India</div>
+                            <p class="popup-craft-desc" style="font-size: 0.75rem;">Premium uPVC windows sponsorship by
+                                TNPVC Council.</p>
+                        </a>
+                    </div>
+
+                    <!-- Feed Box -->
+                    <div class="box-section" style="flex: 1; display: flex; flex-direction: column;">
+                        <span class="box-section-label">Feed Highlights</span>
+                        <div id="popupFeedItems" class="popup-feed-grid" style="flex:1;">
+                            <!-- JS will fill this -->
+                        </div>
+                    </div>
+                </div>
+                <div class="welcome-footer" style="padding: 15px; background: #fff;">
+                    <button class="btn-explore" onclick="window.location.href='feed.html'">Visit Full Feed</button>
+                </div>
+            </div>
+        </div>
 
         <!-- Bottom Navigation Bar -->
         <nav class="bottom-nav">
@@ -1005,6 +1300,9 @@
                     });
                 }
 
+                // Show Welcome Popup on Website Open
+                showWelcomePopup();
+
                 // Download App Button - Coming Soon Toast
                 const downloadAppBtn = document.getElementById('downloadAppBtn');
                 const appToast = document.getElementById('appComingSoonToast');
@@ -1018,6 +1316,40 @@
                     });
                 }
             });
+
+            function showWelcomePopup() {
+                const popup = document.getElementById('welcomePopup');
+                const feedGrid = document.getElementById('popupFeedItems');
+
+                if (true) { // Temporarily forced to show for verification
+                    // Load recent posts from Feed
+                    const localPosts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
+                    if (localPosts.length > 0) {
+                        const recentPosts = localPosts.slice(0, 3); // Top 3 recent
+                        feedGrid.innerHTML = recentPosts.map(post => `
+                            <div class="popup-feed-item">
+                                ${post.media ? `<img src="${post.media}" alt="Feed Post">` : `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#eee; color:#aaa;"><i data-lucide="image"></i></div>`}
+                            </div>
+                        `).join('');
+                        lucide.createIcons();
+                    } else {
+                        feedGrid.innerHTML = '<p style="grid-column: span 3; color: #888; font-size: 0.8rem; text-align: center;">No recent feed updates.</p>';
+                    }
+
+                    setTimeout(() => {
+                        popup.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    }, 1000);
+
+                    sessionStorage.setItem('tnpvc_welcome_seen', 'true');
+                }
+            }
+
+            function closeWelcomePopup() {
+                const popup = document.getElementById('welcomePopup');
+                popup.classList.remove('active');
+                document.body.style.overflow = '';
+            }
         </script>
 
         <!-- Coming Soon Toast for App Download -->
@@ -1030,36 +1362,6 @@
                 <span>TNPVC Official App is being crafted by Dexaz developers.</span>
             </div>
         </div>
-
-        
-    <!-- Payangarama Development Popup Modal -->
-    <div id="devModal" class="dev-modal">
-        <div class="dev-modal-content">
-            <div class="dev-modal-icon">
-                <i data-lucide="construction"></i>
-            </div>
-            <h3>Site Under Development</h3>
-            <p>Welcome to TNPVC Council. We are currently building a powerful experience with <strong class="dexaz-brand">Dexaz</strong>. Stay tuned!</p>
-            <button class="btn-dev-close" onclick="closeDevModal()">Enter Site</button>
-        </div>
-    </div>
-    <script>
-        function closeDevModal() {
-            document.getElementById('devModal').classList.remove('active');
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                const modal = document.getElementById('devModal');
-                if (modal) {
-                    modal.classList.add('active');
-                    console.log('Modal activated');
-                }
-                if(window.lucide) {
-                    lucide.createIcons();
-                }
-            }, 500);
-        });
-    </script>
 
 
 </body>

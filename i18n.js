@@ -9,6 +9,8 @@ const translations = {
         "gallery_title": "Our Project Showcase",
         "gallery_subtitle": "A closer look at the craftsmanship and quality delivered by TNPVC across Tamil Nadu.",
         "hero_title": "Trusted uPVC & PVC Solutions<br>for Homes and Buildings",
+        "visionary_leader": "The Visionary Leader",
+        "visionary_desc": "R. Srinivasan - The driving force behind Tamil Nadu's interior revolution.",
         "hero_subtitle": "TNPVC connects homeowners and builders with verified teams for uPVC windows, PVC doors, ceilings, wall panels, and complete on-site installation across Tamil Nadu.",
         "get_started": "Book Site Visit",
         "access_network": "View Our Services",
@@ -92,7 +94,11 @@ const translations = {
         "legal_privacy": "Privacy Policy",
         "legal_brand": "Brand Usage Policy",
         "legal_cookie": "Cookie Policy",
-        "legal_data": "Customer Data Compliance"
+        "legal_data": "Customer Data Compliance",
+        "nav_home": "Home",
+        "nav_post": "Post",
+        "nav_search": "Search",
+        "nav_account": "Account"
     },
     "ta": {
         "nav_about": "பற்றி",
@@ -104,6 +110,8 @@ const translations = {
         "gallery_title": "எங்கள் திட்டங்களின் தொகுப்பு",
         "gallery_subtitle": "தமிழ்நாடு முழுவதும் TNPVC வழங்கிய சிறந்த தரம் மற்றும் கைவேலைப்பாடுகள்.",
         "hero_title": "வீடு மற்றும் கட்டிடங்களுக்கு<br>நம்பகமான uPVC & PVC தீர்வுகள்",
+        "visionary_leader": "தொலைநோக்குத் தலைவர்",
+        "visionary_desc": "R. சீனிவாசன் - தமிழ்நாட்டின் இன்டீரியர் புரட்சியின் உந்துசக்தி.",
         "hero_subtitle": "தமிழ்நாடு முழுவதும் uPVC ஜன்னல், PVC கதவு, false ceiling, wall panel போன்ற பணிகளுக்கு TNPVC சரிபார்க்கப்பட்ட நிபுணர் அணிகளை இணைக்கிறது.",
         "get_started": "Site Visit பதிவு செய்யுங்கள்",
         "access_network": "எங்கள் சேவைகளை பார்க்க",
@@ -187,7 +195,11 @@ const translations = {
         "legal_privacy": "தனியுரிமைக் கொள்கை",
         "legal_brand": "பிராண்ட் பயன்பாட்டுக் கொள்கை",
         "legal_cookie": "குக்கீ கொள்கை",
-        "legal_data": "வாடிக்கையாளர் தரவு இணக்கம்"
+        "legal_data": "வாடிக்கையாளர் தரவு இணக்கம்",
+        "nav_home": "முகப்பு",
+        "nav_post": "பதிவு",
+        "nav_search": "தேடல்",
+        "nav_account": "கணக்கு"
     },
     "hi": {
         "nav_about": "हमारे बारे में",
@@ -199,6 +211,8 @@ const translations = {
         "gallery_title": "हमारे प्रोजेक्ट्स का प्रदर्शन",
         "gallery_subtitle": "तमिलनाडु भर में TNPVC द्वारा दी गई कारीगरी और गुणवत्ता की एक झलक।",
         "hero_title": "घर और बिल्डिंग के लिए<br>विश्वसनीय uPVC और PVC समाधान",
+        "visionary_leader": "दूरदर्शी नेता",
+        "visionary_desc": "आर. श्रीनिवासन - तमिलनाडु की इंटीरियर क्रांति के पीछे की प्रेरक शक्ति।",
         "hero_subtitle": "TNPVC तमिलनाडु भर में uPVC विंडो, PVC डोर, सीलिंग और पैनल वर्क के लिए सत्यापित टीमों से जोड़ता है।",
         "get_started": "Site Visit बुक करें",
         "access_network": "हमारी सेवाएं देखें",
@@ -282,7 +296,11 @@ const translations = {
         "legal_privacy": "गोपनीयता नीति",
         "legal_brand": "ब्रांड उपयोग नीति",
         "legal_cookie": "कुकी नीति",
-        "legal_data": "ग्राहक डेटा अनुपालन"
+        "legal_data": "ग्राहक डेटा अनुपालन",
+        "nav_home": "होम",
+        "nav_post": "पोस्ट",
+        "nav_search": "खोजें",
+        "nav_account": "प्रोफ़ाइल"
     }
 };
 

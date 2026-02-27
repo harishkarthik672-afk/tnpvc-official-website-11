@@ -134,6 +134,104 @@
             font-size: 0.9rem;
         }
 
+        /* Three Dots Menu */
+        .image-options {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .image-options {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .image-options {
+                opacity: 1;
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 50%;
+            }
+        }
+
+        .options-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .options-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+
+        .options-dropdown {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            min-width: 140px;
+            display: none;
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .options-dropdown.active {
+            display: block;
+            animation: fadeInDown 0.2s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dropdown-item {
+            width: 100%;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            background: none;
+            color: #1b0f3a;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            transition: background 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background: #f8f4ff;
+            color: #4b2491;
+        }
+
+        .dropdown-item svg {
+            width: 16px;
+            height: 16px;
+        }
+
         /* Lightbox Styles */
         .lightbox {
             position: fixed;
@@ -359,7 +457,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
 
             // Populate Gallery
             const galleryGrid = document.getElementById('galleryGrid');
@@ -373,6 +470,19 @@
                 item.className = 'gallery-item reveal';
                 item.innerHTML = `
                     <img src="showcase-${i}.jpg" alt="TNPVC Project Showcase ${i} - Premium PVC Inner and Interior Work" title="Project Showcase ${i} | Executed by TNPVC Council Professionals" loading="lazy">
+                    <div class="image-options">
+                        <button class="options-btn" onclick="event.stopPropagation(); toggleOptions(${i})">
+                            <i data-lucide="more-vertical"></i>
+                        </button>
+                        <div class="options-dropdown" id="dropdown-${i}">
+                            <button class="dropdown-item" onclick="event.stopPropagation(); downloadImage('showcase-${i}.jpg', 'TNPVC-Showcase-${i}.jpg')">
+                                <i data-lucide="download"></i> Download
+                            </button>
+                            <button class="dropdown-item" onclick="event.stopPropagation(); window.open('https://wa.me/918870826404?text=Hi TNPVC, I am interested in this project: Showcase ${i}. Please provide more details!', '_blank')">
+                                <i data-lucide="message-square"></i> Send Inquiry
+                            </button>
+                        </div>
+                    </div>
                     <div class="gallery-overlay">
                         <div class="gallery-info">
                             <h3>TNPVC Project ${i}</h3>
@@ -422,42 +532,74 @@
                     document.body.style.overflow = '';
                 });
             }
+
+            // Global functions for gallery options
+            window.toggleOptions = (id) => {
+                const dropdown = document.getElementById(`dropdown-${id}`);
+                // Close all other dropdowns
+                document.querySelectorAll('.options-dropdown').forEach(d => {
+                    if (d !== dropdown) d.classList.remove('active');
+                });
+                dropdown.classList.toggle('active');
+            };
+
+            window.downloadImage = (url, filename) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', url, true);
+                xhr.responseType = 'blob';
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        const blob = xhr.response;
+                        const blobUrl = window.URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.href = blobUrl;
+                        link.download = filename.endsWith('.jpg') ? filename : filename + '.jpg';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
+                    }
+                };
+                xhr.onerror = function () {
+                    // Fallback
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = filename;
+                    link.target = '_blank';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                };
+                xhr.send();
+
+                // Close dropdown after download attempt
+                document.querySelectorAll('.options-dropdown').forEach(d => d.classList.remove('active'));
+            };
+
+            window.shareImage = (url) => {
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'TNPVC Project Showcase',
+                        text: 'Check out this beautiful project by TNPVC Council!',
+                        url: window.location.origin + '/' + url
+                    }).catch(console.error);
+                } else {
+                    alert('Sharing is not supported on this browser. You can download the image instead.');
+                }
+                document.querySelectorAll('.options-dropdown').forEach(d => d.classList.remove('active'));
+            };
+
+            // Close dropdowns on click outside
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.options-dropdown').forEach(d => d.classList.remove('active'));
+            });
+
+            // Initialize Lucide icons for the entire page including dynamically generated ones
+            if (window.lucide) {
+                lucide.createIcons();
+            }
         });
     </script>
-
-    
-    
-    <!-- Payangarama Development Popup Modal -->
-    <div id="devModal" class="dev-modal">
-        <div class="dev-modal-content">
-            <div class="dev-modal-icon">
-                <i data-lucide="construction"></i>
-            </div>
-            <h3>Site Under Development</h3>
-            <p>Welcome to TNPVC Council. We are currently building a powerful experience with <strong class="dexaz-brand">Dexaz</strong>. Stay tuned!</p>
-            <button class="btn-dev-close" onclick="closeDevModal()">Enter Site</button>
-        </div>
-    </div>
-    <script>
-        function closeDevModal() {
-            document.getElementById('devModal').classList.remove('active');
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                const modal = document.getElementById('devModal');
-                if (modal) {
-                    modal.classList.add('active');
-                    console.log('Modal activated');
-                }
-                if(window.lucide) {
-                    lucide.createIcons();
-                }
-            }, 500);
-        });
-    </script>
-
-
-
 </body>
 
 </html>

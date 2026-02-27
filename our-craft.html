@@ -264,6 +264,12 @@
 </head>
 
 <body>
+    <!-- Site Construction Notice -->
+    <div class="site-notice-bar">
+        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
+        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
+    </div>
+
     <!-- Header -->
     <header class="navbar">
         <div class="container nav-container">
@@ -302,12 +308,6 @@
             </div>
         </div>
     </header>
-
-    <!-- Site Construction Notice -->
-    <div class="site-notice-bar">
-        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
-        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
-    </div>
 
     <main>
         <!-- Hero Image: Full Width, No Text -->
@@ -435,36 +435,9 @@
     </script>
 
 
-    
-    
-    <!-- Payangarama Development Popup Modal -->
-    <div id="devModal" class="dev-modal">
-        <div class="dev-modal-content">
-            <div class="dev-modal-icon">
-                <i data-lucide="construction"></i>
-            </div>
-            <h3>Site Under Development</h3>
-            <p>Welcome to TNPVC Council. We are currently building a powerful experience with <strong class="dexaz-brand">Dexaz</strong>. Stay tuned!</p>
-            <button class="btn-dev-close" onclick="closeDevModal()">Enter Site</button>
-        </div>
-    </div>
-    <script>
-        function closeDevModal() {
-            document.getElementById('devModal').classList.remove('active');
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                const modal = document.getElementById('devModal');
-                if (modal) {
-                    modal.classList.add('active');
-                    console.log('Modal activated');
-                }
-                if(window.lucide) {
-                    lucide.createIcons();
-                }
-            }, 500);
-        });
-    </script>
+
+
+</body>
 
 
 

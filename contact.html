@@ -120,7 +120,7 @@
 <style>
     .contact-hero {
         background: #fdfcfb;
-        padding: 1.5rem 0 4rem;
+        padding: 1.5rem 0 1rem;
         text-align: center;
     }
 
@@ -128,7 +128,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 4rem;
-        margin-top: 4rem;
+        margin-top: 1rem;
     }
 
     .contact-form-card {
@@ -192,6 +192,12 @@
 </head>
 
 <body>
+    <!-- Site Construction Notice -->
+    <div class="site-notice-bar">
+        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
+        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
+    </div>
+
     <header class="navbar" itemscope itemtype="https://schema.org/SiteNavigationElement">
         <div class="container nav-container">
             <!-- Mobile Menu Toggle (Left) -->
@@ -201,8 +207,8 @@
 
             <div class="nav-left-group">
                 <a href="index.html" class="logo" itemprop="url">
-                    <img src="logo.png" alt="TNPVC Council Official Logo - Founded by Srinivasan"
-                        title="Contact TNPVC Council | Tamil Nadu PVC Interior Expert" itemprop="image">
+                    <img src="logo.png" alt="TNPVC Council - Tamil Nadu's Leading PVC & uPVC Platform"
+                        title="TNPVC Council Official Branding | Founder Srinivasan" itemprop="image">
                     <span itemprop="name">TNPVC</span>
                 </a>
                 <nav class="nav-links">
@@ -218,8 +224,9 @@
                 <!-- Language Switcher -->
                 <div class="lang-switcher">
                     <button class="lang-btn" id="langBtn">
-                        <img src="tnpvc-community-globe.svg" alt="Globe" class="globe-icon">
-                        <span id="currentLang">EN</span>
+                        <i data-lucide="swatch-book" class="globe-icon"></i>
+                        <span id="currentLang">English</span>
+                        <i data-lucide="chevron-down" class="chevron-icon"></i>
                     </button>
                     <div class="lang-dropdown" id="langDropdown">
                         <a href="#" data-lang="en">English</a>
@@ -227,22 +234,18 @@
                         <a href="#" data-lang="hi">हिन्दी</a>
                     </div>
                 </div>
-
-                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="join-whatsapp-btn join-btn-desktop"
-                    title="Join TNPVC on WhatsApp">
-                    <i data-lucide="message-circle"></i>
-                </a>
             </div>
         </div>
+
         <!-- Mobile Navigation Menu Overlay -->
         <div class="mobile-nav-overlay" id="mobileNav">
             <button class="close-menu" id="closeMenu"><i data-lucide="x"></i></button>
             <div class="mobile-nav-content">
-                <a href="about.html">About</a>
-                <a href="services.html">Services</a>
-                <a href="gallery.html">Gallery</a>
+                <a href="about.html" data-i18n="nav_about">About</a>
+                <a href="services.html" data-i18n="nav_services">Services</a>
+                <a href="gallery.html" data-i18n="nav_gallery">Gallery</a>
                 <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho"
-                    style="background: #25D366; margin-top: 1rem;">Join Now</a>
+                    style="margin-top: 1rem;"><span data-i18n="nav_join_now">Join Now</span></a>
             </div>
         </div>
     </header>
@@ -259,29 +262,29 @@
             </div>
         </section>
 
-        <section style="padding: 4rem 0;">
+        <section style="padding: 1rem 0 4rem;">
             <div class="container">
                 <div class="contact-grid">
                     <div class="contact-form-card animate">
                         <h2 style="margin-bottom: 2rem;">Send us a Message</h2>
-                        <form>
+                        <form id="inquiryForm">
                             <div class="form-row">
                                 <div class="input-group">
                                     <label>First Name</label>
-                                    <input type="text" placeholder="Your name">
+                                    <input type="text" id="firstName" placeholder="Your name" required>
                                 </div>
                                 <div class="input-group">
                                     <label>Last Name</label>
-                                    <input type="text" placeholder="Last name">
+                                    <input type="text" id="lastName" placeholder="Last name">
                                 </div>
                             </div>
                             <div class="input-group">
                                 <label>Email Address</label>
-                                <input type="email" placeholder="email@example.com">
+                                <input type="email" id="email" placeholder="email@example.com">
                             </div>
                             <div class="input-group">
                                 <label>What are you looking for?</label>
-                                <select>
+                                <select id="lookingFor">
                                     <option>Home Interior Service</option>
                                     <option>Join as a Worker</option>
                                     <option>Join as a Contractor</option>
@@ -291,11 +294,11 @@
                             </div>
                             <div class="input-group">
                                 <label>Message</label>
-                                <textarea rows="5" placeholder="How can we help you?"></textarea>
+                                <textarea id="message" rows="5" placeholder="How can we help you?" required></textarea>
                             </div>
-                            <a href="https://wa.me/918870826404" class="btn-zoho"
-                                style="width: 100%; padding: 1rem; text-align: center; display: block; text-decoration: none;">Send
-                                Inquiry</a>
+                            <button type="button" onclick="sendWhatsAppInquiry()" class="btn-zoho"
+                                style="width: 100%; padding: 1rem; text-align: center; display: block; border: none; font-family: inherit; font-size: 1rem;">SEND
+                                INQUIRY</button>
                         </form>
                     </div>
 
@@ -404,15 +407,15 @@
             <div class="legal-bar">
                 <div class="legal-links">
                     <a href="contact.html" data-i18n="legal_contact">Contact Us</a>
-                    <a href="#" data-i18n="legal_security">Security</a>
-                    <a href="#" data-i18n="legal_compliance">Workmanship Compliance</a>
-                    <a href="#" data-i18n="legal_ipr">IPR Complaints</a>
-                    <a href="#" data-i18n="legal_safety">Site Safety Policy</a>
-                    <a href="#" data-i18n="legal_tos">Terms of Service</a>
-                    <a href="#" data-i18n="legal_privacy">Privacy Policy</a>
-                    <a href="#" data-i18n="legal_brand">Brand Usage Policy</a>
-                    <a href="#" data-i18n="legal_cookie">Cookie Policy</a>
-                    <a href="#" data-i18n="legal_data">Customer Data Compliance</a>
+                    <a href="security.html" data-i18n="legal_security">Security</a>
+                    <a href="workmanship-compliance.html" data-i18n="legal_compliance">Workmanship Compliance</a>
+                    <a href="ipr-complaints.html" data-i18n="legal_ipr">IPR Complaints</a>
+                    <a href="site-safety-policy.html" data-i18n="legal_safety">Site Safety Policy</a>
+                    <a href="terms-of-service.html" data-i18n="legal_tos">Terms of Service</a>
+                    <a href="privacy-policy.html" data-i18n="legal_privacy">Privacy Policy</a>
+                    <a href="brand-usage-policy.html" data-i18n="legal_brand">Brand Usage Policy</a>
+                    <a href="cookie-policy.html" data-i18n="legal_cookie">Cookie Policy</a>
+                    <a href="customer-data-compliance.html" data-i18n="legal_data">Customer Data Compliance</a>
                 </div>
             </div>
         </div>
@@ -428,6 +431,29 @@
         </div>
     </footer>
 
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="our-craft.html" class="bottom-nav-item">
+            <i data-lucide="swatch-book"></i>
+            <span data-i18n="nav_our_craft">Our Craft</span>
+        </a>
+        <a href="ads.html" class="bottom-nav-item">
+            <i data-lucide="rocket"></i>
+            <span data-i18n="nav_ads">Ads</span>
+        </a>
+        <a href="index.html" class="bottom-nav-item center-btn">
+            <img src="logo.png" class="center-logo" alt="TNPVC Home">
+        </a>
+        <a href="feed.html" class="bottom-nav-item">
+            <i data-lucide="layout-list"></i>
+            <span data-i18n="nav_blog">Feed</span>
+        </a>
+        <a href="dexaz-partnership.html" class="bottom-nav-item">
+            <img src="dexaz.png" class="bottom-nav-img" alt="Dexaz">
+            <span data-i18n="nav_dexaz">Dexaz</span>
+        </a>
+    </nav>
+    <script src="i18n.js"></script>
     <script>
         lucide.createIcons();
 
@@ -453,6 +479,24 @@
                     document.body.style.overflow = '';
                 });
             });
+        }
+
+        function sendWhatsAppInquiry() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const service = document.getElementById('lookingFor').value;
+            const message = document.getElementById('message').value;
+
+            if (!firstName || !message) {
+                alert('Please fill in at least your name and message.');
+                return;
+            }
+
+            const phoneNumber = "918870826404";
+            const fullMessage = `*New Inquiry from TNPVC Website*%0A%0A*Name:* ${firstName} ${lastName}%0A*Email:* ${email}%0A*Subject:* ${service}%0A*Message:* ${message}`;
+
+            window.open(`https://wa.me/${phoneNumber}?text=${fullMessage}`, '_blank');
         }
     </script>
 </body>

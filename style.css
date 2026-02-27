@@ -1,8 +1,8 @@
 ﻿:root {
-    --primary-red: #e3001b;
-    --primary-blue: #0067ff;
-    --primary-purple: #7c3aed;
-    --primary-green: #34a853;
+    --primary-red: #4b2491;
+    --primary-blue: #4b2491;
+    --primary-purple: #4b2491;
+    --primary-green: #4b2491;
     --primary-yellow: #fbbc05;
     --text-main: #000000;
     --text-muted: #555555;
@@ -52,9 +52,9 @@
 }
 
 .red-badge {
-    background: #fff5f5 !important;
-    color: #e53e3e !important;
-    border: 1px solid #fed7d7 !important;
+    background: rgba(75, 36, 145, 0.05) !important;
+    color: #4b2491 !important;
+    border: 1px solid rgba(75, 36, 145, 0.1) !important;
     margin-bottom: 2rem;
     display: inline-block;
     font-weight: 700;
@@ -65,9 +65,9 @@
 }
 
 .btn-red {
-    background: #e53e3e !important;
+    background: #4b2491 !important;
     color: white !important;
-    box-shadow: 0 10px 15px rgba(229, 62, 62, 0.1) !important;
+    box-shadow: 0 10px 15px rgba(75, 36, 145, 0.1) !important;
 }
 
 .hero-btns-wrap {
@@ -98,7 +98,7 @@ body {
     align-items: center;
     border-bottom: 1px solid #eeeeee;
     position: fixed;
-    top: 0;
+    top: 45px;
     left: 0;
     width: 100%;
     z-index: 1000;
@@ -168,20 +168,18 @@ body {
 /* Bottom Navigation Bar */
 .bottom-nav {
     position: fixed;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
-    background: rgba(27, 15, 58, 0.85);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #1b0f3a;
     display: flex;
     justify-content: space-around;
     align-items: center;
     padding: 12px 0 16px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
     z-index: 9999;
-    border-radius: 28px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    border-radius: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .bottom-nav-item {
@@ -269,17 +267,17 @@ body {
 
 /* Adjust layout for bottom nav */
 body {
-    padding-bottom: 100px;
+    padding-bottom: 80px;
 }
 
 @media (max-width: 768px) {
     .bottom-nav {
-        width: calc(100% - 30px);
-        left: 15px;
-        right: 15px;
-        bottom: 15px;
-        padding: 10px 0 14px;
-        border-radius: 24px;
+        width: 100%;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 5px 0 20px;
+        border-radius: 0;
     }
 
     .bottom-nav-item span {
@@ -295,33 +293,34 @@ body {
 
 @media (min-width: 769px) {
     .bottom-nav {
-        flex-direction: column;
-        justify-content: center;
-        width: 100px;
-        height: auto;
-        min-height: 520px;
-        left: 30px;
-        right: auto;
-        top: 50%;
-        bottom: auto;
-        transform: translateY(-50%);
-        border-radius: 50px;
-        padding: 50px 10px;
-        gap: 2.8rem;
+        flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
+        height: 80px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 0;
+        padding: 10px 0;
+        gap: 0;
         background: #1b0f3a;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
+        top: auto;
+        transform: none;
     }
 
     body {
-        padding-left: 160px;
+        padding-left: 0;
         padding-top: 0px;
+        padding-bottom: 100px;
     }
 
     .navbar,
     .site-notice-bar,
     header.ads-header {
-        width: calc(100% - 160px) !important;
-        left: 160px !important;
+        width: 100% !important;
+        left: 0 !important;
+        top: 0 !important;
     }
 
     .bottom-nav-item {
@@ -353,7 +352,7 @@ body {
 /* Integrated Site Notice Bar */
 .site-notice-bar {
     position: fixed;
-    top: 90px;
+    top: 0;
     left: 0;
     width: 100%;
     height: 45px;
@@ -400,9 +399,13 @@ body {
 @media (max-width: 768px) {
     .site-notice-bar {
         height: 40px;
-        top: 90px;
+        top: 0;
         gap: 10px;
         padding: 0 10px;
+    }
+
+    .navbar {
+        top: 40px;
     }
 
     .notice-text {
@@ -536,7 +539,7 @@ body {
     right: 25px;
     width: 60px;
     height: 60px;
-    background-color: #25D366;
+    background-color: #4b2491;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -646,20 +649,20 @@ body {
 }
 
 .btn-service-highlight {
-    background: #ffffff !important;
+    background: #4b2491 !important;
     padding: 1.1rem 2.8rem !important;
     border-radius: 12px !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+    box-shadow: 0 4px 16px rgba(75, 36, 145, 0.35) !important;
     font-size: 1.05rem !important;
-    color: #1b0f3a !important;
-    border: 2px solid rgba(27, 15, 58, 0.1) !important;
+    color: #ffffff !important;
+    border: 2px solid rgba(75, 36, 145, 0.3) !important;
     font-weight: 700 !important;
 }
 
 .btn-service-highlight:hover {
     transform: translateY(-3px) scale(1.02);
-    background: #f0f0f0 !important;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18) !important;
+    background: #3a1b75 !important;
+    box-shadow: 0 10px 28px rgba(75, 36, 145, 0.45) !important;
 }
 
 /* Download TNPVC App Button */
@@ -668,16 +671,16 @@ body {
     align-items: center;
     justify-content: center;
     gap: 0.6rem;
-    background: #ffffff;
-    color: #1b0f3a;
+    background: #4b2491;
+    color: #ffffff;
     padding: 0.9rem 2.4rem;
     border-radius: 12px;
     text-decoration: none;
     font-weight: 700;
     font-size: 0.95rem;
     letter-spacing: 0.3px;
-    border: 2px solid rgba(27, 15, 58, 0.12);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    border: 2px solid rgba(75, 36, 145, 0.3);
+    box-shadow: 0 4px 16px rgba(75, 36, 145, 0.35);
     transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     overflow: hidden;
@@ -690,7 +693,7 @@ body {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.04), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
     transition: left 0.5s ease;
 }
 
@@ -699,10 +702,10 @@ body {
 }
 
 .btn-download-app:hover {
-    background: #f0f0f0;
+    background: #3a1b75;
     transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
-    border-color: rgba(27, 15, 58, 0.2);
+    box-shadow: 0 10px 28px rgba(75, 36, 145, 0.45);
+    border-color: rgba(75, 36, 145, 0.4);
 }
 
 .btn-download-app:active {
@@ -712,7 +715,7 @@ body {
 .btn-download-app i {
     width: 18px;
     height: 18px;
-    color: #1b0f3a;
+    color: #ffffff;
 }
 
 .service-micro-tag {
@@ -2308,7 +2311,7 @@ body {
 
 /* Zoho Style Help Grid - Added for About Page */
 .help-hero-section {
-    background-color: #0060b4;
+    background-color: #4b2491;
     padding: 3rem 0 6rem;
     text-align: center;
     color: #fff;
@@ -2370,7 +2373,7 @@ body {
     top: -12px;
     left: 50%;
     transform: translateX(-50%);
-    background: #28a745;
+    background: #4b2491;
     color: #fff;
     font-size: 0.7rem;
     font-weight: 700;
@@ -2440,7 +2443,7 @@ body {
 }
 
 .about-page .help-grid {
-    overflow: hidden;
+    overflow: visible;
 }
 
 .about-page .help-card {
@@ -2585,7 +2588,7 @@ body {
     inset: -2px;
     border-radius: 52px;
     padding: 2px;
-    background: linear-gradient(90deg, #4285F4, #EA4335, #FBBC05, #34A853);
+    background: linear-gradient(90deg, #e3001b, #ff4c4c, #e3001b);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -2609,22 +2612,22 @@ body {
     max-width: 520px;
 }
 
-.btn-zoho-red {
+.btn-zoho-purple {
     display: inline-block;
     padding: 1rem 2.5rem;
-    background: var(--primary-red);
+    background: var(--primary-purple);
     color: #fff;
     text-decoration: none;
     font-weight: 700;
     border-radius: 6px;
     font-size: 0.95rem;
     transition: 0.3s;
-    box-shadow: 0 4px 15px rgba(227, 0, 27, 0.2);
+    box-shadow: 0 4px 15px rgba(75, 36, 145, 0.2);
 }
 
-.btn-zoho-red:hover {
+.btn-zoho-purple:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(227, 0, 27, 0.3);
+    box-shadow: 0 6px 20px rgba(75, 36, 145, 0.3);
 }
 
 /* Illustration Styles */
@@ -2911,7 +2914,7 @@ body {
 
 /* Healthier Businesses (Green) */
 .healthier-section {
-    background: #008a4e;
+    background: #4b2491;
     color: #fff;
     padding: 4rem 0;
 }
@@ -2928,7 +2931,7 @@ body {
 
 /* Service Flow Section */
 .service-flow-section {
-    background: #eef6f1;
+    background: rgba(75, 36, 145, 0.05);
     padding: 5.5rem 0 4.5rem;
     text-align: center;
     overflow: hidden;
@@ -2944,18 +2947,18 @@ body {
     width: 110px;
     height: 110px;
     border-radius: 26px;
-    background: linear-gradient(135deg, #12a150, #0a7d3d);
+    background: linear-gradient(135deg, #4b2491, #3a1c71);
     color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 14px 30px rgba(16, 122, 63, 0.3);
-    border: 6px solid #b9eccd;
+    box-shadow: 0 14px 30px rgba(75, 36, 145, 0.3);
+    border: 6px solid rgba(75, 36, 145, 0.2);
 }
 
 .service-flow-line {
     height: 2px;
-    background: #95d5b2;
+    background: #4b2491;
     max-width: 980px;
     margin: 0 auto;
 }
@@ -2980,12 +2983,12 @@ body {
     height: 52px;
     border-radius: 50%;
     background: #fff;
-    border: 1px solid #d1fae5;
+    border: 1px solid rgba(75, 36, 145, 0.15);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #0a8f47;
+    color: #4b2491;
 }
 
 .service-flow-dot i,
@@ -3057,8 +3060,8 @@ body {
     align-items: center;
     gap: 8px;
     padding: 0.8rem 1.5rem;
-    border: 2px solid #004d40;
-    color: #004d40;
+    border: 2px solid #4b2491;
+    color: #4b2491;
     text-decoration: none;
     border-radius: 50px;
     font-weight: 700;
@@ -3368,7 +3371,7 @@ body {
 }
 
 .test-links a {
-    color: #008a4e;
+    color: #4b2491;
     text-decoration: none;
     font-weight: 700;
     display: flex;
@@ -3471,7 +3474,7 @@ body {
 }
 
 .card-snippet .card-head a {
-    color: #008a4e;
+    color: #4b2491;
     text-decoration: none;
     font-weight: 700;
 }
@@ -3483,7 +3486,7 @@ body {
 }
 
 .btn-mini {
-    background: #008a4e;
+    background: #4b2491;
     color: #fff;
     border: none;
     padding: 5px 12px;
@@ -3544,7 +3547,7 @@ body {
 
 .pill-tab-primary {
     padding: 0.8rem 1.8rem;
-    background: #004d40;
+    background: #4b2491;
     color: #fff;
     border-radius: 50px;
     font-weight: 600;
@@ -3618,10 +3621,10 @@ body {
 }
 
 .checklist li i {
-    color: #008a4e;
+    color: #4b2491;
     flex-shrink: 0;
     margin-top: 3px;
-    background: rgba(0, 138, 78, 0.1);
+    background: rgba(75, 36, 145, 0.1);
     padding: 4px;
     border-radius: 50%;
 }
@@ -3646,7 +3649,7 @@ body {
 /* Unified Design Hub Section (Custom Image Recreation) */
 .unified-design-section {
     padding: 8rem 0;
-    background: #008a4e;
+    background: #4b2491;
     /* Using the green background from the image */
     color: #fff;
     text-align: center;
@@ -3813,7 +3816,7 @@ body {
 /* Advanced Customer Hero Styles */
 .customer-hero {
     padding: 6rem 0 0;
-    background: #e8f5e9;
+    background: #f5f3ff;
     overflow: hidden;
     position: relative;
 }
@@ -3872,12 +3875,12 @@ body {
     left: 45%;
     transform: translateX(-50%);
     background: #fff;
-    border: 3px solid #017a4a;
+    border: 3px solid #4b2491;
     padding: 0.5rem 2.8rem;
     border-radius: 50px;
     font-size: 2.2rem;
     font-weight: 900;
-    color: #017a4a;
+    color: #4b2491;
     z-index: 10;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
 }
@@ -4043,7 +4046,7 @@ body {
 }
 
 .badge-happiness i {
-    color: #22c55e;
+    color: #4b2491;
 }
 
 .badge-stars {
@@ -4068,7 +4071,7 @@ body {
     right: -40px;
     width: 500px;
     height: 200px;
-    background: linear-gradient(to right, #2e7d32, #43a047);
+    background: linear-gradient(to right, #4b2491, #7c3aed);
     clip-path: polygon(0% 100%, 25% 100%, 25% 75%, 50% 75%, 50% 50%, 75% 50%, 75% 25%, 100% 25%, 100% 100%);
     opacity: 0.9;
     z-index: 1;
@@ -4194,7 +4197,7 @@ body {
 .support-card .card-num {
     font-size: 1.4rem;
     font-weight: 800;
-    color: #10b981;
+    color: #4b2491;
     margin-bottom: 1.5rem;
     display: block;
 }
@@ -4215,7 +4218,7 @@ body {
 /* Conversation Hub Section (New from Image) */
 .conversation-hub-section {
     padding: 10rem 0;
-    background: radial-gradient(circle at center, #008a4e 0%, #004d40 100%);
+    background: radial-gradient(circle at center, #4b2491 0%, #3a1c71 100%);
     color: #fff;
     text-align: center;
     overflow: hidden;
@@ -4265,7 +4268,7 @@ body {
     font-size: 3.2rem;
     line-height: 1.15;
     font-weight: 800;
-    color: #0f9d58;
+    color: #4b2491;
     margin-bottom: 1.2rem;
 }
 
@@ -4333,7 +4336,7 @@ body {
     position: relative;
     z-index: 10;
     width: 650px;
-    background: #004d40;
+    background: #4b2491;
     border-radius: 20px;
     padding: 1.5rem;
     box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
@@ -4398,7 +4401,7 @@ body {
 }
 
 .badge-call {
-    background: #4caf50;
+    background: #4b2491;
     animation: orbit-inner 20s infinite linear;
 }
 
@@ -4409,24 +4412,24 @@ body {
 }
 
 .badge-webchat {
-    background: #34a853;
+    background: #6a1b9a;
     animation: orbit-inner 30s infinite linear;
     animation-delay: -10s;
 }
 
 .badge-whatsapp {
-    background: #25d366;
+    background: #7b1fa2;
     animation: orbit-middle 35s infinite linear;
 }
 
 .badge-wechat-top {
-    background: #07c160;
+    background: #8e24aa;
     animation: orbit-middle 40s infinite linear;
     animation-delay: -10s;
 }
 
 .badge-wechat-bottom {
-    background: #07c160;
+    background: #8e24aa;
     animation: orbit-middle 45s infinite linear;
     animation-delay: -20s;
 }
@@ -4461,7 +4464,7 @@ body {
 
 .channel-icon-badge:hover {
     background: #fff !important;
-    color: #008a4e !important;
+    color: #4b2491 !important;
     transform: scale(1.1) !important;
     animation-play-state: paused;
 }
@@ -4706,7 +4709,7 @@ body {
     height: 90px;
     border-radius: 22px;
     margin: 0 auto 1.3rem;
-    background: linear-gradient(135deg, #10a754, #0e8f4a);
+    background: linear-gradient(135deg, #4b2491, #7c3aed);
     border: 6px solid #bdeccc;
     color: #fff;
     display: flex;
@@ -4758,7 +4761,7 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: #0f9d58;
+    color: #4b2491;
 }
 
 .tnpvc-cap-item span {

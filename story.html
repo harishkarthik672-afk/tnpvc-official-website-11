@@ -66,7 +66,7 @@
 <style>
     .story-hero {
         position: relative;
-        height: 90vh;
+        height: 100vh;
         width: 100%;
         overflow: hidden;
         display: flex;
@@ -83,7 +83,7 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: center 25%;
+        object-position: center;
         z-index: -1;
         filter: brightness(1.1);
     }
@@ -105,21 +105,10 @@
         padding: 2rem;
     }
 
-    .story-hero h1 {
-        font-size: 3.5rem;
-        font-weight: 800;
-        margin-bottom: 1.5rem;
-        line-height: 1.1;
-        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    }
-
+    .story-hero h1,
     .story-hero p {
-        font-size: 1.3rem;
-        opacity: 1;
-        font-weight: 500;
-        max-width: 800px;
-        margin: 0 auto;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        display: none !important;
+        /* Fully clear hero as requested */
     }
 
     .story-content-wrapper {
@@ -135,10 +124,10 @@
     }
 
     .story-section h2 {
-        font-size: 1.8rem;
+        font-size: 2.2rem;
         font-weight: 800;
         color: #1a1a1a;
-        margin-bottom: 1.5rem;
+        margin-bottom: 2rem;
         display: flex;
         align-items: center;
         gap: 15px;
@@ -149,23 +138,28 @@
     }
 
     .story-section p {
-        font-size: 1.1rem;
-        line-height: 1.8;
-        color: #333;
-        margin-bottom: 1.5rem;
+        font-size: 1.35rem;
+        /* Larger font for readability */
+        line-height: 1.85;
+        color: #222;
+        margin-bottom: 2rem;
     }
 
     .story-section blockquote {
-        background: #fdf2f2;
-        border-left: 5px solid #e3001b;
-        padding: 2rem;
-        border-radius: 0 20px 20px 0;
-        margin: 3rem 0;
-        font-size: 1.4rem;
-        font-family: Georgia, serif;
+        background: #f8f4ff;
+        /* Subtle purple tint */
+        border-left: 6px solid #4b2491;
+        /* Primary purple */
+        padding: 3rem;
+        border-radius: 0 24px 24px 0;
+        margin: 4.5rem 0;
+        font-size: 1.7rem;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 500;
         font-style: italic;
-        color: #1a1a1a;
-        line-height: 1.5;
+        color: #4b2491;
+        line-height: 1.6;
+        box-shadow: 0 10px 30px rgba(75, 36, 145, 0.05);
     }
 
     .story-divider {
@@ -226,39 +220,67 @@
         position: fixed;
         top: 2rem;
         left: 2rem;
-        z-index: 100;
-        background: rgba(255, 255, 255, 0.95);
-        color: #333;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.9);
+        color: #4b2491;
         padding: 0.8rem 1.8rem;
         border-radius: 100px;
         text-decoration: none;
-        font-weight: 700;
+        font-weight: 800;
         display: flex;
         align-items: center;
         gap: 12px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(10px);
-        transition: all 0.3s ease;
-        border: 1px solid rgba(0, 0, 0, 0.05);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(15px);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 2px solid #4b2491;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
     }
 
     .back-home:hover {
-        transform: translateX(-5px);
-        background: #fff;
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        transform: scale(1.05) translateX(-5px);
+        background: #4b2491;
+        color: #fff;
+        box-shadow: 0 15px 40px rgba(75, 36, 145, 0.3);
     }
 
     @media (max-width: 768px) {
-        .story-hero h1 {
-            font-size: 2.8rem;
+        .story-hero {
+            height: auto !important;
+            aspect-ratio: 2/3 !important;
+            position: relative;
+            z-index: 10;
         }
 
-        .story-hero p {
-            font-size: 1.2rem;
+        .story-hero-img {
+            position: relative !important;
+            height: auto !important;
+            object-position: center top !important;
+        }
+
+        .story-section {
+            padding: 0 1.5rem;
+            margin-bottom: 4rem;
         }
 
         .story-section h2 {
-            font-size: 1.8rem;
+            font-size: 2.4rem;
+            /* Even larger mobile heading */
+            margin-bottom: 2rem;
+        }
+
+        .story-section p {
+            font-size: 1.6rem !important;
+            /* Significant boost for readability */
+            line-height: 1.6;
+        }
+
+        .story-section blockquote {
+            padding: 2rem;
+            font-size: 1.5rem;
+            margin: 2rem 0;
         }
 
         .feature-grid {
@@ -276,9 +298,9 @@
     <section class="story-hero">
         <img src="srinivasan.jpg" alt="Srinivasan - Founder and Visionary Leader of TNPVC Council"
             title="Srinivasan | The Movement Leader for Tamil Nadu's Interior Revolution" class="story-hero-img">
-        <div class="story-hero-overlay"></div>
+        <div class="story-hero-overlay" style="display: none;"></div>
         <div class="story-hero-content">
-            <!-- Text removed for a clear image view -->
+            <!-- Hero text removed as requested for a clear image view -->
         </div>
     </section>
 

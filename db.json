@@ -1,0 +1,54 @@
+{
+  "statuses": [
+    {
+      "id": "status_1",
+      "user": "Anuprintha",
+      "avatar": "anuprintha.png",
+      "content": "Work in progress at Chennai Hub!",
+      "time": 1708953600000
+    },
+    {
+      "id": "status_2",
+      "user": "Srinivasan",
+      "avatar": "srinivasan.jpg",
+      "content": "New uPVC installation completed.",
+      "time": 1708953660000
+    }
+  ],
+  "posts": [
+    {
+      "id": "post_1",
+      "user": "srinivasan_tnpvc",
+      "avatar": "srinivasan.jpg",
+      "location": "Coimbatore, Tamil Nadu",
+      "media": "project-1.jpg",
+      "caption": "Just finished a premium uPVC casement window project. The noise reduction is incredible! #tnpvc #upvc #interiors",
+      "likes": 1241,
+      "time": "2 HOURS AGO",
+      "likedBy": [
+        "you_tnpvc"
+      ]
+    },
+    {
+      "id": "post_2",
+      "user": "anuprintha_ops",
+      "avatar": "anuprintha.png",
+      "location": "Chennai Hub",
+      "media": "project-3.jpg",
+      "caption": "New shipment of charcoal louvers arrived at Chennai. Quality checking every batch for our members. 👷‍♀️💎",
+      "likes": 857,
+      "time": "5 HOURS AGO",
+      "likedBy": [
+        "you_tnpvc"
+      ]
+    }
+  ],
+  "users": {
+    "me": {
+      "username": "you_tnpvc",
+      "followers": 4210,
+      "following": 892,
+      "followingList": []
+    }
+  }
+}

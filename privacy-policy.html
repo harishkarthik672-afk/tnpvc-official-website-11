@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy – TNPVC Council</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f8f9fa;
+        }
+
+        .page-hero {
+            background: linear-gradient(135deg, #4b2491 0%, #6b3db5 60%, #8b5fd0 100%);
+            color: white;
+            padding: 80px 20px 60px;
+            text-align: center;
+        }
+
+        .page-hero .icon-wrap {
+            width: 64px;
+            height: 64px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .page-hero .icon-wrap svg {
+            width: 32px;
+            height: 32px;
+            color: white;
+        }
+
+        .page-hero h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .page-hero p {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.82rem;
+            text-decoration: none;
+            margin-bottom: 24px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .back-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .content-container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 40px 20px 100px;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 16px;
+            border: 1px solid #eee;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .content-card h2 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1b0f3a;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-card h2 svg {
+            width: 18px;
+            height: 18px;
+            color: #4b2491;
+        }
+
+        .content-card p {
+            font-size: 0.87rem;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+
+        .content-card ul {
+            padding-left: 18px;
+        }
+
+        .content-card ul li {
+            font-size: 0.87rem;
+            color: #555;
+            line-height: 2.2;
+        }
+
+        .last-updated {
+            font-size: 0.75rem;
+            color: #999;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script src="i18n.js" defer></script>
+</head>
+
+<body>
+    <!-- Site Construction Notice -->
+    <div class="site-notice-bar">
+        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
+        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
+    </div>
+
+    <header class="navbar" itemscope itemtype="https://schema.org/SiteNavigationElement">
+        <div class="container nav-container">
+            <!-- Mobile Menu Toggle (Left) -->
+            <button class="mobile-menu-toggle-btn-top" id="mobileMenuBtn">
+                <i data-lucide="menu"></i>
+            </button>
+
+            <div class="nav-left-group">
+                <a href="index.html" class="logo" itemprop="url">
+                    <img src="logo.png" alt="TNPVC Council - Tamil Nadu's Leading PVC & uPVC Platform"
+                        title="TNPVC Council Official Branding | Founder Srinivasan" itemprop="image">
+                    <span itemprop="name">TNPVC</span>
+                </a>
+                <nav class="nav-links">
+                    <a href="about.html" itemprop="url"><span itemprop="name" data-i18n="nav_about">About</span></a>
+                    <a href="services.html" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_services">Services</span></a>
+                    <a href="gallery.html" itemprop="url"><span itemprop="name"
+                            data-i18n="nav_gallery">Gallery</span></a>
+                </nav>
+            </div>
+
+            <div class="nav-right">
+                <!-- Language Switcher -->
+                <div class="lang-switcher">
+                    <button class="lang-btn" id="langBtn">
+                        <i data-lucide="swatch-book" class="globe-icon"></i>
+                        <span id="currentLang">English</span>
+                        <i data-lucide="chevron-down" class="chevron-icon"></i>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <a href="#" data-lang="en">English</a>
+                        <a href="#" data-lang="ta">தமிழ்</a>
+                        <a href="#" data-lang="hi">हिन्दी</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu Overlay -->
+        <div class="mobile-nav-overlay" id="mobileNav">
+            <button class="close-menu" id="closeMenu"><i data-lucide="x"></i></button>
+            <div class="mobile-nav-content">
+                <a href="about.html" data-i18n="nav_about">About</a>
+                <a href="services.html" data-i18n="nav_services">Services</a>
+                <a href="gallery.html" data-i18n="nav_gallery">Gallery</a>
+                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho"
+                    style="margin-top: 1rem;"><span data-i18n="nav_join_now">Join Now</span></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-hero">
+        <a href="legal.html" class="back-btn"><i data-lucide="arrow-left"></i> Back</a>
+        <div class="icon-wrap"><i data-lucide="eye-off"></i></div>
+        <h1>Privacy Policy</h1>
+        <p>How TNPVC Council collects, uses, and protects your personal information.</p>
+    </div>
+    <div class="content-container">
+        <p class="last-updated">Last Updated: February 2026</p>
+        <div class="content-card">
+            <h2><i data-lucide="database"></i> Information We Collect</h2>
+            <ul>
+                <li>Name, contact number, and email address</li>
+                <li>Location data for service matching</li>
+                <li>Project details and communication history</li>
+                <li>Device and browsing information (via cookies)</li>
+            </ul>
+        </div>
+        <div class="content-card">
+            <h2><i data-lucide="settings"></i> How We Use Your Data</h2>
+            <p>We use your information to match you with the right TNPVC service providers, to communicate about your
+                projects, and to improve our platform experience.</p>
+            <p>We do not sell your personal data to any third parties.</p>
+        </div>
+        <div class="content-card">
+            <h2><i data-lucide="share-2"></i> Data Sharing</h2>
+            <p>Your information may be shared with verified TNPVC contractors or suppliers only as necessary to complete
+                your project. All third parties are bound by strict confidentiality agreements.</p>
+        </div>
+        <div class="content-card">
+            <h2><i data-lucide="user-x"></i> Your Rights</h2>
+            <ul>
+                <li>Right to access your personal data</li>
+                <li>Right to correct inaccurate information</li>
+                <li>Right to request deletion of your data</li>
+                <li>Right to opt out of marketing communications</li>
+            </ul>
+        </div>
+        <div class="content-card">
+            <h2><i data-lucide="mail"></i> Contact for Privacy</h2>
+            <p>For any privacy-related queries or requests, please contact us through our Contact page. We respond to
+                all privacy requests within 30 days.</p>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="our-craft.html" class="bottom-nav-item">
+            <i data-lucide="swatch-book"></i>
+            <span data-i18n="nav_our_craft">Our Craft</span>
+        </a>
+        <a href="ads.html" class="bottom-nav-item">
+            <i data-lucide="rocket"></i>
+            <span data-i18n="nav_ads">Ads</span>
+        </a>
+        <a href="index.html" class="bottom-nav-item center-btn">
+            <img src="logo.png" class="center-logo" alt="TNPVC Home">
+        </a>
+        <a href="feed.html" class="bottom-nav-item">
+            <i data-lucide="layout-list"></i>
+            <span data-i18n="nav_blog">Feed</span>
+        </a>
+        <a href="dexaz-partnership.html" class="bottom-nav-item">
+            <img src="dexaz.png" class="bottom-nav-img" alt="Dexaz">
+            <span data-i18n="nav_dexaz">Dexaz</span>
+        </a>
+    </nav>
+
+    <script src="i18n.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+
+            // Mobile Menu Logic
+            const mobileToggle = document.getElementById('mobileMenuBtn');
+            const mobileNav = document.getElementById('mobileNav');
+            const closeMenu = document.getElementById('closeMenu');
+
+            if (mobileToggle && mobileNav && closeMenu) {
+                mobileToggle.addEventListener('click', () => {
+                    mobileNav.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+
+                closeMenu.addEventListener('click', () => {
+                    mobileNav.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+
+                // Close on link click
+                mobileNav.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileNav.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
