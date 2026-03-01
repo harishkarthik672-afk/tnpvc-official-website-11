@@ -31,9 +31,9 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             color: var(--fb-text);
-            padding-top: 104px;
-            /* Exactly 96px header + 8px spacing */
-            padding-bottom: 20px;
+            padding-top: 56px;
+            /* Exactly 48px header + 8px spacing */
+            padding-bottom: 70px;
         }
 
         .feed-container {
@@ -49,7 +49,7 @@
             position: fixed;
             top: 0;
             width: 100%;
-            height: 96px;
+            height: 48px;
             z-index: 1000;
             display: flex;
             flex-direction: column;
@@ -828,25 +828,27 @@
         /* Bottom Nav - Facebook Style - Using ID to override global styles */
         #fb-bottom-nav {
             position: fixed !important;
-            top: 48px !important;
+            bottom: 0 !important;
+            top: auto !important;
             left: 0 !important;
             width: 100% !important;
-            height: 55px !important;
+            height: 60px !important;
             background: var(--fb-white) !important;
             display: flex !important;
             flex-direction: row !important;
             align-items: center !important;
             justify-content: space-between !important;
             z-index: 2000 !important;
-            border-bottom: 1px solid #ced0d4 !important;
-            border-top: none !important;
+            border-top: 1px solid #ced0d4 !important;
+            border-bottom: none !important;
             padding: 0 !important;
             box-sizing: border-box !important;
             border-radius: 0 !important;
             max-width: none !important;
             transform: none !important;
-            box-shadow: none !important;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05) !important;
             backdrop-filter: none !important;
+            padding-bottom: env(safe-area-inset-bottom, 0px) !important;
         }
 
         .fb-nav-item {
@@ -1020,21 +1022,6 @@
                 </button>
             </div>
         </div>
-        <nav class="header-tabs">
-            <a href="javascript:void(0)" onclick="switchView('home')" class="fb-nav-item active" id="nav-home">
-                <i data-lucide="home" size="24"></i>
-            </a>
-            <a href="javascript:void(0)" onclick="switchView('updates')" class="fb-nav-item" id="nav-updates">
-                <i data-lucide="bell" size="24"></i>
-                <span id="notif-badge-el"></span>
-            </a>
-            <a href="javascript:void(0)" onclick="switchView('account')" class="fb-nav-item" id="nav-account">
-                <i data-lucide="circle-user" size="24"></i>
-            </a>
-            <a href="javascript:void(0)" onclick="switchView('menu')" class="fb-nav-item" id="nav-menu">
-                <i data-lucide="menu" size="24"></i>
-            </a>
-        </nav>
     </header>
 
     <main class="feed-container">
@@ -1345,6 +1332,22 @@
         </div>
     </main>
 
+    <!-- Bottom Navigation Bar -->
+    <nav class="header-tabs" id="fb-bottom-nav">
+        <a href="javascript:void(0)" onclick="switchView('home')" class="fb-nav-item active" id="nav-home">
+            <i data-lucide="home" size="24"></i>
+        </a>
+        <a href="javascript:void(0)" onclick="switchView('updates')" class="fb-nav-item" id="nav-updates">
+            <i data-lucide="bell" size="24"></i>
+            <span id="notif-badge-el"></span>
+        </a>
+        <a href="javascript:void(0)" onclick="switchView('account')" class="fb-nav-item" id="nav-account">
+            <i data-lucide="circle-user" size="24"></i>
+        </a>
+        <a href="javascript:void(0)" onclick="switchView('menu')" class="fb-nav-item" id="nav-menu">
+            <i data-lucide="menu" size="24"></i>
+        </a>
+    </nav>
 
     <!-- Modals -->
 
