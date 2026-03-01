@@ -640,6 +640,16 @@
             }
         }
 
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
         .modal-header {
             padding: 14px;
             border-bottom: 1px solid #efefef;
@@ -1417,38 +1427,37 @@
     </div>
 
     <!-- Chat Modal -->
-    <div id="chatModal" class="modal-overlay" style="align-items: flex-end; z-index: 3000;">
-        <div class="modal-content"
-            style="height: 100vh; max-height: 100vh; border-radius: 0; display: flex; flex-direction: column; background: #fdfdfd;">
-            <div class="modal-header"
-                style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: transparent;">
-                <button onclick="closeModals()"
-                    style="background: none; border: none; padding: 5px; cursor: pointer; display: flex; align-items: center; color: #a1aebf;">
-                    <i data-lucide="chevron-left" size="24"></i>
-                </button>
-                <div style="position:relative;">
-                    <img id="chatTargetAvatar" src=""
-                        style="width:36px; height:36px; border-radius:50%; object-fit:cover;">
-                </div>
-                <div style="font-weight: 700; flex: 1; font-size: 1.05rem; color:#050505;" id="chatTargetName">User
-                </div>
+    <div id="chatModal"
+        style="position: fixed; inset: 0; background: #fff; z-index: 4000; display: none; flex-direction: column; overflow: hidden; animation: slideInRight 0.3s ease;">
+        <div class="modal-header"
+            style="display: flex; align-items: center; justify-content: flex-start; gap: 12px; padding: 16px 16px 10px; background: #fff; border-bottom: 1px solid #efefef; box-shadow: 0 1px 3px rgba(0,0,0,0.02); text-align: left;">
+            <button onclick="closeModals()"
+                style="background: none; border: none; padding: 5px 5px 5px 0; cursor: pointer; display: flex; align-items: center; color: #007aff;">
+                <i data-lucide="chevron-left" size="28" style="stroke-width: 2.5px;"></i>
+            </button>
+            <div style="position:relative;">
+                <img id="chatTargetAvatar" src="" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
             </div>
+            <div style="flex: 1; display: flex; flex-direction: column;">
+                <div style="font-weight: 700; font-size: 1.1rem; color:#050505;" id="chatTargetName">User</div>
+                <div style="font-size: 0.75rem; color: #8e8e8e; font-weight: 500;">Online</div>
+            </div>
+        </div>
 
-            <div id="chatHistory" class="modal-body"
-                style="flex: 1; overflow-y: auto; padding: 16px 20px; background: transparent; display: flex; flex-direction: column; gap: 12px;">
-                <!-- Chat messages rendered here -->
-            </div>
+        <div id="chatHistory"
+            style="flex: 1; overflow-y: auto; padding: 20px 16px; background: #fdfdfd; display: flex; flex-direction: column; gap: 12px;">
+            <!-- Chat messages rendered here -->
+        </div>
 
-            <div class="comment-input-area"
-                style="background:#fff; border-top: none; padding: 12px 20px; display:flex; gap:12px; align-items:flex-end;">
-                <textarea id="chatInput" placeholder="Message"
-                    onkeydown="if(event.key==='Enter' && !event.shiftKey) { event.preventDefault(); sendChatMessage(); }"
-                    style="flex:1; border-radius:18px; background:#f9f9f9; padding: 12px 16px; border:1px solid #efefef; font-size: 0.95rem; resize:none; outline:none; font-family:inherit; min-height:45px; max-height:100px; overflow-y:auto;"></textarea>
-                <button onclick="sendChatMessage()"
-                    style="background: #3fc1e8; color: #fff; border: none; font-weight: 700; cursor: pointer; width:45px; height:45px; border-radius:14px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                    <i data-lucide="send" size="18" style="transform: rotate(45deg); margin-right: 2px;"></i>
-                </button>
-            </div>
+        <div class="comment-input-area"
+            style="background:#fff; border-top: 1px solid #efefef; padding: 12px 16px; display:flex; gap:10px; align-items:flex-end; padding-bottom: max(12px, env(safe-area-inset-bottom));">
+            <textarea id="chatInput" placeholder="Message..."
+                onkeydown="if(event.key==='Enter' && !event.shiftKey) { event.preventDefault(); sendChatMessage(); }"
+                style="flex:1; border-radius:24px; background:#f0f2f5; padding: 10px 16px; border:none; font-size: 0.95rem; resize:none; outline:none; font-family:inherit; height: 42px; min-height:42px; max-height:100px; overflow-y:auto; line-height: 22px;"></textarea>
+            <button onclick="sendChatMessage()"
+                style="background: transparent; color: #007aff; border: none; font-weight: 700; cursor: pointer; width:42px; height:42px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <i data-lucide="send-horizonal" size="26" style="stroke-width: 2.5px;"></i>
+            </button>
         </div>
     </div>
     <!-- Post/Product Modals -->
