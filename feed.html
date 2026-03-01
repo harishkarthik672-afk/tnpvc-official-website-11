@@ -1134,63 +1134,80 @@
 
         <!-- ACCOUNT VIEW -->
         <div id="accountView" class="view-section">
+            <!-- Instagram Style Header -->
+            <div
+                style="display:flex; align-items:center; justify-content:space-between; padding:12px 16px; position:sticky; top:0; background:white; z-index:100; border-bottom:1px solid #efefef;">
+                <div style="font-weight:700; font-size:1.25rem; display:flex; align-items:center; gap:4px;">
+                    <span id="navAccountName">ashlee.annn</span>
+                    <i data-lucide="badge-check" size="18" style="fill:#1877f2; color:white;"></i>
+                </div>
+                <div style="display:flex; gap:16px;">
+                    <i data-lucide="plus-square" style="cursor:pointer" onclick="openQuickAddModal()"></i>
+                    <i data-lucide="menu" style="cursor:pointer" onclick="switchView('menu')"></i>
+                </div>
+            </div>
+
             <div style="padding: 16px 16px 0;">
                 <!-- Profile Row: Avatar + Stats -->
-                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
-                    <div
-                        style="width:90px; height:90px; min-width:90px; position:relative; overflow:hidden; border-radius:50%; border:2px solid #dbdbdb;">
-                        <img id="accountAvatar" src=""
-                            style="width:100%; height:100%; object-fit:cover; display:block;">
+                <div style="display: flex; align-items: center; gap: 24px; margin-bottom: 16px;">
+                    <div style="position:relative;">
+                        <div
+                            style="width:86px; height:86px; border-radius:50%; padding:3px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);">
+                            <div style="width:100%; height:100%; border-radius:50%; background:white; padding:2px;">
+                                <img id="accountAvatar" src=""
+                                    style="width:100%; height:100%; border-radius:50%; object-fit:cover; display:block;">
+                            </div>
+                        </div>
                     </div>
-                    <div style="flex:1; display:flex; justify-content:space-around;">
+                    <div style="flex:1; display:flex; justify-content:space-between; padding-right:10px;">
                         <div style="text-align:center;">
-                            <strong style="font-size:1.05rem;" id="myPostCount">0</strong><br>
-                            <span style="color:#8e8e8e; font-size:0.75rem;">posts</span>
+                            <strong style="font-size:1.1rem; display:block;" id="myPostCount">0</strong>
+                            <span style="color:#262626; font-size:0.85rem;">Posts</span>
                         </div>
                         <div style="text-align:center; cursor:pointer;"
                             onclick="showFollowStatsModal('followers', currentUser.name)">
-                            <strong style="font-size:1.05rem;" id="myFollowersCount">0</strong><br>
-                            <span style="color:#8e8e8e; font-size:0.75rem;">followers</span>
+                            <strong style="font-size:1.1rem; display:block;" id="myFollowersCount">0</strong>
+                            <span style="color:#262626; font-size:0.85rem;">Followers</span>
                         </div>
                         <div style="text-align:center; cursor:pointer;"
                             onclick="showFollowStatsModal('following', currentUser.name)">
-                            <strong style="font-size:1.05rem;" id="myFollowingCount">0</strong><br>
-                            <span style="color:#8e8e8e; font-size:0.75rem;">following</span>
+                            <strong style="font-size:1.1rem; display:block;" id="myFollowingCount">0</strong>
+                            <span style="color:#262626; font-size:0.85rem;">Following</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Name + Buttons -->
-                <div style="margin-bottom:12px;">
-                    <h2 id="accountName"
-                        style="margin:0 0 8px; font-size: 1.35rem; font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.4px; color: #050505;">
-                        User Name</h2>
-                    <div style="display:flex; gap:8px;">
-                        <button onclick="openEditProfileModal()"
-                            style="background:var(--fb-btn); color:var(--fb-text); border:none; padding:8px 12px; border-radius:6px; font-weight:600; cursor:pointer; font-size:0.95rem; flex:1;">
-                            <i data-lucide="pencil"
-                                style="width:16px; height:16px; display:inline-block; vertical-align:middle; margin-right:4px;"></i>
-                            Edit profile
-                        </button>
-                        <button onclick="logout()"
-                            style="background:var(--fb-btn); color:var(--fb-text); border:none; padding:8px 12px; border-radius:6px; font-weight:600; cursor:pointer; font-size:0.95rem; flex:1;">
-                            Logout
-                        </button>
-                    </div>
+                <!-- Name + Bio -->
+                <div style="margin-bottom:16px;">
+                    <h2 id="accountNameHeader"
+                        style="margin:0; font-size: 1rem; font-weight: 700; color: #262626; margin-bottom:2px;">User
+                        Name</h2>
+                    <div id="userBioSection" style="font-size:0.92rem; line-height:1.4; color:#262626;"></div>
                 </div>
-                <!-- Bio Container -->
-                <div id="userBioSection" style="margin-bottom:14px; font-size:0.95rem; line-height:1.5;"></div>
 
-                <hr style="border: none; border-top: 1px solid #ced0d4; margin: 16px 0;">
-
-                <div style="margin-bottom: 16px;">
-                    <h3 style="margin:0 0 8px; font-size: 1.2rem;">Posts</h3>
+                <!-- Buttons -->
+                <div style="display:flex; gap:6px; margin-bottom:20px;">
+                    <button onclick="openEditProfileModal()"
+                        style="background:#efefef; color:#262626; border:none; padding:7px 12px; border-radius:8px; font-weight:600; cursor:pointer; font-size:0.9rem; flex:1;">Edit
+                        profile</button>
+                    <button onclick="logout()"
+                        style="background:#efefef; color:#262626; border:none; padding:7px 12px; border-radius:8px; font-weight:600; cursor:pointer; font-size:0.9rem; flex:1;">Logout</button>
                 </div>
-                <!-- Account Tabs -->
-                <div class="feed-tabs" style="margin:0 -16px; padding-left:0; padding-right:0; margin-bottom:0;">
-                    <button class="feed-tab-btn active" onclick="switchAccountTab('media')">Grid</button>
-                    <button class="feed-tab-btn" onclick="switchAccountTab('ads')">My Ads</button>
-                    <button class="feed-tab-btn" onclick="switchAccountTab('marketplace')">My Products</button>
+
+                <!-- Tabs -->
+                <div style="display:flex; border-top:1px solid #efefef; margin:0 -16px;">
+                    <button class="account-tab-btn active" onclick="switchAccountTab('media', this)"
+                        style="flex:1; border:none; background:none; padding:12px; cursor:pointer; border-bottom:1px solid #262626;">
+                        <i data-lucide="grid" size="22"></i>
+                    </button>
+                    <button class="account-tab-btn" onclick="switchAccountTab('ads', this)"
+                        style="flex:1; border:none; background:none; padding:12px; cursor:pointer; opacity:0.3;">
+                        <i data-lucide="megaphone" size="22"></i>
+                    </button>
+                    <button class="account-tab-btn" onclick="switchAccountTab('marketplace', this)"
+                        style="flex:1; border:none; background:none; padding:12px; cursor:pointer; opacity:0.3;">
+                        <i data-lucide="shopping-bag" size="22"></i>
+                    </button>
                 </div>
             </div>
             <!-- Account Content Area (full width) -->
@@ -1210,45 +1227,88 @@
 
         <!-- USER PROFILE VIEW (Visiting others) -->
         <div id="userProfileView" class="view-section">
+            <!-- Header -->
+            <div
+                style="display:flex; align-items:center; gap:16px; padding:12px 16px; position:sticky; top:0; background:white; z-index:100; border-bottom:1px solid #efefef;">
+                <div onclick="switchView('home')" style="cursor:pointer;"><i data-lucide="arrow-left" size="24"></i>
+                </div>
+                <div
+                    style="flex:1; text-align:center; font-weight:700; font-size:1.1rem; margin-right:40px; display:flex; align-items:center; justify-content:center; gap:4px;">
+                    <span id="navVisitorName">ashlee.annn</span>
+                    <i data-lucide="badge-check" size="16" style="fill:#1877f2; color:white;"></i>
+                </div>
+            </div>
+
             <div style="padding: 16px 16px 0;">
-                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
-                    <div
-                        style="width:90px; height:90px; min-width:90px; position:relative; overflow:hidden; border-radius:50%; border:2px solid #dbdbdb;">
-                        <img id="visitorAvatar" src=""
-                            style="width:100%; height:100%; object-fit:cover; display:block;">
+                <div style="display: flex; align-items: center; gap: 24px; margin-bottom: 16px;">
+                    <div style="position:relative;">
+                        <div
+                            style="width:86px; height:86px; border-radius:50%; padding:3px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);">
+                            <div style="width:100%; height:100%; border-radius:50%; background:white; padding:2px;">
+                                <img id="visitorAvatar" src=""
+                                    style="width:100%; height:100%; border-radius:50%; object-fit:cover; display:block;">
+                            </div>
+                        </div>
                     </div>
-                    <div style="flex:1; display:flex; justify-content:space-around;">
+                    <div style="flex:1; display:flex; justify-content:space-between; padding-right:10px;">
                         <div style="text-align:center;">
-                            <strong style="font-size:1.05rem;" id="visitPostCount">0</strong><br>
-                            <span style="color:#8e8e8e; font-size:0.75rem;">posts</span>
+                            <strong style="font-size:1.1rem; display:block;" id="visitPostCount">0</strong>
+                            <span style="color:#262626; font-size:0.85rem;">Posts</span>
                         </div>
                         <div style="text-align:center; cursor:pointer;"
                             onclick="showFollowStatsModal('followers', document.getElementById('visitorName').innerText)">
-                            <strong style="font-size:1.05rem;" id="visitFollowersCount">0</strong><br>
-                            <span style="color:#8e8e8e; font-size:0.75rem;">followers</span>
+                            <strong style="font-size:1.1rem; display:block;" id="visitFollowersCount">0</strong>
+                            <span style="color:#262626; font-size:0.85rem;">Followers</span>
                         </div>
                         <div style="text-align:center; cursor:pointer;"
                             onclick="showFollowStatsModal('following', document.getElementById('visitorName').innerText)">
-                            <strong style="font-size:1.05rem;" id="visitFollowingCount">0</strong><br>
-                            <span style="color:#8e8e8e; font-size:0.75rem;">following</span>
+                            <strong style="font-size:1.1rem; display:block;" id="visitFollowingCount">0</strong>
+                            <span style="color:#262626; font-size:0.85rem;">Following</span>
                         </div>
                     </div>
                 </div>
-                <div style="margin-bottom:12px;">
-                    <h2 id="visitorName"
-                        style="margin:0 0 8px; font-size: 1.25rem; font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.3px; color: #050505;">
-                        User Name</h2>
-                    <div style="display:flex; gap:8px;">
-                        <button id="visitorFollowBtn"
-                            style="background:var(--fb-blue); color:white; border:none; padding:8px 12px; border-radius:6px; font-weight:600; cursor:pointer; font-size:0.95rem; flex:1;">Follow</button>
-                        <button id="visitorMessageBtn"
-                            style="background:#f0f2f5; border:none; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.95rem; color:#050505; flex:1;">Message</button>
+
+                <div style="margin-bottom:16px;">
+                    <h2 id="visitorNameHeader"
+                        style="margin:0; font-size: 1rem; font-weight: 700; color: #262626; margin-bottom:2px;">User
+                        Name</h2>
+                    <div id="visitorBioSection" style="font-size:0.92rem; line-height:1.4; color:#262626;"></div>
+
+                    <!-- Followed by logic (MOCKED) -->
+                    <div style="display:flex; align-items:center; gap:-8px; margin-top:12px;">
+                        <div style="display:flex; margin-right:8px;">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=20"
+                                style="width:20px; height:20px; border-radius:50%; border:2px solid white;">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=20"
+                                style="width:20px; height:20px; border-radius:50%; border:2px solid white; margin-left:-8px;">
+                        </div>
+                        <div style="font-size:0.75rem; color:#65676b;">Followed by <span
+                                style="font-weight:600; color:#262626;">tnpvc_members</span> and others</div>
                     </div>
                 </div>
-                <div id="visitorBioSection" style="margin-bottom:14px; font-size:0.88rem; line-height:1.5;"></div>
-                <div class="feed-tabs"
-                    style="border-top:1px solid #eee; padding-top:10px; margin:0 -16px; padding-left:16px; padding-right:16px; margin-bottom:0;">
-                    <button class="feed-tab-btn active">Posts</button>
+
+                <div style="display:flex; gap:6px; margin-bottom:20px;">
+                    <button id="visitorFollowBtn"
+                        style="background:#1877f2; color:white; border:none; padding:7px 12px; border-radius:8px; font-weight:600; cursor:pointer; font-size:0.9rem; flex:1;">Follow</button>
+                    <button id="visitorMessageBtn"
+                        onclick="openChatModal(document.getElementById('visitorName').innerText)"
+                        style="background:#efefef; color:#262626; border:none; padding:7px 12px; border-radius:8px; font-weight:600; cursor:pointer; font-size:0.9rem; flex:1;">Message</button>
+                </div>
+
+                <!-- Tabs -->
+                <div style="display:flex; border-top:1px solid #efefef; margin:0 -16px;">
+                    <button class="account-tab-btn active"
+                        style="flex:1; border:none; background:none; padding:12px; cursor:pointer; border-bottom:1px solid #262626;">
+                        <i data-lucide="grid" size="22"></i>
+                    </button>
+                    <button class="account-tab-btn"
+                        style="flex:1; border:none; background:none; padding:12px; cursor:pointer; opacity:0.3;">
+                        <i data-lucide="tv-2" size="22"></i>
+                    </button>
+                    <button class="account-tab-btn"
+                        style="flex:1; border:none; background:none; padding:12px; cursor:pointer; opacity:0.3;">
+                        <i data-lucide="contact-2" size="22"></i>
+                    </button>
                 </div>
             </div>
             <div style="margin-top:3px;">
@@ -1924,7 +1984,14 @@
             const myName = (currentUser.name || '').trim();
             document.getElementById('createPostAvatar').src = currentUser.avatar;
             document.getElementById('accountAvatar').src = currentUser.avatar;
-            document.getElementById('accountName').innerHTML = `${currentUser.name} <div style="font-size: 0.8rem; color: #8e8e8e; font-weight: normal; margin-top: 4px;">ID: ${currentUser.userId || 'N/A'}</div>`;
+
+            // Header Name
+            const navName = document.getElementById('navAccountName');
+            if (navName) navName.textContent = currentUser.name.toLowerCase().replace(/\s+/g, '.');
+
+            // Bio Name
+            const bioName = document.getElementById('accountNameHeader');
+            if (bioName) bioName.textContent = currentUser.name;
 
             const stats = getFollowStats(myName);
             const accountPostsCount = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]').filter(p => (p.user || '').trim() === myName).length;
@@ -1936,10 +2003,11 @@
             const bioContainer = document.getElementById('userBioSection');
             if (currentUser.setupComplete && bioContainer) {
                 bioContainer.innerHTML = `
-                <div style="font-size: 0.92rem; line-height: 1.6; color: #262626;">
+                <div style="font-size: 0.92rem; line-height: 1.4; color: #262626;">
                     ${currentUser.bio || 'PVC Professional'}<br>
-                    🏢 <strong>Shop:</strong> ${currentUser.shop || 'Not specified'}<br>
-                    📍 <strong>Location:</strong> ${currentUser.location}
+                    ${currentUser.shop ? `🏢 ${currentUser.shop}<br>` : ''}
+                    ${currentUser.location ? `📍 ${currentUser.location}<br>` : ''}
+                    <span style="color:#00376b;">ID: ${currentUser.userId || 'N/A'}</span>
                 </div>
                 `;
             }
@@ -3031,7 +3099,7 @@
                     localStorage.setItem('tnpvc_notifications', JSON.stringify(notifs));
                 }
 
-                if (document.getElementById('visitorName').innerText === targetName) {
+                if (document.getElementById('visitorNameHeader').innerText === targetName) {
                     viewUserProfile(targetName);
                 }
             }
@@ -3050,13 +3118,21 @@
             if (!vUser) return;
 
             document.getElementById('visitorAvatar').src = vUser.avatar;
-            document.getElementById('visitorName').innerHTML = `${vUser.name} <div style="font-size: 0.8rem; color: #8e8e8e; font-weight: normal; margin-top: 4px;">ID: ${vUser.userId || 'N/A'}</div>`;
+
+            // Header User Name (centered)
+            const navVisitName = document.getElementById('navVisitorName');
+            if (navVisitName) navVisitName.textContent = vUser.name.toLowerCase().replace(/\s+/g, '.');
+
+            // Bio Name (bold)
+            const bioVisitName = document.getElementById('visitorNameHeader');
+            if (bioVisitName) bioVisitName.textContent = vUser.name;
 
             document.getElementById('visitorBioSection').innerHTML = `
-                <div style="font-size: 0.92rem; line-height: 1.6; color: #262626;">
+                <div style="font-size: 0.92rem; line-height: 1.4; color: #262626;">
                     ${vUser.bio || 'PVC Professional'}<br>
-                    🏢 <strong>Shop:</strong> ${vUser.shop || 'Not specified'}<br>
-                    ${vUser.location ? `📍 <strong>Location:</strong> ${vUser.location}` : ''}
+                    ${vUser.shop ? `🏢 ${vUser.shop}<br>` : ''}
+                    ${vUser.location ? `📍 ${vUser.location}<br>` : ''}
+                    <span style="color:#00376b;">ID: ${vUser.userId || 'N/A'}</span>
                 </div>
             `;
 
@@ -3067,7 +3143,7 @@
             document.getElementById('visitFollowersCount').textContent = stats.followers;
             document.getElementById('visitFollowingCount').textContent = stats.following;
 
-            let followers = JSON.parse(localStorage.getItem('tnpvc_followers') || '{ }');
+            let followers = JSON.parse(localStorage.getItem('tnpvc_followers') || '{}');
             let isFollowing = false;
             Object.keys(followers).forEach(k => {
                 if (k.trim() === targetUName && followers[k].some(f => f.trim() === myUName)) isFollowing = true;
@@ -3088,7 +3164,7 @@
                 vBtn.style.color = '#262626';
             } else {
                 vBtn.textContent = 'Follow';
-                vBtn.style.background = 'var(--fb-blue)';
+                vBtn.style.background = '#1877f2';
                 vBtn.style.color = 'white';
             }
 
@@ -3146,7 +3222,7 @@
             }, 300);
         }
 
-        function switchAccountTab(tab) {
+        function switchAccountTab(tab, btn) {
             // Update active content
             document.querySelectorAll('.account-tab-content').forEach(c => c.style.display = 'none');
             const target = {
@@ -3157,14 +3233,18 @@
             if (target) document.getElementById(target).style.display = 'block';
 
             // Update active button state
-            const parent = document.querySelector('.view-section#accountView');
-            if (parent) {
-                parent.querySelectorAll('.feed-tab-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.getAttribute('onclick').includes(tab)) btn.classList.add('active');
+            if (btn) {
+                const parent = btn.parentElement;
+                parent.querySelectorAll('.account-tab-btn').forEach(b => {
+                    b.classList.remove('active');
+                    b.style.opacity = '0.3';
+                    b.style.borderBottom = 'none';
                 });
+                btn.classList.add('active');
+                btn.style.opacity = '1';
+                btn.style.borderBottom = '1px solid #262626';
             }
-            lucide.createIcons();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
     </script>
