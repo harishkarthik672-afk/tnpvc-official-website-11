@@ -262,11 +262,15 @@
         function handleCredentialResponse(response) {
             const responsePayload = decodeJwtResponse(response.credential);
 
+            let allUsers = JSON.parse(localStorage.getItem('tnpvc_all_users') || '[]');
+            let existingUsr = allUsers.find(u => u.email === responsePayload.email || u.name === responsePayload.name.trim());
+
             const user = {
                 name: responsePayload.name,
                 email: responsePayload.email,
                 avatar: responsePayload.picture,
-                setupComplete: false
+                setupComplete: false,
+                userId: existingUsr ? existingUsr.userId : null
             };
 
             localStorage.setItem('tnpvc_user', JSON.stringify(user));

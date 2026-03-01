@@ -1514,6 +1514,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
         function triggerFireball() {
@@ -1571,7 +1572,13 @@
 
         function initSocket() {
             if (typeof io !== 'undefined') {
-                socket = io(window.location.protocol === 'file:' ? 'http://localhost:3000' : undefined);
+                // Determine socket server URL
+                // When deployed, this should point to the deployed Node.js backend URL (e.g. Render/Heroku)
+                const isLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                // Replace 'https://tnpvc-backend.onrender.com' with your actual deployed backend URL later
+                const serverUrl = isLocal ? 'http://localhost:3000' : 'https://tnpvc-backend.onrender.com';
+
+                socket = io(serverUrl);
 
                 socket.on('initial_sync', (db) => {
                     localStorage.setItem('tnpvc_all_users', JSON.stringify(db.all_users || []));
@@ -1614,6 +1621,14 @@
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
                 if (currentUser.name) currentUser.name = currentUser.name.trim(); // Normalize name
+
+                // fallback user ID for existing users
+                if (!currentUser.userId) {
+                    currentUser.userId = Math.floor(10000000 + Math.random() * 90000000).toString();
+                    localStorage.setItem('tnpvc_user', JSON.stringify(currentUser));
+                    syncToCentral(currentUser.name);
+                }
+
                 if (!currentUser.setupComplete) {
                     showSetup();
                 } else {
@@ -1632,11 +1647,15 @@
             // Decodes JWT (simulated here for privacy/simplicity)
             const responsePayload = decodeJwtResponse(response.credential);
 
+            let allUsers = JSON.parse(localStorage.getItem('tnpvc_all_users') || '[]');
+            let existingUsr = allUsers.find(u => u.email === responsePayload.email || u.name === responsePayload.name.trim());
+
             currentUser = {
                 name: responsePayload.name.trim(),
                 email: responsePayload.email,
                 avatar: responsePayload.picture,
-                setupComplete: false
+                setupComplete: false,
+                userId: existingUsr ? existingUsr.userId : null
             };
 
             loginSuccess();
@@ -1737,6 +1756,11 @@
             currentUser.location = loc;
             currentUser.bio = bio;
             currentUser.avatar = setupPfpData;
+
+            if (!currentUser.userId) {
+                currentUser.userId = Math.floor(10000000 + Math.random() * 90000000).toString();
+            }
+
             currentUser.setupComplete = true;
 
             localStorage.setItem('tnpvc_user', JSON.stringify(currentUser));
@@ -1756,7 +1780,7 @@
             const myName = (currentUser.name || '').trim();
             document.getElementById('createPostAvatar').src = currentUser.avatar;
             document.getElementById('accountAvatar').src = currentUser.avatar;
-            document.getElementById('accountName').textContent = currentUser.name;
+            document.getElementById('accountName').innerHTML = `${currentUser.name} <div style="font-size: 0.8rem; color: #8e8e8e; font-weight: normal; margin-top: 4px;">ID: ${currentUser.userId || 'N/A'}</div>`;
 
             const stats = getFollowStats(myName);
             const accountPostsCount = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]').filter(p => (p.user || '').trim() === myName).length;
@@ -2459,8 +2483,9 @@
 
             if (query) {
                 members = members.filter(m =>
-                    m.name.toLowerCase().includes(query) ||
-                    (m.shop && m.shop.toLowerCase().includes(query))
+                    (m.name && m.name.toLowerCase().includes(query)) ||
+                    (m.shop && m.shop.toLowerCase().includes(query)) ||
+                    (m.userId && m.userId.includes(query))
                 );
             }
 
@@ -2491,7 +2516,7 @@
                         <img src="${m.avatar}" style="width: 48px; height: 48px; min-width: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0; cursor:pointer" onclick="viewUserProfile('${m.name}')">
                         <div style="flex:1; cursor:pointer" onclick="viewUserProfile('${m.name}')">
                             <div style="font-weight:700; font-size:0.95rem;">${m.name}</div>
-                            <div style="font-size:0.75rem; color:#8e8e8e;">${m.shop || 'PVC Professional'}</div>
+                            <div style="font-size:0.75rem; color:#8e8e8e;">ID: ${m.userId || 'N/A'} &middot; ${m.shop || 'PVC'}</div>
                         </div>
                         <button onclick="toggleFollow(this, '${m.name}')"
                             style="${btnStyle} border:none; padding: 8px 16px; border-radius: 6px; font-size: 0.95rem; font-weight: 600; cursor:pointer; transition: 0.2s;">${btnText}</button>
@@ -2708,7 +2733,7 @@
             if (!vUser) return;
 
             document.getElementById('visitorAvatar').src = vUser.avatar;
-            document.getElementById('visitorName').textContent = vUser.name;
+            document.getElementById('visitorName').innerHTML = `${vUser.name} <div style="font-size: 0.8rem; color: #8e8e8e; font-weight: normal; margin-top: 4px;">ID: ${vUser.userId || 'N/A'}</div>`;
 
             document.getElementById('visitorBioSection').innerHTML = `
                 <div style="font-size: 0.92rem; line-height: 1.6; color: #262626;">
