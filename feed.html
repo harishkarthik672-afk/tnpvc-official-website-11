@@ -1013,6 +1013,13 @@
             <h1 class="feed-box-title"
                 style="font-size: clamp(0.45rem, 2vw, 1.3rem); margin:0; font-weight:800; color:#1877f2; font-family:'Plus Jakarta Sans',sans-serif; letter-spacing:0.8px; text-transform:uppercase;">
                 Feed Box</h1>
+            <div style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%);">
+                <button class="header-icon-btn" onclick="switchView('updates')"
+                    style="position: relative; background: transparent;">
+                    <i data-lucide="bell" size="24" color="#1877f2"></i>
+                    <span id="notif-badge-el"></span>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -1352,10 +1359,6 @@
     <nav class="header-tabs" id="fb-bottom-nav">
         <a href="javascript:void(0)" onclick="switchView('home')" class="fb-nav-item active" id="nav-home">
             <i data-lucide="home" size="24"></i>
-        </a>
-        <a href="javascript:void(0)" onclick="switchView('updates')" class="fb-nav-item" id="nav-updates">
-            <i data-lucide="bell" size="24"></i>
-            <span id="notif-badge-el"></span>
         </a>
         <a href="javascript:void(0)" onclick="switchView('messages')" class="fb-nav-item" id="nav-messages">
             <i data-lucide="message-circle" size="24"></i>
