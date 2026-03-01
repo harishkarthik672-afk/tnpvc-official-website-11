@@ -1416,6 +1416,33 @@
             </div>
         </div>
     </div>
+
+    <!-- Chat Modal -->
+    <div id="chatModal" class="modal-overlay" style="align-items: flex-end; z-index: 3000;">
+        <div class="modal-content"
+            style="height: 100vh; max-height: 100vh; border-radius: 0; display: flex; flex-direction: column; background: #fff;">
+            <div class="modal-header"
+                style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #efefef;">
+                <button onclick="closeModals()"
+                    style="background: none; border: none; padding: 5px; cursor: pointer; display: flex; align-items: center; color: #050505;">
+                    <i data-lucide="arrow-left" size="24"></i>
+                </button>
+                <img id="chatTargetAvatar" src="" style="width:36px; height:36px; border-radius:50%; object-fit:cover;">
+                <div style="font-weight: 700; flex: 1; font-size: 1.1rem;" id="chatTargetName">User</div>
+            </div>
+            <div id="chatHistory" class="modal-body"
+                style="flex: 1; overflow-y: auto; padding: 16px; background: #f0f2f5; display: flex; flex-direction: column; gap: 8px;">
+                <!-- Chat messages rendered here -->
+            </div>
+            <div class="comment-input-area" style="background:#fff; border-top: 1px solid #efefef;">
+                <input type="text" id="chatInput" placeholder="Type a message..."
+                    onkeydown="if(event.key==='Enter') sendChatMessage()"
+                    style="border-radius:20px; background:#f0f2f5; padding-left: 15px;">
+                <button onclick="sendChatMessage()"
+                    style="color: var(--fb-blue); background: none; border: none; font-weight: 700; cursor: pointer; font-size: 1rem;">Send</button>
+            </div>
+        </div>
+    </div>
     <!-- Post/Product Modals -->
     <div id="postModal" class="modal-overlay">
         <div class="modal-content">
@@ -1611,6 +1638,7 @@
                     localStorage.setItem('tnpvc_notifications', JSON.stringify(db.notifications || []));
                     localStorage.setItem('tnpvc_followers', JSON.stringify(db.followers || {}));
                     localStorage.setItem('tnpvc_local_prods', JSON.stringify(db.prods || []));
+                    localStorage.setItem('tnpvc_messages', JSON.stringify(db.messages || []));
                     loadInitialData();
                     if (currentUser && currentUser.setupComplete) applyUserUI();
                 });
@@ -1621,12 +1649,19 @@
                     if (type === 'notifications') localStorage.setItem('tnpvc_notifications', JSON.stringify(data));
                     if (type === 'followers') localStorage.setItem('tnpvc_followers', JSON.stringify(data));
                     if (type === 'prods') localStorage.setItem('tnpvc_local_prods', JSON.stringify(data));
+                    if (type === 'messages') localStorage.setItem('tnpvc_messages', JSON.stringify(data));
 
                     loadInitialData();
                     if (currentUser && currentUser.setupComplete) applyUserUI();
 
                     if (document.getElementById('updatesView').classList.contains('active')) {
                         renderNotifications();
+                    }
+                    if (document.getElementById('messagesView').classList.contains('active')) {
+                        renderMessagesList();
+                    }
+                    if (document.getElementById('chatModal').classList.contains('active') && window.currentChatTarget) {
+                        renderChatHistory(window.currentChatTarget);
                     }
                     if (document.getElementById('userProfileView').classList.contains('active')) {
                         const vName = document.getElementById('visitorName').textContent;
@@ -2609,7 +2644,134 @@
             renderProducts();
             renderSearch();
             renderAccountGrid();
+            renderMessagesList();
             if (typeof updateNotifBadge === 'function') updateNotifBadge();
+        }
+
+        // --- MESSAGES LOGIC ---
+        function renderMessagesList() {
+            const list = document.getElementById('messagesList');
+            if (!list || !currentUser) return;
+
+            let allUsers = JSON.parse(localStorage.getItem('tnpvc_all_users') || '[]');
+            let followersData = JSON.parse(localStorage.getItem('tnpvc_followers') || '{}');
+            let messages = JSON.parse(localStorage.getItem('tnpvc_messages') || '[]');
+
+            const myName = currentUser.name.trim();
+
+            // Get users I follow or who follow me
+            let connectedUsers = new Set();
+            Object.keys(followersData).forEach(target => {
+                const flist = followersData[target];
+                if (target === myName) {
+                    flist.forEach(f => connectedUsers.add(f.trim()));
+                } else if (flist.some(f => f.trim() === myName)) {
+                    connectedUsers.add(target.trim());
+                }
+            });
+
+            // Also anyone I have messages with
+            messages.forEach(m => {
+                if (m.from === myName) connectedUsers.add(m.to);
+                if (m.to === myName) connectedUsers.add(m.from);
+            });
+
+            const chatUsrs = Array.from(connectedUsers).filter(u => u !== myName);
+
+            if (chatUsrs.length === 0) {
+                list.innerHTML = `
+                    <div style="margin-top:20px; color:#8e8e8e; text-align:center; padding: 40px 0;">
+                        <i data-lucide="message-circle" size="48" style="margin-bottom:15px; opacity:0.5;"></i>
+                        <p>No messages yet. Follow users to start chatting!</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            list.innerHTML = chatUsrs.map(uName => {
+                let userObj = allUsers.find(u => u.name === uName) || { name: uName, avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100' };
+                // Get last message
+                let thread = messages.filter(m => (m.from === myName && m.to === uName) || (m.from === uName && m.to === myName));
+                let lastMsg = thread.length > 0 ? thread[thread.length - 1] : null;
+
+                return `
+                    <div style="display:flex; align-items:center; gap:15px; padding:12px; background:white; border-bottom:1px solid #efefef; cursor:pointer;" onclick="openChatModal('${uName}')">
+                        <img src="${userObj.avatar}" style="width:50px; height:50px; border-radius:50%; object-fit:cover;">
+                        <div style="flex:1;">
+                            <div style="font-weight:700; font-size:1rem; color:#050505;">${userObj.name}</div>
+                            <div style="font-size:0.85rem; color:#65676b; margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${lastMsg ? (lastMsg.from === myName ? 'You: ' : '') + lastMsg.text : 'Tap to start chatting'}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openChatModal(targetUName) {
+            window.currentChatTarget = targetUName;
+
+            let allUsers = JSON.parse(localStorage.getItem('tnpvc_all_users') || '[]');
+            let userObj = allUsers.find(u => u.name === targetUName) || { name: targetUName, avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100' };
+
+            document.getElementById('chatTargetName').textContent = targetUName;
+            document.getElementById('chatTargetAvatar').src = userObj.avatar;
+            document.getElementById('chatModal').classList.add('active');
+
+            renderChatHistory(targetUName);
+        }
+
+        function renderChatHistory(targetUName) {
+            const historyDiv = document.getElementById('chatHistory');
+            const myName = currentUser.name.trim();
+            const messages = JSON.parse(localStorage.getItem('tnpvc_messages') || '[]');
+
+            const thread = messages.filter(m => (m.from === myName && m.to === targetUName) || (m.from === targetUName && m.to === myName));
+
+            if (thread.length === 0) {
+                historyDiv.innerHTML = `<div style="text-align:center; color:#8e8e8e; font-size:0.85rem; padding: 20px;">Start of your conversation with ${targetUName}</div>`;
+                return;
+            }
+
+            historyDiv.innerHTML = thread.map(m => {
+                const isMe = m.from === myName;
+                return `
+                    <div style="display:flex; justify-content: ${isMe ? 'flex-end' : 'flex-start'};">
+                        <div style="max-width:70%; padding:10px 14px; border-radius:18px; font-size:0.95rem; line-height:1.4; 
+                            ${isMe ? 'background:var(--fb-blue); color:white; border-bottom-right-radius:4px;' : 'background:#e4e6eb; color:#050505; border-bottom-left-radius:4px;'}">
+                            ${m.text}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            historyDiv.scrollTop = historyDiv.scrollHeight;
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text || !window.currentChatTarget) return;
+
+            const msgData = {
+                id: Date.now(),
+                from: currentUser.name.trim(),
+                to: window.currentChatTarget,
+                text: text,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+
+            if (socket) {
+                socket.emit('send_message', msgData);
+            } else {
+                const messages = JSON.parse(localStorage.getItem('tnpvc_messages') || '[]');
+                messages.push(msgData);
+                localStorage.setItem('tnpvc_messages', JSON.stringify(messages));
+                renderChatHistory(window.currentChatTarget);
+                if (document.getElementById('messagesView').classList.contains('active')) {
+                    renderMessagesList();
+                }
+            }
+            input.value = '';
         }
 
         function renderNotifications() {

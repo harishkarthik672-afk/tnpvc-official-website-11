@@ -15,7 +15,7 @@ const DB_PATH = path.join(__dirname, 'db.json');
 app.use(cors());
 app.use(express.static(__dirname)); // serve all HTML/CSS files from current dir
 
-let dbCache = { all_users: [], posts: [], notifications: [], followers: {}, prods: [] };
+let dbCache = { all_users: [], posts: [], notifications: [], followers: {}, prods: [], messages: [] };
 
 try {
     if (fs.existsSync(DB_PATH)) {
@@ -145,6 +145,15 @@ io.on('connection', (socket) => {
             writeDB();
             io.emit('db_updated', { type: 'posts', data: dbCache.posts });
         }
+    });
+
+    // Send Message
+    socket.on('send_message', (msgData) => {
+        msgData.from = msgData.from.trim();
+        msgData.to = msgData.to.trim();
+        dbCache.messages.push(msgData);
+        writeDB();
+        io.emit('db_updated', { type: 'messages', data: dbCache.messages });
     });
 
     socket.on('disconnect', () => {
