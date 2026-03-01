@@ -12,6 +12,14 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        :root {
+            --tnpvc-navy: #1b0f3a;
+            --tnpvc-red: #e3001b;
+            --text-dark: #1a1a1a;
+            --text-muted: #555;
+            --bg-light: #f8fafc;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -20,120 +28,223 @@
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #f8f9fa;
+            background: #fff;
+            color: var(--text-dark);
+            line-height: 1.6;
         }
 
-        .page-hero {
-            background: linear-gradient(135deg, #4b2491 0%, #6b3db5 60%, #8b5fd0 100%);
-            color: white;
-            padding: 80px 20px 60px;
+        /* Navbar offset for fixed header */
+        body {
+            padding-top: 55px;
+        }
+
+        /* ── Premium Hero Section ── */
+        .legal-hero {
+            background: var(--tnpvc-navy);
+            padding: 60px 20px 90px;
             text-align: center;
-        }
-
-        .page-hero .icon-wrap {
-            width: 64px;
-            height: 64px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
         }
 
-        .page-hero .icon-wrap svg {
-            width: 32px;
-            height: 32px;
-            color: white;
-        }
-
-        .page-hero h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
-        .page-hero p {
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.8);
-            max-width: 500px;
-            margin: 0 auto;
+        .legal-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: #fff;
+            clip-path: ellipse(60% 100% at 50% 100%);
         }
 
         .back-btn {
+            position: absolute;
+            top: 18px;
+            left: 20px;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             color: rgba(255, 255, 255, 0.8);
             font-size: 0.82rem;
             text-decoration: none;
-            margin-bottom: 24px;
             font-weight: 600;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 6px 14px;
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 7px 14px;
+            border-radius: 50px;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            z-index: 10;
         }
 
-        .back-btn svg {
-            width: 14px;
-            height: 14px;
+        .back-btn:hover {
+            background: #fff;
+            color: var(--tnpvc-navy);
         }
 
-        .content-container {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 40px 20px 100px;
-        }
-
-        .content-card {
-            background: white;
-            border-radius: 16px;
-            padding: 28px;
-            margin-bottom: 16px;
-            border: 1px solid #eee;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-        }
-
-        .content-card h2 {
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: #1b0f3a;
+        .legal-hero h1 {
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            font-weight: 800;
+            color: #fff;
             margin-bottom: 10px;
+            letter-spacing: -1px;
+            z-index: 1;
+        }
+
+        .legal-hero .effective-date {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+            z-index: 1;
+        }
+
+        /* ── Content Layout ── */
+        .legal-content-wrapper {
+            max-width: 1000px;
+            margin: 0 auto 100px;
+            padding: 40px 20px 0;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        @media (max-width: 850px) {
+            .legal-content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding-top: 24px;
+            }
+
+            .legal-hero {
+                padding: 50px 20px 80px;
+            }
+
+            .back-btn {
+                top: 14px;
+                left: 16px;
+            }
+        }
+
+        .side-nav {
+            position: sticky;
+            top: 110px;
+            height: fit-content;
+        }
+
+        .side-nav h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--tnpvc-red);
+            margin-bottom: 18px;
+            font-weight: 800;
+        }
+
+        .side-nav ul {
+            list-style: none;
+        }
+
+        .side-nav li {
+            margin-bottom: 14px;
+        }
+
+        .side-nav a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: 0.2s;
+            display: block;
+        }
+
+        .side-nav a:hover {
+            color: var(--tnpvc-navy);
+            padding-left: 6px;
+        }
+
+        .main-legal-text {
+            color: var(--text-dark);
+        }
+
+        .legal-section {
+            margin-bottom: 3rem;
+        }
+
+        .legal-section h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--tnpvc-navy);
+        }
+
+        .legal-section p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            line-height: 1.85;
+        }
+
+        .legal-section ul {
+            list-style-type: none;
+            margin-top: 0.8rem;
+        }
+
+        .legal-section ul li {
+            padding: 11px 0;
+            border-bottom: 1px solid #f1f1f1;
+            font-size: 1rem;
+            color: var(--text-muted);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
-        .content-card h2 svg {
-            width: 18px;
-            height: 18px;
-            color: #4b2491;
+        .legal-section ul li::before {
+            content: "";
+            min-width: 8px;
+            height: 8px;
+            background: var(--tnpvc-red);
+            border-radius: 50%;
         }
 
-        .content-card p {
-            font-size: 0.87rem;
-            color: #555;
-            line-height: 1.8;
-            margin-bottom: 8px;
+        /* Navbar overrides for these pages */
+        .navbar {
+            background: var(--tnpvc-navy) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
         }
 
-        .last-updated {
-            font-size: 0.75rem;
-            color: #999;
-            text-align: center;
-            margin-bottom: 20px;
+        .navbar .logo span {
+            color: #fff !important;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.1) !important;
+            color: #fff !important;
+            border-color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .lang-btn i {
+            color: #fff !important;
+        }
+
+        .mobile-menu-toggle-btn-top {
+            color: #fff !important;
         }
     </style>
     <script src="i18n.js" defer></script>
 </head>
 
 <body>
-    <!-- Site Construction Notice -->
-    <div class="site-notice-bar">
-        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
-        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
-    </div>
+
 
     <header class="navbar" itemscope itemtype="https://schema.org/SiteNavigationElement">
         <div class="container nav-container">
@@ -161,7 +272,7 @@
                 <!-- Language Switcher -->
                 <div class="lang-switcher">
                     <button class="lang-btn" id="langBtn">
-                        <i data-lucide="swatch-book" class="globe-icon"></i>
+                        <i data-lucide="globe" class="globe-icon"></i>
                         <span id="currentLang">English</span>
                         <i data-lucide="chevron-down" class="chevron-icon"></i>
                     </button>
@@ -187,42 +298,72 @@
         </div>
     </header>
 
-    <div class="page-hero">
-        <a href="legal.html" class="back-btn"><i data-lucide="arrow-left"></i> Back</a>
-        <div class="icon-wrap"><i data-lucide="file-text"></i></div>
+
+    <div class="legal-hero">
+        <a href="legal.html" class="back-btn"><i data-lucide="arrow-left"></i> Back to Legal</a>
         <h1>Terms of Service</h1>
-        <p>Please read these terms carefully before using TNPVC Council services.</p>
+        <p class="effective-date">Effective: February 2026</p>
     </div>
-    <div class="content-container">
-        <p class="last-updated">Last Updated: February 2026</p>
-        <div class="content-card">
-            <h2><i data-lucide="info"></i> Agreement to Terms</h2>
-            <p>By accessing or using TNPVC Council's website, platforms, or services, you agree to be bound by these
-                Terms of Service. If you do not agree, please do not use our services.</p>
-        </div>
-        <div class="content-card">
-            <h2><i data-lucide="users"></i> Use of Services</h2>
-            <p>TNPVC Council provides a platform to connect homeowners, contractors, labourers, and material suppliers
-                in the PVC/uPVC industry across Tamil Nadu. You agree to use the platform only for lawful purposes.</p>
-            <p>You must not misuse our services, impersonate others, or attempt to gain unauthorized access to any part
-                of the platform.</p>
-        </div>
-        <div class="content-card">
-            <h2><i data-lucide="ban"></i> Prohibited Activities</h2>
-            <p>Users are prohibited from posting false information, spamming other users, engaging in fraudulent booking
-                or transactions, or using the platform to harm others.</p>
-        </div>
-        <div class="content-card">
-            <h2><i data-lucide="alert-circle"></i> Disclaimer</h2>
-            <p>TNPVC Council acts as a platform connecting service providers and clients. We do not guarantee the
-                outcome of any specific project. All contracts between clients and service providers are independent of
-                TNPVC Council.</p>
-        </div>
-        <div class="content-card">
-            <h2><i data-lucide="refresh-cw"></i> Changes to Terms</h2>
-            <p>We reserve the right to update these Terms of Service at any time. Continued use of the platform after
-                changes constitutes acceptance of the new terms.</p>
-        </div>
+
+    <div class="legal-content-wrapper">
+        <aside class="side-nav">
+            <h3>TNPVC Guidelines</h3>
+            <ul>
+                <li><a href="#agreement">Agreement</a></li>
+                <li><a href="#usage">Use of Services</a></li>
+                <li><a href="#prohibited">Prohibited Activities</a></li>
+                <li><a href="#disclaimer">Disclaimer</a></li>
+                <li><a href="#changes">Changes</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-legal-text">
+            <section class="legal-section" id="agreement">
+                <h2>Agreement to Terms</h2>
+                <p>Welcome to TNPVC Council's digital platform. By accessing our website, applications, or any services
+                    provided by our council, you formally agree to be bound by these Terms of Service.</p>
+                <p>These terms govern your relationship with TNPVC Council regarding all residential and commercial PVC
+                    work matching services. If you do not accept these terms, please refrain from using our platform.
+                </p>
+            </section>
+
+            <section class="legal-section" id="usage">
+                <h2>Use of Services</h2>
+                <p>TNPVC Council provides an infrastructure to connect Tamil Nadu's homeowners with verified
+                    contractors, skilled fabricators, and material suppliers in the PVC/uPVC industry.</p>
+                <ul>
+                    <li>You agree to use the platform only for legitimate home interior or construction needs.</li>
+                    <li>You must provide accurate information for site inspections and service requests.</li>
+                    <li>Impersonation or unauthorized access attempts are strictly prohibited.</li>
+                </ul>
+            </section>
+
+            <section class="legal-section" id="prohibited">
+                <h2>Prohibited Activities</h2>
+                <p>To maintain a safe community for all TNPVC partners and users, the following are strictly forbidden:
+                </p>
+                <ul>
+                    <li>Posting false project requirements or fraudulent worker reviews.</li>
+                    <li>Engaging in deceptive bookings or bypassing official council protocols.</li>
+                    <li>Spamming or harassing contractors and verified workers in the network.</li>
+                </ul>
+            </section>
+
+            <section class="legal-section" id="disclaimer">
+                <h2>Disclaimer</h2>
+                <p>TNPVC Council acts as a bridging platform. While we verify workers and contractors to the best of our
+                    ability, we do not directly execute the physical work.</p>
+                <p>All service contracts, site timelines, and payment agreements are independent arrangements between
+                    the client and the service provider. TNPVC Council shall not be liable for project outcomes beyond
+                    our platform's scope.</p>
+            </section>
+
+            <section class="legal-section" id="changes">
+                <h2>Changes to Terms</h2>
+                <p>TNPVC Council reserves the right to modify these Terms of Service at any time to reflect council
+                    policy updates or legal requirements. We encourage users to visit this page periodically.</p>
+            </section>
+        </main>
     </div>
 
     <!-- Bottom Navigation Bar -->

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:;">
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
     <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -217,124 +217,149 @@
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="i18n.js" defer></script>
     <style>
-        /* Welcome Popup Styles */
+        /* Welcome Popup — Floating Dual Boxes */
         .welcome-modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.95);
+            /* Pure white overlay, NO blur */
             display: none;
-            align-items: center;
+            align-items: flex-start;
+            /* Safe align for scrolling */
             justify-content: center;
             z-index: 10000;
-            padding: 20px;
+            padding: 40px 20px;
+            /* Space top and bottom */
+            overflow-y: auto;
+            /* Enable vertical scroll for overflow */
+            overflow-x: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .welcome-modal-overlay.active {
             display: flex;
+            opacity: 1;
+        }
+
+        .welcome-modal-overlay.closing {
+            opacity: 0;
+            transition: opacity 0.4s ease 0.1s;
         }
 
         .welcome-modal-content {
-            background: #fff;
-            width: 88%;
-            max-width: 340px;
-            height: 520px;
-            /* Taller rectangular shape as requested */
-            max-height: 80vh;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-            animation: popupScale 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100%;
+            max-width: 400px;
             display: flex;
             flex-direction: column;
+            gap: 16px;
+            /* Transparent container holding the 2 boxes */
+            margin: auto;
+            /* Centered unless overflowing */
         }
 
-        @keyframes popupScale {
-            from {
-                opacity: 0;
-                transform: scale(0.9) translateY(20px);
-            }
+        /* -- Independent Boxes -- */
+        .popup-box {
+            background: #fff;
+            border-radius: 12px;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eee;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
 
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+        /* 1st Box -> From Left */
+        .popup-box.box-left {
+            transform: translateX(-120vw) scale(0.7) rotate(-5deg);
+        }
+
+        /* 2nd Box -> From Right */
+        .popup-box.box-right {
+            transform: translateX(120vw) scale(0.7) rotate(5deg);
+        }
+
+        /* Super Animation: Elastic Slide + Zoom + Fade */
+        .welcome-modal-overlay.active:not(.closing) .popup-box.box-left {
+            transform: translateX(0) scale(1) rotate(0);
+            opacity: 1;
+            transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .welcome-modal-overlay.active:not(.closing) .popup-box.box-right {
+            transform: translateX(0) scale(1) rotate(0);
+            opacity: 1;
+            transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition-delay: 0.15s;
+        }
+
+        /* Slide out */
+        .welcome-modal-overlay.closing .popup-box.box-left {
+            transform: translateX(-120vw) scale(0.8);
+            opacity: 0;
+            transition: all 0.5s ease-in;
+        }
+
+        .welcome-modal-overlay.closing .popup-box.box-right {
+            transform: translateX(120vw) scale(0.8);
+            opacity: 0;
+            transition: all 0.5s ease-in;
+        }
+
+        /* Box Internals */
+        .popup-top-bar {
+            padding: 14px 16px 10px;
+            background: #fff;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .close-welcome-btn {
-            position: absolute;
-            top: 15px;
-            right: 20px;
             background: #f0f0f0;
             border: none;
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             font-size: 20px;
             cursor: pointer;
-            z-index: 10;
             color: #666;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .welcome-header {
-            padding: 15px;
-            background: #1b0f3a;
-            color: #fff;
+        .popup-top-bar-logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
-        .head-logo-circle {
-            width: 32px;
-            height: 32px;
-            background: #fff;
-            border-radius: 50%;
-            padding: 3px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .head-logo-circle img {
-            width: 100%;
-            height: 100%;
+        .popup-top-bar-logo img {
+            width: 28px;
+            height: 28px;
             object-fit: contain;
         }
 
-        .head-tnpvc-text {
-            font-size: 1.1rem;
+        .popup-top-bar-logo span {
+            font-size: 0.9rem;
             font-weight: 800;
-            letter-spacing: 1px;
+            color: #1b0f3a;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
         }
 
-        .welcome-body {
-            padding: 15px;
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            background: #f4f4f4;
-        }
-
         .box-section {
-            background: #fff;
-            border-radius: 16px;
-            padding: 15px;
+            padding: 16px;
             width: 100%;
-            border: 1px solid #e0e0e0;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         }
 
         .box-section-label {
@@ -405,7 +430,7 @@
         .popup-craft-name {
             font-size: 0.85rem;
             font-weight: 700;
-            color: #1b0f3a;
+            color: #333;
         }
 
         .popup-craft-url {
@@ -417,7 +442,7 @@
         .popup-craft-title {
             font-size: 1rem;
             font-weight: 700;
-            color: #1a0dab;
+            color: #000;
             margin-bottom: 5px;
         }
 
@@ -427,24 +452,93 @@
             line-height: 1.4;
         }
 
-        /* Feed Grid in Popup */
-        .popup-feed-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-
-        .popup-feed-item {
-            aspect-ratio: 1/1;
-            border-radius: 8px;
+        /* Feed Carousel in Popup — 1 image at a time with arrows */
+        .popup-feed-carousel {
+            position: relative;
+            width: 100%;
+            border-radius: 10px;
             overflow: hidden;
             background: #f1f5f9;
         }
 
-        .popup-feed-item img {
+        .popup-feed-slide {
+            width: 100%;
+            height: 260px;
+            /* Fixed height matching the user's marked boundary */
+            display: none;
+        }
+
+        .popup-feed-slide.active {
+            display: block;
+        }
+
+        .popup-feed-slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
+        }
+
+        .popup-feed-slide .empty-slide {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f1f5f9;
+            color: #ccc;
+        }
+
+        /* Arrow navigation */
+        .feed-carousel-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding: 0 2px;
+        }
+
+        .feed-nav-arrow {
+            background: none;
+            border: 1.5px solid #ddd;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #666;
+            font-weight: 700;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .feed-nav-arrow:hover {
+            background: #1b0f3a;
+            color: #fff;
+            border-color: #1b0f3a;
+        }
+
+        .feed-nav-dots {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .feed-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ddd;
+            transition: 0.2s;
+        }
+
+        .feed-dot.active {
+            background: #1b0f3a;
+            width: 16px;
+            border-radius: 3px;
         }
 
         .welcome-footer {
@@ -470,15 +564,132 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(75, 36, 145, 0.4);
         }
+
+        /* Loading Splash Screen */
+        #loadingSplash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1b0f3a 0%, #e3001b 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        #loadingSplash.fade-out {
+            opacity: 0;
+            transform: scale(1.05);
+            pointer-events: none;
+        }
+
+        .splash-logo-ring {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .splash-logo-ring::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            animation: splashSpin 1s linear infinite;
+        }
+
+        .splash-logo-ring::after {
+            content: '';
+            position: absolute;
+            inset: -18px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-bottom-color: rgba(255, 255, 255, 0.5);
+            animation: splashSpin 1.5s linear infinite reverse;
+        }
+
+        .splash-logo-img {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            object-fit: contain;
+            background: white;
+            padding: 8px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            animation: splashPulse 1.2s ease-in-out infinite alternate;
+        }
+
+        .splash-title {
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 24px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            animation: splashFadeUp 0.8s ease 0.3s both;
+        }
+
+        .splash-tagline {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.75rem;
+            margin-top: 6px;
+            letter-spacing: 1.5px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            animation: splashFadeUp 0.8s ease 0.5s both;
+        }
+
+        @keyframes splashSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes splashPulse {
+            from {
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+                transform: scale(0.97);
+            }
+
+            to {
+                box-shadow: 0 12px 40px rgba(255, 255, 255, 0.25);
+                transform: scale(1.03);
+            }
+        }
+
+        @keyframes splashFadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 
 <body>
-    <!-- Site Construction Notice -->
-    <div class="site-notice-bar">
-        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
-        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
+
+    <!-- Loading Splash Screen -->
+    <div id="loadingSplash">
+        <div class="splash-logo-ring">
+            <img src="logo.png" alt="TNPVC" class="splash-logo-img">
+        </div>
+        <div class="splash-title">TNPVC</div>
+        <div class="splash-tagline">Tamil Nadu PVC Council</div>
     </div>
+
 
     <header class="navbar" itemscope itemtype="https://schema.org/SiteNavigationElement">
         <div class="container nav-container">
@@ -506,14 +717,14 @@
                 <!-- Language Switcher -->
                 <div class="lang-switcher">
                     <button class="lang-btn" id="langBtn">
-                        <i data-lucide="swatch-book" class="globe-icon"></i>
+                        <i data-lucide="globe" class="globe-icon"></i>
                         <span id="currentLang">English</span>
                         <i data-lucide="chevron-down" class="chevron-icon"></i>
                     </button>
                     <div class="lang-dropdown" id="langDropdown">
                         <a href="#" data-lang="en">English</a>
-                        <a href="#" data-lang="ta">தமிழ்</a>
-                        <a href="#" data-lang="hi">हिन्दी</a>
+                        <a href="#" data-lang="ta">?????</a>
+                        <a href="#" data-lang="hi">??????</a>
                     </div>
                 </div>
             </div>
@@ -547,7 +758,7 @@
                         <a href="#" class="btn-zoho btn-service-highlight" id="downloadAppBtn">
                             <span data-i18n="download_tnpvc_app">Download TNPVC Official App</span>
                         </a>
-                        <a href="services.html" class="btn-zoho btn-service-highlight">
+                        <a href="services.html" class="btn-zoho btn-service-highlight btn-service-outline">
                             <span data-i18n="view_services">View Our Services</span>
                         </a>
                     </div>
@@ -1194,30 +1405,84 @@
         </footer>
 
         <!-- Floating WhatsApp Button -->
-        <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="floating-whatsapp"
-            title="Join TNPVC on WhatsApp">
-            <i data-lucide="message-circle"></i>
+        <a href="javascript:void(0)" onclick="openWaModal()" class="floating-whatsapp" title="Join TNPVC on WhatsApp">
+            <i data-lucide="message-circle" style="stroke-width: 2.5px;"></i>
         </a>
+
+        <!-- WhatsApp Membership Form Modal -->
+        <div id="waMembershipModal" class="welcome-modal-overlay">
+            <div class="welcome-modal-content"
+                style="max-width: 450px; padding: 30px; border-radius: 24px; border: 1px solid rgba(37, 211, 102, 0.2);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                    <h2 style="font-size:1.5rem; color:#1b0f3a; margin:0; font-weight: 800;">TNPVC <span
+                            style="color:#25D366;">WhatsApp</span></h2>
+                    <button class="close-welcome-btn" onclick="closeWaModal()"
+                        style="position:static; padding:0; height:auto; width:auto; border:none; background:none; font-size:2.4rem; cursor:pointer; color: #1b0f3a; line-height: 1;">&times;</button>
+                </div>
+
+                <div id="waFormStep">
+                    <p style="font-size:0.9rem; color:#65676b; margin-bottom:20px; font-weight: 500;">Please provide
+                        your basic details for membership verification before joining the group.</p>
+                    <div style="display:flex; flex-direction:column; gap:12px;">
+                        <input type="text" id="wa_name" placeholder="Full Name"
+                            style="padding:14px; border:1px solid #efefef; background: #f9fafb; border-radius:12px; font-size:0.95rem; font-family: inherit;">
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+                            <input type="number" id="wa_age" placeholder="Age"
+                                style="padding:14px; border:1px solid #efefef; background: #f9fafb; border-radius:12px; font-size:0.95rem; font-family: inherit;">
+                            <input type="tel" id="wa_phone" placeholder="Phone Number"
+                                style="padding:14px; border:1px solid #efefef; background: #f9fafb; border-radius:12px; font-size:0.95rem; font-family: inherit;">
+                        </div>
+                        <input type="text" id="wa_address" placeholder="Full Address / City"
+                            style="padding:14px; border:1px solid #efefef; background: #f9fafb; border-radius:12px; font-size:0.95rem; font-family: inherit;">
+                        <input type="text" id="wa_shop" placeholder="Shop / Business Name"
+                            style="padding:14px; border:1px solid #efefef; background: #f9fafb; border-radius:12px; font-size:0.95rem; font-family: inherit;">
+                        <input type="text" id="wa_aadhar" placeholder="Aadhar Number"
+                            style="padding:14px; border:1px solid #efefef; background: #f9fafb; border-radius:12px; font-size:0.95rem; font-family: inherit;">
+                        <input type="email" id="wa_gmail" placeholder="Gmail Address"
+                            style="padding:14px; border:1px solid #efefef; background: #f9fafb; border-radius:12px; font-size:0.95rem; font-family: inherit;">
+
+                        <button onclick="submitWaForm()"
+                            style="background:#25D366; color:white; padding:16px; border:none; border-radius:12px; font-weight:800; font-size:1.05rem; cursor:pointer; margin-top:10px; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.25); transition: all 0.3s ease;">Verify
+                            & Send Details</button>
+                    </div>
+                </div>
+
+                <div id="waJoinStep" style="display:none; text-align:center; padding:20px 0;">
+                    <div
+                        style="background:#f0fff4; color:#25D366; padding:0; width:100px; height:100px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 25px; border: 4px solid #ccf6d9;">
+                        <i data-lucide="check-circle" style="width:50px; height:50px;"></i>
+                    </div>
+                    <h3 style="font-size:1.6rem; color:#1b0f3a; margin-bottom:10px; font-weight: 800;">Identity
+                        Verified!</h3>
+                    <p style="color:#65676b; margin-bottom:30px; font-weight: 500;">You are now eligible to join the
+                        official TNPVC community group.</p>
+                    <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" target="_blank" class="btn-download-app"
+                        style="background:#25D366; border-color:#25D366; width:100%; height: 55px; border-radius: 16px; font-weight: 800; font-size: 1.1rem; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);">
+                        <i data-lucide="users-2"></i> Join Now
+                    </a>
+                </div>
+            </div>
+        </div>
 
 
 
         <!-- Welcome Modal Popup -->
         <div id="welcomePopup" class="welcome-modal-overlay">
-            <div class="welcome-modal-content" style="height: 550px;">
-                <button class="close-welcome-btn" onclick="closeWelcomePopup()"
-                    style="color:#fff; background:rgba(255,255,255,0.1);">&times;</button>
-                <div class="welcome-header">
-                    <div class="head-logo-circle">
-                        <img src="logo.png" alt="TNPVC">
+            <div class="welcome-modal-content">
+
+                <!-- 1st Box (Slides from Left) -->
+                <div class="popup-box box-left">
+                    <!-- Top Bar -->
+                    <div class="popup-top-bar"
+                        style="justify-content: flex-end; border-bottom: none; padding-bottom: 0;">
+                        <button class="close-welcome-btn" onclick="closeWelcomePopup()" aria-label="Close">×</button>
                     </div>
-                    <span class="head-tnpvc-text">TNPVC</span>
-                </div>
-                <div class="welcome-body">
-                    <!-- Our Craft Box -->
+
+                    <!-- Sponsored By Box -->
                     <div class="box-section">
-                        <span class="box-section-label">Featured Craft</span>
+                        <span class="box-section-label" style="margin-top:-5px;">Sponsored By</span>
                         <a href="https://www.nareshupvc.in" target="_blank" class="popup-craft-card"
-                            style="border:none; padding:0; background:none;">
+                            style="border:none; padding:0; background:none; box-shadow:none;">
                             <div class="popup-craft-top">
                                 <div class="popup-craft-favicon">
                                     <img src="https://www.nareshupvc.in/favicon.ico" alt="Naresh UPVC"
@@ -1228,23 +1493,33 @@
                                     <span class="popup-craft-url">www.nareshupvc.in</span>
                                 </div>
                             </div>
-                            <div class="popup-craft-title" style="font-size: 0.95rem;">Premium UPVC Windows India</div>
-                            <p class="popup-craft-desc" style="font-size: 0.75rem;">Premium uPVC windows sponsorship by
+                            <div class="popup-craft-title" style="font-size: 0.93rem;">Premium UPVC Windows India</div>
+                            <p class="popup-craft-desc" style="font-size: 0.74rem;">Premium uPVC windows sponsorship by
                                 TNPVC Council.</p>
                         </a>
                     </div>
+                </div>
 
-                    <!-- Feed Box -->
-                    <div class="box-section" style="flex: 1; display: flex; flex-direction: column;">
+                <!-- 2nd Box (Slides from Right) -->
+                <div class="popup-box box-right">
+                    <!-- Feed Highlights Box -->
+                    <div class="box-section" style="padding-bottom: 20px;">
                         <span class="box-section-label">Feed Highlights</span>
-                        <div id="popupFeedItems" class="popup-feed-grid" style="flex:1;">
-                            <!-- JS will fill this -->
+                        <div class="popup-feed-carousel">
+                            <div id="popupFeedItems">
+                                <!-- JS fills slides here -->
+                            </div>
+                        </div>
+                        <!-- Arrow navigation -->
+                        <div class="feed-carousel-nav">
+                            <button class="feed-nav-arrow" onclick="popupCarouselPrev()"
+                                aria-label="Previous">‹</button>
+                            <div class="feed-nav-dots" id="feedNavDots"></div>
+                            <button class="feed-nav-arrow" onclick="popupCarouselNext()" aria-label="Next">›</button>
                         </div>
                     </div>
                 </div>
-                <div class="welcome-footer" style="padding: 15px; background: #fff;">
-                    <button class="btn-explore" onclick="window.location.href='feed.html'">Visit Full Feed</button>
-                </div>
+
             </div>
         </div>
 
@@ -1275,33 +1550,52 @@
             document.addEventListener('DOMContentLoaded', () => {
                 lucide.createIcons();
 
-                // Mobile Menu Logic
-                const mobileToggle = document.getElementById('mobileMenuBtn');
-                const mobileNav = document.getElementById('mobileNav');
-                const closeMenu = document.getElementById('closeMenu');
+                // Splash Screen: fade out after 1.8s, then show welcome popup
+                const splash = document.getElementById('loadingSplash');
+                setTimeout(() => {
+                    splash.classList.add('fade-out');
+                    setTimeout(() => {
+                        splash.style.display = 'none';
+                        // Mobile Menu Logic
+                        const mobileToggle = document.getElementById('mobileMenuBtn');
+                        const mobileNav = document.getElementById('mobileNav');
+                        const closeMenu = document.getElementById('closeMenu');
 
-                if (mobileToggle && mobileNav && closeMenu) {
-                    mobileToggle.addEventListener('click', () => {
-                        mobileNav.classList.add('active');
-                        document.body.style.overflow = 'hidden';
-                    });
+                        if (mobileToggle && mobileNav && closeMenu) {
+                            mobileToggle.addEventListener('click', () => {
+                                mobileNav.classList.add('active');
+                                document.body.style.overflow = 'hidden';
+                            });
 
-                    closeMenu.addEventListener('click', () => {
-                        mobileNav.classList.remove('active');
-                        document.body.style.overflow = '';
-                    });
+                            closeMenu.addEventListener('click', () => {
+                                mobileNav.classList.remove('active');
+                                document.body.style.overflow = '';
+                            });
 
-                    // Close on link click
-                    mobileNav.querySelectorAll('a').forEach(link => {
-                        link.addEventListener('click', () => {
-                            mobileNav.classList.remove('active');
-                            document.body.style.overflow = '';
-                        });
-                    });
-                }
+                            // Close on link click
+                            mobileNav.querySelectorAll('a').forEach(link => {
+                                link.addEventListener('click', () => {
+                                    mobileNav.classList.remove('active');
+                                    document.body.style.overflow = '';
+                                });
+                            });
+                        }
 
-                // Show Welcome Popup on Website Open
-                showWelcomePopup();
+                        // Close popup on overlay click
+                        const welcomeOverlay = document.getElementById('welcomePopup');
+                        if (welcomeOverlay) {
+                            welcomeOverlay.addEventListener('click', (e) => {
+                                if (e.target === welcomeOverlay) {
+                                    closeWelcomePopup();
+                                }
+                            });
+                        }
+
+                        // Show Welcome Popup on Website Open (after splash)
+                        showWelcomePopup();
+
+                    }, 650);
+                }, 1800);
 
                 // Download App Button - Coming Soon Toast
                 const downloadAppBtn = document.getElementById('downloadAppBtn');
@@ -1317,38 +1611,176 @@
                 }
             });
 
+            // -- Popup carousel navigation --
+            let _popupSlideIdx = 0;
+            function popupCarouselGoTo(idx) {
+                const slides = document.querySelectorAll('.popup-feed-slide');
+                const dots = document.querySelectorAll('.feed-dot');
+                if (!slides.length) return;
+                _popupSlideIdx = (idx + slides.length) % slides.length;
+                slides.forEach((s, i) => s.classList.toggle('active', i === _popupSlideIdx));
+                dots.forEach((d, i) => d.classList.toggle('active', i === _popupSlideIdx));
+            }
+            function popupCarouselNext() { popupCarouselGoTo(_popupSlideIdx + 1); }
+            function popupCarouselPrev() { popupCarouselGoTo(_popupSlideIdx - 1); }
+
+            function triggerFireball() {
+                const confettiFn = typeof window.confetti === 'function' ? window.confetti : (typeof confetti === 'function' ? confetti : null);
+                if (!confettiFn) return;
+
+                const duration = 5 * 1000;
+                const animationEnd = Date.now() + duration;
+
+                // Ensure the canvas is attached DIRECTLY to the popup overlay
+                // so it always renders on top regardless of z-index stacking issues
+                let canvas = document.getElementById('popupConfettiCanvas');
+                if (!canvas) {
+                    canvas = document.createElement('canvas');
+                    canvas.id = 'popupConfettiCanvas';
+                    canvas.style.position = 'absolute';
+                    canvas.style.top = '0';
+                    canvas.style.left = '0';
+                    canvas.style.width = '100%';
+                    canvas.style.height = '100%';
+                    canvas.style.pointerEvents = 'none';
+                    canvas.style.zIndex = '999999';
+                    const popup = document.getElementById('welcomePopup');
+                    if (popup) {
+                        popup.appendChild(canvas);
+                    } else {
+                        document.body.appendChild(canvas);
+                    }
+                }
+
+                const myConfetti = confettiFn.create(canvas, {
+                    resize: true,
+                    useWorker: true
+                });
+
+                const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 999999 };
+
+                function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+
+                const interval = setInterval(function () {
+                    const timeLeft = animationEnd - Date.now();
+                    if (timeLeft <= 0) return clearInterval(interval);
+
+                    const particleCount = 50 * (timeLeft / duration);
+                    // Standard bursts from random positions
+                    myConfetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: randomInRange(0.4, 0.6) } });
+                    myConfetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: randomInRange(0.4, 0.6) } });
+                }, 250);
+
+                // Initial Grand Explosions (Sky-shots)
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        const x = randomInRange(0.2, 0.8);
+                        const y = randomInRange(0.2, 0.5);
+                        myConfetti({
+                            particleCount: 150,
+                            spread: 120,
+                            origin: { x, y },
+                            colors: ['#ff0000', '#ffd700', '#1877f2', '#ffffff', '#25D366'],
+                            zIndex: 999999,
+                            gravity: 1.2,
+                            scalar: 1.2,
+                            drift: randomInRange(-0.5, 0.5)
+                        });
+                    }, i * 350);
+                }
+            }
+
             function showWelcomePopup() {
                 const popup = document.getElementById('welcomePopup');
-                const feedGrid = document.getElementById('popupFeedItems');
 
-                if (true) { // Temporarily forced to show for verification
-                    // Load recent posts from Feed
-                    const localPosts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
-                    if (localPosts.length > 0) {
-                        const recentPosts = localPosts.slice(0, 3); // Top 3 recent
-                        feedGrid.innerHTML = recentPosts.map(post => `
-                            <div class="popup-feed-item">
-                                ${post.media ? `<img src="${post.media}" alt="Feed Post">` : `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#eee; color:#aaa;"><i data-lucide="image"></i></div>`}
-                            </div>
-                        `).join('');
-                        lucide.createIcons();
-                    } else {
-                        feedGrid.innerHTML = '<p style="grid-column: span 3; color: #888; font-size: 0.8rem; text-align: center;">No recent feed updates.</p>';
-                    }
+                // Load recent posts from Feed
+                const localPosts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
+                const feedContainer = document.getElementById('popupFeedItems');
+                const dotsContainer = document.getElementById('feedNavDots');
 
-                    setTimeout(() => {
-                        popup.classList.add('active');
-                        document.body.style.overflow = 'hidden';
-                    }, 1000);
-
-                    sessionStorage.setItem('tnpvc_welcome_seen', 'true');
+                if (localPosts.length > 0) {
+                    const recentPosts = localPosts.slice(0, 6);
+                    feedContainer.innerHTML = recentPosts.map((post, i) => {
+                        // Handle both array and string media
+                        let mediaSrc = null;
+                        if (post.media) {
+                            mediaSrc = Array.isArray(post.media) ? post.media[0] : post.media;
+                        }
+                        return `<div class="popup-feed-slide ${i === 0 ? 'active' : ''}">
+                            ${mediaSrc
+                                ? `<img src="${mediaSrc}" alt="Feed" loading="lazy">`
+                                : `<div class="empty-slide"><svg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5'><rect x='3' y='3' width='18' height='18' rx='2'/><circle cx='8.5' cy='8.5' r='1.5'/><path d='M21 15l-5-5L5 21'/></svg></div>`}
+                        </div>`;
+                    }).join('');
+                    dotsContainer.innerHTML = recentPosts.map((_, i) =>
+                        `<div class="feed-dot ${i === 0 ? 'active' : ''}" data-idx="${i}"></div>`
+                    ).join('');
+                } else {
+                    // Placeholder slides when no posts exist yet
+                    feedContainer.innerHTML = `
+                        <div class="popup-feed-slide active">
+                            <img src="logo.png" alt="TNPVC" style="width:100%;height:100%;object-fit:contain;background:#f1f5f9;padding:30px;">
+                        </div>`;
+                    dotsContainer.innerHTML = '';
                 }
+
+                // Show popup first, then fire grand celebration after entrance animation
+                popup.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                sessionStorage.setItem('tnpvc_welcome_seen', 'true');
+
+                // Fire Grand Fireball AFTER popup finishes entrance (700ms animation)
+                setTimeout(() => {
+                    triggerFireball();
+                }, 750);
             }
 
             function closeWelcomePopup() {
                 const popup = document.getElementById('welcomePopup');
-                popup.classList.remove('active');
-                document.body.style.overflow = '';
+                popup.classList.add('closing');
+                setTimeout(() => {
+                    popup.classList.remove('active');
+                    popup.classList.remove('closing');
+                    document.body.style.overflow = '';
+                }, 500); // Wait for transition
+            }
+
+            // --- WhatsApp Membership Modal Logic ---
+            function openWaModal() {
+                const modal = document.getElementById('waMembershipModal');
+                document.getElementById('waFormStep').style.display = 'block';
+                document.getElementById('waJoinStep').style.display = 'none';
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                lucide.createIcons();
+            }
+
+            function closeWaModal() {
+                const modal = document.getElementById('waMembershipModal');
+                modal.classList.add('closing');
+                setTimeout(() => {
+                    modal.classList.remove('active');
+                    modal.classList.remove('closing');
+                    document.body.style.overflow = '';
+                }, 400);
+            }
+
+            function submitWaForm() {
+                const name = document.getElementById('wa_name').value;
+                const age = document.getElementById('wa_age').value;
+                const phone = document.getElementById('wa_phone').value;
+                const address = document.getElementById('wa_address').value;
+                const aadhar = document.getElementById('wa_aadhar').value;
+
+                if (!name || !age || !phone || !address || !aadhar) {
+                    alert('Please fill in all the required identity details.');
+                    return;
+                }
+
+                // Show "Join Now" step
+                document.getElementById('waFormStep').style.display = 'none';
+                document.getElementById('waJoinStep').style.display = 'block';
+                lucide.createIcons();
             }
         </script>
 
@@ -1363,7 +1795,8 @@
             </div>
         </div>
 
-
+        <!-- Fireball Celebration Engine -->
+        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </body>
 
 </html>

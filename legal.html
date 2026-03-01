@@ -14,181 +14,291 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #f8f9fa;
-            color: #333;
+        :root {
+            --tnpvc-navy: #1b0f3a;
+            --tnpvc-red: #e3001b;
+            --text-dark: #1a1a1a;
+            --text-muted: #555;
+            --bg-light: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-        .legal-header {
-            background: #4b2491;
-            color: white;
-            padding: 60px 20px 30px;
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #fff;
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-top: 55px;
+        }
+
+        /* ── Premium Hero Section ── */
+        .legal-hero {
+            background: var(--tnpvc-navy);
+            padding: 60px 20px 90px;
             text-align: center;
-        }
-
-        .legal-header h1 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin: 0 0 6px;
-        }
-
-        .legal-header p {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.75);
-            margin: 0;
-        }
-
-        .legal-container {
-            max-width: 680px;
-            margin: 0 auto;
-            padding: 24px 16px 100px;
-        }
-
-        .legal-section {
-            background: white;
-            border-radius: 12px;
-            margin-bottom: 12px;
+            position: relative;
             overflow: hidden;
-            border: 1px solid #eee;
-        }
-
-        .legal-section-title {
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: #999;
-            padding: 12px 16px 6px;
-        }
-
-        .legal-link {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            padding: 11px 16px;
-            border-bottom: 1px solid #f5f5f5;
-            text-decoration: none;
-            color: #1b0f3a;
-            font-size: 0.82rem;
-            font-weight: 500;
-            transition: background 0.15s;
         }
 
-        .legal-link:last-child {
-            border-bottom: none;
-        }
-
-        .legal-link:hover {
-            background: #f8f4ff;
-        }
-
-        .legal-link svg {
-            width: 14px;
-            height: 14px;
-            color: #bbb;
-            flex-shrink: 0;
-        }
-
-        .legal-badge {
-            font-size: 0.65rem;
-            background: #f0ebff;
-            color: #4b2491;
-            padding: 2px 7px;
-            border-radius: 20px;
-            font-weight: 600;
+        .legal-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: #fff;
+            clip-path: ellipse(60% 100% at 50% 100%);
         }
 
         .back-btn {
+            position: absolute;
+            top: 18px;
+            left: 20px;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 0.8rem;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.82rem;
             text-decoration: none;
-            margin-bottom: 16px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 7px 14px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .back-btn:hover {
+            background: #fff;
+            color: var(--tnpvc-navy);
+        }
+
+        .legal-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+            z-index: 1;
+        }
+
+        .legal-hero p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+            z-index: 1;
+        }
+
+        /* ── Content Layout ── */
+        .legal-hub-container {
+            max-width: 800px;
+            margin: -40px auto 100px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .legal-group {
+            margin-bottom: 3rem;
+        }
+
+        .legal-group h2 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--tnpvc-red);
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            padding-left: 10px;
+        }
+
+        .legal-list {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f1f1f1;
+            overflow: hidden;
+        }
+
+        .legal-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 22px 30px;
+            text-decoration: none;
+            color: var(--text-dark);
+            border-bottom: 1px solid #f8f8f8;
+            transition: all 0.3s ease;
+        }
+
+        .legal-item:last-child {
+            border-bottom: none;
+        }
+
+        .legal-item:hover {
+            background: #fdfdfd;
+            padding-left: 35px;
+        }
+
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .item-info i {
+            color: var(--tnpvc-navy);
+            opacity: 0.7;
+        }
+
+        .item-info span {
+            font-size: 1.05rem;
             font-weight: 600;
         }
 
-        .back-btn svg {
-            width: 16px;
-            height: 16px;
+        .legal-item i[data-lucide="chevron-right"] {
+            color: #ddd;
+            width: 18px;
+            height: 18px;
+        }
+
+        .badge-pill {
+            font-size: 0.7rem;
+            background: var(--tnpvc-navy);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-left: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 600px) {
+            .legal-item {
+                padding: 18px 20px;
+            }
+
+            .legal-hero::after {
+                height: 40px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="legal-header">
-        <a href="index.html" class="back-btn">
-            <i data-lucide="arrow-left"></i> Back to Home
-        </a>
-        <h1>Legal &amp; Policies</h1>
-        <p>© 2026 TNPVC Council Pvt. Ltd. — All Rights Reserved</p>
+
+    <div class="legal-hero">
+        <a href="index.html" class="back-btn"><i data-lucide="arrow-left"></i> Back to Home</a>
+        <h1>Legal & Policies</h1>
+        <p>Official Information & Compliance Registry</p>
     </div>
 
-    <div class="legal-container">
-
+    <div class="legal-hub-container">
         <!-- Support -->
-        <div class="legal-section">
-            <div class="legal-section-title">Support</div>
-            <a href="contact.html" class="legal-link">
-                <span>Contact Us</span>
-                <i data-lucide="chevron-right"></i>
-            </a>
+        <div class="legal-group">
+            <h2>Support & Inquiries</h2>
+            <div class="legal-list">
+                <a href="contact.html" class="legal-item">
+                    <div class="item-info">
+                        <i data-lucide="mail"></i>
+                        <span>Contact Us</span>
+                    </div>
+                    <i data-lucide="chevron-right"></i>
+                </a>
+            </div>
         </div>
 
         <!-- Compliance -->
-        <div class="legal-section">
-            <div class="legal-section-title">Compliance &amp; Safety</div>
-            <a href="security.html" class="legal-link">
-                <span>Security</span>
-                <i data-lucide="chevron-right"></i>
-            </a>
-            <a href="workmanship-compliance.html" class="legal-link">
-                <span>Workmanship Compliance</span>
-                <i data-lucide="chevron-right"></i>
-            </a>
-            <a href="ipr-complaints.html" class="legal-link">
-                <span>IPR Complaints</span>
-                <i data-lucide="chevron-right"></i>
-            </a>
-            <a href="site-safety-policy.html" class="legal-link">
-                <span>Site Safety Policy</span>
-                <i data-lucide="chevron-right"></i>
-            </a>
+        <div class="legal-group">
+            <h2>Compliance & Safety</h2>
+            <div class="legal-list">
+                <a href="security.html" class="legal-item">
+                    <div class="item-info">
+                        <i data-lucide="shield-check"></i>
+                        <span>Security</span>
+                    </div>
+                    <i data-lucide="chevron-right"></i>
+                </a>
+                <a href="workmanship-compliance.html" class="legal-item">
+                    <div class="item-info">
+                        <i data-lucide="award"></i>
+                        <span>Workmanship Compliance</span>
+                    </div>
+                    <i data-lucide="chevron-right"></i>
+                </a>
+                <a href="ipr-complaints.html" class="legal-item">
+                    <div class="item-info">
+                        <i data-lucide="copyright"></i>
+                        <span>IPR Complaints</span>
+                    </div>
+                    <i data-lucide="chevron-right"></i>
+                </a>
+                <a href="site-safety-policy.html" class="legal-item">
+                    <div class="item-info">
+                        <i data-lucide="hard-hat"></i>
+                        <span>Site Safety Policy</span>
+                    </div>
+                    <i data-lucide="chevron-right"></i>
+                </a>
+            </div>
         </div>
 
         <!-- Policies -->
-        <div class="legal-section">
-            <div class="legal-section-title">Policies</div>
-            <a href="terms-of-service.html" class="legal-link">
-                <span>Terms of Service</span>
-                <i data-lucide="chevron-right"></i>
-            </a>
-            <a href="privacy-policy.html" class="legal-link">
-                <span>Privacy Policy</span>
-                <i data-lucide="chevron-right"></i>
-            </a>
-            <a href="brand-usage-policy.html" class="legal-link">
-                <span>Brand Usage Policy</span>
-                <i data-lucide="chevron-right"></i>
-            </a>
-            <a href="cookie-policy.html" class="legal-link">
-                <span>Cookie Policy</span>
-                <i data-lucide="chevron-right"></i>
-            </a>
-            <a href="customer-data-compliance.html" class="legal-link">
-                <span>Customer Data Compliance</span>
-                <span class="legal-badge">GDPR</span>
-            </a>
+        <div class="legal-group">
+            <h2>Legal Framework</h2>
+            <div class="legal-list">
+                <a href="terms-of-service.html" class="legal-item">
+                    <div class="item-info">
+                        <i data-lucide="file-text"></i>
+                        <span>Terms of Service</span>
+                    </div>
+                    <i data-lucide="chevron-right"></i>
+                </a>
+                <a href="privacy-policy.html" class="legal-item">
+                    <div class="item-info">
+                        <i data-lucide="eye-off"></i>
+                        <span>Privacy Policy</span>
+                    </div>
+                    <i data-lucide="chevron-right"></i>
+                </a>
+                <a href="brand-usage-policy.html" class="legal-item">
+                    <div class="item-info">
+                        <i data-lucide="palette"></i>
+                        <span>Brand Usage Policy</span>
+                    </div>
+                    <i data-lucide="chevron-right"></i>
+                </a>
+                <a href="cookie-policy.html" class="legal-item">
+                    <div class="item-info">
+                        <i data-lucide="cookie"></i>
+                        <span>Cookie Policy</span>
+                    </div>
+                    <i data-lucide="chevron-right"></i>
+                </a>
+                <a href="customer-data-compliance.html" class="legal-item">
+                    <div class="item-info">
+                        <i data-lucide="database"></i>
+                        <span>Customer Data Compliance</span>
+                        <span class="badge-pill">GDPR</span>
+                    </div>
+                    <i data-lucide="chevron-right"></i>
+                </a>
+            </div>
         </div>
 
-        <p style="text-align:center; font-size:0.72rem; color:#bbb; margin-top:24px;">
-            TNPVC Council Pvt. Ltd. &nbsp;|&nbsp; Tamil Nadu, India<br>
-            For any legal queries, write to us via the Contact page.
+        <p style="text-align:center; font-size:0.85rem; color:#999; margin-top:40px; font-weight: 500;">
+            © 2026 TNPVC Council Pvt. Ltd. &nbsp;|&nbsp; Tamil Nadu, India
         </p>
     </div>
 

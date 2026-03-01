@@ -15,104 +15,293 @@
         rel="stylesheet">
     <style>
         :root {
-            --ig-bg: #fafafa;
-            --ig-white: #ffffff;
-            --ig-border: #dbdbdb;
-            --ig-text: #262626;
-            --ig-gray: #8e8e8e;
-            --ig-blue: #C20E4D;
-            /* Brighter Shining Berry */
-            --ig-teal: #800834;
-            /* Deep Berry */
-            --ig-orange-gradient: linear-gradient(135deg, #C20E4D 0%, #800834 100%);
-            --ig-glow: 0 0 20px rgba(194, 14, 77, 0.45);
+            --fb-bg: #f0f2f5;
+            --fb-white: #ffffff;
+            --fb-border: #ced0d4;
+            --fb-text: #050505;
+            --fb-secondary: #65676b;
+            --fb-blue: #1877f2;
+            --fb-blue-hover: #166fe5;
+            --fb-hover: #f2f2f2;
+            --fb-btn: #e4e6eb;
         }
 
         body {
-            background-color: var(--ig-bg);
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--fb-bg);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
-            color: var(--ig-text);
-            padding-top: 70px;
-            /* Offset for fixed header */
-            padding-bottom: 70px;
+            color: var(--fb-text);
+            padding-top: 104px;
+            /* Exactly 96px header + 8px spacing */
+            padding-bottom: 20px;
         }
 
         .feed-container {
-            max-width: 600px;
+            max-width: 680px;
             margin: 0 auto;
+            width: 100%;
         }
 
         /* Navbar Styling */
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(194, 14, 77, 0.1);
+            background: var(--fb-white);
+            border-bottom: 1px solid #ced0d4;
             position: fixed;
             top: 0;
             width: 100%;
-            height: 70px;
+            height: 96px;
             z-index: 1000;
             display: flex;
-            align-items: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .nav-container {
-            width: 100%;
-            height: 100%;
-            display: grid;
-            grid-template-columns: 60px 1fr 60px;
-            align-items: center;
+            flex-direction: column;
             padding: 0;
+            box-sizing: border-box;
         }
 
-        .header-add-btn {
-            background: #f0f2f5;
+        .header-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            height: 48px;
+            width: 100%;
+        }
+
+        .header-tabs {
+            display: flex;
+            width: 100%;
+            height: 48px;
+            background: var(--fb-white);
+        }
+
+        .navbar .logo {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+            color: var(--fb-blue);
+            white-space: nowrap;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-icon-btn {
+            background: var(--fb-btn);
             border: none;
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: 0.2s;
+            color: #050505;
         }
 
-        .header-profile-btn {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 2px solid #fff;
-            box-shadow: 0 0 0 1px #dbdbdb;
-            cursor: pointer;
+        .header-icon-btn:hover {
+            background: #d8dadf;
         }
 
-        .header-profile-btn img {
+        .feed-box-title {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #1877f2;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: font-size 0.3s ease;
+        }
+
+        @media (min-width: 768px) {
+            .feed-box-title {
+                font-size: 1.3rem;
+                /* Larger scale for laptop view */
+                letter-spacing: 1px;
+            }
+        }
+
+        /* Feed Box Splash Screen */
+        #feedSplash {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            background: linear-gradient(160deg, #1877f2 0%, #0f3c8a 60%, #050e2b 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            transition: opacity 0.55s ease, transform 0.55s ease;
         }
 
-        .navbar .logo {
-            font-family: 'MedievalSharp', cursive;
-            font-size: 1.6rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-decoration: none;
-            color: #000;
-            text-align: center;
-            white-space: nowrap;
+        #feedSplash.fade-out {
+            opacity: 0;
+            transform: scale(1.04);
+            pointer-events: none;
         }
 
-        .header-btn-container {
-            width: 100%;
+        .feed-splash-ring {
+            position: relative;
+            width: 100px;
+            height: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .feed-splash-ring::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.25);
+            border-top-color: rgba(255, 255, 255, 0.9);
+            animation: feedSpin 0.9s linear infinite;
+        }
+
+        .feed-splash-ring::after {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-bottom-color: rgba(255, 255, 255, 0.4);
+            animation: feedSpin 1.6s linear infinite reverse;
+        }
+
+        .feed-splash-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: contain;
+            background: white;
+            padding: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+            animation: feedLogoPulse 1.2s ease-in-out infinite alternate;
+        }
+
+        .feed-splash-title {
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 22px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            animation: feedFadeUp 0.7s ease 0.2s both;
+        }
+
+        .feed-splash-sub {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.7rem;
+            margin-top: 5px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            animation: feedFadeUp 0.7s ease 0.4s both;
+        }
+
+        @keyframes feedSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes feedLogoPulse {
+            from {
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+                transform: scale(0.96);
+            }
+
+            to {
+                box-shadow: 0 14px 44px rgba(24, 119, 242, 0.4);
+                transform: scale(1.04);
+            }
+        }
+
+        @keyframes feedFadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Create Post Box */
+        .create-post-box {
+            background: var(--fb-white);
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .create-post-top {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--fb-border);
+        }
+
+        .create-post-profile {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .create-post-input {
+            background: var(--fb-bg);
+            border-radius: 20px;
+            padding: 10px 16px;
+            color: var(--fb-secondary);
+            flex: 1;
+            cursor: pointer;
+            font-size: 1.05rem;
+            transition: 0.2s;
+        }
+
+        .create-post-input:hover {
+            background: #e4e6e9;
+        }
+
+        .create-post-actions {
+            display: flex;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #efefef;
+            justify-content: space-between;
+        }
+
+        .cp-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            border-radius: 8px;
+            flex: 1;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--fb-secondary);
+            font-weight: 600;
+            transition: 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .cp-action-btn:hover {
+            background: var(--fb-bg);
         }
 
         /* Views */
@@ -136,13 +325,12 @@
             }
         }
 
-        /* Post Card Styling */
+        /* Post Card Styling — Facebook Style */
         .post-card {
-            background: var(--ig-white);
-            border: 1px solid var(--ig-border);
-            border-radius: 12px;
-            margin-bottom: 24px;
-            overflow: hidden;
+            background: var(--fb-white);
+            margin-bottom: 8px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            padding-bottom: 8px;
         }
 
         .post-header {
@@ -174,98 +362,246 @@
 
         .post-user-info h4 {
             margin: 0;
-            font-size: 0.9rem;
-            font-weight: 700;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--fb-text);
         }
 
         .post-location {
-            font-size: 0.75rem;
-            color: var(--ig-gray);
+            font-size: 0.8rem;
+            color: var(--fb-secondary);
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .post-user-avatar {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+
+        .post-user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .post-media {
             width: 100%;
-            aspect-ratio: 4 / 5;
-            background: #f8f9fa;
+            aspect-ratio: 1 / 1;
+            background: #f0f2f5;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+
+        .post-media::-webkit-scrollbar {
+            display: none;
         }
 
         .post-media img {
+            flex: 0 0 100%;
             width: 100%;
             height: 100%;
+            display: block;
             object-fit: cover;
+            scroll-snap-align: start;
+        }
+
+        /* Facebook-style action bar */
+        .post-likes-count {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            color: var(--fb-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .post-actions {
-            padding: 12px 16px 8px;
+            padding: 4px 16px;
             display: flex;
-            gap: 16px;
             align-items: center;
+            border-top: 1px solid #ced0d4;
+            border-bottom: 1px solid #ced0d4;
+            margin: 0 16px;
         }
 
         .post-action-btn {
             background: none;
             border: none;
             cursor: pointer;
-            color: var(--ig-text);
-            transition: transform 0.1s;
-            padding: 0;
+            color: var(--fb-secondary);
+            transition: background 0.15s;
+            padding: 6px 0;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 4px;
         }
 
-        .post-action-btn:active {
-            transform: scale(1.2);
+        .post-action-btn:hover {
+            background: var(--fb-hover);
         }
 
-        .post-likes {
-            padding: 0 16px 8px;
-            font-size: 0.9rem;
-            font-weight: 700;
+        .post-action-btn.liked {
+            color: var(--fb-blue);
+        }
+
+        .post-action-btn i {
+            width: 20px;
+            height: 20px;
         }
 
         .post-caption {
-            padding: 0 16px 12px;
-            font-size: 0.9rem;
+            padding: 4px 16px 12px;
+            font-size: 0.95rem;
             line-height: 1.4;
+            color: var(--fb-text);
         }
 
-        .post-time {
-            padding: 0 16px 16px;
-            font-size: 0.7rem;
-            color: var(--ig-gray);
-            text-transform: uppercase;
+        /* Google Style Ad Card */
+        .ad-card {
+            background: white;
+            padding: 16px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            border-left: 4px solid var(--fb-blue);
         }
 
-        /* Tabs */
+        .ad-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .ad-logo-box {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #f0f2f5;
+            overflow: hidden;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ad-logo-box {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #f1f3f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+            flex-shrink: 0;
+        }
+
+        .ad-tag {
+            border: 1px solid #1a1a1a;
+            padding: 0 4px;
+            border-radius: 2px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .ad-url {
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #202124;
+            text-decoration: none;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .ad-headline {
+            color: #1a0dab;
+            font-size: 1.25rem;
+            line-height: 1.3;
+            margin: 6px 0;
+            display: block;
+            text-decoration: none;
+            font-weight: 400;
+        }
+
+        .ad-headline:hover {
+            text-decoration: underline;
+        }
+
+        .ad-desc {
+            color: #4d5156;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .ad-banner {
+            width: 100% !important;
+            height: 135px !important;
+            /* Strictly limited height as requested by user */
+            object-fit: cover !important;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .ad-cta-area {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #1a0dab;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding-top: 8px;
+            border-top: 1px solid #efefef;
+        }
+
+        /* Tabs - FB Style */
         .feed-tabs {
             display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            margin-bottom: 25px;
-            padding: 0 15px;
+            background: var(--fb-white);
+            margin-bottom: 8px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .feed-tab-btn {
             flex: 1;
-            padding: 10px;
-            border: 1px solid var(--ig-border);
-            border-radius: 20px;
-            background: white;
-            color: var(--ig-gray);
-            font-size: 0.85rem;
+            padding: 14px;
+            background: transparent;
+            border: none;
+            color: var(--fb-secondary);
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
+            border-bottom: 3px solid transparent;
             transition: 0.2s;
         }
 
+        .feed-tab-btn:hover {
+            background: var(--fb-hover);
+        }
+
         .feed-tab-btn.active {
-            background: var(--ig-orange-gradient);
-            color: white;
-            border-color: transparent;
-            box-shadow: 0 6px 15px rgba(194, 14, 77, 0.3);
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            color: var(--fb-blue);
+            border-bottom: 3px solid var(--fb-blue);
         }
 
         /* Modals */
@@ -323,13 +659,88 @@
             gap: 10px;
         }
 
+        /* Comment Modal Specifics - Bottom Sheet Style */
+        #commentModal .modal-content {
+            width: 100% !important;
+            max-width: 680px !important;
+            height: 90vh !important;
+            border-radius: 12px 12px 0 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            position: fixed !important;
+            bottom: 0 !important;
+            animation: slideUpSheet 0.3s !important;
+        }
+
+        @keyframes slideUpSheet {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .comment-bubble {
+            background: #f0f2f5;
+            padding: 8px 12px;
+            border-radius: 18px;
+            display: inline-block;
+            max-width: 100%;
+            font-size: 0.9rem;
+        }
+
+        .comment-item {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            padding: 0 16px;
+        }
+
+        .comment-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .comment-user-name {
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 2px;
+            display: block;
+        }
+
+        .comment-input-area {
+            padding: 8px 16px;
+            border-top: 1px solid #efefef;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding-bottom: env(safe-area-inset-bottom, 12px);
+        }
+
+        .comment-input-area input {
+            flex: 1;
+            background: #f0f2f5;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 20px;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
         .btn-post {
-            background: var(--ig-blue);
+            background: var(--fb-blue);
             color: white;
             border: none;
             padding: 10px 20px;
             border-radius: 6px;
-            font-weight: 700;
+            font-weight: 600;
+            font-size: 1rem;
             cursor: pointer;
         }
 
@@ -414,81 +825,101 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
 
-        /* Bottom Nav - Flush to Bottom Redesign */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 75px;
-            background: var(--ig-orange-gradient);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            z-index: 2000;
-            border-radius: 0;
-            box-shadow: 0 -5px 25px rgba(128, 8, 52, 0.3);
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 0 10px;
+        /* Bottom Nav - Facebook Style - Using ID to override global styles */
+        #fb-bottom-nav {
+            position: fixed !important;
+            top: 48px !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 55px !important;
+            background: var(--fb-white) !important;
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            z-index: 2000 !important;
+            border-bottom: 1px solid #ced0d4 !important;
+            border-top: none !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+            border-radius: 0 !important;
+            max-width: none !important;
+            transform: none !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
         }
 
-        .bottom-nav-item {
-            color: rgba(255, 255, 255, 0.6);
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 0.7rem;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            padding: 10px;
-            border-radius: 15px;
+        .fb-nav-item {
+            color: var(--fb-secondary) !important;
+            text-decoration: none !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex: 1 !important;
+            height: 48px !important;
+            /* Fixed height to match parent */
+            transition: background 0.2s !important;
+            cursor: pointer !important;
+            position: relative !important;
+            box-sizing: border-box !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            transform: none !important;
         }
 
-        .bottom-nav-item:hover {
+        .fb-nav-item:hover {
+            background: var(--fb-hover) !important;
+        }
+
+        .fb-nav-item.active {
+            color: var(--fb-blue) !important;
+        }
+
+        .fb-nav-item.active i {
+            stroke-width: 2.5px !important;
+            color: var(--fb-blue) !important;
+        }
+
+        .fb-nav-item i {
+            display: block;
+            margin: 0;
+        }
+
+        /* Nav Indicator Line */
+        .fb-nav-item.active::before {
+            content: '';
+            position: absolute;
+            bottom: 0px;
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            background: var(--fb-blue);
+            border-radius: 4px 4px 0 0;
+        }
+
+        .notif-badge {
+            position: absolute;
+            top: 10px;
+            right: 25%;
+            background: #f3425f;
             color: white;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .bottom-nav-item.active {
-            color: white;
-            transform: translateY(-5px);
-        }
-
-        .bottom-nav-item.active i {
-            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
-        }
-
-        .bottom-nav-item.center-btn {
-            background: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
+            font-size: 0.65rem;
+            min-width: 16px;
+            height: 16px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transform: translateY(-10px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 4px var(--ig-blue);
-            border: 2px solid #fff;
-            transition: 0.4s;
+            padding: 2px;
+            font-weight: 700;
+            border: 2px solid white;
+            box-sizing: content-box;
         }
 
-        .bottom-nav-item.center-btn:hover {
-            transform: translateY(-15px) scale(1.1);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 20px rgba(75, 36, 145, 0.5);
-        }
-
-        .center-logo {
-            width: 38px;
-            height: auto;
-            transition: 0.3s;
-        }
-
-        .bottom-nav-img {
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
+        .fb-nav-item::after {
+            display: none !important;
         }
 
         /* Fixed Profile Setup Overlay */
@@ -552,12 +983,7 @@
                 data-text="signin_with" data-size="large" data-logo_alignment="left" data-width="320">
             </div>
 
-            <div style="margin-top: 20px; width: 100%;">
-                <button class="google-btn" onclick="handleDemoLogin()">
-                    <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" width="20" alt="G">
-                    Demo Quick Login
-                </button>
-            </div>
+            <!-- Demo Login Removed -->
         </div>
     </div>
 
@@ -566,33 +992,64 @@
     <!-- Load Google Library -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-    <!-- Header -->
+    <!-- Feed Splash Screen -->
+    <div id="feedSplash">
+        <div class="feed-splash-ring">
+            <img src="logo.png" alt="TNPVC" class="feed-splash-logo">
+        </div>
+        <div class="feed-splash-title">Feed Box</div>
+        <div class="feed-splash-sub">TNPVC Community</div>
+    </div>
+
     <header class="navbar">
-        <div class="nav-container">
-            <div class="header-btn-container" style="justify-content: flex-start; padding-left: 10px;">
-                <button class="header-add-btn" onclick="handleHeaderAddClick()"
-                    style="background:none; border:none; color:#000; padding:0; display:flex; align-items:center;">
-                    <i data-lucide="plus" style="width:28px; height:28px; stroke-width:2.5px;"></i>
+        <div class="header-top-row" style="position: relative; justify-content: center;">
+            <div style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%);">
+                <button class="header-icon-btn" onclick="window.location.href='index.html'">
+                    <i data-lucide="arrow-left" size="22"></i>
                 </button>
             </div>
-            <a href="#" class="logo">TNPVC FEED</a>
-            <div class="header-btn-container" style="justify-content: flex-end; padding-right: 10px;">
-                <div class="header-profile-btn" id="headerProfile" onclick="switchView('account')"
-                    style="width:36px; height:36px; border:2px solid var(--ig-blue); display:flex; align-items:center; justify-content:center;">
-                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="P"
-                        id="headerAvatar" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">
-                </div>
+            <h1 class="feed-box-title"
+                style="font-size: clamp(0.45rem, 2vw, 1.3rem); margin:0; font-weight:800; color:#1877f2; font-family:'Plus Jakarta Sans',sans-serif; letter-spacing:0.8px; text-transform:uppercase;">
+                Feed Box</h1>
+            <div class="header-actions" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%);">
+                <button class="header-icon-btn" onclick="openQuickAddModal()">
+                    <i data-lucide="plus" size="22" style="stroke-width:3px;"></i>
+                </button>
+                <button class="header-icon-btn" onclick="switchView('search')">
+                    <i data-lucide="search" size="18"></i>
+                </button>
             </div>
         </div>
+        <nav class="header-tabs">
+            <a href="javascript:void(0)" onclick="switchView('home')" class="fb-nav-item active" id="nav-home">
+                <i data-lucide="home" size="24"></i>
+            </a>
+            <a href="javascript:void(0)" onclick="switchView('updates')" class="fb-nav-item" id="nav-updates">
+                <i data-lucide="bell" size="24"></i>
+                <span id="notif-badge-el"></span>
+            </a>
+            <a href="javascript:void(0)" onclick="switchView('account')" class="fb-nav-item" id="nav-account">
+                <i data-lucide="circle-user" size="24"></i>
+            </a>
+            <a href="javascript:void(0)" onclick="switchView('menu')" class="fb-nav-item" id="nav-menu">
+                <i data-lucide="menu" size="24"></i>
+            </a>
+        </nav>
     </header>
 
     <main class="feed-container">
         <!-- HOME VIEW -->
         <div id="homeView" class="view-section active">
-            <div class="feed-tabs">
-                <button class="feed-tab-btn active" onclick="switchFeedTab('media')">Photo/Video</button>
-                <button class="feed-tab-btn" onclick="switchFeedTab('ads')">Ads</button>
-                <button class="feed-tab-btn" onclick="switchFeedTab('marketplace')">Products</button>
+            <!-- Create Post Box -->
+            <div class="create-post-box">
+                <div class="create-post-top" style="border-bottom:none; padding-bottom:0; padding-top:4px;">
+                    <div
+                        style="width:32px; height:32px; min-width:32px; border-radius:50%; overflow:hidden; border:1.5px solid #ddd; flex-shrink:0;">
+                        <img src="" id="createPostAvatar"
+                            style="width:100%; height:100%; object-fit:cover; display:block;">
+                    </div>
+                    <div class="create-post-input" onclick="openPostModal()">What's on your mind?</div>
+                </div>
             </div>
 
             <!-- Posts List -->
@@ -616,9 +1073,11 @@
         <div id="updatesView" class="view-section">
             <div style="padding: 20px;">
                 <h3>Notifications</h3>
-                <div style="margin-top:20px; color:#8e8e8e; text-align:center; padding: 40px 0;">
-                    <i data-lucide="bell" size="48" style="margin-bottom:15px;"></i>
-                    <p>No new updates yet.</p>
+                <div id="notificationsList">
+                    <div style="margin-top:20px; color:#8e8e8e; text-align:center; padding: 40px 0;">
+                        <i data-lucide="bell" size="48" style="margin-bottom:15px;"></i>
+                        <p>No new updates yet.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -643,19 +1102,24 @@
             <div style="padding: 16px 16px 0;">
                 <!-- Profile Row: Avatar + Stats -->
                 <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
-                    <img id="accountAvatar" src=""
-                        style="width:90px; height:90px; min-width:90px; border-radius:50%; border:2px solid #dbdbdb; object-fit:cover; flex-shrink:0;">
+                    <div
+                        style="width:90px; height:90px; min-width:90px; position:relative; overflow:hidden; border-radius:50%; border:2px solid #dbdbdb;">
+                        <img id="accountAvatar" src=""
+                            style="width:100%; height:100%; object-fit:cover; display:block;">
+                    </div>
                     <div style="flex:1; display:flex; justify-content:space-around;">
                         <div style="text-align:center;">
-                            <strong style="font-size:1.05rem;">14</strong><br>
+                            <strong style="font-size:1.05rem;" id="myPostCount">0</strong><br>
                             <span style="color:#8e8e8e; font-size:0.75rem;">posts</span>
                         </div>
-                        <div style="text-align:center;">
-                            <strong style="font-size:1.05rem;">1.2k</strong><br>
+                        <div style="text-align:center; cursor:pointer;"
+                            onclick="showFollowStatsModal('followers', currentUser.name)">
+                            <strong style="font-size:1.05rem;" id="myFollowersCount">0</strong><br>
                             <span style="color:#8e8e8e; font-size:0.75rem;">followers</span>
                         </div>
-                        <div style="text-align:center;">
-                            <strong style="font-size:1.05rem;">412</strong><br>
+                        <div style="text-align:center; cursor:pointer;"
+                            onclick="showFollowStatsModal('following', currentUser.name)">
+                            <strong style="font-size:1.05rem;" id="myFollowingCount">0</strong><br>
                             <span style="color:#8e8e8e; font-size:0.75rem;">following</span>
                         </div>
                     </div>
@@ -663,23 +1127,35 @@
 
                 <!-- Name + Buttons -->
                 <div style="margin-bottom:12px;">
-                    <h2 id="accountName" style="margin:0 0 8px; font-size:1rem; font-weight:700;">User Name</h2>
+                    <h2 id="accountName"
+                        style="margin:0 0 8px; font-size: 1.35rem; font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.4px; color: #050505;">
+                        User Name</h2>
                     <div style="display:flex; gap:8px;">
                         <button onclick="openEditProfileModal()"
-                            style="background:var(--ig-blue); color:white; border:none; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.8rem; flex:1;">Edit
-                            Profile</button>
+                            style="background:var(--fb-btn); color:var(--fb-text); border:none; padding:8px 12px; border-radius:6px; font-weight:600; cursor:pointer; font-size:0.95rem; flex:1;">
+                            <i data-lucide="pencil"
+                                style="width:16px; height:16px; display:inline-block; vertical-align:middle; margin-right:4px;"></i>
+                            Edit profile
+                        </button>
                         <button onclick="logout()"
-                            style="background:#f0f2f5; border:none; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.8rem; flex:1;">Logout</button>
+                            style="background:var(--fb-btn); color:var(--fb-text); border:none; padding:8px 12px; border-radius:6px; font-weight:600; cursor:pointer; font-size:0.95rem; flex:1;">
+                            Logout
+                        </button>
                     </div>
                 </div>
                 <!-- Bio Container -->
-                <div id="userBioSection" style="margin-bottom:14px; font-size:0.88rem; line-height:1.5;"></div>
+                <div id="userBioSection" style="margin-bottom:14px; font-size:0.95rem; line-height:1.5;"></div>
+
+                <hr style="border: none; border-top: 1px solid #ced0d4; margin: 16px 0;">
+
+                <div style="margin-bottom: 16px;">
+                    <h3 style="margin:0 0 8px; font-size: 1.2rem;">Posts</h3>
+                </div>
                 <!-- Account Tabs -->
-                <div class="feed-tabs"
-                    style="border-top:1px solid #eee; padding-top:10px; margin:0 -16px; padding-left:16px; padding-right:16px; margin-bottom:0;">
-                    <button class="feed-tab-btn active" onclick="switchAccountTab('media')">Photo/Video</button>
-                    <button class="feed-tab-btn" onclick="switchAccountTab('ads')">Ads</button>
-                    <button class="feed-tab-btn" onclick="switchAccountTab('marketplace')">Products</button>
+                <div class="feed-tabs" style="margin:0 -16px; padding-left:0; padding-right:0; margin-bottom:0;">
+                    <button class="feed-tab-btn active" onclick="switchAccountTab('media')">Grid</button>
+                    <button class="feed-tab-btn" onclick="switchAccountTab('ads')">My Ads</button>
+                    <button class="feed-tab-btn" onclick="switchAccountTab('marketplace')">My Products</button>
                 </div>
             </div>
             <!-- Account Content Area (full width) -->
@@ -701,28 +1177,36 @@
         <div id="userProfileView" class="view-section">
             <div style="padding: 16px 16px 0;">
                 <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
-                    <img id="visitorAvatar" src=""
-                        style="width:90px; height:90px; min-width:90px; border-radius:50%; border:2px solid #dbdbdb; object-fit:cover; flex-shrink:0;">
+                    <div
+                        style="width:90px; height:90px; min-width:90px; position:relative; overflow:hidden; border-radius:50%; border:2px solid #dbdbdb;">
+                        <img id="visitorAvatar" src=""
+                            style="width:100%; height:100%; object-fit:cover; display:block;">
+                    </div>
                     <div style="flex:1; display:flex; justify-content:space-around;">
                         <div style="text-align:center;">
-                            <strong style="font-size:1.05rem;">28</strong><br>
+                            <strong style="font-size:1.05rem;" id="visitPostCount">0</strong><br>
                             <span style="color:#8e8e8e; font-size:0.75rem;">posts</span>
                         </div>
-                        <div style="text-align:center;">
-                            <strong style="font-size:1.05rem;">3.4k</strong><br>
+                        <div style="text-align:center; cursor:pointer;"
+                            onclick="showFollowStatsModal('followers', document.getElementById('visitorName').innerText)">
+                            <strong style="font-size:1.05rem;" id="visitFollowersCount">0</strong><br>
                             <span style="color:#8e8e8e; font-size:0.75rem;">followers</span>
                         </div>
-                        <div style="text-align:center;">
-                            <strong style="font-size:1.05rem;">890</strong><br>
+                        <div style="text-align:center; cursor:pointer;"
+                            onclick="showFollowStatsModal('following', document.getElementById('visitorName').innerText)">
+                            <strong style="font-size:1.05rem;" id="visitFollowingCount">0</strong><br>
                             <span style="color:#8e8e8e; font-size:0.75rem;">following</span>
                         </div>
                     </div>
                 </div>
                 <div style="margin-bottom:12px;">
-                    <h2 id="visitorName" style="margin:0 0 8px; font-size:1rem; font-weight:700;">User Name</h2>
+                    <h2 id="visitorName"
+                        style="margin:0 0 8px; font-size: 1.25rem; font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.3px; color: #050505;">
+                        User Name</h2>
                     <div style="display:flex; gap:8px;">
-                        <button onclick="toggleFollow(this)"
-                            style="background:var(--ig-blue); color:white; border:none; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.8rem; flex:1;">Follow</button>
+                        <button id="visitorFollowBtn"
+                            onclick="toggleFollow(this, document.getElementById('visitorName').innerText)"
+                            style="background:var(--fb-blue); color:white; border:none; padding:8px 12px; border-radius:6px; font-weight:600; cursor:pointer; font-size:0.95rem; flex:1;">Follow</button>
                         <button onclick="alert('Message feature coming soon!')"
                             style="background:#f0f2f5; border:none; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.8rem; flex:1;">Message</button>
                     </div>
@@ -737,31 +1221,132 @@
                 <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:3px;" id="visitorGrid"></div>
             </div>
         </div>
+        <!-- MENU VIEW -->
+        <div id="menuView" class="view-section">
+            <div style="padding: 16px;">
+                <h2 style="margin-bottom: 16px; font-size: 1.5rem; font-weight: bold;">Menu</h2>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <button onclick="switchMenuSection('media')"
+                        style="width: 100%; border:none; display: flex; align-items: center; padding: 16px; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer;">
+                        <i data-lucide="layout-grid" style="margin-right: 12px; color: var(--fb-blue);"></i>
+                        <span style="font-weight: 600; flex: 1; text-align: left; font-size:1.05rem">Feed</span>
+                        <i data-lucide="chevron-right" style="color: #8e8e8e;"></i>
+                    </button>
+                    <button onclick="switchMenuSection('ads')"
+                        style="width: 100%; border:none; display: flex; align-items: center; padding: 16px; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer;">
+                        <i data-lucide="megaphone" style="margin-right: 12px; color: var(--fb-blue);"></i>
+                        <span style="font-weight: 600; flex: 1; text-align: left; font-size:1.05rem">Sponsored</span>
+                        <i data-lucide="chevron-right" style="color: #8e8e8e;"></i>
+                    </button>
+                    <button onclick="switchMenuSection('marketplace')"
+                        style="width: 100%; border:none; display: flex; align-items: center; padding: 16px; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer;">
+                        <i data-lucide="store" style="margin-right: 12px; color: var(--fb-blue);"></i>
+                        <span style="font-weight: 600; flex: 1; text-align: left; font-size:1.05rem">Marketplace</span>
+                        <i data-lucide="chevron-right" style="color: #8e8e8e;"></i>
+                    </button>
+                    <button onclick="openEditProfileModal()"
+                        style="width: 100%; border:none; display: flex; align-items: center; padding: 16px; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer;">
+                        <i data-lucide="user-cog" style="margin-right: 12px; color: var(--fb-blue);"></i>
+                        <span style="font-weight: 600; flex: 1; text-align: left; font-size:1.05rem">Account
+                            details</span>
+                        <i data-lucide="chevron-right" style="color: #8e8e8e;"></i>
+                    </button>
+                    <button onclick="switchView('settings')"
+                        style="width: 100%; border:none; display: flex; align-items: center; padding: 16px; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer;">
+                        <i data-lucide="settings" style="margin-right: 12px; color: var(--fb-blue);"></i>
+                        <span style="font-weight: 600; flex: 1; text-align: left; font-size:1.05rem">Settings</span>
+                        <i data-lucide="chevron-right" style="color: #8e8e8e;"></i>
+                    </button>
+                    <button onclick="logout()"
+                        style="width: 100%; border:none; display: flex; align-items: center; padding: 16px; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer; margin-top: 10px;">
+                        <i data-lucide="log-out" style="margin-right: 12px; color: #f3425f;"></i>
+                        <span
+                            style="font-weight: 600; flex: 1; text-align: left; font-size:1.05rem; color: #f3425f;">Log
+                            Out</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SETTINGS VIEW -->
+        <div id="settingsView" class="view-section">
+            <div style="padding: 16px; background: white; min-height: 100vh;">
+                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                    <button class="header-icon-btn" onclick="switchView('menu')"
+                        style="background: none; box-shadow: none;">
+                        <i data-lucide="arrow-left" size="24"></i>
+                    </button>
+                    <h2 style="margin: 0; font-size: 1.25rem; font-weight: 700;">Settings</h2>
+                </div>
+
+                <div class="settings-group" style="display: flex; flex-direction: column; gap: 20px;">
+                    <!-- Theme -->
+                    <div style="border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                        <h3
+                            style="font-size: 0.85rem; color: #65676b; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px;">
+                            Theme</h3>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-weight: 600;">Dark Mode</span>
+                            <input type="checkbox" id="darkModeToggle" disabled
+                                style="width: 40px; height: 20px; cursor: not-allowed;">
+                        </div>
+                        <p style="font-size: 0.75rem; color: #8e8e8e; margin-top: 4px;">More themes coming soon</p>
+                    </div>
+
+                    <!-- Notifications -->
+                    <div style="border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                        <h3
+                            style="font-size: 0.85rem; color: #65676b; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px;">
+                            Notifications</h3>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>Push Notifications</span>
+                                <input type="checkbox" checked onchange="alert('Push notifications updated')">
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>Email Updates</span>
+                                <input type="checkbox" checked onchange="alert('Email preferences saved')">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Language -->
+                    <div style="border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                        <h3
+                            style="font-size: 0.85rem; color: #65676b; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px;">
+                            Language</h3>
+                        <div onclick="alert('Language settings will sync with main home page.')"
+                            style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                            <span style="font-weight: 600;">Current Language</span>
+                            <span style="color: var(--fb-blue); font-weight: 600;">English <i
+                                    data-lucide="chevron-right" style="display: inline-block; vertical-align: middle;"
+                                    size="14"></i></span>
+                        </div>
+                    </div>
+
+                    <!-- Legal -->
+                    <div>
+                        <h3
+                            style="font-size: 0.85rem; color: #65676b; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px;">
+                            About</h3>
+                        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem;">
+                            <a href="terms-of-service.html" target="_blank"
+                                style="text-decoration: none; color: inherit; display: flex; justify-content: space-between; align-items: center; padding: 4px 0;">Terms
+                                of Service <i data-lucide="external-link" size="14"></i></a>
+                            <a href="privacy-policy.html" target="_blank"
+                                style="text-decoration: none; color: inherit; display: flex; justify-content: space-between; align-items: center; padding: 4px 0;">Privacy
+                                Policy <i data-lucide="external-link" size="14"></i></a>
+                            <div style="color: #8e8e8e; font-size: 0.8rem; margin-top: 10px;">TNPVC Feed Box v1.2.4
+                                (Alpha)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
 
-    <!-- Bottom Nav -->
-    <nav class="bottom-nav">
-        <a href="javascript:void(0)" onclick="switchView('home')" class="bottom-nav-item active" id="nav-home">
-            <i data-lucide="home"></i>
-            <span>Home</span>
-        </a>
-        <a href="javascript:void(0)" onclick="switchView('updates')" class="bottom-nav-item" id="nav-updates">
-            <i data-lucide="bell"></i>
-            <span>Updates</span>
-        </a>
-        <a href="index.html" class="bottom-nav-item center-btn">
-            <img src="logo.png" class="center-logo" alt="TNPVC Home">
-        </a>
-        <a href="javascript:void(0)" onclick="switchView('search')" class="bottom-nav-item" id="nav-search">
-            <i data-lucide="search"></i>
-            <span>Search</span>
-        </a>
-        <a href="javascript:void(0)" onclick="switchView('account')" class="bottom-nav-item" id="nav-account">
-            <i data-lucide="user"></i>
-            <span>Account</span>
-        </a>
-    </nav>
+    <!-- Modals -->
 
     <!-- Post Options Modal -->
     <div id="optionsModal" class="modal-overlay">
@@ -783,17 +1368,26 @@
     </div>
 
     <!-- Comment Modal -->
-    <div id="commentModal" class="modal-overlay">
-        <div class="modal-content" style="max-height: 80vh; display: flex; flex-direction: column;">
-            <div class="modal-header">Comments</div>
-            <div id="commentsList" class="modal-body" style="flex: 1; overflow-y: auto; min-height: 200px;">
-                <p style="text-align: center; color: #8e8e8e; margin-top: 50px;">No comments yet.</p>
+    <div id="commentModal" class="modal-overlay" style="align-items: flex-end;">
+        <div class="modal-content">
+            <div class="modal-header"
+                style="display: flex; align-items: center; justify-content: space-between; padding: 10px 16px;">
+                <button onclick="closeModals()"
+                    style="background: none; border: none; padding: 5px; cursor: pointer; display: flex; align-items: center; color: #050505;">
+                    <i data-lucide="arrow-left" size="24"></i>
+                </button>
+                <div style="font-weight: 700; flex: 1; text-align: center; margin-right: 34px;">Comments</div>
             </div>
-            <div class="modal-footer" style="padding: 10px; display: flex; gap: 10px;">
-                <input type="text" id="commentInput" placeholder="Add a comment..."
-                    style="flex: 1; border: 1px solid #dbdbdb; padding: 10px; border-radius: 20px; outline: none;">
-                <button onclick="submitComment()"
-                    style="color: var(--ig-blue); background: none; border: none; font-weight: 700; cursor: pointer;">Post</button>
+            <div id="commentsList" class="modal-body"
+                style="flex: 1; overflow-y: auto; padding: 16px 0; background: white;">
+                <!-- Comments rendered here -->
+            </div>
+            <div class="comment-input-area">
+                <img src="" id="commentUserAvatar" class="comment-avatar" alt="Me">
+                <input type="text" id="commentInput" placeholder="Write a comment..."
+                    onkeydown="if(event.key==='Enter') submitComment(this.dataset.postId)">
+                <button id="submitCommentBtn"
+                    style="color: var(--fb-blue); background: none; border: none; font-weight: 700; cursor: pointer; font-size: 1rem;">Post</button>
             </div>
         </div>
     </div>
@@ -802,9 +1396,9 @@
         <div class="modal-content">
             <div class="modal-header">Create New Post</div>
             <div class="modal-body">
-                <input type="file" id="postFile" hidden onchange="handleFile(this)">
+                <input type="file" id="postFile" multiple accept="image/*" hidden onchange="handleFile(this)">
                 <div onclick="document.getElementById('postFile').click()" id="uploadPreview"
-                    style="width:100%; aspect-ratio:4/5; border:1px dashed #dbdbdb; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden;">
+                    style="width:100%; aspect-ratio:4/5; border:1px dashed #dbdbdb; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow-x:auto; background:#f9f9f9;">
                     <div style="text-align:center; color:#8e8e8e;">
                         <i data-lucide="image" size="40"></i>
                         <p>Click to add photo</p>
@@ -832,9 +1426,9 @@
                 <input type="text" id="pContact" placeholder="WhatsApp Contact"
                     style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #efefef; border-radius:5px;">
 
-                <input type="file" id="pImgInput" hidden onchange="handleProductFile(this)">
+                <input type="file" id="pImgInput" multiple accept="image/*" hidden onchange="handleProductFile(this)">
                 <div onclick="document.getElementById('pImgInput').click()" id="pUploadPreview"
-                    style="width:100%; aspect-ratio:1/1; border:1px dashed #dbdbdb; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden; background:#f9f9f9;">
+                    style="width:100%; aspect-ratio:1/1; border:1px dashed #dbdbdb; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow-x:auto; background:#f9f9f9;">
                     <div style="text-align:center; color:#8e8e8e;">
                         <i data-lucide="image" size="30"></i>
                         <p style="font-size:0.8rem;">Add Product Image</p>
@@ -859,7 +1453,7 @@
                     <input type="file" id="editPfpInput" hidden onchange="previewEditPfp(this)">
                 </div>
                 <p
-                    style="text-align:center; font-size:0.8rem; color:var(--ig-blue); margin-top:-10px; margin-bottom:15px;">
+                    style="text-align:center; font-size:0.8rem; color:var(--fb-blue); margin-top:-10px; margin-bottom:15px;">
                     Change Photo</p>
                 <input type="text" id="editName" placeholder="Full Name" class="setup-input">
                 <input type="text" id="editShop" placeholder="Shop Name" class="setup-input">
@@ -873,33 +1467,162 @@
         </div>
     </div>
 
+    <!-- Quick Add Modal -->
+    <div id="quickAddModal" class="modal-overlay">
+        <div class="modal-content" style="max-width:350px;">
+            <div class="modal-header">Create Something New</div>
+            <div class="modal-body" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:20px;">
+                <button onclick="closeModals(); openPostModal()"
+                    style="display:flex; flex-direction:column; align-items:center; gap:10px; padding:20px; background:#f0f2f5; border:none; border-radius:12px; cursor:pointer;">
+                    <i data-lucide="image" style="color:#45bd62;"></i>
+                    <span style="font-weight:600;">Photo</span>
+                </button>
+                <button onclick="closeModals(); openPostModal()"
+                    style="display:flex; flex-direction:column; align-items:center; gap:10px; padding:20px; background:#f0f2f5; border:none; border-radius:12px; cursor:pointer;">
+                    <i data-lucide="video" style="color:#f3425f;"></i>
+                    <span style="font-weight:600;">Video</span>
+                </button>
+                <button onclick="closeModals(); openProductModal()"
+                    style="display:flex; flex-direction:column; align-items:center; gap:10px; padding:20px; background:#f0f2f5; border:none; border-radius:12px; cursor:pointer;">
+                    <i data-lucide="shopping-bag" style="color:var(--fb-blue);"></i>
+                    <span style="font-weight:600;">Marketplace</span>
+                </button>
+                <button onclick="closeModals(); window.location.href='ads.html'"
+                    style="display:flex; flex-direction:column; align-items:center; gap:10px; padding:20px; background:#f0f2f5; border:none; border-radius:12px; cursor:pointer;">
+                    <i data-lucide="megaphone" style="color:#f7b928;"></i>
+                    <span style="font-weight:600;">Ads</span>
+                </button>
+            </div>
+            <div class="modal-footer" style="padding:15px; border-top:1px solid #efefef;">
+                <button class="btn-cancel" onclick="closeModals()" style="width:100%; margin:0;">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div id="userListModal" class="modal-overlay">
+        <div class="modal-content" style="max-height: 85vh; display: flex; flex-direction: column; padding: 0;">
+            <div class="modal-header" id="userListTitle"
+                style="padding: 15px; border-bottom: 1px solid #efefef; text-align: center; font-weight: 700;">Users
+            </div>
+            <div id="userListBody" class="modal-body" style="flex: 1; overflow-y: auto; padding: 0;">
+                <!-- User items here -->
+            </div>
+            <div class="modal-footer"
+                style="padding: 10px; border-top: 1px solid #efefef; display: flex; justify-content: flex-end;">
+                <button class="btn-cancel" onclick="closeModals()"
+                    style="margin: 0; width: auto; padding: 8px 20px;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
+        function triggerFireball() {
+            if (typeof confetti !== 'function') return;
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 99999 };
+            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+            const interval = setInterval(function () {
+                const timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return clearInterval(interval);
+                const particleCount = 50 * (timeLeft / duration);
+                confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: randomInRange(0.4, 0.6) } });
+                confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: randomInRange(0.4, 0.6) } });
+            }, 250);
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const x = randomInRange(0.2, 0.8);
+                    const y = randomInRange(0.2, 0.5);
+                    confetti({
+                        particleCount: 150,
+                        spread: 120,
+                        origin: { x, y },
+                        colors: ['#ff0000', '#ffd700', '#1877f2', '#ffffff', '#25D366'],
+                        zIndex: 99999,
+                        gravity: 1.2,
+                        scalar: 1.2,
+                        drift: randomInRange(-0.5, 0.5)
+                    });
+                }, i * 350);
+            }
+        }
+
+        let socket;
         let currentUser = null;
-        let selectedFile = null;
-        let selectedProductFile = null;
+        let selectedFiles = []; // Array of up to 5 files
+        let selectedProductFiles = []; // Array of up to 5 files
         let setupPfpData = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200";
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Splash screen: fade out after 1.5s
+            const feedSplash = document.getElementById('feedSplash');
+            setTimeout(() => {
+                feedSplash.classList.add('fade-out');
+                setTimeout(() => {
+                    feedSplash.style.display = 'none';
+                }, 600);
+            }, 1000);
+
+            initSocket();
             initAuth();
             lucide.createIcons();
             loadInitialData();
         });
 
+        function initSocket() {
+            if (typeof io !== 'undefined') {
+                socket = io(window.location.protocol === 'file:' ? 'http://localhost:3000' : undefined);
+
+                socket.on('initial_sync', (db) => {
+                    localStorage.setItem('tnpvc_all_users', JSON.stringify(db.all_users || []));
+                    localStorage.setItem('tnpvc_local_posts', JSON.stringify(db.posts || []));
+                    localStorage.setItem('tnpvc_notifications', JSON.stringify(db.notifications || []));
+                    localStorage.setItem('tnpvc_followers', JSON.stringify(db.followers || {}));
+                    localStorage.setItem('tnpvc_local_prods', JSON.stringify(db.prods || []));
+                    loadInitialData();
+                    if (currentUser && currentUser.setupComplete) applyUserUI();
+                });
+
+                socket.on('db_updated', ({ type, data }) => {
+                    if (type === 'users') localStorage.setItem('tnpvc_all_users', JSON.stringify(data));
+                    if (type === 'posts') localStorage.setItem('tnpvc_local_posts', JSON.stringify(data));
+                    if (type === 'notifications') localStorage.setItem('tnpvc_notifications', JSON.stringify(data));
+                    if (type === 'followers') localStorage.setItem('tnpvc_followers', JSON.stringify(data));
+                    if (type === 'prods') localStorage.setItem('tnpvc_local_prods', JSON.stringify(data));
+
+                    loadInitialData();
+                    if (currentUser && currentUser.setupComplete) applyUserUI();
+
+                    if (document.getElementById('updatesView').classList.contains('active')) {
+                        renderNotifications();
+                    }
+                    if (document.getElementById('userProfileView').classList.contains('active')) {
+                        const vName = document.getElementById('visitorName').textContent;
+                        if (vName) viewUserProfile(vName);
+                    }
+                });
+            }
+
+            const searchInput = document.getElementById('memberSearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', renderSearch);
+            }
+        }
+
         function initAuth() {
             const savedUser = localStorage.getItem('tnpvc_user');
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
+                if (currentUser.name) currentUser.name = currentUser.name.trim(); // Normalize name
                 if (!currentUser.setupComplete) {
                     showSetup();
                 } else {
-                    applyUserUI();
                     document.querySelector('.navbar').style.display = 'flex';
-                    document.querySelector('.bottom-nav').style.display = 'flex';
+                    applyUserUI();
                 }
             } else {
                 document.getElementById('authOverlay').style.display = 'flex';
                 document.querySelector('.navbar').style.display = 'none';
-                document.querySelector('.bottom-nav').style.display = 'none';
                 document.body.style.overflow = 'hidden';
             }
         }
@@ -910,7 +1633,7 @@
             const responsePayload = decodeJwtResponse(response.credential);
 
             currentUser = {
-                name: responsePayload.name,
+                name: responsePayload.name.trim(),
                 email: responsePayload.email,
                 avatar: responsePayload.picture,
                 setupComplete: false
@@ -919,15 +1642,7 @@
             loginSuccess();
         }
 
-        function handleDemoLogin() {
-            currentUser = {
-                name: "New TNPVC Member",
-                email: "demo@tnpvc.com",
-                avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200",
-                setupComplete: false
-            };
-            loginSuccess();
-        }
+
 
         function decodeJwtResponse(token) {
             try {
@@ -968,17 +1683,55 @@
             }
         }
 
+        function getFollowStats(userName) {
+            let uName = (userName || '').trim();
+            let followers = JSON.parse(localStorage.getItem('tnpvc_followers') || '{}');
+
+            // Collect all potential matches for followers count (accounting for spaces in old data)
+            let fList = [];
+            Object.keys(followers).forEach(k => {
+                if (k.trim() === uName) fList = fList.concat(followers[k]);
+            });
+
+            // Unique followers by trimming
+            let uniqueFollowers = [...new Set(fList.map(f => f.trim()))];
+
+            // Collect following count
+            let followingCount = 0;
+            Object.keys(followers).forEach(k => {
+                if (followers[k].some(f => f.trim() === uName)) {
+                    followingCount++;
+                }
+            });
+
+            return {
+                followers: uniqueFollowers.length,
+                following: followingCount
+            };
+        }
+
+        function syncToCentral(oldName) {
+            let allUsers = JSON.parse(localStorage.getItem('tnpvc_all_users') || '[]');
+            const idx = allUsers.findIndex(u => u.name === (oldName || currentUser.name));
+            if (idx > -1) allUsers[idx] = currentUser;
+            else allUsers.push(currentUser);
+            localStorage.setItem('tnpvc_all_users', JSON.stringify(allUsers));
+
+            if (socket) socket.emit('sync_user', currentUser);
+        }
+
         function completeSetup() {
-            const name = document.getElementById('setupName').value;
-            const shop = document.getElementById('setupShop').value;
-            const loc = document.getElementById('setupLocation').value;
-            const bio = document.getElementById('setupBio').value;
+            const name = document.getElementById('setupName').value.trim();
+            const shop = document.getElementById('setupShop').value.trim();
+            const loc = document.getElementById('setupLocation').value.trim();
+            const bio = document.getElementById('setupBio').value.trim();
 
             if (!name || !loc) {
                 alert("Please at least enter your Name and Location.");
                 return;
             }
 
+            const oldName = currentUser.name;
             currentUser.name = name;
             currentUser.shop = shop;
             currentUser.location = loc;
@@ -987,30 +1740,40 @@
             currentUser.setupComplete = true;
 
             localStorage.setItem('tnpvc_user', JSON.stringify(currentUser));
+            syncToCentral(oldName);
 
             document.getElementById('setupOverlay').style.display = 'none';
             document.body.style.overflow = 'auto';
             document.querySelector('.navbar').style.display = 'flex';
-            document.querySelector('.bottom-nav').style.display = 'flex';
             applyUserUI();
+
+            loadInitialData();
+            if (typeof renderNotifications === 'function') renderNotifications();
         }
 
         function applyUserUI() {
-            document.getElementById('headerAvatar').src = currentUser.avatar;
+            if (!currentUser) return;
+            const myName = (currentUser.name || '').trim();
+            document.getElementById('createPostAvatar').src = currentUser.avatar;
             document.getElementById('accountAvatar').src = currentUser.avatar;
             document.getElementById('accountName').textContent = currentUser.name;
 
-            // Update account details
+            const stats = getFollowStats(myName);
+            const accountPostsCount = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]').filter(p => (p.user || '').trim() === myName).length;
+
+            document.getElementById('myPostCount').textContent = accountPostsCount;
+            document.getElementById('myFollowersCount').textContent = stats.followers;
+            document.getElementById('myFollowingCount').textContent = stats.following;
+
             const bioContainer = document.getElementById('userBioSection');
             if (currentUser.setupComplete && bioContainer) {
                 bioContainer.innerHTML = `
-    <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 4px;">${currentUser.name}</div>
-    <div style="font-size: 0.9rem; line-height: 1.5; color: #262626;">
-        ${currentUser.bio || 'PVC Professional'}<br>
-        🏢 <strong>Shop:</strong> ${currentUser.shop || 'Not specified'}<br>
-        📍 <strong>Location:</strong> ${currentUser.location}
-    </div>
-    `;
+                <div style="font-size: 0.92rem; line-height: 1.6; color: #262626;">
+                    ${currentUser.bio || 'PVC Professional'}<br>
+                    🏢 <strong>Shop:</strong> ${currentUser.shop || 'Not specified'}<br>
+                    📍 <strong>Location:</strong> ${currentUser.location}
+                </div>
+                `;
             }
         }
 
@@ -1021,21 +1784,40 @@
 
         function switchView(view) {
             document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-            document.getElementById(view + 'View').classList.add('active');
+            const viewEl = document.getElementById(view + 'View');
+            if (viewEl) viewEl.classList.add('active');
 
-            document.querySelectorAll('.bottom-nav-item').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.fb-nav-item').forEach(v => v.classList.remove('active'));
             const nav = document.getElementById('nav-' + view);
             if (nav) nav.classList.add('active');
 
             window.scrollTo(0, 0);
+
+            // Re-render icons for new views
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+
+            if (view === 'updates' && typeof renderNotifications === 'function') {
+                renderNotifications();
+            }
+            updateNotifBadge();
         }
 
-        function switchFeedTab(tab) {
+        function updateNotifBadge() {
+            const el = document.getElementById('notif-badge-el');
+            if (!el || !currentUser) return;
+            const notifs = JSON.parse(localStorage.getItem('tnpvc_notifications') || '[]');
+            const count = notifs.filter(n => n.to === currentUser.name && n.status === 'pending').length;
+            if (count > 0) {
+                el.innerHTML = `<span class="notif-badge">${count}</span>`;
+            } else {
+                el.innerHTML = '';
+            }
+        }
+
+        function switchMenuSection(tab) {
             document.querySelectorAll('#homeView .tab-content').forEach(c => c.style.display = 'none');
             document.getElementById(tab + 'Content').style.display = 'block';
-
-            document.querySelectorAll('#homeView .feed-tab-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+            switchView('home');
         }
 
         function switchAccountTab(tab) {
@@ -1062,6 +1844,43 @@
 
         function openPostModal() { document.getElementById('postModal').classList.add('active'); }
         function openProductModal() { document.getElementById('productModal').classList.add('active'); }
+        function openCommentModal(postId) {
+            document.getElementById('commentModal').classList.add('active');
+            document.getElementById('commentUserAvatar').src = currentUser.avatar;
+            document.getElementById('commentInput').dataset.postId = postId;
+
+            const submitBtn = document.getElementById('submitCommentBtn');
+            if (submitBtn) submitBtn.onclick = () => submitComment(postId);
+
+            renderCommentsInsideModal(postId);
+            lucide.createIcons();
+        }
+
+        function renderCommentsInsideModal(postId) {
+            const list = document.getElementById('commentsList');
+            const posts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
+            const post = posts.find(p => p.id == postId);
+
+            if (!post || !post.comments || post.comments.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: #8e8e8e; margin-top: 50px;">No comments yet.</p>';
+                return;
+            }
+
+            // Map comments to bubble style
+            // Note: If comments don't have avatars yet, we'll use a placeholder or the post owner's avatar for now
+            // Better: We should store avatar with comments if possible
+            list.innerHTML = post.comments.map(c => `
+                <div class="comment-item">
+                    <img src="${c.avatar || 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=50'}" class="comment-avatar">
+                    <div style="flex: 1;">
+                        <div class="comment-bubble">
+                            <span class="comment-user-name" onclick="closeModals(); viewUserProfile('${c.user}')">${c.user}</span>
+                            ${c.text}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
 
         function closeModals() {
             document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
@@ -1087,21 +1906,31 @@
             }
         }
 
+        function openQuickAddModal() {
+            document.getElementById('quickAddModal').classList.add('active');
+            lucide.createIcons();
+        }
+
         function saveProfile() {
-            const name = document.getElementById('editName').value;
-            const shop = document.getElementById('editShop').value;
-            const loc = document.getElementById('editLocation').value;
-            const bio = document.getElementById('editBio').value;
+            const name = document.getElementById('editName').value.trim();
+            const shop = document.getElementById('editShop').value.trim();
+            const loc = document.getElementById('editLocation').value.trim();
+            const bio = document.getElementById('editBio').value.trim();
 
             if (!name) { alert("Name is required."); return; }
 
+            const oldName = currentUser.name;
             currentUser.name = name;
             currentUser.shop = shop;
             currentUser.location = loc;
             currentUser.bio = bio;
             localStorage.setItem('tnpvc_user', JSON.stringify(currentUser));
+
+            syncToCentral(oldName);
+
             applyUserUI();
             closeModals();
+            loadInitialData(); // To refresh search view members immediately
         }
         function openOptionsModal(postId, isOwner) {
             const optionsModal = document.getElementById('optionsModal');
@@ -1133,66 +1962,122 @@
             }
         }
 
-        function submitComment() {
+        function submitComment(postId) {
             const input = document.getElementById('commentInput');
             if (!input.value) return;
-            const list = document.getElementById('commentsList');
-            if (list.querySelector('p')) list.innerHTML = '';
 
-            const div = document.createElement('div');
-            div.style.marginBottom = '12px';
-            div.innerHTML = `<strong style="margin-right:8px;">${currentUser.name}</strong> ${input.value}`;
-            list.appendChild(div);
+            const comment = {
+                user: currentUser.name.trim(),
+                text: input.value,
+                avatar: currentUser.avatar,
+                time: "JUST NOW"
+            };
+
+            if (socket) {
+                socket.emit('add_comment', { postId, comment });
+            } else {
+                // Local fallback
+                const posts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
+                const post = posts.find(p => p.id == postId);
+                if (post) {
+                    if (!post.comments) post.comments = [];
+                    post.comments.push(comment);
+                    localStorage.setItem('tnpvc_local_posts', JSON.stringify(posts));
+                    renderPosts();
+                    renderCommentsInsideModal(postId);
+                }
+            }
             input.value = '';
         }
 
         function handleFile(input) {
-            if (input.files[0]) {
+            selectedFiles = [];
+            document.getElementById('uploadPreview').innerHTML = '';
+            const files = Array.from(input.files).slice(0, 5);
+
+            if (files.length === 0) {
+                document.getElementById('uploadPreview').innerHTML = '<div style="text-align:center; color:#8e8e8e;"><i data-lucide="image" size="40"></i><p>Click to add photo</p></div>';
+                lucide.createIcons();
+                return;
+            }
+
+            files.forEach(file => {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    selectedFile = e.target.result;
-                    document.getElementById('uploadPreview').innerHTML = `<img src="${selectedFile}"
-        style="width:100%; height:100%; object-fit:cover;">`;
+                    selectedFiles.push(e.target.result);
+                    let preview;
+                    if (file.type.startsWith('video/')) {
+                        preview = document.createElement('video');
+                        preview.muted = true;
+                        preview.autoplay = true;
+                        preview.loop = true;
+                    } else {
+                        preview = document.createElement('img');
+                    }
+                    preview.src = e.target.result;
+                    preview.style.cssText = 'min-width:100%; height:100%; object-fit:cover; scroll-snap-align: start;';
+                    document.getElementById('uploadPreview').appendChild(preview);
                 };
-                reader.readAsDataURL(input.files[0]);
-            }
+                reader.readAsDataURL(file);
+            });
+            document.getElementById('uploadPreview').style.scrollSnapType = 'x mandatory';
+            document.getElementById('uploadPreview').style.overflowX = 'auto';
         }
 
         function handleProductFile(input) {
-            if (input.files[0]) {
+            selectedProductFiles = [];
+            document.getElementById('pUploadPreview').innerHTML = '';
+            const files = Array.from(input.files).slice(0, 5);
+
+            if (files.length === 0) {
+                document.getElementById('pUploadPreview').innerHTML = '<div style="text-align:center; color:#8e8e8e;"><i data-lucide="image" size="30"></i><p style="font-size:0.8rem;">Add Product Image</p></div>';
+                lucide.createIcons();
+                return;
+            }
+
+            files.forEach(file => {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    selectedProductFile = e.target.result;
-                    document.getElementById('pUploadPreview').innerHTML = `<img src="${selectedProductFile}"
-        style="width:100%; height:100%; object-fit:cover;">`;
+                    selectedProductFiles.push(e.target.result);
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.cssText = 'min-width:100%; height:100%; object-fit:cover; scroll-snap-align: start;';
+                    document.getElementById('pUploadPreview').appendChild(img);
                 };
-                reader.readAsDataURL(input.files[0]);
-            }
+                reader.readAsDataURL(file);
+            });
+            document.getElementById('pUploadPreview').style.scrollSnapType = 'x mandatory';
+            document.getElementById('pUploadPreview').style.overflowX = 'auto';
         }
 
         function submitPost() {
             const text = document.getElementById('postText').value;
-            if (!selectedFile && !text) return;
+            if (selectedFiles.length === 0 && !text) return;
 
             const post = {
                 id: Date.now(),
-                user: currentUser.name,
+                user: currentUser.name.trim(),
                 avatar: currentUser.avatar,
-                media: selectedFile,
+                media: selectedFiles.length > 0 ? [...selectedFiles] : null,
                 caption: text,
                 likes: 0,
-                liked: false,
+                likedBy: [], // Use array for tracking
                 time: "JUST NOW"
             };
 
-            const localPosts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
-            localPosts.unshift(post);
-            localStorage.setItem('tnpvc_local_posts', JSON.stringify(localPosts));
+            if (socket) {
+                socket.emit('create_post', post);
+            } else {
+                const localPosts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
+                localPosts.unshift(post);
+                localStorage.setItem('tnpvc_local_posts', JSON.stringify(localPosts));
+                renderPosts();
+            }
 
-            renderPosts();
             closeModals();
-            selectedFile = null;
+            selectedFiles = [];
             document.getElementById('postText').value = '';
+            document.getElementById('postFile').value = '';
             document.getElementById('uploadPreview').innerHTML = '<div style="text-align:center; color:#8e8e8e;"><i data-lucide="image" size="40"></i><p>Click to add photo</p></div>';
             lucide.createIcons();
         }
@@ -1204,18 +2089,29 @@
             if (!name || !price) return;
 
             const prod = {
+                id: Date.now(),
+                user: currentUser.name.trim(),
                 name,
                 price,
                 contact,
-                media: selectedProductFile || null
+                media: selectedProductFiles.length > 0 ? [...selectedProductFiles] : null
             };
-            const localProds = JSON.parse(localStorage.getItem('tnpvc_local_prods') || '[]');
-            localProds.unshift(prod);
-            localStorage.setItem('tnpvc_local_prods', JSON.stringify(localProds));
+            if (socket) {
+                socket.emit('create_product', prod);
+            } else {
+                const localProds = JSON.parse(localStorage.getItem('tnpvc_local_prods') || '[]');
+                localProds.unshift(prod);
+                localStorage.setItem('tnpvc_local_prods', JSON.stringify(localProds));
+                renderProducts();
+                renderPosts();
+            }
 
-            renderProducts();
             closeModals();
-            selectedProductFile = null;
+            selectedProductFiles = [];
+            document.getElementById('pName').value = '';
+            document.getElementById('pPrice').value = '';
+            document.getElementById('pContact').value = '';
+            document.getElementById('pImgInput').value = '';
             document.getElementById('pUploadPreview').innerHTML = '<div style="text-align:center; color:#8e8e8e;"><i data-lucide="image" size="30"></i><p style="font-size:0.8rem;">Add Product Image</p></div>';
             lucide.createIcons();
         }
@@ -1226,173 +2122,704 @@
             if (post) {
                 post.liked = !post.liked;
                 post.likes = post.liked ? post.likes + 1 : post.likes - 1;
-                localStorage.setItem('tnpvc_local_posts', JSON.stringify(posts));
-                renderPosts();
+
+                if (socket) {
+                    socket.emit('toggle_like', { postId: id, liked: post.liked, user: currentUser.name.trim() });
+                } else {
+                    localStorage.setItem('tnpvc_local_posts', JSON.stringify(posts));
+                    renderPosts();
+                }
             }
         }
 
+
+        // Carousel state tracker per post
+        const _carouselIdx = {};
+
+        function makeCarousel(mediaArr, postId) {
+            if (!mediaArr || mediaArr.length === 0) return '';
+
+            const isVideo = (src) => src.startsWith('data:video/') || src.endsWith('.mp4') || src.endsWith('.mov') || src.endsWith('.webm');
+
+            if (mediaArr.length === 1) {
+                const src = mediaArr[0];
+                if (isVideo(src)) {
+                    return `<video src="${src}" style="width:100%; display:block; object-fit:cover; max-height:420px;" autoplay muted loop playsinline></video>`;
+                }
+                return `<img src="${src}" style="width:100%; display:block; object-fit:cover; max-height:420px;">`;
+            }
+            const id = `car_${postId}`;
+            _carouselIdx[id] = _carouselIdx[id] || 0;
+            const dots = mediaArr.map((_, i) =>
+                `<span style="width:6px;height:6px;border-radius:50%;background:${i === 0 ? 'white' : 'rgba(255,255,255,0.5)'}; display:inline-block; transition:background 0.3s;" id="${id}_dot_${i}"></span>`
+            ).join('');
+            const imgs = mediaArr.map((src, i) => {
+                if (isVideo(src)) {
+                    return `<video src="${src}" style="width:100%; flex-shrink:0; object-fit:cover; max-height:420px; display:block;" autoplay muted loop playsinline id="${id}_img_${i}"></video>`;
+                }
+                return `<img src="${src}" style="width:100%; flex-shrink:0; object-fit:cover; max-height:420px; display:block;" id="${id}_img_${i}">`;
+            }).join('');
+            return `
+                <div style="position:relative; overflow:hidden; background:#000; aspect-ratio:1/1; border-radius:4px;">
+                    <div id="${id}_track" style="display:flex; height:100%; transition: transform 0.4s cubic-bezier(0.1, 0.7, 0.1, 1); will-change:transform;">
+                        ${imgs}
+                    </div>
+                    <button onclick="carouselNav('${id}', ${mediaArr.length}, -1)" 
+                        style="position:absolute;left:10px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.85);color:#050505;border:none;border-radius:50%;width:32px;height:32px;font-size:1.4rem;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,0.25);line-height:1;padding:0;padding-bottom:2px;">&#8249;</button>
+                    <button onclick="carouselNav('${id}', ${mediaArr.length}, 1)"  
+                        style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.85);color:#050505;border:none;border-radius:50%;width:32px;height:32px;font-size:1.4rem;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,0.25);line-height:1;padding:0;padding-bottom:2px;">&#8250;</button>
+                    <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:10;background:rgba(0,0,0,0.4);padding:5px 10px;border-radius:12px;backdrop-filter:blur(4px);" id="${id}_dots">${dots}</div>
+                </div>`;
+        }
+
+        function carouselNav(id, total, dir) {
+            _carouselIdx[id] = ((_carouselIdx[id] || 0) + dir + total) % total;
+            const idx = _carouselIdx[id];
+            const track = document.getElementById(id + '_track');
+            if (track) track.style.transform = `translateX(-${idx * 100}%)`;
+            // Update dots
+            const dotsEl = document.getElementById(id + '_dots');
+            if (dotsEl) {
+                dotsEl.querySelectorAll('span').forEach((dot, i) => {
+                    dot.style.background = i === idx ? 'white' : 'rgba(255,255,255,0.5)';
+                });
+            }
+        }
+
+        let postsPerPage = 10;
+        let currentPage = 1;
+        let isViewMoreLoading = false;
+
         function renderPosts() {
             const list = document.getElementById('postsList');
-            const local = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
+            if (!list) return;
 
-            list.innerHTML = local.map(p => `
-    <div class="post-card">
+            const local = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
+            const savedAds = JSON.parse(localStorage.getItem('tnpvc_all_published_ads') || '[]');
+            const localProds = JSON.parse(localStorage.getItem('tnpvc_local_prods') || '[]');
+
+            if (local.length === 0 && savedAds.length === 0 && localProds.length === 0) {
+                list.innerHTML = `
+                    <div style="text-align:center; padding: 60px 20px; color:#8e8e8e;">
+                        <i data-lucide="layout" size="48" style="margin-bottom:15px; opacity:0.3;"></i>
+                        <p style="font-size:1.1rem; font-weight:600;">No posts yet</p>
+                        <p style="font-size:0.9rem; margin-top:5px;">Be the first to share something with the community!</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            const myName = (currentUser.name || '').trim();
+            const ads = savedAds.map(ad => ({ type: 'ad', data: ad, time: ad.id || 0 }));
+            const posts = local.map(post => ({ type: 'post', data: post, time: post.id || 0 }));
+            const marketplaceItems = localProds.map(p => ({ type: 'product', data: p, time: p.id || 0 }));
+
+            // Combine and sort everything by recency (Latest first)
+            let fullFeed = [...ads, ...posts, ...marketplaceItems].sort((a, b) => b.time - a.time);
+
+            // Pagination Logic
+            const startIndex = 0;
+            const endIndex = currentPage * postsPerPage;
+            const paginatedFeed = fullFeed.slice(startIndex, endIndex);
+
+            list.innerHTML = paginatedFeed.map((item, idx) => {
+                const globalId = item.type + '-' + (item.data.id || idx);
+                if (item.type === 'ad') {
+                    const ad = item.data;
+                    return `
+                    <div class="ad-card" id="${globalId}" style="border-left-color: var(--fb-blue);" itemscope itemtype="https://schema.org/Advertisement">
+                        <div class="ad-header">
+                            <div class="ad-logo-box">
+                                ${ad.logo ? `<img src="${ad.logo}" alt="${ad.biz} logo" style="width:100%; height:100%; object-fit:contain;">` : `<i data-lucide="globe" size="14"></i>`}
+                            </div>
+                            <div style="display:flex; flex-direction:column; gap:2px; flex:1; min-width:0;">
+                                <div style="font-size: 0.72rem; color: #65676b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Sponsored</div>
+                                <div style="display:flex; align-items:center; gap:6px;">
+                                    <span class="ad-tag" style="padding: 0 3px;">Ad</span>
+                                    <span class="ad-url" style="font-size: 0.75rem;" itemprop="url">${ad.url.replace(/https?:\/\//, '').split('/')[0]}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="${ad.url}" target="_blank" class="ad-headline" style="font-size: 1.15rem; font-weight: 600;" itemprop="headline">${ad.headline}</a>
+                        <p class="ad-desc" style="font-size: 0.85rem; margin-top: 2px;" itemprop="description">${ad.desc}</p>
+                        ${ad.image ? `<img src="${ad.image}" class="ad-banner" alt="${ad.headline}" itemprop="image">` : ''}
+                        <div class="ad-cta-area" onclick="window.open('${ad.url}', '_blank')">
+                            ${ad.cta || `<span>Visit ${ad.biz}</span>`}
+                        </div>
+                    </div>`;
+                } else if (item.type === 'product') {
+                    const p = item.data;
+                    return `
+                    <div class="post-card" id="${globalId}" style="border-top: 2px solid #25D366;" itemscope itemtype="https://schema.org/Product">
+                        <div style="padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #efefef;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="background:#e7f3ff; padding:8px; border-radius:50%; color:var(--fb-blue);"><i data-lucide="shopping-bag" size="18"></i></div>
+                                <div>
+                                    <div style="font-weight:700; font-size:0.9rem;" itemprop="brand">Marketplace Listing</div>
+                                    <div style="font-size:0.75rem; color:#8e8e8e;">Available in Tamil Nadu</div>
+                                </div>
+                            </div>
+                            <div style="color:#C20E4D; font-weight:800; font-size:1rem;" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+                                <span itemprop="priceCurrency" content="INR">₹</span><span itemprop="price" content="${p.price}">${p.price}</span>
+                            </div>
+                        </div>
+                        <div style="max-height:240px; overflow:hidden; background:#f0f2f5;">
+                             ${p.media ? makeCarousel(Array.isArray(p.media) ? p.media : [p.media], 'prod_' + p.id) : `<div style="display:flex; align-items:center; justify-content:center; height:200px; color:#ccc;"><i data-lucide="package" size="50"></i></div>`}
+                        </div>
+                        <div style="padding:15px;">
+                            <h3 style="margin:0 0 5px; font-size:1.1rem; color:#050505;" itemprop="name">${p.name}</h3>
+                            <p style="font-size:0.9rem; color:#65676b; margin-bottom:15px;">Seller: <span itemprop="seller">${p.user || 'TNPVC Member'}</span></p>
+                            <a href="https://wa.me/91${p.contact}" target="_blank" 
+                                style="display:flex; align-items:center; justify-content:center; gap:8px; background:#25D366; color:white; padding:12px; border-radius:8px; text-decoration:none; font-weight:700; transition:0.2s;">
+                                <i data-lucide="message-circle" size="20"></i> WhatsApp Seller
+                            </a>
+                        </div>
+                    </div>`;
+                }
+
+                const p = item.data;
+                const isLiked = p.likedBy && p.likedBy.some(u => u.trim() === myName);
+                return `
+    <div class="post-card" id="${globalId}" itemscope itemtype="https://schema.org/SocialMediaPosting">
         <div class="post-header">
-            <div class="post-user" style="cursor:pointer" onclick="viewUserProfile('${p.user}', '${p.avatar}', 'Premium Member', 'Official TNPVC Verified Profile')">
-                <div class="post-user-avatar"><img src="${p.avatar}"></div>
+            <div class="post-user" style="cursor:pointer" onclick="viewUserProfile('${p.user}')">
+                <div class="post-user-avatar"><img src="${p.avatar}" alt="${p.user}"></div>
                 <div class="post-user-info">
-                    <h4>${p.user}</h4>
-                    <div class="post-location">Tamil Nadu</div>
+                    <h4 itemprop="author">${p.user}</h4>
+                    <div class="post-location" itemprop="contentLocation">Tamil Nadu &middot; <span style="font-size:0.75rem;" itemprop="datePublished">${p.time}</span></div>
                 </div>
             </div>
             <i data-lucide="more-horizontal" style="cursor:pointer"
-                onclick="openOptionsModal(${p.id}, ${p.user === currentUser.name})"></i>
+                onclick="openOptionsModal(${p.id}, ${(p.user || '').trim() === myName})"></i>
         </div>
-        <div class="post-media">${p.media ? `<img src="${p.media}">` : `<p style="padding:40px; text-align:center;">
-                ${p.caption}</p>`}</div>
+        <div class="post-caption" itemprop="articleBody">${p.caption || ''}</div>
+        <div class="post-media" itemprop="image">
+            ${p.media ? makeCarousel(Array.isArray(p.media) ? p.media : [p.media], p.id) : ''}
+        </div>
+        
+        <div class="post-likes-count">
+            ${p.likes > 0 ? `<div style="background:var(--fb-blue); border-radius:50%; width:18px; height:18px; display:flex; align-items:center; justify-content:center; margin-right:4px;"><i data-lucide="thumbs-up" style="color:white; width:10px; height:10px; stroke-width:3px;"></i></div> ${p.likes}` : ''}
+        </div>
+
+        <div class="post-comments-list" style="padding: 0 16px 8px 16px; max-height: 150px; overflow-y: auto; font-size: 0.85rem; border-bottom: 1px solid #efefef;">
+            ${p.comments ? p.comments.map(c => `
+                <div style="margin-bottom:6px;"><strong style="margin-right:4px;">${c.user}</strong>${c.text}</div>
+            `).join('') : ''}
+        </div>
+        
         <div class="post-actions">
-            <button class="post-action-btn" onclick="toggleLike(${p.id})">
-                <i data-lucide="heart" style="${p.liked ? 'fill:#ed4956; color:#ed4956' : ''}"></i>
+            <button class="post-action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike(${p.id})">
+                <i data-lucide="thumbs-up" style="${isLiked ? 'color:var(--fb-blue); fill:var(--fb-blue);' : ''}"></i> Like
             </button>
-            <button class="post-action-btn" onclick="openCommentModal()">
-                <i data-lucide="message-circle"></i>
+            <button class="post-action-btn" onclick="openCommentModal(${p.id})">
+                <i data-lucide="message-square"></i> Comment
+            </button>
+            <button class="post-action-btn" onclick="navigator.clipboard.writeText(window.location.href); alert('Link copied')">
+                <i data-lucide="share-2"></i> Share
             </button>
         </div>
-        <div class="post-likes">${p.likes} likes</div>
-        <div class="post-caption"><strong style="cursor:pointer" onclick="viewUserProfile('${p.user}', '${p.avatar}', 'Premium Member', 'Official TNPVC Verified Profile')">${p.user}</strong> ${p.caption}</div>
-        <div class="post-time">${p.time}</div>
     </div>
-    `).join('');
+    </div>
+    `;
+            }).join('');
+
+            // Ad "Load More" indicator if needed
+            if (endIndex < fullFeed.length) {
+                list.innerHTML += `
+                    <div id="loadMoreTrigger" style="text-align:center; padding: 30px; color:var(--fb-blue); font-weight:600;">
+                        <div class="loader" style="margin: 0 auto 10px;"></div>
+                        Loading more posts...
+                    </div>
+                `;
+            }
+
             lucide.createIcons();
         }
+
+        // Infinite Scroll Listener
+        window.onscroll = function () {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
+                const totalItems = (JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]').length +
+                    JSON.parse(localStorage.getItem('tnpvc_all_published_ads') || '[]').length +
+                    JSON.parse(localStorage.getItem('tnpvc_local_prods') || '[]').length);
+
+                if (!isViewMoreLoading && (currentPage * postsPerPage) < totalItems) {
+                    isViewMoreLoading = true;
+                    currentPage++;
+                    renderPosts();
+                    setTimeout(() => { isViewMoreLoading = false; }, 800);
+                }
+            }
+        };
 
         function renderProducts() {
             const list = document.getElementById('productsList');
             const local = JSON.parse(localStorage.getItem('tnpvc_local_prods') || '[]');
             const savedAds = JSON.parse(localStorage.getItem('tnpvc_all_published_ads') || '[]');
 
-            // Render Marketplace Products
-            list.innerHTML = local.map(p => `
+            const productHTML = local.map(p => `
     <div style="background:white; border-radius:10px; border:1px solid #efefef; overflow:hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-        <div
-            style="aspect-ratio:1/1; background:#f8f9fa; display:flex; align-items:center; justify-content:center; color:#ccc;">
-            ${p.media ? `<img src="${p.media}" style="width:100%; height:100%; object-fit:cover;">` : `<i data-lucide="package" size="40"></i>`}
+        <div style="aspect-ratio:1/1; background:#f8f9fa; display:flex; align-items:center; justify-content:center; color:#ccc;">
+            ${p.media ? `<img src="${Array.isArray(p.media) ? p.media[0] : p.media}" style="width:100%; height:100%; object-fit:cover;">` : `<i data-lucide="package" size="40"></i>`}
         </div>
         <div style="padding:10px;">
             <div style="font-weight:700; font-size:0.85rem; color:#333;">${p.name}</div>
             <div style="color:#C20E4D; font-weight:800; font-size:0.9rem; margin:5px 0;">₹${p.price}</div>
-            <a href="https://wa.me/91${p.contact}"
-                style="color:#25D366; text-decoration:none; font-size:0.75rem; font-weight:700; display:flex; align-items:center; gap:4px;"><i
-                    data-lucide="message-circle" style="width:12px;"></i> Chat</a>
+            <a href="https://wa.me/91${p.contact}" style="color:#25D366; text-decoration:none; font-size:0.75rem; font-weight:700; display:flex; align-items:center; gap:4px;"><i data-lucide="message-circle" style="width:12px;"></i> Chat</a>
         </div>
-    </div>
-    `).join('');
+    </div>`).join('');
 
-            // Also update Ads List
+            if (list) list.innerHTML = productHTML || '<p style="text-align:center; grid-column:1/-1; padding:40px; color:#8e8e8e;">No products found</p>';
+
+            const adHTML = savedAds.map(ad => `
+                <div class="ad-card">
+                    <div class="ad-header">
+                        <div class="ad-logo-box">
+                            ${ad.logo ? `<img src="${ad.logo}" style="width:100%; height:100%; object-fit:contain;">` : `<i data-lucide="globe" size="14"></i>`}
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:2px; flex:1; min-width:0;">
+                            <div style="font-size: 0.72rem; color: #65676b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Sponsored</div>
+                            <div style="display:flex; align-items:center; gap:6px;">
+                                <span class="ad-tag" style="padding: 0 3px;">Ad</span>
+                                <span class="ad-url" style="font-size: 0.75rem;">${ad.url.replace(/https?:\/\//, '').split('/')[0]}</span>
+                            </div>
+                        </div>
+                    </div>
+                <a href="${ad.url}" target="_blank" class="ad-headline" style="font-size: 1.15rem; font-weight: 600;">${ad.headline}</a>
+                <p class="ad-desc" style="font-size: 0.85rem; margin-top: 2px;">${ad.desc}</p>
+                ${ad.image ? `<img src="${ad.image}" class="ad-banner">` : ''}
+                <div class="ad-cta-area" onclick="window.open('${ad.url}', '_blank')">
+                    ${ad.cta || `<span>Visit ${ad.biz}</span>`}
+                </div>
+            </div>`).join('');
+
             const adList = document.getElementById('adsList');
-            adList.innerHTML = savedAds.map(ad => `
-    <div class="ad-card">
-        <span class="ad-tag">Ad</span>
-        <a href="${ad.url}" class="ad-title" target="_blank">${ad.headline}</a>
-        <p class="ad-desc">${ad.desc}</p>
-        <div style="font-size: 0.65rem; color: #8e8e8e; margin-top: 8px;">Promoted by ${ad.biz}</div>
-    </div>
-    `).join('') || '<p style="text-align:center; padding:40px; color:#8e8e8e;">No active ads</p>';
+            if (adList) adList.innerHTML = adHTML || '<p style="text-align:center; padding:40px; color:#8e8e8e;">No active ads</p>';
+
+            // Update Account View lists if they exist
+            if (currentUser) {
+                const myAdsList = document.getElementById('accountAdsList');
+                if (myAdsList) {
+                    const myAds = savedAds.filter(ad => (ad.user || "").trim() === currentUser.name.trim() || ad.biz === currentUser.name || ad.biz === currentUser.shop).sort((a, b) => (b.id || 0) - (a.id || 0));
+                    myAdsList.innerHTML = myAds.map(ad => `
+                        <div class="ad-card" style="margin-bottom:15px; border:1px solid #efefef; box-shadow:none; cursor:pointer;" onclick="scrollToFeedItem('ad', ${ad.id})">
+                            <div class="ad-header">
+                                <div class="ad-logo-box">
+                                    ${ad.logo ? `<img src="${ad.logo}" style="width:100%; height:100%; object-fit:contain;">` : `<i data-lucide="globe" size="14"></i>`}
+                                </div>
+                                <div style="display:flex; flex-direction:column; gap:2px; flex:1; min-width:0;">
+                                    <div style="font-size: 0.72rem; color: #65676b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Active Campaign</div>
+                                    <div style="display:flex; align-items:center; gap:6px;">
+                                        <span class="ad-tag" style="padding: 0 3px;">Ad</span>
+                                        <span class="ad-url" style="font-size: 0.75rem;">${ad.url ? ad.url.replace(/https?:\/\//, '').split('/')[0] : 'Campaign'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="${ad.url || '#'}" target="_blank" class="ad-headline" style="font-size: 1.15rem; font-weight: 600;">${ad.headline}</a>
+                            <p class="ad-desc" style="font-size: 0.85rem; margin-top: 2px;">${ad.desc}</p>
+                            ${ad.image ? `<img src="${ad.image}" class="ad-banner" style="border-radius:8px; margin-top:8px;">` : ''}
+                            <div class="ad-cta-area" style="margin-top:12px;" onclick="window.open('${ad.url}', '_blank')">
+                                ${ad.cta || `<span>View Details</span>`}
+                            </div>
+                            <div style="font-size:0.75rem; color:#8e8e8e; margin-top:10px; padding-top:10px; border-top:1px solid #f0f0f0;">
+                                Scheduled on: ${ad.time}
+                            </div>
+                        </div>
+                    `).join('') || '<p style="text-align:center; padding:40px; color:#8e8e8e;">No active ad campaigns</p>';
+                }
+
+                const myProductsList = document.getElementById('accountProductsList');
+                if (myProductsList) {
+                    const myProds = local.filter(p => (p.user || "").trim() === currentUser.name.trim());
+                    const myProdsHTML = myProds.map(p => `
+                        <div style="background:white; border-radius:8px; border:1px solid #efefef; overflow:hidden; display:flex; gap:10px; padding:8px; position:relative;">
+                            <div style="width:70px; height:70px; border-radius:6px; background:#f5f5f5; overflow:hidden; flex-shrink:0;">
+                                ${p.media ? `<img src="${Array.isArray(p.media) ? p.media[0] : p.media}" style="width:100%; height:100%; object-fit:cover;">` : `<div style="display:flex; align-items:center; justify-content:center; height:100%;"><i data-lucide="package" style="color:#ccc;"></i></div>`}
+                            </div>
+                            <div style="flex:1; display:flex; flex-direction:column; justify-content:center; min-width:0;">
+                                <div style="font-weight:700; font-size:0.85rem; color:#333; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${p.name}</div>
+                                <div style="color:#C20E4D; font-weight:800; font-size:0.9rem; margin:2px 0;">₹${p.price}</div>
+                                <div style="font-size:0.7rem; color:#8e8e8e;">WhatsApp: ${p.contact}</div>
+                            </div>
+                        </div>`).join('');
+                    myProductsList.innerHTML = myProdsHTML || '<p style="text-align:center; grid-column:1/-1; padding:40px; color:#8e8e8e;">No products posted yet</p>';
+                }
+            }
 
             lucide.createIcons();
         }
 
-        function loadInitialData() {
-            // Prepopulate some sample posts if empty
-            if (!localStorage.getItem('tnpvc_local_posts')) {
-                const samples = [
-                    {
-                        id: 1, user: "Srinivasan_", avatar: "srinivasan.jpg",
-                        media: "project-1.jpg", caption: "Premium uPVC Window installation completed! #Coimbatore",
-                        likes: 125, liked: false, time: "2 HOURS AGO"
-                    },
-                    {
-                        id: 2, user: "Anuprintha_Ops", avatar: "anuprintha.png",
-                        media: "project-3.jpg", caption: "Quality check for the new PVC wall panel stock.",
-                        likes: 89, liked: false, time: "5 HOURS AGO"
-                    }
-                ];
-                localStorage.setItem('tnpvc_local_posts', JSON.stringify(samples));
+        function renderSearch() {
+            const query = (document.getElementById('memberSearch')?.value || "").toLowerCase();
+            const searchResults = document.getElementById('searchResults');
+            let allUsers = JSON.parse(localStorage.getItem('tnpvc_all_users') || '[]');
+
+            let members = allUsers.filter(u => u.name !== (currentUser ? currentUser.name : ''));
+
+            if (query) {
+                members = members.filter(m =>
+                    m.name.toLowerCase().includes(query) ||
+                    (m.shop && m.shop.toLowerCase().includes(query))
+                );
             }
 
+            if (members.length === 0) {
+                searchResults.innerHTML = `<p style="text-align:center; color:#8e8e8e; padding:20px;">${query ? 'No matching members found.' : 'No other members found on this device yet.'}</p>`;
+            } else {
+                searchResults.innerHTML = members.map(m => {
+                    const mName = (m.name || '').trim();
+                    const me = (currentUser.name || '').trim();
+                    let followers = JSON.parse(localStorage.getItem('tnpvc_followers') || '{}');
+
+                    // Check following status with trim robust logic
+                    let isFollowing = false;
+                    Object.keys(followers).forEach(k => {
+                        if (k.trim() === mName && followers[k].some(f => f.trim() === me)) isFollowing = true;
+                    });
+
+                    let notifs = JSON.parse(localStorage.getItem('tnpvc_notifications') || '[]');
+                    let isPending = notifs.some(n => (n.from || '').trim() === me && (n.to || '').trim() === mName && n.type === 'follow_request' && n.status === 'pending');
+
+                    let btnText = isFollowing ? 'Following' : (isPending ? 'Requested' : 'Follow');
+                    let btnStyle = (btnText === 'Follow')
+                        ? 'background:var(--fb-blue); color:white;'
+                        : 'background:#efefef; color:#262626;';
+
+                    return `
+                    <div style="display: flex; align-items: center; gap: 12px; padding: 10px; background: white; border-radius: 12px; border: 1px solid #efefef;">
+                        <img src="${m.avatar}" style="width: 48px; height: 48px; min-width: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0; cursor:pointer" onclick="viewUserProfile('${m.name}')">
+                        <div style="flex:1; cursor:pointer" onclick="viewUserProfile('${m.name}')">
+                            <div style="font-weight:700; font-size:0.95rem;">${m.name}</div>
+                            <div style="font-size:0.75rem; color:#8e8e8e;">${m.shop || 'PVC Professional'}</div>
+                        </div>
+                        <button onclick="toggleFollow(this, '${m.name}')"
+                            style="${btnStyle} border:none; padding: 8px 16px; border-radius: 6px; font-size: 0.95rem; font-weight: 600; cursor:pointer; transition: 0.2s;">${btnText}</button>
+                    </div>`;
+                }).join('');
+            }
+        }
+
+        function showFollowStatsModal(type, targetUser) {
+            const trimmedTarget = (targetUser || '').trim();
+            const title = type === 'followers' ? 'Followers' : 'Following';
+            const titleEl = document.getElementById('userListTitle');
+            if (titleEl) titleEl.textContent = title;
+            const listBody = document.getElementById('userListBody');
+            if (listBody) listBody.innerHTML = '<p style="text-align:center; padding:20px; color:#8e8e8e;">Loading...</p>';
+
+            let allUsers = JSON.parse(localStorage.getItem('tnpvc_all_users') || '[]');
+            let followersData = JSON.parse(localStorage.getItem('tnpvc_followers') || '{}');
+            let userListNames = [];
+
+            if (type === 'followers') {
+                Object.keys(followersData).forEach(k => {
+                    if (k.trim() === trimmedTarget) {
+                        const list = followersData[k] || [];
+                        userListNames = list.map(n => n.trim());
+                    }
+                });
+            } else {
+                Object.keys(followersData).forEach(k => {
+                    const list = followersData[k] || [];
+                    if (list.some(f => f.trim() === trimmedTarget)) {
+                        userListNames.push(k.trim());
+                    }
+                });
+            }
+
+            const users = allUsers.filter(u => userListNames.includes((u.name || '').trim()));
+
+            if (users.length === 0) {
+                if (listBody) listBody.innerHTML = `<p style="text-align:center; padding:40px; color:#8e8e8e;">No ${type} yet.</p>`;
+            } else {
+                if (listBody) listBody.innerHTML = users.map(u => `
+                    <div style="display:flex; align-items:center; gap:12px; padding:12px 16px; border-bottom:1px solid #f0f2f5; background:white; cursor:pointer" onclick="closeModals(); viewUserProfile('${u.name}')">
+                        <div style="width:40px; height:40px; border-radius:50%; overflow:hidden; border:1px solid #efefef;">
+                            <img src="${u.avatar}" style="width:100%; height:100%; object-fit:cover;">
+                        </div>
+                        <div style="flex:1;">
+                            <div style="font-weight:600; font-size:0.95rem;">${u.name}</div>
+                            <div style="font-size:0.8rem; color:#8e8e8e;">${u.shop || ''}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const modal = document.getElementById('userListModal');
+            if (modal) modal.classList.add('active');
+        }
+
+        function loadInitialData() {
             renderPosts();
             renderProducts();
-
-            // Render Search Results (Members Only)
-            const searchResults = document.getElementById('searchResults');
-            const members = [
-                { name: "Srinivasan_", shop: "TNPVC Studio", avatar: "srinivasan.jpg" },
-                { name: "Anuprintha_Ops", shop: "Operations", avatar: "anuprintha.png" },
-                { name: "Velumani_PVC", shop: "Chennai Traders", avatar: "https://i.pravatar.cc/100?u=1" },
-                { name: "Karthi_Design", shop: "Interior Hub", avatar: "https://i.pravatar.cc/100?u=2" }
-            ];
-
-            searchResults.innerHTML = members.map(m => `
-    <div
-        style="display: flex; align-items: center; gap: 12px; padding: 10px; background: white; border-radius: 12px; border: 1px solid #efefef; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
-        <img src="${m.avatar}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; cursor:pointer" onclick="viewUserProfile('${m.name}', '${m.avatar}', '${m.shop}', 'Professional member of the TNPVC Council.')">
-        <div style="flex:1; cursor:pointer" onclick="viewUserProfile('${m.name}', '${m.avatar}', '${m.shop}', 'Professional member of the TNPVC Council.')">
-            <div style="font-weight:700; font-size:0.95rem;">${m.name}</div>
-            <div style="font-size:0.75rem; color:#8e8e8e;">${m.shop}</div>
-        </div>
-        <button onclick="toggleFollow(this, '${m.name}')"
-            style="background:var(--ig-blue); color:white; border:none; padding: 8px 16px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor:pointer; transition: 0.2s;">Follow</button>
-    </div>
-    `).join('');
+            renderSearch();
+            renderAccountGrid();
+            if (typeof updateNotifBadge === 'function') updateNotifBadge();
         }
 
-        function toggleFollow(btn, name) {
-            if (btn.textContent === 'Follow') {
-                btn.textContent = 'Following';
-                btn.style.background = '#efefef';
-                btn.style.color = '#262626';
+        function renderNotifications() {
+            const list = document.getElementById('notificationsList');
+            if (!list || !currentUser) return;
+
+            let notifs = JSON.parse(localStorage.getItem('tnpvc_notifications') || '[]');
+            let myNotifs = notifs.filter(n => n.to && n.to.trim() === currentUser.name.trim());
+
+            if (myNotifs.length === 0) {
+                list.innerHTML = `
+                    <div style="margin-top:20px; color:#8e8e8e; text-align:center; padding: 40px 0;">
+                        <i data-lucide="bell" size="48" style="margin-bottom:15px;"></i>
+                        <p>No new updates yet.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            list.innerHTML = myNotifs.map(n => {
+                if (n.type === 'follow_request') {
+                    if (n.status === 'pending') {
+                        return `
+                            <div style="display:flex; align-items:center; gap:12px; padding:12px; background:white; border-bottom:1px solid #efefef;">
+                                <img src="${n.fromAvatar}" style="width:40px; height:40px; min-width:40px; border-radius:50%; object-fit:cover; flex-shrink:0;">
+                                <div style="flex:1;">
+                                    <span style="font-weight:700;">${n.from}</span> requested to follow you.
+                                    <div style="font-size:0.75rem; color:#8e8e8e;">${n.time}</div>
+                                </div>
+                                <div style="display:flex; gap:8px;">
+                                    <button onclick="acceptFollow(${n.id}, '${n.from}')" style="background:var(--fb-blue); color:white; border:none; padding:6px 12px; border-radius:6px; font-weight:600; cursor:pointer;">Accept</button>
+                                    <button onclick="declineFollow(${n.id})" style="background:#efefef; color:#262626; border:none; padding:6px 12px; border-radius:6px; font-weight:600; cursor:pointer;">Decline</button>
+                                </div>
+                            </div>`;
+                    } else if (n.status === 'accepted') {
+                        return `
+                            <div style="display:flex; align-items:center; gap:12px; padding:12px; background:white; border-bottom:1px solid #efefef;">
+                                <img src="${n.fromAvatar}" style="width:40px; height:40px; min-width:40px; border-radius:50%; object-fit:cover; flex-shrink:0;">
+                                <div style="flex:1;">
+                                    <span style="font-weight:700;">${n.from}</span> started following you.
+                                    <div style="font-size:0.75rem; color:#8e8e8e;">${n.time}</div>
+                                </div>
+                            </div>`;
+                    }
+                }
+                return '';
+            }).join('');
+        }
+
+        function acceptFollow(notifId, followerName) {
+            if (socket) {
+                socket.emit('accept_follow', { notifId, from: followerName.trim(), to: currentUser.name.trim() });
             } else {
-                btn.textContent = 'Follow';
-                btn.style.background = 'var(--ig-blue)';
-                btn.style.color = 'white';
+                let notifs = JSON.parse(localStorage.getItem('tnpvc_notifications') || '[]');
+                let notif = notifs.find(n => n.id === notifId);
+                if (notif) notif.status = 'accepted';
+                localStorage.setItem('tnpvc_notifications', JSON.stringify(notifs));
+
+                let followers = JSON.parse(localStorage.getItem('tnpvc_followers') || '{}');
+                const target = currentUser.name.trim();
+                const from = followerName.trim();
+                if (!followers[target]) followers[target] = [];
+                if (!followers[target].includes(from)) {
+                    followers[target].push(from);
+                }
+                localStorage.setItem('tnpvc_followers', JSON.stringify(followers));
+
+                renderNotifications();
+                applyUserUI();
             }
         }
 
-        function viewUserProfile(name, avatar, shop, bio) {
+        function declineFollow(notifId) {
+            if (socket) {
+                socket.emit('remove_notification', notifId);
+            } else {
+                let notifs = JSON.parse(localStorage.getItem('tnpvc_notifications') || '[]');
+                notifs = notifs.filter(n => n.id !== notifId);
+                localStorage.setItem('tnpvc_notifications', JSON.stringify(notifs));
+                renderNotifications();
+            }
+        }
+
+        function toggleFollow(btn, targetName) {
+            if (btn.textContent === 'Requested') return;
+
+            if (btn.textContent === 'Follow') {
+                btn.textContent = 'Requested';
+                btn.style.background = '#efefef';
+                btn.style.color = '#262626';
+
+                const notif = {
+                    id: Date.now(),
+                    from: currentUser.name.trim(),
+                    fromAvatar: currentUser.avatar,
+                    to: targetName.trim(),
+                    type: 'follow_request',
+                    status: 'pending',
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                };
+
+                if (socket) {
+                    socket.emit('send_notification', notif);
+                } else {
+                    let notifs = JSON.parse(localStorage.getItem('tnpvc_notifications') || '[]');
+                    notifs = notifs.filter(n => !(n.from === currentUser.name && n.to === targetName && n.type === 'follow_request'));
+                    notifs.unshift(notif);
+                    localStorage.setItem('tnpvc_notifications', JSON.stringify(notifs));
+                }
+                setTimeout(() => alert('Follow request sent to ' + targetName), 100);
+
+            } else if (btn.textContent === 'Following') {
+                btn.textContent = 'Follow';
+                btn.style.background = 'var(--fb-blue)';
+                btn.style.color = 'white';
+
+                if (socket) {
+                    socket.emit('unfollow', { target: targetName.trim(), me: currentUser.name.trim() });
+                } else {
+                    let followers = JSON.parse(localStorage.getItem('tnpvc_followers') || '{}');
+                    const target = targetName.trim();
+                    const me = currentUser.name.trim();
+                    if (followers[target]) {
+                        followers[target] = followers[target].filter(f => f.trim() !== me);
+                        localStorage.setItem('tnpvc_followers', JSON.stringify(followers));
+                    }
+
+                    let notifs = JSON.parse(localStorage.getItem('tnpvc_notifications') || '[]');
+                    notifs = notifs.filter(n => !(n.from.trim() === me && n.to.trim() === target && n.type === 'follow_request'));
+                    localStorage.setItem('tnpvc_notifications', JSON.stringify(notifs));
+                }
+
+                if (document.getElementById('visitorName').innerText === targetName) {
+                    viewUserProfile(targetName);
+                }
+            }
+        }
+
+        function viewUserProfile(name) {
             if (currentUser && name === currentUser.name) {
                 switchView('account');
                 return;
             }
 
-            document.getElementById('visitorAvatar').src = avatar;
-            document.getElementById('visitorName').textContent = name;
+            const targetUName = name.trim();
+            const myUName = (currentUser.name || '').trim();
+            let allUsers = JSON.parse(localStorage.getItem('tnpvc_all_users') || '[]');
+            let vUser = allUsers.find(u => (u.name || '').trim() === targetUName);
+            if (!vUser) return;
+
+            document.getElementById('visitorAvatar').src = vUser.avatar;
+            document.getElementById('visitorName').textContent = vUser.name;
+
             document.getElementById('visitorBioSection').innerHTML = `
-                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 4px;">${name}</div>
-                <div style="font-size: 0.9rem; line-height: 1.5; color: #262626;">
-                    ${bio}<br>
-                    🏢 <strong>Shop:</strong> ${shop}
+                <div style="font-size: 0.92rem; line-height: 1.6; color: #262626;">
+                    ${vUser.bio || 'PVC Professional'}<br>
+                    🏢 <strong>Shop:</strong> ${vUser.shop || 'Not specified'}<br>
+                    ${vUser.location ? `📍 <strong>Location:</strong> ${vUser.location}` : ''}
                 </div>
             `;
 
-            // Dummy grid for visitor
+            const stats = getFollowStats(targetUName);
+            const accountPosts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]').filter(p => (p.user || '').trim() === targetUName);
+
+            document.getElementById('visitPostCount').textContent = accountPosts.length;
+            document.getElementById('visitFollowersCount').textContent = stats.followers;
+            document.getElementById('visitFollowingCount').textContent = stats.following;
+
+            let followers = JSON.parse(localStorage.getItem('tnpvc_followers') || '{ }');
+            let isFollowing = false;
+            Object.keys(followers).forEach(k => {
+                if (k.trim() === targetUName && followers[k].some(f => f.trim() === myUName)) isFollowing = true;
+            });
+
+            let notifs = JSON.parse(localStorage.getItem('tnpvc_notifications') || '[]');
+            let isPending = notifs.some(n => (n.from || '').trim() === myUName && (n.to || '').trim() === targetUName && n.type === 'follow_request' && n.status === 'pending');
+
+            let vBtn = document.getElementById('visitorFollowBtn');
+            if (isFollowing) {
+                vBtn.textContent = 'Following';
+                vBtn.style.background = '#efefef';
+                vBtn.style.color = '#262626';
+            } else if (isPending) {
+                vBtn.textContent = 'Requested';
+                vBtn.style.background = '#efefef';
+                vBtn.style.color = '#262626';
+            } else {
+                vBtn.textContent = 'Follow';
+                vBtn.style.background = 'var(--fb-blue)';
+                vBtn.style.color = 'white';
+            }
+
             const visitorGrid = document.getElementById('visitorGrid');
-            const sampleImgs = ["project-4.jpg", "project-5.jpg", "project-6.jpg", "pvc-8.jpg", "pvc-9.jpg", "pvc-10.jpg"];
-            visitorGrid.innerHTML = sampleImgs.map(img => `
-                <div style="aspect-ratio:1/1; background:#eee; overflow:hidden;">
-                    <img src="${img}" style="width:100%; height:100%; object-fit:cover;">
-                </div>
-            `).join('');
+            if (accountPosts.length === 0) {
+                visitorGrid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:#8e8e8e;">No posts yet</div>';
+            } else {
+                visitorGrid.innerHTML = accountPosts.map(p => `
+                    <div style="aspect-ratio:1/1; background:#eee; overflow:hidden;">
+                        ${p.media ? `<img src="${Array.isArray(p.media) ? p.media[0] : p.media}" style="width:100%; height:100%; object-fit:cover;">` : `<div style="padding:10px; font-size:0.75rem; color:#444;">${p.caption.substring(0, 50)}...</div>`}
+                    </div>
+                `).join('');
+            }
 
             switchView('userProfile');
         }
-        // Set up Account Grid (3-column square thumbnails)
-        const accountGrid = document.getElementById('accountGrid');
-        const searchImgs = ["project-1.jpg", "project-2.jpg", "project-3.jpg", "pvc-1.jpg", "pvc-2.jpg", "pvc-3.jpg"];
-        accountGrid.innerHTML = searchImgs.map(img => `
-    <div style="aspect-ratio:1/1; background:#eee; overflow:hidden;">
-        <img src="${img}" style="width:100%; height:100%; object-fit:cover;">
-    </div>
-    `).join('');
+
+        function renderAccountGrid() {
+            if (!currentUser) return;
+            const myName = currentUser.name.trim();
+            const grid = document.getElementById('accountGrid');
+            const accountPosts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]').filter(p => (p.user || "").trim() === myName);
+            if (accountPosts.length === 0) {
+                grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:#8e8e8e;">No posts yet</div>';
+            } else {
+                grid.innerHTML = accountPosts.map(p => {
+                    const isVideo = (src) => src.startsWith('data:video/') || src.endsWith('.mp4') || src.endsWith('.mov') || src.endsWith('.webm');
+                    const firstMedia = Array.isArray(p.media) ? p.media[0] : p.media;
+                    return `
+                    <div style="aspect-ratio:1/1; background:#eee; overflow:hidden; cursor:pointer;" onclick="scrollToFeedItem('post', ${p.id})">
+                        ${p.media ? (isVideo(firstMedia) ? `<video src="${firstMedia}" style="width:100%; height:100%; object-fit:cover;"></video>` : `<img src="${firstMedia}" style="width:100%; height:100%; object-fit:cover;">`) : `<div style="padding:10px; font-size:0.75rem; color:#444;">${p.caption.substring(0, 50)}...</div>`}
+                    </div>
+                `}).join('');
+            }
+            renderProducts(); // Refresh ad/product lists in account view
+        }
+
+        function scrollToFeedItem(type, id) {
+            // First check if we are in media view, if not switch to it
+            switchMenuSection('media');
+
+            setTimeout(() => {
+                const targetId = type + '-' + id;
+                const el = document.getElementById(targetId);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Quick flash effect
+                    el.style.transition = 'background 0.3s ease';
+                    el.style.backgroundColor = 'rgba(24, 119, 242, 0.1)';
+                    setTimeout(() => el.style.backgroundColor = '', 1500);
+                }
+            }, 300);
+        }
+
+        function switchAccountTab(tab) {
+            // Update active content
+            document.querySelectorAll('.account-tab-content').forEach(c => c.style.display = 'none');
+            const target = {
+                'media': 'accountMedia',
+                'ads': 'accountAds',
+                'marketplace': 'accountMarketplace'
+            }[tab];
+            if (target) document.getElementById(target).style.display = 'block';
+
+            // Update active button state
+            const parent = document.querySelector('.view-section#accountView');
+            if (parent) {
+                parent.querySelectorAll('.feed-tab-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('onclick').includes(tab)) btn.classList.add('active');
+                });
+            }
+            lucide.createIcons();
+        }
 
     </script>
     <!-- Profile Setup Overlay Moved -->
@@ -1404,7 +2831,7 @@
             <img id="setupPfpPreview" src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=100">
             <input type="file" id="setupPfpInput" hidden onchange="previewSetupPfp(this)">
         </div>
-        <p style="text-align:center; font-size:0.8rem; color:var(--ig-blue); margin-top:-10px; margin-bottom:20px;">
+        <p style="text-align:center; font-size:0.8rem; color:var(--fb-blue); margin-top:-10px; margin-bottom:20px;">
             Change Photo</p>
 
         <input type="text" id="setupName" class="setup-input" placeholder="Full Name (e.g. Srinivasan)">

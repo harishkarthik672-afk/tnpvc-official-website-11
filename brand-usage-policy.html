@@ -12,6 +12,14 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        :root {
+            --tnpvc-navy: #1b0f3a;
+            --tnpvc-red: #e3001b;
+            --text-dark: #1a1a1a;
+            --text-muted: #555;
+            --bg-light: #f8fafc;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -20,123 +28,240 @@
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #f8f9fa;
+            background: #fff;
+            color: var(--text-dark);
+            line-height: 1.6;
         }
 
-        .page-hero {
-            background: linear-gradient(135deg, #4b2491 0%, #6b3db5 60%, #8b5fd0 100%);
-            color: white;
-            padding: 80px 20px 60px;
+        /* Navbar offset for fixed header */
+        body {
+            padding-top: 55px;
+        }
+
+        /* ── Premium Hero Section ── */
+        .legal-hero {
+            background: var(--tnpvc-navy);
+            padding: 60px 20px 90px;
             text-align: center;
-        }
-
-        .page-hero .icon-wrap {
-            width: 64px;
-            height: 64px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
         }
 
-        .page-hero .icon-wrap svg {
-            width: 32px;
-            height: 32px;
-            color: white;
-        }
-
-        .page-hero h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
-        .page-hero p {
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.8);
-            max-width: 500px;
-            margin: 0 auto;
+        .legal-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: #fff;
+            clip-path: ellipse(60% 100% at 50% 100%);
         }
 
         .back-btn {
+            position: absolute;
+            top: 18px;
+            left: 20px;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             color: rgba(255, 255, 255, 0.8);
             font-size: 0.82rem;
             text-decoration: none;
-            margin-bottom: 24px;
             font-weight: 600;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 6px 14px;
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 7px 14px;
+            border-radius: 50px;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            z-index: 10;
         }
 
-        .back-btn svg {
-            width: 14px;
-            height: 14px;
+        .back-btn:hover {
+            background: #fff;
+            color: var(--tnpvc-navy);
         }
 
-        .content-container {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 40px 20px 100px;
+        .legal-hero h1 {
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            z-index: 1;
         }
 
-        .content-card {
-            background: white;
-            border-radius: 16px;
-            padding: 28px;
-            margin-bottom: 16px;
-            border: 1px solid #eee;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+        .legal-hero .effective-date {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+            z-index: 1;
         }
 
-        .content-card h2 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #1b0f3a;
-            margin-bottom: 12px;
+        /* ── Content Layout ── */
+        .legal-content-wrapper {
+            max-width: 1000px;
+            margin: 0 auto 100px;
+            padding: 40px 20px 0;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        @media (max-width: 850px) {
+            .legal-content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding-top: 24px;
+            }
+
+            .legal-hero {
+                padding: 50px 20px 80px;
+            }
+
+            .back-btn {
+                top: 14px;
+                left: 16px;
+            }
+        }
+
+        .side-nav {
+            position: sticky;
+            top: 110px;
+            height: fit-content;
+        }
+
+        .side-nav h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--tnpvc-red);
+            margin-bottom: 18px;
+            font-weight: 800;
+        }
+
+        .side-nav ul {
+            list-style: none;
+        }
+
+        .side-nav li {
+            margin-bottom: 14px;
+        }
+
+        .side-nav a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: 0.2s;
+            display: block;
+        }
+
+        .side-nav a:hover {
+            color: var(--tnpvc-navy);
+            padding-left: 6px;
+        }
+
+        .main-legal-text {
+            color: var(--text-dark);
+        }
+
+        .legal-section {
+            margin-bottom: 3rem;
+        }
+
+        .legal-section h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--tnpvc-navy);
+        }
+
+        .legal-section p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            line-height: 1.85;
+        }
+
+        .legal-section ul {
+            list-style-type: none;
+            margin-top: 0.8rem;
+        }
+
+        .legal-section ul li {
+            padding: 11px 0;
+            border-bottom: 1px solid #f1f1f1;
+            font-size: 1rem;
+            color: var(--text-muted);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
-        .content-card h2 svg {
-            width: 20px;
-            height: 20px;
-            color: #4b2491;
+        .legal-section ul li::before {
+            content: "";
+            min-width: 8px;
+            height: 8px;
+            background: var(--tnpvc-red);
+            border-radius: 50%;
         }
 
-        .content-card p {
-            font-size: 0.88rem;
-            color: #555;
-            line-height: 1.75;
-            margin-bottom: 10px;
+        /* Navbar overrides for these pages */
+        .navbar {
+            background: var(--tnpvc-navy) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
         }
 
-        .content-card ul {
-            padding-left: 18px;
+        .navbar .logo span {
+            color: #fff !important;
         }
 
-        .content-card ul li {
-            font-size: 0.88rem;
-            color: #555;
-            line-height: 2;
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8) !important;
         }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.1) !important;
+            color: #fff !important;
+            border-color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .lang-btn i {
+            color: #fff !important;
+        }
+
+        .mobile-menu-toggle-btn-top {
+            color: #fff !important;
+        }
+
+        /* Page-specific styles */
+.brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--tnpvc-red);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-top: 1rem;
+    transition: 0.3s;
+    }
+    .brand-link:hover {
+    gap: 12px;
+    color: var(--tnpvc-navy);
+    }
     </style>
     <script src="i18n.js" defer></script>
 </head>
 
 <body>
-    <!-- Site Construction Notice -->
-    <div class="site-notice-bar">
-        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
-        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
-    </div>
+
 
     <header class="navbar" itemscope itemtype="https://schema.org/SiteNavigationElement">
         <div class="container nav-container">
@@ -164,7 +289,7 @@
                 <!-- Language Switcher -->
                 <div class="lang-switcher">
                     <button class="lang-btn" id="langBtn">
-                        <i data-lucide="swatch-book" class="globe-icon"></i>
+                        <i data-lucide="globe" class="globe-icon"></i>
                         <span id="currentLang">English</span>
                         <i data-lucide="chevron-down" class="chevron-icon"></i>
                     </button>
@@ -190,39 +315,59 @@
         </div>
     </header>
 
-    <div class="page-hero">
-        <a href="legal.html" class="back-btn"><i data-lucide="arrow-left"></i> Back</a>
-        <div class="icon-wrap"><i data-lucide="book-open"></i></div>
-        <h1>Brand Usage Policy</h1>
-        <p>Guidelines for using TNPVC Council's brand assets and trademarks.</p>
+
+    <div class="legal-hero">
+        <a href="legal.html" class="back-btn"><i data-lucide="arrow-left"></i> Back to Legal</a>
+        <h1>Brand Assets</h1>
+        <p class="effective-date">TNPVC Official Usage Guidelines</p>
     </div>
-    <div class="content-container">
-        <div class="content-card">
-            <h2><i data-lucide="image"></i> Using the TNPVC Logo</h2>
-            <p>The TNPVC logo is a registered trademark. You may use our logo only after obtaining written permission
-                from our management team.</p>
+
+    <div class="legal-content-wrapper">
+        <aside class="side-nav">
+            <h3>Visual Identity</h3>
             <ul>
-                <li>Do not alter the logo's proportions or colors.</li>
-                <li>Ensure sufficient clear space around the logo.</li>
-                <li>Do not use the logo in a way that implies endorsement without approval.</li>
+                <li><a href="#logo">Logo Guidelines</a></li>
+                <li><a href="#visuals">Typography & Colors</a></li>
+                <li><a href="#partner">Verified Badges</a></li>
+                <li><a href="#help">Inquiries</a></li>
             </ul>
-        </div>
-        <div class="content-card">
-            <h2><i data-lucide="type"></i> Typography and Colors</h2>
-            <p>Our brand uses specific typography (Plus Jakarta Sans) and colors (TNPVC Purple, Red, and Blue).
-                Maintaining consistency helps strengthen our brand identity.</p>
-        </div>
-        <div class="content-card">
-            <h2><i data-lucide="shield-check"></i> Authorized Partners</h2>
-            <p>Verified TNPVC partners and members are granted limited rights to use the "Verified Partner" badge on
-                their marketing materials, subject to our compliance standards.</p>
-        </div>
-        <div class="content-card">
-            <h2><i data-lucide="help-circle"></i> Questions?</h2>
-            <p>If you have any questions regarding the use of our brand assets, please reach out to us.</p>
-            <a href="contact.html" style="color: #4b2491; font-weight: 700; text-decoration: none;">Contact Brand Team
-                &rarr;</a>
-        </div>
+        </aside>
+
+        <main class="main-legal-text">
+            <section class="legal-section" id="logo">
+                <h2>Using the TNPVC Logo</h2>
+                <p>The TNPVC Official Logo is the core of our visual identity. It represents the trust and standard
+                    Srinivasan has built across Tamil Nadu. Use is restricted to authorized projects and affiliated
+                    members only.</p>
+                <ul>
+                    <li>Maintain original proportions; do not stretch or distort.</li>
+                    <li>Ensure clear exclusion zone around the logo.</li>
+                    <li>Use only on approved backgrounds (Navy, White, or Red).</li>
+                    <li>Do not create derivative logos or combined marks without council approval.</li>
+                </ul>
+            </section>
+
+            <section class="legal-section" id="visuals">
+                <h2>Typography & Colors</h2>
+                <p>To maintain a premium feel, all TNPVC digital and print communications must use our designated
+                    typeface, <strong>Plus Jakarta Sans</strong>, and our primary palette: TNPVC Navy (#1b0f3a) and
+                    TNPVC Red (#e3001b).</p>
+            </section>
+
+            <section class="legal-section" id="partner">
+                <h2>Verified Partner Badges</h2>
+                <p>Verified service providers are granted a limited license to display the "TNPVC Verified Contractor"
+                    badge on their personal social media and storefronts. This badge is a mark of compliance and cannot
+                    be leased or transferred.</p>
+            </section>
+
+            <section class="legal-section" id="help">
+                <h2>Brand Inquiries</h2>
+                <p>If you have questions about brand implementation or wish to request vector assets for a verified
+                    project, please reach out to our communications hub.</p>
+                <a href="contact.html" class="brand-link">Contact Brand Support <i data-lucide="arrow-right"></i></a>
+            </section>
+        </main>
     </div>
 
     <!-- Bottom Navigation Bar -->

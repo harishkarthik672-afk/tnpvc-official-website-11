@@ -12,6 +12,14 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        :root {
+            --tnpvc-navy: #1b0f3a;
+            --tnpvc-red: #e3001b;
+            --text-dark: #1a1a1a;
+            --text-muted: #555;
+            --bg-light: #f8fafc;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -20,132 +28,241 @@
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #f8f9fa;
+            background: #fff;
+            color: var(--text-dark);
+            line-height: 1.6;
         }
 
-        .page-hero {
-            background: linear-gradient(135deg, #4b2491 0%, #6b3db5 60%, #8b5fd0 100%);
-            color: white;
-            padding: 80px 20px 60px;
+        /* Navbar offset for fixed header */
+        body {
+            padding-top: 55px;
+        }
+
+        /* ── Premium Hero Section ── */
+        .legal-hero {
+            background: var(--tnpvc-navy);
+            padding: 60px 20px 90px;
             text-align: center;
-        }
-
-        .page-hero .icon-wrap {
-            width: 64px;
-            height: 64px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
         }
 
-        .page-hero .icon-wrap svg {
-            width: 32px;
-            height: 32px;
-            color: white;
-        }
-
-        .page-hero h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
-        .page-hero p {
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.8);
-            max-width: 500px;
-            margin: 0 auto;
+        .legal-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: #fff;
+            clip-path: ellipse(60% 100% at 50% 100%);
         }
 
         .back-btn {
+            position: absolute;
+            top: 18px;
+            left: 20px;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             color: rgba(255, 255, 255, 0.8);
             font-size: 0.82rem;
             text-decoration: none;
-            margin-bottom: 24px;
             font-weight: 600;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 6px 14px;
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 7px 14px;
+            border-radius: 50px;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            z-index: 10;
         }
 
-        .back-btn svg {
-            width: 14px;
-            height: 14px;
+        .back-btn:hover {
+            background: #fff;
+            color: var(--tnpvc-navy);
         }
 
-        .content-container {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 40px 20px 100px;
+        .legal-hero h1 {
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            z-index: 1;
         }
 
-        .content-card {
-            background: white;
-            border-radius: 16px;
-            padding: 28px;
-            margin-bottom: 16px;
-            border: 1px solid #eee;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+        .legal-hero .effective-date {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+            z-index: 1;
         }
 
-        .content-card h2 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #1b0f3a;
-            margin-bottom: 12px;
+        /* ── Content Layout ── */
+        .legal-content-wrapper {
+            max-width: 1000px;
+            margin: 0 auto 100px;
+            padding: 40px 20px 0;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        @media (max-width: 850px) {
+            .legal-content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding-top: 24px;
+            }
+
+            .legal-hero {
+                padding: 50px 20px 80px;
+            }
+
+            .back-btn {
+                top: 14px;
+                left: 16px;
+            }
+        }
+
+        .side-nav {
+            position: sticky;
+            top: 110px;
+            height: fit-content;
+        }
+
+        .side-nav h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--tnpvc-red);
+            margin-bottom: 18px;
+            font-weight: 800;
+        }
+
+        .side-nav ul {
+            list-style: none;
+        }
+
+        .side-nav li {
+            margin-bottom: 14px;
+        }
+
+        .side-nav a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: 0.2s;
+            display: block;
+        }
+
+        .side-nav a:hover {
+            color: var(--tnpvc-navy);
+            padding-left: 6px;
+        }
+
+        .main-legal-text {
+            color: var(--text-dark);
+        }
+
+        .legal-section {
+            margin-bottom: 3rem;
+        }
+
+        .legal-section h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--tnpvc-navy);
+        }
+
+        .legal-section p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            line-height: 1.85;
+        }
+
+        .legal-section ul {
+            list-style-type: none;
+            margin-top: 0.8rem;
+        }
+
+        .legal-section ul li {
+            padding: 11px 0;
+            border-bottom: 1px solid #f1f1f1;
+            font-size: 1rem;
+            color: var(--text-muted);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
-        .content-card h2 svg {
-            width: 20px;
-            height: 20px;
-            color: #4b2491;
+        .legal-section ul li::before {
+            content: "";
+            min-width: 8px;
+            height: 8px;
+            background: var(--tnpvc-red);
+            border-radius: 50%;
         }
 
-        .content-card p {
-            font-size: 0.88rem;
-            color: #555;
-            line-height: 1.75;
-            margin-bottom: 10px;
+        /* Navbar overrides for these pages */
+        .navbar {
+            background: var(--tnpvc-navy) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
         }
 
-        .content-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 15px 0;
-            font-size: 0.85rem;
+        .navbar .logo span {
+            color: #fff !important;
         }
 
-        .content-table th,
-        .content-table td {
-            border: 1px solid #eee;
-            padding: 10px;
-            text-align: left;
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8) !important;
         }
 
-        .content-table th {
-            background: #f8f4ff;
-            color: #4b2491;
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.1) !important;
+            color: #fff !important;
+            border-color: rgba(255, 255, 255, 0.2) !important;
         }
+
+        .lang-btn i {
+            color: #fff !important;
+        }
+
+        .mobile-menu-toggle-btn-top {
+            color: #fff !important;
+        }
+
+        /* Page-specific styles */
+.content-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+    }
+    .content-table td {
+    border: 1px solid #eee;
+    padding: 12px 15px;
+    text-align: left;
+    }
+    .content-table th {
+    background: #f8fafc;
+    color: var(--tnpvc-navy);
+    font-weight: 700;
+    }
     </style>
     <script src="i18n.js" defer></script>
 </head>
 
 <body>
-    <!-- Site Construction Notice -->
-    <div class="site-notice-bar">
-        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
-        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
-    </div>
+
 
     <header class="navbar" itemscope itemtype="https://schema.org/SiteNavigationElement">
         <div class="container nav-container">
@@ -173,7 +290,7 @@
                 <!-- Language Switcher -->
                 <div class="lang-switcher">
                     <button class="lang-btn" id="langBtn">
-                        <i data-lucide="swatch-book" class="globe-icon"></i>
+                        <i data-lucide="globe" class="globe-icon"></i>
                         <span id="currentLang">English</span>
                         <i data-lucide="chevron-down" class="chevron-icon"></i>
                     </button>
@@ -199,58 +316,75 @@
         </div>
     </header>
 
-    <div class="page-hero">
-        <a href="legal.html" class="back-btn"><i data-lucide="arrow-left"></i> Back</a>
-        <div class="icon-wrap"><i data-lucide="cookie"></i></div>
+
+    <div class="legal-hero">
+        <a href="legal.html" class="back-btn"><i data-lucide="arrow-left"></i> Back to Legal</a>
         <h1>Cookie Policy</h1>
-        <p>Information about how we use cookies and similar technologies on our website.</p>
+        <p class="effective-date">Effective: February 2026</p>
     </div>
-    <div class="content-container">
-        <div class="content-card">
-            <h2><i data-lucide="info"></i> What are cookies?</h2>
-            <p>Cookies are small text files that are stored on your device when you visit a website. They help us make
-                the website work better for you and provide us with information about how our site is being used.</p>
-        </div>
-        <div class="content-card">
-            <h2><i data-lucide="list"></i> Types of Cookies We Use</h2>
-            <table class="content-table">
-                <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Essential</td>
-                        <td>Necessary for the website to function correctly (e.g., login, security).</td>
-                    </tr>
-                    <tr>
-                        <td>Performance</td>
-                        <td>Help us understand how visitors interact with the site (e.g., Google Analytics).</td>
-                    </tr>
-                    <tr>
-                        <td>Functional</td>
-                        <td>Remember your preferences (e.g., language selection).</td>
-                    </tr>
-                    <tr>
-                        <td>Marketing</td>
-                        <td>Used to track visitors across websites to display relevant ads.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="content-card">
-            <h2><i data-lucide="settings"></i> Managing Cookies</h2>
-            <p>You can control and manage cookies through your browser settings. Most browsers allow you to refuse or
-                accept cookies, or to delete them. Please note that disabling essential cookies may affect the
-                functionality of our website.</p>
-        </div>
-        <div class="content-card">
-            <h2><i data-lucide="refresh-cw"></i> Policy Updates</h2>
-            <p>We may update this Cookie Policy from time to time. We encourage you to check this page regularly for any
-                changes.</p>
-        </div>
+
+    <div class="legal-content-wrapper">
+        <aside class="side-nav">
+            <h3>Cookie Info</h3>
+            <ul>
+                <li><a href="#definition">What are cookies?</a></li>
+                <li><a href="#types">Types We Use</a></li>
+                <li><a href="#management">Management</a></li>
+                <li><a href="#updates">Policy Updates</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-legal-text">
+            <section class="legal-section" id="definition">
+                <h2>What are cookies?</h2>
+                <p>Cookies are small text files that are stored on your device when you visit the TNPVC Council
+                    platform. They help our website function efficiently and provide us with insights into user
+                    interaction patterns in Tamil Nadu's trade community.</p>
+            </section>
+
+            <section class="legal-section" id="types">
+                <h2>Types of Cookies We Use</h2>
+                <table class="content-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Essential</strong></td>
+                            <td>Vital for basic platform functions like secure login and worker verification.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Performance</strong></td>
+                            <td>Helps us analyze site traffic to improve project matching speed.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Functional</strong></td>
+                            <td>Remembers your preference like Tamil/English language settings.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Service Tracking</strong></td>
+                            <td>Helps us ensure our ads reach the right contractors and homeowners.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="legal-section" id="management">
+                <h2>Managing Cookies</h2>
+                <p>You can manage and disable cookies through your specific browser settings (Chrome, Safari, etc.).
+                    However, disabling essential cookies may prevent some TNPVC portal features from working correctly,
+                    such as persistent sessions.</p>
+            </section>
+
+            <section class="legal-section" id="updates">
+                <h2>Policy Updates</h2>
+                <p>We periodically update this policy to reflect changes in our local tracking technologies or council
+                    requirements. We recommend checking this page often.</p>
+            </section>
+        </main>
     </div>
 
     <!-- Bottom Navigation Bar -->

@@ -12,6 +12,14 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        :root {
+            --tnpvc-navy: #1b0f3a;
+            --tnpvc-red: #e3001b;
+            --text-dark: #1a1a1a;
+            --text-muted: #555;
+            --bg-light: #f8fafc;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -20,158 +28,257 @@
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #f8f9fa;
+            background: #fff;
+            color: var(--text-dark);
+            line-height: 1.6;
         }
 
-        .page-hero {
-            background: linear-gradient(135deg, #4b2491 0%, #6b3db5 60%, #8b5fd0 100%);
-            color: white;
-            padding: 80px 20px 60px;
+        /* Navbar offset for fixed header */
+        body {
+            padding-top: 55px;
+        }
+
+        /* ── Premium Hero Section ── */
+        .legal-hero {
+            background: var(--tnpvc-navy);
+            padding: 60px 20px 90px;
             text-align: center;
-        }
-
-        .page-hero .icon-wrap {
-            width: 64px;
-            height: 64px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
         }
 
-        .page-hero .icon-wrap svg {
-            width: 32px;
-            height: 32px;
-            color: white;
-        }
-
-        .page-hero h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
-        .page-hero p {
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.8);
-            max-width: 500px;
-            margin: 0 auto;
+        .legal-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: #fff;
+            clip-path: ellipse(60% 100% at 50% 100%);
         }
 
         .back-btn {
+            position: absolute;
+            top: 18px;
+            left: 20px;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             color: rgba(255, 255, 255, 0.8);
             font-size: 0.82rem;
             text-decoration: none;
-            margin-bottom: 24px;
             font-weight: 600;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 6px 14px;
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 7px 14px;
+            border-radius: 50px;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            z-index: 10;
         }
 
-        .back-btn svg {
-            width: 14px;
-            height: 14px;
+        .back-btn:hover {
+            background: #fff;
+            color: var(--tnpvc-navy);
         }
 
-        .content-container {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 40px 20px 100px;
+        .legal-hero h1 {
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            z-index: 1;
         }
 
-        .content-card {
-            background: white;
-            border-radius: 16px;
-            padding: 28px;
-            margin-bottom: 16px;
-            border: 1px solid #eee;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+        .legal-hero .effective-date {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+            z-index: 1;
         }
 
-        .content-card h2 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #1b0f3a;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        /* ── Content Layout ── */
+        .legal-content-wrapper {
+            max-width: 1000px;
+            margin: 0 auto 100px;
+            padding: 40px 20px 0;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 4rem;
+            position: relative;
+            z-index: 2;
         }
 
-        .content-card h2 svg {
-            width: 20px;
-            height: 20px;
-            color: #4b2491;
+        @media (max-width: 850px) {
+            .legal-content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding-top: 24px;
+            }
+
+            .legal-hero {
+                padding: 50px 20px 80px;
+            }
+
+            .back-btn {
+                top: 14px;
+                left: 16px;
+            }
         }
 
-        .content-card p {
-            font-size: 0.88rem;
-            color: #555;
-            line-height: 1.75;
+        .side-nav {
+            position: sticky;
+            top: 110px;
+            height: fit-content;
         }
 
-        .content-card ul {
-            padding-left: 18px;
-        }
-
-        .content-card ul li {
-            font-size: 0.88rem;
-            color: #555;
-            line-height: 2.2;
-        }
-
-        .step-list {
-            counter-reset: steps;
-            list-style: none;
-            padding: 0;
-        }
-
-        .step-list li {
-            counter-increment: steps;
-            display: flex;
-            gap: 12px;
-            margin-bottom: 14px;
-            align-items: flex-start;
-        }
-
-        .step-list li::before {
-            content: counter(steps);
-            background: #4b2491;
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .side-nav h3 {
             font-size: 0.75rem;
-            font-weight: 700;
-            flex-shrink: 0;
-            margin-top: 2px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--tnpvc-red);
+            margin-bottom: 18px;
+            font-weight: 800;
         }
 
-        .step-list li span {
-            font-size: 0.88rem;
-            color: #555;
-            line-height: 1.6;
+        .side-nav ul {
+            list-style: none;
         }
+
+        .side-nav li {
+            margin-bottom: 14px;
+        }
+
+        .side-nav a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: 0.2s;
+            display: block;
+        }
+
+        .side-nav a:hover {
+            color: var(--tnpvc-navy);
+            padding-left: 6px;
+        }
+
+        .main-legal-text {
+            color: var(--text-dark);
+        }
+
+        .legal-section {
+            margin-bottom: 3rem;
+        }
+
+        .legal-section h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--tnpvc-navy);
+        }
+
+        .legal-section p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            line-height: 1.85;
+        }
+
+        .legal-section ul {
+            list-style-type: none;
+            margin-top: 0.8rem;
+        }
+
+        .legal-section ul li {
+            padding: 11px 0;
+            border-bottom: 1px solid #f1f1f1;
+            font-size: 1rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .legal-section ul li::before {
+            content: "";
+            min-width: 8px;
+            height: 8px;
+            background: var(--tnpvc-red);
+            border-radius: 50%;
+        }
+
+        /* Navbar overrides for these pages */
+        .navbar {
+            background: var(--tnpvc-navy) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .navbar .logo span {
+            color: #fff !important;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.1) !important;
+            color: #fff !important;
+            border-color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .lang-btn i {
+            color: #fff !important;
+        }
+
+        .mobile-menu-toggle-btn-top {
+            color: #fff !important;
+        }
+
+        /* Page-specific styles */
+.step-list {
+    counter-reset: steps;
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+    }
+    .step-list li {
+    counter-increment: steps;
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    align-items: flex-start;
+    }
+    .step-list li::before {
+    content: counter(steps);
+    background: var(--tnpvc-red);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 800;
+    flex-shrink: 0;
+    }
+    .step-list li span {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    }
     </style>
     <script src="i18n.js" defer></script>
 </head>
 
 <body>
-    <!-- Site Construction Notice -->
-    <div class="site-notice-bar">
-        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
-        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
-    </div>
+
 
     <header class="navbar" itemscope itemtype="https://schema.org/SiteNavigationElement">
         <div class="container nav-container">
@@ -199,7 +306,7 @@
                 <!-- Language Switcher -->
                 <div class="lang-switcher">
                     <button class="lang-btn" id="langBtn">
-                        <i data-lucide="swatch-book" class="globe-icon"></i>
+                        <i data-lucide="globe" class="globe-icon"></i>
                         <span id="currentLang">English</span>
                         <i data-lucide="chevron-down" class="chevron-icon"></i>
                     </button>
@@ -225,39 +332,60 @@
         </div>
     </header>
 
-    <div class="page-hero">
-        <a href="legal.html" class="back-btn"><i data-lucide="arrow-left"></i> Back</a>
-        <div class="icon-wrap"><i data-lucide="clipboard-check"></i></div>
-        <h1>Workmanship Compliance</h1>
-        <p>TNPVC Council's standards for quality execution and verified craftsmanship.</p>
+
+    <div class="legal-hero">
+        <a href="legal.html" class="back-btn"><i data-lucide="arrow-left"></i> Back to Legal</a>
+        <h1>Workmanship</h1>
+        <p class="effective-date">TNPVC Quality Standard Ver. 2.0</p>
     </div>
-    <div class="content-container">
-        <div class="content-card">
-            <h2><i data-lucide="award"></i> Our Quality Standards</h2>
-            <p>Every TNPVC-affiliated worker and contractor must meet our strict workmanship compliance standards before
-                being listed in our network. These standards ensure that every project delivered through TNPVC meets the
-                highest quality benchmarks.</p>
-        </div>
-        <div class="content-card">
-            <h2><i data-lucide="list-checks"></i> Compliance Process</h2>
-            <ol class="step-list">
-                <li><span>Initial verification of skills, certifications, and past project history.</span></li>
-                <li><span>Background check and reference verification from previous clients.</span></li>
-                <li><span>On-site assessment by TNPVC quality team for new joiners.</span></li>
-                <li><span>Ongoing monitoring through client feedback and star ratings.</span></li>
-                <li><span>Annual re-certification to maintain quality listing status.</span></li>
-            </ol>
-        </div>
-        <div class="content-card">
-            <h2><i data-lucide="alert-circle"></i> Non-Compliance</h2>
-            <p>Workers or contractors who fail to meet our standards or receive repeated complaints will be suspended or
-                permanently removed from the TNPVC network. Client protection is our top priority.</p>
-        </div>
-        <div class="content-card">
-            <h2><i data-lucide="message-square"></i> File a Complaint</h2>
-            <p>If you experience poor workmanship from a TNPVC-listed professional, please contact us immediately via
-                our Contact page. All complaints are reviewed within 72 hours.</p>
-        </div>
+
+    <div class="legal-content-wrapper">
+        <aside class="side-nav">
+            <h3>Quality Protocols</h3>
+            <ul>
+                <li><a href="#standards">Our Standards</a></li>
+                <li><a href="#process">Compliance Process</a></li>
+                <li><a href="#violations">Non-Compliance</a></li>
+                <li><a href="#complaints">File a Complaint</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-legal-text">
+            <section class="legal-section" id="standards">
+                <h2>Our Quality Standards</h2>
+                <p>Every TNPVC-affiliated worker and contractor must meet our strict Council Workmanship Compliance
+                    protocols before being verified on our state-wide network. Our standards cover material handling,
+                    aesthetic finishing, and structural integrity of PVC/UPVC interiors.</p>
+            </section>
+
+            <section class="legal-section" id="process">
+                <h2>Compliance Process</h2>
+                <ul class="step-list">
+                    <li><span><strong>Technical Verification:</strong> Assessment of physical skills, project history,
+                            and fabricator certifications.</span></li>
+                    <li><span><strong>Reference Check:</strong> Mandatory verification of quality output from previous
+                            Tamil Nadu site completions.</span></li>
+                    <li><span><strong>On-Site Monitoring:</strong> Random quality checks by TNPVC district inspectors
+                            for new council members.</span></li>
+                    <li><span><strong>Feedback Loop:</strong> Direct homeowner ratings that influence a contractor's
+                            visibility and listing status.</span></li>
+                </ul>
+            </section>
+
+            <section class="legal-section" id="violations">
+                <h2>Non-Compliance</h2>
+                <p>Maintaining the reputation of the TNPVC Council is critical. Service providers who fail to meet site
+                    standards or receive recurring negative quality reports are subject to temporary suspension or
+                    permanent removal from the council registry.</p>
+            </section>
+
+            <section class="legal-section" id="complaints">
+                <h2>File a Workmanship Complaint</h2>
+                <p>If a project executed by a TNPVC-listed professional does not meet the promised council standards,
+                    homeowners can formally report the issue. Our project arbitration team will review the claim within
+                    72 hours.</p>
+            </section>
+        </main>
     </div>
 
     <!-- Bottom Navigation Bar -->

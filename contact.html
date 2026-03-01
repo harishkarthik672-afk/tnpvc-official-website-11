@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:;">
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
     <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -118,25 +118,103 @@
     <script src="i18n.js" defer></script>
 </head>
 <style>
-    .contact-hero {
-        background: #fdfcfb;
-        padding: 1.5rem 0 1rem;
+    :root {
+        --tnpvc-navy: #1b0f3a;
+        --tnpvc-red: #e3001b;
+        --text-dark: #1a1a1a;
+        --text-muted: #555;
+        --bg-light: #f8fafc;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background: #fff;
+        color: var(--text-dark);
+        line-height: 1.6;
+    }
+
+    /* ── Premium Hero Section ── */
+    .legal-hero {
+        background: var(--tnpvc-navy);
+        padding: 120px 20px 100px;
         text-align: center;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
-    .contact-grid {
+    .legal-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 80px;
+        background: #fff;
+        clip-path: ellipse(60% 100% at 50% 100%);
+    }
+
+    .legal-hero h1 {
+        font-size: clamp(2.5rem, 6vw, 3.5rem);
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 12px;
+        letter-spacing: -1px;
+        z-index: 1;
+    }
+
+    .legal-hero p {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.7);
+        max-width: 600px;
+        z-index: 1;
+    }
+
+    /* ── Contact Layout ── */
+    .contact-content-wrapper {
+        max-width: 1100px;
+        margin: -40px auto 100px;
+        padding: 0 20px;
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1.5fr 1fr;
         gap: 4rem;
-        margin-top: 1rem;
+        position: relative;
+        z-index: 2;
     }
 
-    .contact-form-card {
-        background: white;
-        padding: 3rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    @media (max-width: 900px) {
+        .contact-content-wrapper {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            margin-top: 20px;
+        }
+
+        .legal-hero::after {
+            height: 40px;
+        }
+    }
+
+    .form-container {
+        background: #fff;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
         border: 1px solid #eee;
+    }
+
+    .form-container h2 {
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin-bottom: 2rem;
+        color: var(--tnpvc-navy);
     }
 
     .form-row {
@@ -146,57 +224,144 @@
         margin-bottom: 1.5rem;
     }
 
+    @media (max-width: 500px) {
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+    }
+
     .input-group {
         margin-bottom: 1.5rem;
     }
 
     .input-group label {
         display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--text-muted);
+        margin-bottom: 8px;
     }
 
     .input-group input,
-    .input-group textarea,
-    .input-group select {
+    .input-group select,
+    .input-group textarea {
         width: 100%;
-        padding: 0.8rem;
-        border: 1px solid #eee;
-        border-radius: 6px;
+        padding: 12px 16px;
+        border: 1.5px solid #eee;
+        border-radius: 10px;
         font-family: inherit;
+        font-size: 1rem;
+        transition: 0.3s;
+        background: #fcfcfc;
     }
 
-    .contact-info-list {
-        padding: 2rem 0;
+    .input-group input:focus,
+    .input-group select:focus,
+    .input-group textarea:focus {
+        outline: none;
+        border-color: var(--tnpvc-navy);
+        background: #fff;
     }
 
-    .info-item {
-        display: flex;
-        gap: 1.5rem;
-        margin-bottom: 2.5rem;
-    }
-
-    .info-icon {
-        width: 48px;
-        height: 48px;
-        background: #f0f7ff;
-        border-radius: 50%;
+    .submit-btn {
+        width: 100%;
+        padding: 16px;
+        background: var(--tnpvc-red);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #0060b4;
+        gap: 8px;
+    }
+
+    .submit-btn:hover {
+        background: var(--tnpvc-navy);
+        transform: translateY(-2px);
+    }
+
+    .info-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+    }
+
+    .info-card {
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    .info-card i {
+        width: 50px;
+        height: 50px;
+        background: var(--bg-light);
+        color: var(--tnpvc-navy);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         flex-shrink: 0;
+        font-size: 1.5rem;
+    }
+
+    .info-card h4 {
+        font-size: 1.1rem;
+        font-weight: 800;
+        margin-bottom: 6px;
+        color: var(--tnpvc-navy);
+    }
+
+    .info-card p,
+    .info-card a {
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        text-decoration: none;
+        line-height: 1.6;
+    }
+
+    .info-card a:hover {
+        color: var(--tnpvc-red);
+    }
+
+    /* Ensure navbar doesn't clash */
+    .navbar {
+        background: var(--tnpvc-navy) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .navbar .logo span {
+        color: #fff !important;
+    }
+
+    .nav-links a {
+        color: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    .lang-btn {
+        background: rgba(255, 255, 255, 0.1) !important;
+        color: #fff !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
+    }
+
+    .lang-btn i {
+        color: #fff !important;
+    }
+
+    .mobile-menu-toggle-btn-top {
+        color: #fff !important;
     }
 </style>
 </head>
 
 <body>
-    <!-- Site Construction Notice -->
-    <div class="site-notice-bar">
-        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
-        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
-    </div>
+
 
     <header class="navbar" itemscope itemtype="https://schema.org/SiteNavigationElement">
         <div class="container nav-container">
@@ -224,7 +389,7 @@
                 <!-- Language Switcher -->
                 <div class="lang-switcher">
                     <button class="lang-btn" id="langBtn">
-                        <i data-lucide="swatch-book" class="globe-icon"></i>
+                        <i data-lucide="globe" class="globe-icon"></i>
                         <span id="currentLang">English</span>
                         <i data-lucide="chevron-down" class="chevron-icon"></i>
                     </button>
@@ -250,93 +415,77 @@
         </div>
     </header>
 
+    <div class="legal-hero">
+        <h1>Connect with TNPVC</h1>
+        <p>Whether you're a homeowner starting a project or a industry professional, our council is here to help.</p>
+    </div>
 
-
-    <main>
-        <section class="contact-hero">
-            <div class="container animate">
-                <h1 style="font-size: 3.5rem; font-weight: 700;">Connect with TNPVC</h1>
-                <p style="font-size: 1.2rem; color: #666; max-width: 700px; margin: 0 auto;">Whether you're a homeowner
-                    starting a project or a professional looking to join our network, we're here to help you build with
-                    transparency.</p>
-            </div>
-        </section>
-
-        <section style="padding: 1rem 0 4rem;">
-            <div class="container">
-                <div class="contact-grid">
-                    <div class="contact-form-card animate">
-                        <h2 style="margin-bottom: 2rem;">Send us a Message</h2>
-                        <form id="inquiryForm">
-                            <div class="form-row">
-                                <div class="input-group">
-                                    <label>First Name</label>
-                                    <input type="text" id="firstName" placeholder="Your name" required>
-                                </div>
-                                <div class="input-group">
-                                    <label>Last Name</label>
-                                    <input type="text" id="lastName" placeholder="Last name">
-                                </div>
-                            </div>
-                            <div class="input-group">
-                                <label>Email Address</label>
-                                <input type="email" id="email" placeholder="email@example.com">
-                            </div>
-                            <div class="input-group">
-                                <label>What are you looking for?</label>
-                                <select id="lookingFor">
-                                    <option>Home Interior Service</option>
-                                    <option>Join as a Worker</option>
-                                    <option>Join as a Contractor</option>
-                                    <option>Join as a Material Supplier</option>
-                                    <option>General Inquiry</option>
-                                </select>
-                            </div>
-                            <div class="input-group">
-                                <label>Message</label>
-                                <textarea id="message" rows="5" placeholder="How can we help you?" required></textarea>
-                            </div>
-                            <button type="button" onclick="sendWhatsAppInquiry()" class="btn-zoho"
-                                style="width: 100%; padding: 1rem; text-align: center; display: block; border: none; font-family: inherit; font-size: 1rem;">SEND
-                                INQUIRY</button>
-                        </form>
+    <div class="contact-content-wrapper">
+        <div class="form-container">
+            <h2>Send us a Message</h2>
+            <form id="inquiryForm">
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>First Name</label>
+                        <input type="text" id="firstName" placeholder="Your name" required>
                     </div>
-
-                    <div class="contact-info-list animate" style="animation-delay: 0.2s;">
-                        <div class="info-item">
-                            <div class="info-icon"><i data-lucide="map-pin"></i></div>
-                            <div>
-                                <h4 style="margin-bottom: 0.5rem;">Main Council Hub</h4>
-                                <p style="color: #666; line-height: 1.6;">No. 25, 1st Floor, TNPVC Building,<br>Anna
-                                    Salai,
-                                    Chennai - 600002,<br>Tamil Nadu, India</p>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-icon"><i data-lucide="phone"></i></div>
-                            <div>
-                                <h4 style="margin-bottom: 0.5rem;">Toll Free Support</h4>
-                                <a href="tel:8870826404"
-                                    style="color: #0060b4; font-weight: 600; font-size: 1.1rem; text-decoration: none;">88708
-                                    26404</a>
-                                <p style="color: #666; font-size: 0.9rem;">9:00 AM - 6:00 PM (Mon-Sat)</p>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-icon"><i data-lucide="mail"></i></div>
-                            <div>
-                                <h4 style="margin-bottom: 0.5rem;">Email Inquiries</h4>
-                                <p style="color: #666; margin-bottom: 0.5rem;">General: <a href="mailto:info@tnpvc.org"
-                                        style="color: #0060b4; text-decoration: none;">info@tnpvc.org</a></p>
-                                <p style="color: #666;">Support: <a href="mailto:support@tnpvc.org"
-                                        style="color: #0060b4; text-decoration: none;">support@tnpvc.org</a></p>
-                            </div>
-                        </div>
+                    <div class="input-group">
+                        <label>Last Name</label>
+                        <input type="text" id="lastName" placeholder="Last name">
                     </div>
                 </div>
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" id="email" placeholder="email@example.com">
+                </div>
+                <div class="input-group">
+                    <label>Inquiry Type</label>
+                    <select id="lookingFor">
+                        <option>Home Interior Service</option>
+                        <option>Join as a Worker</option>
+                        <option>Join as a Contractor</option>
+                        <option>Join as a Material Supplier</option>
+                        <option>General Inquiry</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Message</label>
+                    <textarea id="message" rows="5" placeholder="How can we help you?" required></textarea>
+                </div>
+                <button type="button" onclick="sendWhatsAppInquiry()" class="submit-btn">
+                    <i data-lucide="message-circle"></i> SEND VIA WHATSAPP
+                </button>
+            </form>
+        </div>
+
+        <div class="info-sidebar">
+            <div class="info-card">
+                <i data-lucide="map-pin"></i>
+                <div>
+                    <h4>Main Council Hub</h4>
+                    <p>No. 25, 1st Floor, TNPVC Building,<br>Anna Salai, Chennai - 600002,<br>Tamil Nadu, India</p>
+                </div>
             </div>
-        </section>
-    </main>
+
+            <div class="info-card">
+                <i data-lucide="phone"></i>
+                <div>
+                    <h4>Project Hotline</h4>
+                    <a href="tel:8870826404" style="font-weight: 700; color: var(--tnpvc-navy);">88708 26404</a>
+                    <p>9:00 AM - 6:00 PM (Mon-Sat)</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <i data-lucide="mail"></i>
+                <div>
+                    <h4>Email Support</h4>
+                    <p>General: <a href="mailto:info@tnpvc.org">info@tnpvc.org</a></p>
+                    <p>Compliance: <a href="mailto:support@tnpvc.org">support@tnpvc.org</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="mega-footer">
         <div class="container">

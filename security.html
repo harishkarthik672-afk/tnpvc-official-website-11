@@ -12,6 +12,14 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        :root {
+            --tnpvc-navy: #1b0f3a;
+            --tnpvc-red: #e3001b;
+            --text-dark: #1a1a1a;
+            --text-muted: #555;
+            --bg-light: #f8fafc;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -20,144 +28,240 @@
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #f8f9fa;
+            background: #fff;
+            color: var(--text-dark);
+            line-height: 1.6;
         }
 
-        .page-hero {
-            background: linear-gradient(135deg, #4b2491 0%, #6b3db5 60%, #8b5fd0 100%);
-            color: white;
-            padding: 80px 20px 60px;
+        /* Navbar offset for fixed header */
+        body {
+            padding-top: 55px;
+        }
+
+        /* ── Premium Hero Section ── */
+        .legal-hero {
+            background: var(--tnpvc-navy);
+            padding: 60px 20px 90px;
             text-align: center;
-        }
-
-        .page-hero .icon-wrap {
-            width: 64px;
-            height: 64px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            backdrop-filter: blur(10px);
         }
 
-        .page-hero .icon-wrap svg {
-            width: 32px;
-            height: 32px;
-            color: white;
-        }
-
-        .page-hero h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
-        .page-hero p {
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.8);
-            max-width: 500px;
-            margin: 0 auto;
+        .legal-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: #fff;
+            clip-path: ellipse(60% 100% at 50% 100%);
         }
 
         .back-btn {
+            position: absolute;
+            top: 18px;
+            left: 20px;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             color: rgba(255, 255, 255, 0.8);
             font-size: 0.82rem;
             text-decoration: none;
-            margin-bottom: 24px;
             font-weight: 600;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 6px 14px;
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 7px 14px;
+            border-radius: 50px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: background 0.2s;
+            transition: all 0.3s ease;
+            z-index: 10;
         }
 
         .back-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: #fff;
+            color: var(--tnpvc-navy);
         }
 
-        .back-btn svg {
-            width: 14px;
-            height: 14px;
+        .legal-hero h1 {
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            z-index: 1;
         }
 
-        .content-container {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 40px 20px 100px;
+        .legal-hero .effective-date {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+            z-index: 1;
         }
 
-        .content-card {
-            background: white;
-            border-radius: 16px;
-            padding: 28px;
-            margin-bottom: 16px;
-            border: 1px solid #eee;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+        /* ── Content Layout ── */
+        .legal-content-wrapper {
+            max-width: 1000px;
+            margin: 0 auto 100px;
+            padding: 40px 20px 0;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 4rem;
+            position: relative;
+            z-index: 2;
         }
 
-        .content-card h2 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #1b0f3a;
-            margin-bottom: 12px;
+        @media (max-width: 850px) {
+            .legal-content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding-top: 24px;
+            }
+
+            .legal-hero {
+                padding: 50px 20px 80px;
+            }
+
+            .back-btn {
+                top: 14px;
+                left: 16px;
+            }
+        }
+
+        .side-nav {
+            position: sticky;
+            top: 110px;
+            height: fit-content;
+        }
+
+        .side-nav h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--tnpvc-red);
+            margin-bottom: 18px;
+            font-weight: 800;
+        }
+
+        .side-nav ul {
+            list-style: none;
+        }
+
+        .side-nav li {
+            margin-bottom: 14px;
+        }
+
+        .side-nav a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: 0.2s;
+            display: block;
+        }
+
+        .side-nav a:hover {
+            color: var(--tnpvc-navy);
+            padding-left: 6px;
+        }
+
+        .main-legal-text {
+            color: var(--text-dark);
+        }
+
+        .legal-section {
+            margin-bottom: 3rem;
+        }
+
+        .legal-section h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--tnpvc-navy);
+        }
+
+        .legal-section p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            line-height: 1.85;
+        }
+
+        .legal-section ul {
+            list-style-type: none;
+            margin-top: 0.8rem;
+        }
+
+        .legal-section ul li {
+            padding: 11px 0;
+            border-bottom: 1px solid #f1f1f1;
+            font-size: 1rem;
+            color: var(--text-muted);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
-        .content-card h2 svg {
-            width: 20px;
-            height: 20px;
-            color: #4b2491;
+        .legal-section ul li::before {
+            content: "";
+            min-width: 8px;
+            height: 8px;
+            background: var(--tnpvc-red);
+            border-radius: 50%;
         }
 
-        .content-card p {
-            font-size: 0.88rem;
-            color: #555;
-            line-height: 1.75;
+        /* Navbar overrides for these pages */
+        .navbar {
+            background: var(--tnpvc-navy) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
         }
 
-        .content-card ul {
-            padding-left: 18px;
+        .navbar .logo span {
+            color: #fff !important;
         }
 
-        .content-card ul li {
-            font-size: 0.88rem;
-            color: #555;
-            line-height: 2;
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8) !important;
         }
 
-        .badge-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 14px;
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.1) !important;
+            color: #fff !important;
+            border-color: rgba(255, 255, 255, 0.2) !important;
         }
 
-        .badge {
-            background: #f0ebff;
-            color: #4b2491;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 5px 12px;
-            border-radius: 20px;
+        .lang-btn i {
+            color: #fff !important;
         }
+
+        .mobile-menu-toggle-btn-top {
+            color: #fff !important;
+        }
+
+        /* Page-specific styles */
+.badge-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    }
+    .badge {
+    background: var(--bg-light);
+    color: var(--tnpvc-navy);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 50px;
+    border: 1px solid #eee;
+    }
     </style>
     <script src="i18n.js" defer></script>
 </head>
 
 <body>
-    <!-- Site Construction Notice -->
-    <div class="site-notice-bar">
-        <span class="notice-text">The site is building with <strong>Dexaz</strong></span>
-        <a href="dexaz-partnership.html" class="btn-notice-learn">Learn More</a>
-    </div>
+
 
     <header class="navbar" itemscope itemtype="https://schema.org/SiteNavigationElement">
         <div class="container nav-container">
@@ -185,7 +289,7 @@
                 <!-- Language Switcher -->
                 <div class="lang-switcher">
                     <button class="lang-btn" id="langBtn">
-                        <i data-lucide="swatch-book" class="globe-icon"></i>
+                        <i data-lucide="globe" class="globe-icon"></i>
                         <span id="currentLang">English</span>
                         <i data-lucide="chevron-down" class="chevron-icon"></i>
                     </button>
@@ -211,39 +315,58 @@
         </div>
     </header>
 
-    <div class="page-hero">
-        <a href="legal.html" class="back-btn"><i data-lucide="arrow-left"></i> Back</a>
-        <div class="icon-wrap"><i data-lucide="shield-check"></i></div>
-        <h1>Security</h1>
-        <p>How TNPVC Council protects your data and ensures platform integrity.</p>
+
+    <div class="legal-hero">
+        <a href="legal.html" class="back-btn"><i data-lucide="arrow-left"></i> Back to Legal</a>
+        <h1>Platform Security</h1>
+        <p class="effective-date">System Status: Active & Secured</p>
     </div>
-    <div class="content-container">
-        <div class="content-card">
-            <h2><i data-lucide="lock"></i> Data Protection</h2>
-            <p>All data submitted through TNPVC platforms is encrypted using industry-standard protocols. We use HTTPS
-                with TLS 1.3 encryption for all connections to ensure your information is always protected in transit.
-            </p>
-        </div>
-        <div class="content-card">
-            <h2><i data-lucide="server"></i> Secure Infrastructure</h2>
-            <p>Our servers are hosted with trusted providers and maintained with regular security patches. We employ
-                firewalls, intrusion detection systems, and regular vulnerability assessments.</p>
-            <div class="badge-row">
-                <span class="badge">TLS 1.3</span>
-                <span class="badge">Encrypted Storage</span>
-                <span class="badge">Regular Audits</span>
-            </div>
-        </div>
-        <div class="content-card">
-            <h2><i data-lucide="user-check"></i> Access Control</h2>
-            <p>Access to sensitive information is restricted to authorized personnel only. We implement the principle of
-                least privilege and conduct regular access reviews.</p>
-        </div>
-        <div class="content-card">
-            <h2><i data-lucide="alert-triangle"></i> Reporting Security Issues</h2>
-            <p>If you discover a security vulnerability, please report it to us immediately via our Contact page. We
-                take all reports seriously and will respond within 48 hours.</p>
-        </div>
+
+    <div class="legal-content-wrapper">
+        <aside class="side-nav">
+            <h3>Infrastructure</h3>
+            <ul>
+                <li><a href="#protection">Data Protection</a></li>
+                <li><a href="#secure">Secure Systems</a></li>
+                <li><a href="#access">Access Control</a></li>
+                <li><a href="#reporting">Reporting</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-legal-text">
+            <section class="legal-section" id="protection">
+                <h2>Data Protection</h2>
+                <p>All data submitted through TNPVC Council platforms is protected by high-standard encryption. We
+                    utilize HTTPS with TLS 1.3 for all web connections to ensure your project details and contact info
+                    are secured in transit across Tamil Nadu's digital landscape.</p>
+            </section>
+
+            <section class="legal-section" id="secure">
+                <h2>Secure Infrastructure</h2>
+                <p>Our server environment is maintained with constant security patching and vulnerability assessments.
+                    We use firewalls and intrusion monitoring to protect the identities of our verified contractors and
+                    material suppliers.</p>
+                <div class="badge-row">
+                    <span class="badge">HTTPS / TLS 1.3</span>
+                    <span class="badge">AES-256 Storage</span>
+                    <span class="badge">Real-time Monitoring</span>
+                </div>
+            </section>
+
+            <section class="legal-section" id="access">
+                <h2>Access Control</h2>
+                <p>Access to sensitive data is strictly limited to authorized council personnel and verified project
+                    partners only. We implement a "zero-trust" approach to ensure no unauthorized entity can access
+                    worker profiles or site images.</p>
+            </section>
+
+            <section class="legal-section" id="reporting">
+                <h2>Reporting Issues</h2>
+                <p>If you encounter any security anomaly on our platform, please report it immediately to our technical
+                    compliance team. We address all security inquiries with high priority to maintain the trust of our
+                    state-wide community.</p>
+            </section>
+        </main>
     </div>
 
     <!-- Bottom Navigation Bar -->
