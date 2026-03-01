@@ -1769,9 +1769,27 @@
 
             initSocket();
             initAuth();
+            requestNotificationPermission();
             lucide.createIcons();
             loadInitialData();
         });
+
+        function requestNotificationPermission() {
+            if ("Notification" in window) {
+                if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+                    Notification.requestPermission();
+                }
+            }
+        }
+
+        function showPushNotification(title, body) {
+            if ("Notification" in window && Notification.permission === "granted") {
+                new Notification(title, {
+                    body: body,
+                    icon: 'logo.png'
+                });
+            }
+        }
 
         function initSocket() {
             if (typeof io !== 'undefined') {
@@ -1800,7 +1818,14 @@
                     if (type === 'notifications') localStorage.setItem('tnpvc_notifications', JSON.stringify(data));
                     if (type === 'followers') localStorage.setItem('tnpvc_followers', JSON.stringify(data));
                     if (type === 'prods') localStorage.setItem('tnpvc_local_prods', JSON.stringify(data));
-                    if (type === 'messages') localStorage.setItem('tnpvc_messages', JSON.stringify(data));
+                    if (type === 'messages') {
+                        localStorage.setItem('tnpvc_messages', JSON.stringify(data));
+                        // Trigger Browser Notification for new message
+                        const lastMsg = data[data.length - 1];
+                        if (lastMsg && lastMsg.to === currentUser.name && document.visibilityState !== 'visible') {
+                            showPushNotification('New Message from ' + lastMsg.from, lastMsg.text);
+                        }
+                    }
 
                     loadInitialData();
                     if (currentUser && currentUser.setupComplete) applyUserUI();
@@ -2717,10 +2742,10 @@
                     const name = (m.name || "").toLowerCase();
                     const shop = (m.shop || "").toLowerCase();
                     const id = (m.userId || "").toLowerCase();
-                    // Basic match
-                    if (name.includes(query) || shop.includes(query) || id.includes(query)) return true;
-                    // For user ID, also try matching without prefix if query is digits
-                    if (/^\d+$/.test(query) && id.includes(query)) return true;
+                    const cleanQuery = query.replace('tnpvc#', '');
+                    const cleanId = id.replace('tnpvc#', '');
+
+                    if (name.includes(query) || shop.includes(query) || id.includes(query) || cleanId.includes(cleanQuery)) return true;
                     return false;
                 });
             }
