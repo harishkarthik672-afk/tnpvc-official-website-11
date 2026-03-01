@@ -1215,10 +1215,9 @@
                         User Name</h2>
                     <div style="display:flex; gap:8px;">
                         <button id="visitorFollowBtn"
-                            onclick="toggleFollow(this, document.getElementById('visitorName').innerText)"
                             style="background:var(--fb-blue); color:white; border:none; padding:8px 12px; border-radius:6px; font-weight:600; cursor:pointer; font-size:0.95rem; flex:1;">Follow</button>
-                        <button onclick="alert('Message feature coming soon!')"
-                            style="background:#f0f2f5; border:none; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.8rem; flex:1;">Message</button>
+                        <button id="visitorMessageBtn"
+                            style="background:#f0f2f5; border:none; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.95rem; color:#050505; flex:1;">Message</button>
                     </div>
                 </div>
                 <div id="visitorBioSection" style="margin-bottom:14px; font-size:0.88rem; line-height:1.5;"></div>
@@ -1682,12 +1681,14 @@
                 currentUser = JSON.parse(savedUser);
                 if (currentUser.name) currentUser.name = currentUser.name.trim(); // Normalize name
 
-                // fallback user ID for existing users
-                if (!currentUser.userId) {
-                    currentUser.userId = Math.floor(10000000 + Math.random() * 90000000).toString();
+                // fallback user ID for existing users (and migration for users missing prefix)
+                if (!currentUser.userId || !currentUser.userId.startsWith('tnpvc#')) {
+                    let oldId = currentUser.userId ? String(currentUser.userId).replace('tnpvc#', '') : null;
+                    if (!oldId || oldId.length !== 8) oldId = Math.floor(10000000 + Math.random() * 90000000).toString();
+                    currentUser.userId = "tnpvc#" + oldId;
                     localStorage.setItem('tnpvc_user', JSON.stringify(currentUser));
-                    syncToCentral(currentUser.name);
                 }
+                syncToCentral(currentUser.name);
 
                 if (!currentUser.setupComplete) {
                     showSetup();
@@ -1818,7 +1819,7 @@
             currentUser.avatar = setupPfpData;
 
             if (!currentUser.userId) {
-                currentUser.userId = Math.floor(10000000 + Math.random() * 90000000).toString();
+                currentUser.userId = "tnpvc#" + Math.floor(10000000 + Math.random() * 90000000).toString();
             }
 
             currentUser.setupComplete = true;
@@ -2549,7 +2550,7 @@
                 members = members.filter(m =>
                     (m.name && m.name.toLowerCase().includes(query)) ||
                     (m.shop && m.shop.toLowerCase().includes(query)) ||
-                    (m.userId && m.userId.includes(query))
+                    (m.userId && m.userId.toLowerCase().includes(query))
                 );
             }
 
@@ -2582,8 +2583,12 @@
                             <div style="font-weight:700; font-size:0.95rem;">${m.name}</div>
                             <div style="font-size:0.75rem; color:#8e8e8e;">ID: ${m.userId || 'N/A'} &middot; ${m.shop || 'PVC'}</div>
                         </div>
-                        <button onclick="toggleFollow(this, '${m.name}')"
-                            style="${btnStyle} border:none; padding: 8px 16px; border-radius: 6px; font-size: 0.95rem; font-weight: 600; cursor:pointer; transition: 0.2s;">${btnText}</button>
+                        <div style="display:flex; flex-direction:column; gap:6px;">
+                            <button onclick="toggleFollow(this, '${m.name}')"
+                                style="${btnStyle} border:none; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor:pointer; transition: 0.2s;">${btnText}</button>
+                            <button onclick="openChatModal('${m.name}')"
+                                style="background:#f0f2f5; color:#050505; border:none; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor:pointer; transition: 0.2s;">Message</button>
+                        </div>
                     </div>`;
                 }).join('');
             }
@@ -2951,6 +2956,7 @@
             let isPending = notifs.some(n => (n.from || '').trim() === myUName && (n.to || '').trim() === targetUName && n.type === 'follow_request' && n.status === 'pending');
 
             let vBtn = document.getElementById('visitorFollowBtn');
+            vBtn.onclick = () => toggleFollow(vBtn, targetUName);
             if (isFollowing) {
                 vBtn.textContent = 'Following';
                 vBtn.style.background = '#efefef';
@@ -2964,6 +2970,9 @@
                 vBtn.style.background = 'var(--fb-blue)';
                 vBtn.style.color = 'white';
             }
+
+            let mBtn = document.getElementById('visitorMessageBtn');
+            mBtn.onclick = () => { closeModals(); openChatModal(targetUName); };
 
             const visitorGrid = document.getElementById('visitorGrid');
             if (accountPosts.length === 0) {
