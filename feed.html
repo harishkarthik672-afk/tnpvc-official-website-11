@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TNPVC Community Feed | Showcase Your Work</title>
+    <title>TNPVC Community Updates | Showcase Your Work</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="i18n.js" defer></script>
@@ -31,9 +31,9 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             color: var(--fb-text);
-            padding-top: 56px;
-            /* Exactly 48px header + 8px spacing */
-            padding-bottom: 70px;
+            padding-top: 110px;
+            /* Header is 60 + 48 = 108px tall + border */
+            padding-bottom: 20px;
         }
 
         .feed-container {
@@ -62,12 +62,13 @@
             position: fixed;
             top: 0;
             width: 100%;
-            height: 48px;
+            height: auto;
             z-index: 1000;
             display: flex;
             flex-direction: column;
             padding: 0;
             box-sizing: border-box;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .header-top-row {
@@ -122,20 +123,23 @@
 
         .feed-box-title {
             margin: 0;
-            font-size: 1.1rem;
+            font-size: 14px;
             font-weight: 800;
-            color: #1877f2;
+            color: #050505;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            letter-spacing: 0.5px;
+            text-align: left;
+            white-space: nowrap;
+            line-height: normal;
+            display: flex;
+            align-items: center;
+            letter-spacing: -0.8px;
             text-transform: uppercase;
-            transition: font-size 0.3s ease;
         }
 
         @media (min-width: 768px) {
             .feed-box-title {
-                font-size: 1.3rem;
-                /* Larger scale for laptop view */
-                letter-spacing: 1px;
+                font-size: 16px;
+                letter-spacing: -1px;
             }
         }
 
@@ -927,6 +931,14 @@
             margin: 0;
         }
 
+        .header-tabs {
+            display: flex;
+            width: 100%;
+            height: 44px;
+            background: var(--fb-white);
+            border-top: 1px solid #efefef;
+        }
+
         /* Nav Indicator Line */
         .fb-nav-item.active::before {
             content: '';
@@ -1037,27 +1049,47 @@
         <div class="feed-splash-ring">
             <img src="logo.png" alt="TNPVC" class="feed-splash-logo">
         </div>
-        <div class="feed-splash-title">Feed</div>
+        <div class="feed-splash-title">TNPVC Updates</div>
         <div class="feed-splash-sub">TNPVC Community</div>
     </div>
 
     <header class="navbar">
-        <div class="header-top-row" style="position: relative; justify-content: center;">
-            <div style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%);">
-                <button class="header-icon-btn" onclick="window.location.href='index.html'">
-                    <i data-lucide="arrow-left" size="22"></i>
-                </button>
+        <div class="header-top-row"
+            style="height: 60px; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; background: #fff; border-bottom: 1px solid #f0f2f5;">
+            <div style="display: flex; align-items: center; gap: 4px;">
+                <img src="logo.png" alt="TNPVC" style="width: 48px; height: 48px; object-fit: contain; flex-shrink: 0;">
+                <h1 class="feed-box-title">TNPVC Updates</h1>
             </div>
-            <h1 class="feed-box-title"
-                style="font-size: 0.9rem; margin:0; font-weight:700; color:#1877f2; font-family:'Pacifico', cursive; letter-spacing:0.5px; text-transform:none;">
-                Feed</h1>
-            <div style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%);">
-                <button class="header-icon-btn" onclick="switchView('updates')"
-                    style="position: relative; background: transparent;">
-                    <i data-lucide="bell" size="24" color="#1877f2"></i>
-                    <span id="notif-badge-el"></span>
-                </button>
+
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <!-- Icons moved or removed -->
             </div>
+        </div>
+        <!-- Search Bar Row (Removed) -->
+        <!-- Navigation Tabs Row -->
+        <div class="header-tabs" style="height: 48px; background: #fff; border-bottom: 2px solid #efefef;">
+            <a href="javascript:void(0)" onclick="switchView('home')" class="fb-nav-item active" id="nav-home-top"
+                style="height: 48px !important;">
+                <i data-lucide="home" size="24"></i>
+            </a>
+            <a href="javascript:void(0)" onclick="switchView('messages')" class="fb-nav-item" id="nav-messages-top"
+                style="height: 48px !important;">
+                <i data-lucide="message-circle" size="24"></i>
+            </a>
+            <a href="javascript:void(0)" onclick="switchView('updates')" class="fb-nav-item" id="nav-updates-top"
+                style="height: 48px !important; position: relative;">
+                <i data-lucide="bell" size="24"></i>
+                <span id="notif-badge-el-tab"
+                    style="position: absolute; top: 8px; right: 25%; width: 8px; height: 8px; background: #fa3e3e; border-radius: 50%; display: none; border: 2px solid #fff;"></span>
+            </a>
+            <a href="javascript:void(0)" onclick="switchView('account')" class="fb-nav-item" id="nav-account-top"
+                style="height: 48px !important;">
+                <i data-lucide="circle-user" size="24"></i>
+            </a>
+            <a href="javascript:void(0)" onclick="switchView('menu')" class="fb-nav-item" id="nav-menu-top"
+                style="height: 48px !important;">
+                <i data-lucide="menu" size="24"></i>
+            </a>
         </div>
     </header>
 
@@ -1332,7 +1364,8 @@
                     <button onclick="switchMenuSection('media')"
                         style="width: 100%; border:none; display: flex; align-items: center; padding: 16px; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer;">
                         <i data-lucide="layout-grid" style="margin-right: 12px; color: var(--fb-blue);"></i>
-                        <span style="font-weight: 600; flex: 1; text-align: left; font-size:1.05rem">Feed</span>
+                        <span style="font-weight: 600; flex: 1; text-align: left; font-size:1.05rem">TNPVC
+                            Updates</span>
                         <i data-lucide="chevron-right" style="color: #8e8e8e;"></i>
                     </button>
                     <button onclick="switchMenuSection('ads')"
@@ -1448,21 +1481,7 @@
         </div>
     </main>
 
-    <!-- Bottom Navigation Bar -->
-    <nav class="header-tabs" id="fb-bottom-nav">
-        <a href="javascript:void(0)" onclick="switchView('home')" class="fb-nav-item active" id="nav-home">
-            <i data-lucide="home" size="24"></i>
-        </a>
-        <a href="javascript:void(0)" onclick="switchView('messages')" class="fb-nav-item" id="nav-messages">
-            <i data-lucide="message-circle" size="24"></i>
-        </a>
-        <a href="javascript:void(0)" onclick="switchView('account')" class="fb-nav-item" id="nav-account">
-            <i data-lucide="circle-user" size="24"></i>
-        </a>
-        <a href="javascript:void(0)" onclick="switchView('menu')" class="fb-nav-item" id="nav-menu">
-            <i data-lucide="menu" size="24"></i>
-        </a>
-    </nav>
+    <!-- Bottom Navigation Bar Removed as it is now in the header -->
 
     <!-- Modals -->
 
@@ -1611,7 +1630,7 @@
                     style="width:100%; border:none; margin-top:15px; resize:none; outline:none; font-family:inherit; min-height:80px;"></textarea>
             </div>
             <div class="modal-footer">
-                <button class="btn-post" onclick="submitPost()">Share Feed</button>
+                <button class="btn-post" onclick="submitPost()">Share Update</button>
                 <button class="btn-cancel" onclick="closeModals()">Cancel</button>
             </div>
         </div>
@@ -2054,13 +2073,21 @@
 
         function switchView(view) {
             document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('.fb-nav-item').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.fb-nav-item').forEach(v => {
+                v.classList.remove('active');
+                v.style.color = "var(--fb-secondary)";
+                v.style.borderBottom = "3px solid transparent";
+            });
 
             const section = document.getElementById(view + 'View');
             if (section) section.classList.add('active');
 
-            const navItem = document.getElementById('nav-' + (view === 'messages' ? 'messages' : view));
-            if (navItem) navItem.classList.add('active');
+            const navItem = document.getElementById('nav-' + (view === 'messages' ? 'messages' : view) + '-top');
+            if (navItem) {
+                navItem.classList.add('active');
+                navItem.style.color = "var(--fb-blue)";
+                navItem.style.borderBottom = "3px solid var(--fb-blue)";
+            }
 
             if (view === 'home' || view === 'account' || view === 'search' || view === 'messages') {
                 // Re-render products or other dynamic content if needed for these views
@@ -2077,13 +2104,16 @@
         }
 
         function updateNotifBadge() {
-            const el = document.getElementById('notif-badge-el');
+            const el = document.getElementById('notif-badge-el-tab');
             if (!el || !currentUser) return;
             const notifs = JSON.parse(localStorage.getItem('tnpvc_notifications') || '[]');
             const count = notifs.filter(n => n.to === currentUser.name && n.status === 'pending').length;
             if (count > 0) {
-                el.innerHTML = `<span class="notif-badge">${count}</span>`;
+                el.style.display = 'flex';
+                el.className = 'notif-badge';
+                el.innerHTML = count;
             } else {
+                el.style.display = 'none';
                 el.innerHTML = '';
             }
         }
@@ -2212,7 +2242,7 @@
             closeModals();
             loadInitialData(); // To refresh search view members immediately
         }
-        function openOptionsModal(postId, isOwner) {
+        function openOptionsModal(postId, isOwner, isProduct = false) {
             const optionsModal = document.getElementById('optionsModal');
             const content = document.getElementById('optionsContent');
 
@@ -2223,9 +2253,9 @@
             if (isOwner) {
                 const deleteBtn = document.createElement('button');
                 deleteBtn.className = 'delete-btn';
-                deleteBtn.onclick = () => deletePost(postId);
+                deleteBtn.onclick = () => isProduct ? deleteProduct(postId) : deletePost(postId);
                 deleteBtn.style.cssText = "padding:15px; border:none; background:none; border-bottom:1px solid #efefef; color:#ed4956; font-weight:700; cursor:pointer; width:100%; text-align:center;";
-                deleteBtn.textContent = "Delete Post";
+                deleteBtn.textContent = isProduct ? "Delete Listing" : "Delete Post";
                 content.insertBefore(deleteBtn, content.lastElementChild);
             }
 
@@ -2234,10 +2264,28 @@
 
         function deletePost(id) {
             if (confirm('Delete this post?')) {
-                let posts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
-                posts = posts.filter(p => p.id != id);
-                localStorage.setItem('tnpvc_local_posts', JSON.stringify(posts));
-                renderPosts();
+                if (socket) {
+                    socket.emit('delete_post', id);
+                } else {
+                    let posts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
+                    posts = posts.filter(p => p.id != id);
+                    localStorage.setItem('tnpvc_local_posts', JSON.stringify(posts));
+                    renderPosts();
+                }
+                closeModals();
+            }
+        }
+
+        function deleteProduct(id) {
+            if (confirm('Delete this product listing?')) {
+                if (socket) {
+                    socket.emit('delete_product', id);
+                } else {
+                    let prods = JSON.parse(localStorage.getItem('tnpvc_local_prods') || '[]');
+                    prods = prods.filter(p => p.id != id);
+                    localStorage.setItem('tnpvc_local_prods', JSON.stringify(prods));
+                    renderPosts();
+                }
                 closeModals();
             }
         }
@@ -2540,8 +2588,12 @@
                                     <div style="font-size:0.75rem; color:#8e8e8e;">Available in Tamil Nadu</div>
                                 </div>
                             </div>
-                            <div style="color:#C20E4D; font-weight:800; font-size:1rem;" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-                                <span itemprop="priceCurrency" content="INR">₹</span><span itemprop="price" content="${p.price}">${p.price}</span>
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <div style="color:#C20E4D; font-weight:800; font-size:1rem;" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+                                    <span itemprop="priceCurrency" content="INR">₹</span><span itemprop="price" content="${p.price}">${p.price}</span>
+                                </div>
+                                <i data-lucide="more-horizontal" style="cursor:pointer"
+                                    onclick="openOptionsModal('${p.id}', ${(p.user || '').trim() === myName}, true)"></i>
                             </div>
                         </div>
                         <div style="background:#f0f2f5; overflow:hidden;">

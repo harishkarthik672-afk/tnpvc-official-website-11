@@ -147,6 +147,20 @@ io.on('connection', (socket) => {
         }
     });
 
+    // Delete Post
+    socket.on('delete_post', (postId) => {
+        dbCache.posts = dbCache.posts.filter(p => p.id != postId);
+        writeDB();
+        io.emit('db_updated', { type: 'posts', data: dbCache.posts });
+    });
+
+    // Delete Product
+    socket.on('delete_product', (prodId) => {
+        dbCache.prods = dbCache.prods.filter(p => p.id != prodId);
+        writeDB();
+        io.emit('db_updated', { type: 'prods', data: dbCache.prods });
+    });
+
     // Send Message
     socket.on('send_message', (msgData) => {
         msgData.from = msgData.from.trim();
