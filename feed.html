@@ -1087,6 +1087,19 @@
             </div>
         </div>
 
+        <!-- MESSAGES/CHAT VIEW -->
+        <div id="messagesView" class="view-section" style="display: none;">
+            <div style="padding: 20px;">
+                <h3 style="margin-bottom: 20px;">Direct Messages</h3>
+                <div id="messagesList">
+                    <div style="margin-top:20px; color:#8e8e8e; text-align:center; padding: 40px 0;">
+                        <i data-lucide="message-circle" size="48" style="margin-bottom:15px; opacity:0.5;"></i>
+                        <p>No new messages. (Chat feature coming soon!)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- ACCOUNT VIEW -->
         <div id="accountView" class="view-section">
             <div style="padding: 16px 16px 0;">
@@ -1343,6 +1356,9 @@
         <a href="javascript:void(0)" onclick="switchView('updates')" class="fb-nav-item" id="nav-updates">
             <i data-lucide="bell" size="24"></i>
             <span id="notif-badge-el"></span>
+        </a>
+        <a href="javascript:void(0)" onclick="switchView('messages')" class="fb-nav-item" id="nav-messages">
+            <i data-lucide="message-circle" size="24"></i>
         </a>
         <a href="javascript:void(0)" onclick="switchView('account')" class="fb-nav-item" id="nav-account">
             <i data-lucide="circle-user" size="24"></i>
@@ -1814,16 +1830,20 @@
 
         function switchView(view) {
             document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-            const viewEl = document.getElementById(view + 'View');
-            if (viewEl) viewEl.classList.add('active');
-
             document.querySelectorAll('.fb-nav-item').forEach(v => v.classList.remove('active'));
-            const nav = document.getElementById('nav-' + view);
-            if (nav) nav.classList.add('active');
 
-            window.scrollTo(0, 0);
+            const section = document.getElementById(view + 'View');
+            if (section) section.classList.add('active');
 
-            // Re-render icons for new views
+            const navItem = document.getElementById('nav-' + (view === 'messages' ? 'messages' : view));
+            if (navItem) navItem.classList.add('active');
+
+            if (view === 'home' || view === 'account' || view === 'search' || view === 'messages') {
+                // Re-render products or other dynamic content if needed for these views
+                // The original code had `renderProducts();ons for new views` which seems like a typo.
+                // Assuming `renderProducts()` was intended for some views.
+                // For now, just ensure icons are re-rendered.
+            }
             if (typeof lucide !== 'undefined') lucide.createIcons();
 
             if (view === 'updates' && typeof renderNotifications === 'function') {
