@@ -31,8 +31,8 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             color: var(--fb-text);
-            padding-top: 110px;
-            /* Header is 60 + 48 = 108px tall + border */
+            padding-top: 164px;
+            /* Logo(60) + PostBox(56) + Tabs(48) = 164px */
             padding-bottom: 20px;
         }
 
@@ -123,23 +123,24 @@
 
         .feed-box-title {
             margin: 0;
-            font-size: 14px;
+            font-size: 10px;
             font-weight: 800;
-            color: #050505;
+            color: #1a1a1a;
             font-family: 'Plus Jakarta Sans', sans-serif;
             text-align: left;
             white-space: nowrap;
             line-height: normal;
             display: flex;
             align-items: center;
-            letter-spacing: -0.8px;
+            letter-spacing: 0.2px;
             text-transform: uppercase;
+            opacity: 0.9;
         }
 
         @media (min-width: 768px) {
             .feed-box-title {
-                font-size: 16px;
-                letter-spacing: -1px;
+                font-size: 11px;
+                letter-spacing: 0.1px;
             }
         }
 
@@ -1053,21 +1054,43 @@
         <div class="feed-splash-sub">TNPVC Community</div>
     </div>
 
-    <header class="navbar">
+    <header class="navbar" style="flex-direction: column; height: auto;">
+        <!-- Row 1: Branding -->
         <div class="header-top-row"
-            style="height: 60px; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; background: #fff; border-bottom: 1px solid #f0f2f5;">
-            <a href="index.html" style="display: flex; align-items: center; gap: 4px; text-decoration: none;">
-                <img src="logo.png" alt="TNPVC" style="width: 48px; height: 48px; object-fit: contain; flex-shrink: 0;">
+            style="height: 60px; padding: 0 16px; display: flex; align-items: center; width: 100%; box-sizing: border-box; background: #fff; border-bottom: 1px solid #f0f2f5;">
+            <a href="index.html" style="display: flex; align-items: center; gap: 6px; text-decoration: none;">
+                <img src="logo.png" alt="TNPVC" style="width: 46px; height: 46px; object-fit: contain; flex-shrink: 0;">
                 <h1 class="feed-box-title">TNPVC Updates</h1>
             </a>
+        </div>
 
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <!-- Icons moved or removed -->
+        <!-- Row 2: Create Post Section (Integrated into header) -->
+        <div id="headerPostBox"
+            style="background: #fff; padding: 8px 16px; border-bottom: 1px solid #f0f2f5; width: 100%; box-sizing: border-box;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div
+                    style="width:34px; height:34px; min-width:34px; border-radius:50%; overflow:hidden; border:1px solid #ddd; flex-shrink:0;">
+                    <img src="" id="headerPostAvatar" style="width:100%; height:100%; object-fit:cover; display:block;">
+                </div>
+                <div style="flex: 1; background: #f0f2f5; border-radius: 20px; padding: 8px 16px; font-size: 0.9rem; color: #65676b; cursor: pointer;"
+                    onclick="openPostModal()">
+                    What's on your mind?
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button class="header-icon-btn" onclick="openQuickAddModal()"
+                        style="background: #f0f2f5; width: 34px; height: 34px;">
+                        <i data-lucide="plus" size="18" style="stroke-width:3px;"></i>
+                    </button>
+                    <button class="header-icon-btn" onclick="switchView('search')"
+                        style="background: #f0f2f5; width: 34px; height: 34px;">
+                        <i data-lucide="search" size="18"></i>
+                    </button>
+                </div>
             </div>
         </div>
-        <!-- Search Bar Row (Removed) -->
-        <!-- Navigation Tabs Row -->
-        <div class="header-tabs" style="height: 48px; background: #fff; border-bottom: 2px solid #efefef;">
+
+        <!-- Row 3: Navigation Tabs -->
+        <div class="header-tabs" style="height: 48px; background: #fff; border-bottom: 2px solid #efefef; width: 100%;">
             <a href="javascript:void(0)" onclick="switchView('home')" class="fb-nav-item active" id="nav-home-top"
                 style="height: 48px !important;">
                 <i data-lucide="home" size="24"></i>
@@ -1096,29 +1119,6 @@
     <main class="feed-container">
         <!-- HOME VIEW -->
         <div id="homeView" class="view-section active">
-            <!-- Create Post Box -->
-            <div class="create-post-box">
-                <div class="create-post-top" style="border-bottom:none; padding-bottom:0; padding-top:4px;">
-                    <div
-                        style="width:32px; height:32px; min-width:32px; border-radius:50%; overflow:hidden; border:1.5px solid #ddd; flex-shrink:0;">
-                        <img src="" id="createPostAvatar"
-                            style="width:100%; height:100%; object-fit:cover; display:block;">
-                    </div>
-                    <div class="create-post-input" style="padding: 10px 12px; font-size: 0.95rem;"
-                        onclick="openPostModal()">What's on your mind?</div>
-                    <div style="display:flex; gap:6px;">
-                        <button class="header-icon-btn" style="width: 36px; height: 36px;"
-                            onclick="openQuickAddModal()">
-                            <i data-lucide="plus" size="20" style="stroke-width:3px;"></i>
-                        </button>
-                        <button class="header-icon-btn" style="width: 36px; height: 36px;"
-                            onclick="switchView('search')">
-                            <i data-lucide="search" size="18"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
             <!-- Posts List -->
             <div id="mediaContent" class="tab-content">
                 <div id="postsList"></div>
@@ -2035,8 +2035,8 @@
         function applyUserUI() {
             if (!currentUser) return;
             const myName = (currentUser.name || '').trim();
-            document.getElementById('createPostAvatar').src = currentUser.avatar;
-            document.getElementById('accountAvatar').src = currentUser.avatar;
+            if (document.getElementById('headerPostAvatar')) document.getElementById('headerPostAvatar').src = currentUser.avatar;
+            if (document.getElementById('accountAvatar')) document.getElementById('accountAvatar').src = currentUser.avatar;
 
             // Header Name
             const navName = document.getElementById('navAccountName');
@@ -2082,11 +2082,23 @@
             const section = document.getElementById(view + 'View');
             if (section) section.classList.add('active');
 
+            // Show/Hide Header Post Box based on view
+            const headerPostBox = document.getElementById('headerPostBox');
+            if (headerPostBox) {
+                if (view === 'home') {
+                    headerPostBox.style.display = 'block';
+                    document.body.style.paddingTop = '164px';
+                } else {
+                    headerPostBox.style.display = 'none';
+                    document.body.style.paddingTop = '108px'; // Branding(60) + Tabs(48)
+                }
+            }
+
             const navItem = document.getElementById('nav-' + (view === 'messages' ? 'messages' : view) + '-top');
             if (navItem) {
                 navItem.classList.add('active');
                 navItem.style.color = "var(--fb-blue)";
-                navItem.style.borderBottom = "3px solid var(--fb-blue)";
+                navItem.style.borderBottom = "none";
             }
 
             if (view === 'home' || view === 'account' || view === 'search' || view === 'messages') {
