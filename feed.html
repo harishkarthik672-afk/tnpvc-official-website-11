@@ -2543,11 +2543,10 @@
             ${p.likes > 0 ? `<div style="background:var(--fb-blue); border-radius:50%; width:18px; height:18px; display:flex; align-items:center; justify-content:center; margin-right:4px;"><i data-lucide="thumbs-up" style="color:white; width:10px; height:10px; stroke-width:3px;"></i></div> ${p.likes}` : ''}
         </div>
 
-        <div class="post-comments-list" style="padding: 0 16px 8px 16px; max-height: 150px; overflow-y: auto; font-size: 0.85rem; border-bottom: 1px solid #efefef;">
-            ${p.comments ? p.comments.map(c => `
-                <div style="margin-bottom:6px;"><strong style="margin-right:4px;">${c.user}</strong>${c.text}</div>
-            `).join('') : ''}
-        </div>
+        ${p.comments && p.comments.length > 0 ? `
+        <div style="padding: 0 16px 8px; font-size: 0.88rem; color: #65676b; cursor: pointer;" onclick="openCommentModal(${p.id})">
+            View all ${p.comments.length} comments
+        </div>` : ''}
         
         <div class="post-actions">
             <button class="post-action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike(${p.id})">
