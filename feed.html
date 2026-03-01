@@ -394,7 +394,7 @@
 
         .post-media {
             width: 100%;
-            aspect-ratio: 1 / 1;
+            aspect-ratio: 4 / 5;
             background: #f0f2f5;
             display: flex;
             overflow-x: auto;
@@ -555,8 +555,7 @@
 
         .ad-banner {
             width: 100% !important;
-            height: 135px !important;
-            /* Strictly limited height as requested by user */
+            aspect-ratio: 4 / 5 !important;
             object-fit: cover !important;
             border-radius: 8px;
             margin-bottom: 10px;
@@ -2257,7 +2256,7 @@
                         preview = document.createElement('img');
                     }
                     preview.src = e.target.result;
-                    preview.style.cssText = 'min-width:100%; height:100%; object-fit:cover; scroll-snap-align: start;';
+                    preview.style.cssText = 'min-width:100%; height:100%; object-fit:cover; scroll-snap-align: start; aspect-ratio:4/5;';
                     document.getElementById('uploadPreview').appendChild(preview);
                 };
                 reader.readAsDataURL(file);
@@ -2283,7 +2282,7 @@
                     selectedProductFiles.push(e.target.result);
                     const img = document.createElement('img');
                     img.src = e.target.result;
-                    img.style.cssText = 'min-width:100%; height:100%; object-fit:cover; scroll-snap-align: start;';
+                    img.style.cssText = 'min-width:100%; height:100%; object-fit:cover; scroll-snap-align: start; aspect-ratio:4/5;';
                     document.getElementById('pUploadPreview').appendChild(img);
                 };
                 reader.readAsDataURL(file);
@@ -2386,9 +2385,9 @@
             if (mediaArr.length === 1) {
                 const src = mediaArr[0];
                 if (isVideo(src)) {
-                    return `<video src="${src}" style="width:100%; display:block; object-fit:cover; max-height:420px;" autoplay muted loop playsinline></video>`;
+                    return `<div style="aspect-ratio:4/5; background:#000; overflow:hidden;"><video src="${src}" style="width:100%; height:100%; display:block; object-fit:cover;" autoplay muted loop playsinline></video></div>`;
                 }
-                return `<img src="${src}" style="width:100%; display:block; object-fit:cover; max-height:420px;">`;
+                return `<div style="aspect-ratio:4/5; background:#000; overflow:hidden;"><img src="${src}" style="width:100%; height:100%; display:block; object-fit:cover;"></div>`;
             }
             const id = `car_${postId}`;
             _carouselIdx[id] = _carouselIdx[id] || 0;
@@ -2397,12 +2396,12 @@
             ).join('');
             const imgs = mediaArr.map((src, i) => {
                 if (isVideo(src)) {
-                    return `<video src="${src}" style="width:100%; flex-shrink:0; object-fit:cover; max-height:420px; display:block;" autoplay muted loop playsinline id="${id}_img_${i}"></video>`;
+                    return `<video src="${src}" style="width:100%; flex-shrink:0; object-fit:cover; display:block;" autoplay muted loop playsinline id="${id}_img_${i}"></video>`;
                 }
-                return `<img src="${src}" style="width:100%; flex-shrink:0; object-fit:cover; max-height:420px; display:block;" id="${id}_img_${i}">`;
+                return `<img src="${src}" style="width:100%; flex-shrink:0; object-fit:cover; display:block;" id="${id}_img_${i}">`;
             }).join('');
             return `
-                <div style="position:relative; overflow:hidden; background:#000; aspect-ratio:1/1; border-radius:4px;">
+                <div style="position:relative; overflow:hidden; background:#000; aspect-ratio:4/5; border-radius:4px;">
                     <div id="${id}_track" style="display:flex; height:100%; transition: transform 0.4s cubic-bezier(0.1, 0.7, 0.1, 1); will-change:transform;">
                         ${imgs}
                     </div>
@@ -2506,7 +2505,7 @@
                                 <span itemprop="priceCurrency" content="INR">₹</span><span itemprop="price" content="${p.price}">${p.price}</span>
                             </div>
                         </div>
-                        <div style="max-height:240px; overflow:hidden; background:#f0f2f5;">
+                        <div style="background:#f0f2f5; overflow:hidden;">
                              ${p.media ? makeCarousel(Array.isArray(p.media) ? p.media : [p.media], 'prod_' + p.id) : `<div style="display:flex; align-items:center; justify-content:center; height:200px; color:#ccc;"><i data-lucide="package" size="50"></i></div>`}
                         </div>
                         <div style="padding:15px;">
@@ -2602,7 +2601,7 @@
 
             const productHTML = local.map(p => `
     <div style="background:white; border-radius:10px; border:1px solid #efefef; overflow:hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-        <div style="aspect-ratio:1/1; background:#f8f9fa; display:flex; align-items:center; justify-content:center; color:#ccc;">
+        <div style="aspect-ratio:4/5; background:#f8f9fa; display:flex; align-items:center; justify-content:center; color:#ccc;">
             ${p.media ? `<img src="${Array.isArray(p.media) ? p.media[0] : p.media}" style="width:100%; height:100%; object-fit:cover;">` : `<i data-lucide="package" size="40"></i>`}
         </div>
         <div style="padding:10px;">
