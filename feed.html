@@ -1454,8 +1454,9 @@
             border-bottom: 1px solid #e4e6eb;
             box-shadow: 0 2px 6px rgba(0,0,0,0.07);
             flex-shrink: 0;
-            position: relative;
-            z-index: 1;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         ">
             <!-- ← BACK ARROW BUTTON (Left Corner) -->
             <button id="chatBackBtn" onclick="closeChatModal()" title="Back" style="
@@ -1509,6 +1510,9 @@
             align-items:flex-end;
             padding-bottom: max(10px, env(safe-area-inset-bottom));
             flex-shrink: 0;
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
         ">
             <textarea id="chatInput" placeholder="Message..."
                 onkeydown="if(event.key==='Enter' && !event.shiftKey){ event.preventDefault(); sendChatMessage(); }"
@@ -2625,18 +2629,24 @@
         }
 
         function renderSearch() {
-            const query = (document.getElementById('memberSearch')?.value || "").toLowerCase();
+            const queryRaw = document.getElementById('memberSearch')?.value || "";
+            const query = queryRaw.trim().toLowerCase();
             const searchResults = document.getElementById('searchResults');
             let allUsers = JSON.parse(localStorage.getItem('tnpvc_all_users') || '[]');
 
             let members = allUsers.filter(u => u.name !== (currentUser ? currentUser.name : ''));
 
             if (query) {
-                members = members.filter(m =>
-                    (m.name && m.name.toLowerCase().includes(query)) ||
-                    (m.shop && m.shop.toLowerCase().includes(query)) ||
-                    (m.userId && m.userId.toLowerCase().includes(query))
-                );
+                members = members.filter(m => {
+                    const name = (m.name || "").toLowerCase();
+                    const shop = (m.shop || "").toLowerCase();
+                    const id = (m.userId || "").toLowerCase();
+                    // Basic match
+                    if (name.includes(query) || shop.includes(query) || id.includes(query)) return true;
+                    // For user ID, also try matching without prefix if query is digits
+                    if (/^\d+$/.test(query) && id.includes(query)) return true;
+                    return false;
+                });
             }
 
             if (members.length === 0) {
