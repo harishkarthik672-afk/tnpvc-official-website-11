@@ -37,9 +37,22 @@
         }
 
         .feed-container {
-            max-width: 680px;
+            max-width: 600px;
             margin: 0 auto;
             width: 100%;
+            transition: max-width 0.3s ease;
+        }
+
+        @media (min-width: 768px) {
+            .feed-container {
+                max-width: 680px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .feed-container {
+                max-width: 750px;
+            }
         }
 
         /* Navbar Styling */
@@ -620,11 +633,12 @@
 
         .modal-content {
             background: white;
-            width: 90%;
-            max-width: 450px;
+            width: 95%;
+            max-width: 500px;
             border-radius: 12px;
             overflow: hidden;
             animation: slideUp 0.3s;
+            margin: 10px;
         }
 
         @keyframes slideUp {
@@ -686,8 +700,8 @@
         /* Comment Modal Specifics - Bottom Sheet Style */
         #commentModal .modal-content {
             width: 100% !important;
-            max-width: 680px !important;
-            height: 90vh !important;
+            max-width: 800px !important;
+            height: 85vh !important;
             border-radius: 12px 12px 0 0 !important;
             display: flex !important;
             flex-direction: column !important;
