@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TNPVC | Admin Dashboard</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #5c27fe;
+            --secondary: #764ba2;
+            --bg: #f4f6fb;
+            --card: #ffffff;
+            --text: #1b0f3a;
+            --sub: #64748b;
+            --border: #eef2f6;
+            --green: #22c55e;
+            --red: #ef4444;
+            --blue: #3b82f6;
+            --pink: #db2777;
+            --yellow: #eab308;
+            --orange: #f97316;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ======= LOGIN SCREEN ======= */
+        #loginScreen {
+            background: var(--card);
+            padding: 48px 40px;
+            border-radius: 28px;
+            box-shadow: 0 30px 60px rgba(92, 39, 254, 0.1);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            border: 1px solid var(--border);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-logo {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 22px;
+            margin: 0 auto 22px;
+            display: flex; align-items: center; justify-content: center;
+            color: white;
+            box-shadow: 0 14px 28px rgba(92, 39, 254, 0.25);
+        }
+
+        .login-input {
+            width: 100%; padding: 14px 20px;
+            margin-bottom: 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            font-family: inherit; font-size: 1rem;
+            outline: none; transition: all 0.2s;
+            background: #fafbfc;
+        }
+        .login-input:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(92,39,254,0.08); }
+
+        .login-btn {
+            width: 100%; padding: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white; border: none; border-radius: 14px;
+            font-weight: 800; font-size: 1rem; cursor: pointer;
+            transition: 0.3s; letter-spacing: 0.3px;
+        }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(92,39,254,0.3); }
+
+        /* ======= DASHBOARD ======= */
+        #dashboardMain {
+            display: none; width: 100%; max-width: 1300px;
+            margin: 30px auto; padding: 24px;
+            align-self: flex-start;
+        }
+
+        /* Header */
+        .dash-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 32px; flex-wrap: wrap; gap: 14px;
+        }
+
+        .dash-header h1 { font-size: 1.8rem; font-weight: 800; color: var(--text); }
+        .dash-header p { margin-top: 4px; color: var(--sub); font-size: 0.9rem; }
+
+        .header-right { display: flex; align-items: center; gap: 12px; }
+
+        .live-badge {
+            display: flex; align-items: center; gap: 7px;
+            background: #f0fdf4; color: #16a34a;
+            border: 1.5px solid #bbf7d0;
+            padding: 7px 14px; border-radius: 30px;
+            font-weight: 700; font-size: 0.85rem;
+        }
+
+        .live-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--green);
+            animation: pulse-dot 1.2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
+
+        .logout-btn {
+            background: white; border: 1.5px solid var(--border);
+            padding: 8px 20px; border-radius: 12px;
+            font-weight: 700; cursor: pointer; color: var(--sub);
+            font-family: inherit; font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .logout-btn:hover { border-color: var(--red); color: var(--red); }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px; margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--card); padding: 22px 20px;
+            border-radius: 20px; border: 1px solid var(--border);
+            display: flex; align-items: center; gap: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: default;
+        }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
+
+        .stat-icon {
+            width: 50px; height: 50px; border-radius: 15px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .stat-info h3 { font-size: 2rem; font-weight: 800; color: var(--text); line-height: 1; }
+        .stat-info p { margin-top: 4px; font-size: 0.78rem; color: var(--sub); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* Control Panel */
+        .control-panel {
+            background: var(--card); border-radius: 24px;
+            border: 1px solid var(--border); overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .panel-tabs {
+            display: flex; background: #fafbfc;
+            border-bottom: 2px solid var(--border);
+            overflow-x: auto; scrollbar-width: none;
+        }
+        .panel-tabs::-webkit-scrollbar { display: none; }
+
+        .panel-tab {
+            padding: 16px 22px; font-weight: 700;
+            color: var(--sub); cursor: pointer; transition: 0.2s;
+            border-bottom: 3px solid transparent; white-space: nowrap;
+            font-size: 0.92rem;
+        }
+        .panel-tab:hover { color: var(--primary); background: rgba(92,39,254,0.03); }
+        .panel-tab.active { color: var(--primary); border-bottom-color: var(--primary); background: rgba(92,39,254,0.04); }
+
+        .panel-body { padding: 24px; overflow-x: auto; }
+
+        /* Search bar */
+        .search-bar {
+            display: flex; align-items: center; gap: 10px;
+            background: #f8fafc; border: 1.5px solid var(--border);
+            border-radius: 12px; padding: 10px 16px; margin-bottom: 20px;
+        }
+        .search-bar input {
+            border: none; background: none; outline: none;
+            font-family: inherit; font-size: 0.92rem; flex: 1; color: var(--text);
+        }
+
+        /* Table */
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .data-table th {
+            text-align: left; padding: 10px 14px;
+            font-size: 0.78rem; color: var(--sub); font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--border);
+            white-space: nowrap;
+        }
+        .data-table td {
+            padding: 14px; border-bottom: 1px solid #f8fafc;
+            vertical-align: middle;
+        }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tr:hover td { background: #fafbfc; }
+
+        .avatar-cell {
+            display: flex; align-items: center; gap: 10px;
+        }
+        .avatar-cell img {
+            width: 36px; height: 36px; border-radius: 50%;
+            object-fit: cover; border: 2px solid var(--border);
+            flex-shrink: 0;
+        }
+        .avatar-cell .av-fallback {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 800; font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .tag {
+            display: inline-block; padding: 3px 10px; border-radius: 20px;
+            font-size: 0.75rem; font-weight: 700;
+        }
+        .tag-blue { background: #eff6ff; color: var(--blue); }
+        .tag-pink { background: #fdf2f8; color: var(--pink); }
+        .tag-green { background: #f0fdf4; color: var(--green); }
+        .tag-yellow { background: #fefce8; color: var(--yellow); }
+        .tag-orange { background: #fff7ed; color: var(--orange); }
+
+        .btn-delete {
+            background: #fff1f2; color: var(--red);
+            border: none; padding: 7px 12px; border-radius: 8px;
+            font-weight: 700; font-size: 0.78rem; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 5px;
+            transition: 0.2s; font-family: inherit;
+        }
+        .btn-delete:hover { background: var(--red); color: white; }
+
+        .empty-state {
+            text-align: center; padding: 60px 20px; color: var(--sub);
+        }
+        .empty-state i { display: block; margin: 0 auto 16px; opacity: 0.3; }
+        .empty-state p { font-weight: 600; }
+
+        /* Last updated */
+        #lastUpdated {
+            text-align: right; font-size: 0.78rem;
+            color: var(--sub); margin-top: 12px;
+            padding: 0 4px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            #dashboardMain { padding: 12px; }
+            .dash-header { flex-direction: column; align-items: flex-start; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .stat-info h3 { font-size: 1.5rem; }
+        }
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen">
+        <div class="login-logo">
+            <i data-lucide="shield-check" size="38"></i>
+        </div>
+        <h2 style="font-weight:800; margin-bottom:6px; font-size:1.6rem;">Admin Access</h2>
+        <p style="color:var(--sub); font-size:0.88rem; margin-bottom:28px; line-height:1.5;">Enter your credentials to manage<br>TNPVC Community Feed.</p>
+        <input type="text" id="adminId" class="login-input" placeholder="Admin ID">
+        <input type="password" id="adminPass" class="login-input" placeholder="Password"
+            onkeydown="if(event.key==='Enter') handleLogin()">
+        <button onclick="handleLogin()" class="login-btn">Login to Dashboard</button>
+    </div>
+
+    <!-- DASHBOARD MAIN -->
+    <div id="dashboardMain">
+
+        <!-- Header -->
+        <div class="dash-header">
+            <div>
+                <h1>TNPVC Dashboard</h1>
+                <p>Live control centre · All data updates in real-time</p>
+            </div>
+            <div class="header-right">
+                <div class="live-badge">
+                    <span class="live-dot"></span> LIVE
+                </div>
+                <button class="logout-btn" onclick="location.reload()">
+                    Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#eff6ff; color:var(--blue);">
+                    <i data-lucide="users" size="24"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="statUsers">0</h3>
+                    <p>Total Users</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#fdf2f8; color:var(--pink);">
+                    <i data-lucide="layout" size="24"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="statPosts">0</h3>
+                    <p>Total Posts</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#fff7ed; color:var(--orange);">
+                    <i data-lucide="heart" size="24"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="statLikes">0</h3>
+                    <p>Total Likes</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#f0fdf4; color:var(--green);">
+                    <i data-lucide="message-circle" size="24"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="statComments">0</h3>
+                    <p>Total Comments</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#f5f3ff; color:var(--primary);">
+                    <i data-lucide="shopping-bag" size="24"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="statProds">0</h3>
+                    <p>Marketplace</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#fefce8; color:var(--yellow);">
+                    <i data-lucide="clipboard-list" size="24"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="statUpdates">0</h3>
+                    <p>Work Updates</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#ecfdf5; color:#059669;">
+                    <i data-lucide="send" size="24"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="statMessages">0</h3>
+                    <p>Messages Sent</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#fef2f2; color:var(--red);">
+                    <i data-lucide="user-plus" size="24"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="statFollows">0</h3>
+                    <p>Follow Relations</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <div class="panel-tabs">
+                <div class="panel-tab active" onclick="switchPanel('users', this)">
+                    👥 Users
+                </div>
+                <div class="panel-tab" onclick="switchPanel('posts', this)">
+                    📝 Posts
+                </div>
+                <div class="panel-tab" onclick="switchPanel('products', this)">
+                    🛍️ Marketplace
+                </div>
+                <div class="panel-tab" onclick="switchPanel('work', this)">
+                    🔧 Work Updates
+                </div>
+                <div class="panel-tab" onclick="switchPanel('messages', this)">
+                    💬 Messages
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="search-bar">
+                    <i data-lucide="search" size="16" style="color:var(--sub); flex-shrink:0;"></i>
+                    <input type="text" id="searchInput" placeholder="Search in current tab..." oninput="handleSearch()">
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead id="tableHead"></thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="lastUpdated">—</div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script>
+        const ADMIN_ID = "8122696217";
+        const ADMIN_PASS = "karthik8122";
+        let socket;
+        let db = { users: [], posts: [], prods: [], updates: [], messages: [], followers: {} };
+        let currentPanel = 'users';
+
+        function handleLogin() {
+            const id = document.getElementById('adminId').value.trim();
+            const pass = document.getElementById('adminPass').value.trim();
+            if (id === ADMIN_ID && pass === ADMIN_PASS) {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('dashboardMain').style.display = 'block';
+                document.body.style.alignItems = 'flex-start';
+                initDashboard();
+            } else {
+                document.getElementById('adminId').style.borderColor = '#ef4444';
+                document.getElementById('adminPass').style.borderColor = '#ef4444';
+                setTimeout(() => {
+                    document.getElementById('adminId').style.borderColor = '';
+                    document.getElementById('adminPass').style.borderColor = '';
+                }, 1500);
+            }
+        }
+
+        function initDashboard() {
+            try {
+                const serverUrl = window.location.origin;
+                socket = io(serverUrl);
+
+                socket.on('initial_sync', (data) => {
+                    db.users    = data.all_users     || [];
+                    db.posts    = data.posts          || [];
+                    db.prods    = data.prods          || [];
+                    db.updates  = data.work_updates   || [];
+                    db.messages = data.messages       || [];
+                    db.followers= data.followers      || {};
+                    refresh();
+                });
+
+                socket.on('db_updated', ({ type, data }) => {
+                    if (type === 'users')        db.users    = data;
+                    if (type === 'posts')        db.posts    = data;
+                    if (type === 'prods')        db.prods    = data;
+                    if (type === 'work_updates') db.updates  = data;
+                    if (type === 'messages')     db.messages = data;
+                    if (type === 'followers')    db.followers= data;
+                    refresh();
+                });
+            } catch(e) {
+                console.warn('Socket init failed:', e);
+            }
+
+            lucide.createIcons();
+        }
+
+        function refresh() {
+            updateStats();
+            renderTable(currentPanel);
+            const now = new Date();
+            document.getElementById('lastUpdated').textContent =
+                'Last updated: ' + now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            lucide.createIcons();
+        }
+
+        function updateStats() {
+            const totalLikes    = db.posts.reduce((s, p) => s + (p.likes || 0), 0);
+            const totalComments = db.posts.reduce((s, p) => s + ((p.comments || []).length), 0);
+            const totalFollowRelations = Object.values(db.followers).reduce((s, arr) => s + (arr || []).length, 0);
+
+            document.getElementById('statUsers').textContent   = db.users.length;
+            document.getElementById('statPosts').textContent   = db.posts.length;
+            document.getElementById('statLikes').textContent   = totalLikes;
+            document.getElementById('statComments').textContent= totalComments;
+            document.getElementById('statProds').textContent   = db.prods.length;
+            document.getElementById('statUpdates').textContent = db.updates.length;
+            document.getElementById('statMessages').textContent= db.messages.length;
+            document.getElementById('statFollows').textContent = totalFollowRelations;
+        }
+
+        function switchPanel(type, btn) {
+            document.querySelectorAll('.panel-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            currentPanel = type;
+            document.getElementById('searchInput').value = '';
+            renderTable(type);
+        }
+
+        function handleSearch() {
+            renderTable(currentPanel);
+        }
+
+        function getFilteredData(type) {
+            const q = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+            let data = [];
+            if (type === 'users')    data = db.users;
+            if (type === 'posts')    data = db.posts;
+            if (type === 'products') data = db.prods;
+            if (type === 'work')     data = db.updates;
+            if (type === 'messages') data = db.messages;
+
+            if (!q) return data;
+
+            return data.filter(item => {
+                return JSON.stringify(item).toLowerCase().includes(q);
+            });
+        }
+
+        function renderTable(type) {
+            const head = document.getElementById('tableHead');
+            const body = document.getElementById('tableBody');
+            const data = getFilteredData(type);
+
+            if (type === 'users') {
+                head.innerHTML = `<tr>
+                    <th>#</th><th>Avatar</th><th>User ID</th><th>Name</th>
+                    <th>Location</th><th>Category</th><th>Posts</th><th>Action</th>
+                </tr>`;
+                if (!data.length) { body.innerHTML = emptyState('users', 'No users found'); return; }
+                body.innerHTML = data.map((u, i) => {
+                    const postCount = db.posts.filter(p => (p.user||'').trim() === (u.name||'').trim()).length;
+                    const initial = (u.name || 'U')[0].toUpperCase();
+                    const avatarHTML = u.avatar && u.avatar.startsWith('http')
+                        ? `<img src="${u.avatar}" alt="${u.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"><span class="av-fallback" style="display:none">${initial}</span>`
+                        : `<span class="av-fallback">${initial}</span>`;
+                    return `<tr>
+                        <td style="color:var(--sub); font-weight:600; font-size:0.82rem;">${i+1}</td>
+                        <td><div class="avatar-cell">${avatarHTML}</div></td>
+                        <td><span class="tag tag-blue">${u.userId || 'N/A'}</span></td>
+                        <td style="font-weight:700;">${u.name || '—'}</td>
+                        <td style="color:var(--sub);">${u.location || '—'}</td>
+                        <td>${u.shop ? `<span class="tag tag-yellow">🏢 ${u.shop}</span>` : '<span style="color:var(--sub)">—</span>'}</td>
+                        <td><span class="tag tag-pink">${postCount} posts</span></td>
+                        <td><button class="btn-delete" onclick="adminDelete('user', '${u.userId}')">
+                            <i data-lucide="trash-2" size="13"></i> Delete
+                        </button></td>
+                    </tr>`;
+                }).join('');
+
+            } else if (type === 'posts') {
+                head.innerHTML = `<tr>
+                    <th>#</th><th>User</th><th>Caption</th>
+                    <th>❤️ Likes</th><th>💬 Comments</th><th>Time</th><th>Action</th>
+                </tr>`;
+                if (!data.length) { body.innerHTML = emptyState('layout', 'No posts found'); return; }
+                body.innerHTML = data.map((p, i) => {
+                    const commentCount = (p.comments || []).length;
+                    const caption = (p.caption || '(Media Only)').substring(0, 60) + ((p.caption || '').length > 60 ? '…' : '');
+                    return `<tr>
+                        <td style="color:var(--sub); font-weight:600; font-size:0.82rem;">${i+1}</td>
+                        <td style="font-weight:700;">${p.user || '—'}</td>
+                        <td style="max-width:260px; color:var(--sub);">${caption}</td>
+                        <td><span class="tag tag-orange" style="background:#fff7ed; color:#ea580c;">${p.likes || 0}</span></td>
+                        <td><span class="tag tag-blue">${commentCount}</span></td>
+                        <td style="color:var(--sub); font-size:0.82rem; white-space:nowrap;">${p.time || '—'}</td>
+                        <td><button class="btn-delete" onclick="adminDelete('post', '${p.id}')">
+                            <i data-lucide="trash-2" size="13"></i> Remove
+                        </button></td>
+                    </tr>`;
+                }).join('');
+
+            } else if (type === 'products') {
+                head.innerHTML = `<tr>
+                    <th>#</th><th>Product</th><th>Price</th>
+                    <th>Seller</th><th>WhatsApp</th><th>Action</th>
+                </tr>`;
+                if (!data.length) { body.innerHTML = emptyState('shopping-bag', 'No marketplace listings'); return; }
+                body.innerHTML = data.map((p, i) => `<tr>
+                    <td style="color:var(--sub); font-weight:600; font-size:0.82rem;">${i+1}</td>
+                    <td style="font-weight:700;">${p.name || '—'}</td>
+                    <td><span style="color:#be123c; font-weight:800; font-size:1rem;">₹${p.price || 0}</span></td>
+                    <td style="font-weight:600;">${p.user || '—'}</td>
+                    <td><a href="https://wa.me/91${p.contact}" target="_blank"
+                        style="color:#25D366; font-weight:700; text-decoration:none; font-size:0.85rem;">
+                        ${p.contact || '—'}
+                    </a></td>
+                    <td><button class="btn-delete" onclick="adminDelete('product', '${p.id}')">
+                        <i data-lucide="trash-2" size="13"></i> Remove
+                    </button></td>
+                </tr>`).join('');
+
+            } else if (type === 'work') {
+                head.innerHTML = `<tr>
+                    <th>#</th><th>User</th><th>SQ.FT</th>
+                    <th>Site Address</th><th>Time</th><th>Action</th>
+                </tr>`;
+                if (!data.length) { body.innerHTML = emptyState('clipboard-list', 'No work updates yet'); return; }
+                body.innerHTML = data.map((u, i) => `<tr>
+                    <td style="color:var(--sub); font-weight:600; font-size:0.82rem;">${i+1}</td>
+                    <td style="font-weight:700;">${u.user || '—'}</td>
+                    <td><span class="tag tag-blue" style="font-size:0.9rem;">${u.given || u.sqft || 0} sq.ft</span></td>
+                    <td style="color:var(--sub); max-width:260px;">${u.address || '—'}</td>
+                    <td style="color:var(--sub); font-size:0.82rem; white-space:nowrap;">${u.time || '—'}</td>
+                    <td><button class="btn-delete" onclick="adminDelete('work', '${u.id}')">
+                        <i data-lucide="trash-2" size="13"></i> Delete
+                    </button></td>
+                </tr>`).join('');
+
+            } else if (type === 'messages') {
+                head.innerHTML = `<tr>
+                    <th>#</th><th>From</th><th>To</th>
+                    <th>Message</th><th>Time</th>
+                </tr>`;
+                if (!data.length) { body.innerHTML = emptyState('message-circle', 'No messages sent yet'); return; }
+                // Show latest messages first
+                const sorted = [...data].reverse();
+                body.innerHTML = sorted.map((m, i) => `<tr>
+                    <td style="color:var(--sub); font-weight:600; font-size:0.82rem;">${i+1}</td>
+                    <td style="font-weight:700; color:var(--primary);">${m.from || '—'}</td>
+                    <td style="font-weight:700;">${m.to || '—'}</td>
+                    <td style="color:var(--sub); max-width:300px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${m.text || '(media)'}</td>
+                    <td style="color:var(--sub); font-size:0.82rem; white-space:nowrap;">${m.time || '—'}</td>
+                </tr>`).join('');
+            }
+
+            lucide.createIcons();
+        }
+
+        function emptyState(icon, text) {
+            return `<tr><td colspan="8">
+                <div class="empty-state">
+                    <i data-lucide="${icon}" size="56"></i>
+                    <p>${text}</p>
+                </div>
+            </td></tr>`;
+        }
+
+        function adminDelete(type, id) {
+            if (!socket || !socket.connected) {
+                alert('Not connected to server. Please refresh.');
+                return;
+            }
+            const labels = { user: 'user', post: 'post', product: 'product listing', work: 'work update' };
+            if (!confirm(`Are you sure you want to permanently delete this ${labels[type] || type}?`)) return;
+
+            if (type === 'user')    socket.emit('delete_user', id);
+            if (type === 'post')    socket.emit('delete_post', id);
+            if (type === 'product') socket.emit('delete_product', id);
+            if (type === 'work')    socket.emit('delete_work_update', id);
+        }
+    </script>
+</body>
+</html>

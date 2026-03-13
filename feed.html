@@ -20,8 +20,8 @@
             --fb-border: #ced0d4;
             --fb-text: #050505;
             --fb-secondary: #65676b;
-            --fb-blue: #1877f2;
-            --fb-blue-hover: #166fe5;
+            --fb-blue: #4b2491;
+            --fb-blue-hover: #3a1b75;
             --fb-hover: #f2f2f2;
             --fb-btn: #e4e6eb;
         }
@@ -63,7 +63,7 @@
             top: 0;
             width: 100%;
             height: auto;
-            z-index: 1000;
+            z-index: 5000;
             display: flex;
             flex-direction: column;
             padding: 0;
@@ -123,7 +123,7 @@
 
         .feed-box-title {
             margin: 0;
-            font-size: 10px;
+            font-size: 1.15rem !important;
             font-weight: 800;
             color: #1a1a1a;
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -139,7 +139,7 @@
 
         @media (min-width: 768px) {
             .feed-box-title {
-                font-size: 11px;
+                font-size: 1.25rem !important;
                 letter-spacing: 0.1px;
             }
         }
@@ -151,7 +151,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(160deg, #1877f2 0%, #0f3c8a 60%, #050e2b 100%);
+            background: linear-gradient(160deg, #4b2491 0%, #3a1b75 60%, #1b0f3a 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -240,7 +240,7 @@
             }
 
             to {
-                box-shadow: 0 14px 44px rgba(24, 119, 242, 0.4);
+                box-shadow: 0 14px 44px rgba(75, 36, 145, 0.4);
                 transform: scale(1.04);
             }
         }
@@ -490,6 +490,14 @@
             color: var(--fb-text);
         }
 
+        .post-caption.text-only {
+            font-size: 1.2rem;
+            padding: 24px 16px;
+            font-weight: 600;
+            line-height: 1.5;
+            color: #1b0f3a;
+        }
+
         /* Google Style Ad Card */
         .ad-card {
             background: white;
@@ -626,10 +634,12 @@
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.6);
-            z-index: 2000;
+            z-index: 10000;
             display: none;
             align-items: center;
             justify-content: center;
+            padding: 20px 0;
+            overflow-y: auto;
         }
 
         .modal-overlay.active {
@@ -641,7 +651,8 @@
             width: 95%;
             max-width: 500px;
             border-radius: 12px;
-            overflow: hidden;
+            overflow-y: auto;
+            max-height: 90vh;
             animation: slideUp 0.3s;
             margin: 10px;
         }
@@ -672,7 +683,7 @@
             position: fixed;
             inset: 0;
             background: #fff;
-            z-index: 9999;
+            z-index: 10001;
             display: none;
             flex-direction: column;
             overflow: hidden;
@@ -777,22 +788,36 @@
         }
 
         .btn-post {
-            background: var(--fb-blue);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.25);
+            transition: all 0.2s ease;
+        }
+
+        .btn-post:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 6px rgba(102, 126, 234, 0.2);
         }
 
         .btn-cancel {
-            background: none;
+            background: #f0f2f5;
             border: none;
-            color: #ed4956;
+            color: #65676b;
+            padding: 12px 24px;
+            border-radius: 12px;
             font-weight: 700;
             cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-cancel:hover {
+            background: #e4e6eb;
         }
 
         /* Auth Overlay Premium Teal Style */
@@ -842,8 +867,96 @@
         #authOverlay .brand-subtitle {
             font-size: 0.9rem;
             color: #666;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             line-height: 1.4;
+        }
+
+        #customLoginForm {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 5px !important;
+        }
+
+        #customLoginForm .form-group {
+            width: 100%;
+            text-align: left;
+        }
+
+        #customLoginForm .form-group input, 
+        #customLoginForm .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid #eaeaea;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            outline: none;
+            box-sizing: border-box;
+            background: #fdfdfd;
+            color: #333;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        /* Specific fix to show dropdown arrow on select */
+        #customLoginForm .form-group select {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+            padding-right: 2.5rem;
+        }
+
+        #customLoginForm .form-group input:focus, 
+        #customLoginForm .form-group select:focus {
+            border-color: #00b4db;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(0, 180, 219, 0.1);
+        }
+
+        #customLoginForm .btn-signin {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.2);
+        }
+
+        #customLoginForm .btn-signin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.3);
+        }
+
+        #authOverlay .divider {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin: 20px 0;
+            color: #8e8e8e;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        #authOverlay .divider::before,
+        #authOverlay .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #eaeaea;
+        }
+
+        #authOverlay .divider span {
+            padding: 0 10px;
         }
 
         .google-btn {
@@ -980,7 +1093,7 @@
             position: fixed;
             inset: 0;
             background: white;
-            z-index: 4000;
+            z-index: 11000;
             display: none;
             flex-direction: column;
             padding: 40px 30px;
@@ -1027,6 +1140,33 @@
             <h1 class="brand-title">TNPVC</h1>
             <p class="brand-subtitle">Professional PVC Community of Tamil Nadu</p>
 
+            <!-- Custom Login Form -->
+            <form id="customLoginForm" style="margin-top: 20px;">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="date" name="dob" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="company" placeholder="Company Name" required>
+                </div>
+                <div class="form-group">
+                    <select name="category" required>
+                        <option value="">Select Category</option>
+                        <option value="Labour">Labour</option>
+                        <option value="Contractor">Contractor</option>
+                        <option value="Material Supplier">Material Supplier</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn-signin" style="margin-bottom: 15px;">Login</button>
+            </form>
+
+            <div class="divider"><span>OR</span></div>
+
             <div id="g_id_onload"
                 data-client_id="1026459426577-ftv9ca9tsgu5s8cs393heve228vnh95g.apps.googleusercontent.com"
                 data-context="signin" data-ux_mode="popup" data-callback="handleCredentialResponse"
@@ -1035,8 +1175,6 @@
             <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
                 data-text="signin_with" data-size="large" data-logo_alignment="left" data-width="320">
             </div>
-
-            <!-- Demo Login Removed -->
         </div>
     </div>
 
@@ -1057,11 +1195,28 @@
     <header class="navbar" style="flex-direction: column; height: auto;">
         <!-- Row 1: Branding -->
         <div class="header-top-row"
-            style="height: 60px; padding: 0 16px; display: flex; align-items: center; width: 100%; box-sizing: border-box; background: #fff; border-bottom: 1px solid #f0f2f5;">
-            <a href="index.html" style="display: flex; align-items: center; gap: 6px; text-decoration: none;">
-                <img src="logo.png" alt="TNPVC" style="width: 46px; height: 46px; object-fit: contain; flex-shrink: 0;">
-                <h1 class="feed-box-title">TNPVC Updates</h1>
+            style="height: 60px; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; width: 100%; box-sizing: border-box; background: #fff; border-bottom: 1px solid #f0f2f5;">
+            <!-- Left: Notifications -->
+            <div style="width: 44px; display: flex; align-items: center;">
+                <a href="javascript:void(0)" id="nav-notifications-btn" onclick="switchView('notifications')" 
+                    style="color: #1b0f3a; text-decoration: none; position: relative; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: #f0f2f5; border-radius: 50%; transition: 0.2s;">
+                    <i data-lucide="bell" size="24"></i>
+                    <div id="notif-badge-top" class="notif-badge" style="display:none; position: absolute; top: -2px; right: -2px; height: 16px; min-width: 16px; font-size: 0.65rem; border: 2px solid white; z-index: 10;"></div>
+                </a>
+            </div>
+
+            <!-- Center: Logo and Title -->
+            <a href="index.html" style="display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; flex: 1;">
+                <img src="logo.png" alt="TNPVC" style="width: 38px; height: 38px; object-fit: contain; flex-shrink: 0;">
+                <h1 class="feed-box-title" style="margin: 0; font-size: 0.95rem !important; letter-spacing: -0.2px;">TNPVC Updates</h1>
             </a>
+
+            <!-- Right: Menu -->
+            <div style="width: 44px; display: flex; align-items: center; justify-content: flex-end;">
+                <a href="javascript:void(0)" onclick="switchView('menu')" style="color: #1b0f3a; text-decoration: none;">
+                    <i data-lucide="menu" size="28"></i>
+                </a>
+            </div>
         </div>
 
         <!-- Row 2: Create Post Section (Integrated into header) -->
@@ -1089,29 +1244,22 @@
             </div>
         </div>
 
-        <!-- Row 3: Navigation Tabs -->
-        <div class="header-tabs" style="height: 48px; background: #fff; border-bottom: 2px solid #efefef; width: 100%;">
+        <div class="header-tabs" style="height: 48px; background: #fff; border-bottom: 2px solid #efefef; width: 100%; display: flex;">
             <a href="javascript:void(0)" onclick="switchView('home')" class="fb-nav-item active" id="nav-home-top"
                 style="height: 48px !important;">
-                <i data-lucide="home" size="24"></i>
+                <i data-lucide="home" size="26"></i>
             </a>
             <a href="javascript:void(0)" onclick="switchView('messages')" class="fb-nav-item" id="nav-messages-top"
                 style="height: 48px !important;">
-                <i data-lucide="message-circle" size="24"></i>
+                <i data-lucide="message-square-more" size="26"></i>
             </a>
             <a href="javascript:void(0)" onclick="switchView('updates')" class="fb-nav-item" id="nav-updates-top"
-                style="height: 48px !important; position: relative;">
-                <i data-lucide="bell" size="24"></i>
-                <span id="notif-badge-el-tab"
-                    style="position: absolute; top: 8px; right: 25%; width: 8px; height: 8px; background: #fa3e3e; border-radius: 50%; display: none; border: 2px solid #fff;"></span>
+                style="height: 48px !important; position: relative;" title="Work Feed">
+                <i data-lucide="clipboard-list" size="26"></i>
             </a>
             <a href="javascript:void(0)" onclick="switchView('account')" class="fb-nav-item" id="nav-account-top"
                 style="height: 48px !important;">
-                <i data-lucide="circle-user" size="24"></i>
-            </a>
-            <a href="javascript:void(0)" onclick="switchView('menu')" class="fb-nav-item" id="nav-menu-top"
-                style="height: 48px !important;">
-                <i data-lucide="menu" size="24"></i>
+                <i data-lucide="user" size="26"></i>
             </a>
         </div>
     </header>
@@ -1136,14 +1284,67 @@
             </div>
         </div>
 
-        <!-- UPDATES VIEW -->
+        <!-- NOTIFICATIONS VIEW -->
+        <div id="notificationsView" class="view-section">
+            <div style="padding: 20px; background: white; min-height: 100vh;">
+                <h3 style="margin-bottom: 20px; font-weight: 800; font-size: 1.5rem; color: #1b0f3a; letter-spacing: -0.5px;">Notifications</h3>
+                <div id="notificationsList" style="display: flex; flex-direction: column; gap: 12px;">
+                    <!-- Notifications will be injected here -->
+                    <div style="text-align:center; padding: 60px 20px; color:#b0b0cf;">
+                        <i data-lucide="bell-off" size="56" style="margin-bottom:20px; opacity: 0.4;"></i>
+                        <p style="font-weight: 500;">No new notifications</p>
+                        <p style="font-size: 0.85rem; margin-top: 5px;">We'll let you know when something happens!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- UPDATES VIEW (Work Entry) -->
         <div id="updatesView" class="view-section">
-            <div style="padding: 20px;">
-                <h3>Notifications</h3>
-                <div id="notificationsList">
-                    <div style="margin-top:20px; color:#8e8e8e; text-align:center; padding: 40px 0;">
-                        <i data-lucide="bell" size="48" style="margin-bottom:15px;"></i>
-                        <p>No new updates yet.</p>
+            <div style="padding: 20px; background: #fdfbff; min-height: 100%;">
+                <h3 style="margin-bottom: 20px; font-weight: 800; font-size: 1.5rem; color: #1b0f3a; letter-spacing: -0.5px;">Work Feed</h3>
+                
+                <!-- Entry Form Card -->
+                <div style="background: white; border-radius: 24px; padding: 24px; box-shadow: 0 10px 25px rgba(102, 126, 234, 0.08); border: 1px solid #f0e6ff; margin-bottom: 30px;">
+                    <p style="font-size: 0.95rem; color: #5a5a7d; margin-bottom: 20px; line-height: 1.5;">Share your daily work progress with the community.</p>
+                    
+                    <form id="workUpdateForm" style="display: flex; flex-direction: column; gap: 20px;">
+                        <div>
+                            <label style="display: block; font-size: 0.85rem; font-weight: 700; color: #4a4a6a; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Work Given (Sq. Ft)*</label>
+                            <div style="position: relative;">
+                                <input type="number" id="workGiven" placeholder="e.g. 1500" required 
+                                    style="width: 100%; padding: 14px 16px; border: 2px solid #f0f0f8; border-radius: 14px; box-sizing: border-box; font-family: inherit; font-size: 1rem; transition: all 0.3s ease; background: #fafaff; outline: none;"
+                                    onfocus="this.style.borderColor='#667eea'; this.style.background='#fff';"
+                                    onblur="this.style.borderColor='#f0f0f8'; this.style.background='#fafaff';">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; font-size: 0.85rem; font-weight: 700; color: #4a4a6a; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Site Address / Location*</label>
+                            <textarea id="workAddress" placeholder="Enter site address or location name..." required rows="3" 
+                                style="width: 100%; padding: 14px 16px; border: 2px solid #f0f0f8; border-radius: 14px; box-sizing: border-box; font-family: inherit; font-size: 1rem; resize: none; transition: all 0.3s ease; background: #fafaff; outline: none;"
+                                onfocus="this.style.borderColor='#667eea'; this.style.background='#fff';"
+                                onblur="this.style.borderColor='#f0f0f8'; this.style.background='#fafaff';"></textarea>
+                        </div>
+                        
+                        <button type="submit" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 16px; border-radius: 16px; font-weight: 700; font-size: 1.1rem; cursor: pointer; margin-top: 10px; box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3); transition: transform 0.2s ease, box-shadow 0.2s ease;"
+                            onmousedown="this.style.transform='scale(0.98)';" onmouseup="this.style.transform='scale(1)';" onmouseleave="this.style.transform='scale(1)';">
+                            Post Work Update
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Recent Entries Feed -->
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding: 0 5px;">
+                    <h4 style="font-weight: 800; color: #1b0f3a; font-size: 1.2rem; letter-spacing: -0.3px;">Network Feed</h4>
+                    <span style="font-size: 0.75rem; font-weight: 600; color: #764ba2; background: #f0e6ff; padding: 4px 10px; border-radius: 20px;">LIVE</span>
+                </div>
+                
+                <div id="workUpdatesList" style="display: flex; flex-direction: column; gap: 18px;">
+                    <!-- Network entries will be injected here -->
+                    <div style="text-align:center; padding: 50px 0; color:#b0b0cf;">
+                        <i data-lucide="inbox" size="56" style="margin-bottom:20px; opacity: 0.4;"></i>
+                        <p style="font-weight: 500;">No work updates yet</p>
                     </div>
                 </div>
             </div>
@@ -1179,69 +1380,73 @@
 
         <!-- ACCOUNT VIEW -->
         <div id="accountView" class="view-section">
-            <!-- Instagram Style Header -->
-            <div
-                style="display:flex; align-items:center; justify-content:space-between; padding:12px 16px; position:sticky; top:0; background:white; z-index:100; border-bottom:1px solid #efefef;">
-                <div style="font-weight:700; font-size:1.25rem; display:flex; align-items:center; gap:4px;">
-                    <span id="navAccountName">ashlee.annn</span>
-                </div>
-                <div style="display:flex; gap:16px;">
-                    <i data-lucide="plus-square" style="cursor:pointer" onclick="openQuickAddModal()"></i>
-                    <i data-lucide="menu" style="cursor:pointer" onclick="switchView('menu')"></i>
-                </div>
-            </div>
+            <span id="navAccountName" style="display:none;"></span>
 
-            <div style="padding: 16px 16px 0;">
-                <!-- Profile Row: Avatar + Stats -->
-                <div style="display: flex; align-items: center; gap: 24px; margin-bottom: 16px;">
-                    <div style="position:relative;">
-                        <div style="width:86px; height:86px; border-radius:50%; padding:2.5px; background: #1877f2;">
-                            <div style="width:100%; height:100%; border-radius:50%; background:white; padding:2px;">
+            <div style="position: relative;">
+                <!-- Gradient background header -->
+                <div style="height: 140px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); width: 100%; border-radius: 0 0 20px 20px;"></div>
+
+                <!-- Avatar -->
+                <div style="display: flex; justify-content: center; margin-top: -50px; position: relative;">
+                    <button onclick="openEditProfileModal()"
+                        style="background:transparent; border:none; padding:0; cursor:pointer; display:block;">
+                        <div
+                            style="width:100px; height:100px; border-radius:50%; padding:3px; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                            <div
+                            style="width:100%; height:100%; border-radius:50%; background:white; padding:2px; border:2px solid #667eea;">
                                 <img id="accountAvatar" src=""
                                     style="width:100%; height:100%; border-radius:50%; object-fit:cover; display:block;">
                             </div>
                         </div>
-                    </div>
-                    <div style="flex:1; display:flex; justify-content:space-between; padding-right:10px;">
-                        <div style="text-align:center;">
-                            <strong style="font-size:1.1rem; display:block;" id="myPostCount">0</strong>
-                            <span style="color:#262626; font-size:0.85rem;">Posts</span>
-                        </div>
-                        <div style="text-align:center; cursor:pointer;"
-                            onclick="showFollowStatsModal('followers', currentUser.name)">
-                            <strong style="font-size:1.1rem; display:block;" id="myFollowersCount">0</strong>
-                            <span style="color:#262626; font-size:0.85rem;">Followers</span>
-                        </div>
-                        <div style="text-align:center; cursor:pointer;"
-                            onclick="showFollowStatsModal('following', currentUser.name)">
-                            <strong style="font-size:1.1rem; display:block;" id="myFollowingCount">0</strong>
-                            <span style="color:#262626; font-size:0.85rem;">Following</span>
-                        </div>
-                    </div>
+                    </button>
                 </div>
 
-                <!-- Name + Bio -->
-                <div style="margin-bottom:16px;">
-                    <h2 id="accountNameHeader"
-                        style="margin:0; font-size: 1rem; font-weight: 700; color: #262626; margin-bottom:2px;">User
-                        Name</h2>
-                    <div id="userBioSection" style="font-size:0.92rem; line-height:1.4; color:#262626;"></div>
+                <!-- Name + Bio (centered) -->
+                <div style="text-align: center; margin-top: 10px; margin-bottom: 20px; padding: 0 16px;">
+                    <h2 id="accountNameHeader" style="margin:0; font-size: 1.4rem; font-weight: 700; color: #1b0f3a;">
+                        User Name</h2>
+                    <div id="userBioSection" style="font-size:0.9rem; color:#666; margin-top: 4px;"></div>
                 </div>
 
                 <!-- Buttons -->
-                <div style="display:flex; gap:6px; margin-bottom:20px;">
+                <div
+                    style="display:flex; justify-content:center; gap:0px; margin: 0 20px 20px; background:#f0f2f5; border-radius:12px; overflow:hidden;">
                     <button onclick="openEditProfileModal()"
-                        style="background:#efefef; color:#262626; border:none; padding:7px 12px; border-radius:8px; font-weight:600; cursor:pointer; font-size:0.9rem; flex:1;">Edit
-                        profile</button>
+                    style="background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); color:white; border:none; padding:12px; font-weight:600; cursor:pointer; font-size:0.95rem; flex:1;">Edit
+                        Profile</button>
                     <button onclick="logout()"
-                        style="background:#efefef; color:#262626; border:none; padding:7px 12px; border-radius:8px; font-weight:600; cursor:pointer; font-size:0.9rem; flex:1;">Logout</button>
+                        style="background:transparent; color:#555; border:none; padding:12px; font-weight:600; cursor:pointer; font-size:0.95rem; flex:1;">Logout</button>
                 </div>
+
+                <!-- Stats card (optional but matching request vibe) -->
+                <div
+                    style="display: flex; justify-content: space-around; padding: 15px; background: white; margin: 0 20px 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: 1px solid #efefef;">
+                    <div style="text-align:center;">
+                        <strong style="font-size:1.1rem; display:block; color: #1b0f3a;" id="myPostCount">0</strong>
+                        <span style="color:#666; font-size:0.85rem;">Posts</span>
+                    </div>
+                    <div style="text-align:center; cursor:pointer;"
+                        onclick="showFollowStatsModal('followers', currentUser.name)">
+                        <strong style="font-size:1.1rem; display:block; color: #1b0f3a;"
+                            id="myFollowersCount">0</strong>
+                        <span style="color:#666; font-size:0.85rem;">Followers</span>
+                    </div>
+                    <div style="text-align:center; cursor:pointer;"
+                        onclick="showFollowStatsModal('following', currentUser.name)">
+                        <strong style="font-size:1.1rem; display:block; color: #1b0f3a;"
+                            id="myFollowingCount">0</strong>
+                        <span style="color:#666; font-size:0.85rem;">Following</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 0 16px 0;">
 
                 <!-- Tabs -->
                 <div style="display:flex; border-top:1px solid #efefef; margin:0 -16px;">
                     <button class="account-tab-btn active" onclick="switchAccountTab('media', this)"
-                        style="flex:1; border:none; background:none; padding:12px; cursor:pointer; border-bottom:1px solid #262626;">
-                        <i data-lucide="grid" size="22"></i>
+                        style="flex:1; border:none; background:none; padding:12px; cursor:pointer; border-bottom:3px solid #764ba2;">
+                        <i data-lucide="grid" size="22" style="color: #764ba2;"></i>
                     </button>
                     <button class="account-tab-btn" onclick="switchAccountTab('ads', this)"
                         style="flex:1; border:none; background:none; padding:12px; cursor:pointer; opacity:0.3;">
@@ -1272,69 +1477,72 @@
         <div id="userProfileView" class="view-section">
             <!-- Header -->
             <div
-                style="display:flex; align-items:center; gap:16px; padding:12px 16px; position:sticky; top:0; background:white; z-index:100; border-bottom:1px solid #efefef;">
-                <div onclick="switchView('home')" style="cursor:pointer;"><i data-lucide="arrow-left" size="24"></i>
+                style="display:flex; align-items:center; gap:16px; padding:12px 16px; position:absolute; top:0; left: 0; right: 0; background:transparent; z-index:100;">
+                <div onclick="switchView('home')" style="cursor:pointer; color: white;"><i data-lucide="arrow-left"
+                        size="24"></i>
                 </div>
                 <div
-                    style="flex:1; text-align:center; font-weight:700; font-size:1.1rem; margin-right:40px; display:flex; align-items:center; justify-content:center; gap:4px;">
+                    style="flex:1; text-align:center; font-weight:700; font-size:1.1rem; margin-right:40px; display:flex; align-items:center; justify-content:center; gap:4px; color: white;">
                     <span id="navVisitorName">ashlee.annn</span>
                 </div>
             </div>
 
-            <div style="padding: 16px 16px 0;">
-                <div style="display: flex; align-items: center; gap: 24px; margin-bottom: 16px;">
-                    <div style="position:relative;">
-                        <div style="width:86px; height:86px; border-radius:50%; padding:2.5px; background: #1877f2;">
-                            <div style="width:100%; height:100%; border-radius:50%; background:white; padding:2px;">
-                                <img id="visitorAvatar" src=""
-                                    style="width:100%; height:100%; border-radius:50%; object-fit:cover; display:block;">
-                            </div>
-                        </div>
-                    </div>
-                    <div style="flex:1; display:flex; justify-content:space-between; padding-right:10px;">
-                        <div style="text-align:center;">
-                            <strong style="font-size:1.1rem; display:block;" id="visitPostCount">0</strong>
-                            <span style="color:#262626; font-size:0.85rem;">Posts</span>
-                        </div>
-                        <div style="text-align:center; cursor:pointer;"
-                            onclick="showFollowStatsModal('followers', document.getElementById('visitorName').innerText)">
-                            <strong style="font-size:1.1rem; display:block;" id="visitFollowersCount">0</strong>
-                            <span style="color:#262626; font-size:0.85rem;">Followers</span>
-                        </div>
-                        <div style="text-align:center; cursor:pointer;"
-                            onclick="showFollowStatsModal('following', document.getElementById('visitorName').innerText)">
-                            <strong style="font-size:1.1rem; display:block;" id="visitFollowingCount">0</strong>
-                            <span style="color:#262626; font-size:0.85rem;">Following</span>
+            <div style="position: relative;">
+                <!-- Gradient background header -->
+                <div style="height: 140px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); width: 100%; border-radius: 0 0 20px 20px;"></div>
+
+                <!-- Avatar -->
+                <div style="display: flex; justify-content: center; margin-top: -50px; position: relative;">
+                    <div
+                        style="width:100px; height:100px; border-radius:50%; padding:3px; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                        <div
+                            style="width:100%; height:100%; border-radius:50%; background:white; padding:2px; border:2px solid #a78bfa;">
+                            <img id="visitorAvatar" src=""
+                                style="width:100%; height:100%; border-radius:50%; object-fit:cover; display:block;">
                         </div>
                     </div>
                 </div>
 
-                <div style="margin-bottom:16px;">
-                    <h2 id="visitorNameHeader"
-                        style="margin:0; font-size: 1rem; font-weight: 700; color: #262626; margin-bottom:2px;">User
-                        Name</h2>
-                    <div id="visitorBioSection" style="font-size:0.92rem; line-height:1.4; color:#262626;"></div>
-
-                    <!-- Followed by logic (MOCKED) -->
-                    <div style="display:flex; align-items:center; gap:-8px; margin-top:12px;">
-                        <div style="display:flex; margin-right:8px;">
-                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=20"
-                                style="width:20px; height:20px; border-radius:50%; border:2px solid white;">
-                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=20"
-                                style="width:20px; height:20px; border-radius:50%; border:2px solid white; margin-left:-8px;">
-                        </div>
-                        <div style="font-size:0.75rem; color:#65676b;">Followed by <span
-                                style="font-weight:600; color:#262626;">tnpvc_members</span> and others</div>
-                    </div>
+                <!-- Name + Bio (centered) -->
+                <div style="text-align: center; margin-top: 10px; margin-bottom: 20px; padding: 0 16px;">
+                    <h2 id="visitorNameHeader" style="margin:0; font-size: 1.4rem; font-weight: 700; color: #1b0f3a;">
+                        User Name</h2>
+                    <div id="visitorBioSection" style="font-size:0.9rem; color:#666; margin-top: 4px;"></div>
                 </div>
 
-                <div style="display:flex; gap:6px; margin-bottom:20px;">
+                <!-- Buttons -->
+                <div
+                    style="display:flex; justify-content:center; gap:0px; margin: 0 20px 20px; background:#f0f2f5; border-radius:12px; overflow:hidden;">
                     <button id="visitorFollowBtn"
-                        style="background:#1877f2; color:white; border:none; padding:7px 12px; border-radius:8px; font-weight:600; cursor:pointer; font-size:0.9rem; flex:1;">Follow</button>
+                        style="background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); color:white; border:none; padding:12px; font-weight:600; cursor:pointer; font-size:0.95rem; flex:1;">Follow</button>
                     <button id="visitorMessageBtn"
                         onclick="openChatModal(document.getElementById('visitorName').innerText)"
-                        style="background:#efefef; color:#262626; border:none; padding:7px 12px; border-radius:8px; font-weight:600; cursor:pointer; font-size:0.9rem; flex:1;">Message</button>
+                        style="background:transparent; color:#555; border:none; padding:12px; font-weight:600; cursor:pointer; font-size:0.95rem; flex:1;">Message</button>
                 </div>
+
+                <!-- Stats card -->
+                <div
+                    style="display: flex; justify-content: space-around; padding: 15px; background: white; margin: 0 20px 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: 1px solid #efefef;">
+                    <div style="text-align:center;">
+                        <strong style="font-size:1.1rem; display:block; color: #1b0f3a;" id="visitPostCount">0</strong>
+                        <span style="color:#666; font-size:0.85rem;">Posts</span>
+                    </div>
+                    <div style="text-align:center; cursor:pointer;"
+                        onclick="showFollowStatsModal('followers', document.getElementById('visitorName').innerText)">
+                        <strong style="font-size:1.1rem; display:block; color: #1b0f3a;"
+                            id="visitFollowersCount">0</strong>
+                        <span style="color:#666; font-size:0.85rem;">Followers</span>
+                    </div>
+                    <div style="text-align:center; cursor:pointer;"
+                        onclick="showFollowStatsModal('following', document.getElementById('visitorName').innerText)">
+                        <strong style="font-size:1.1rem; display:block; color: #1b0f3a;"
+                            id="visitFollowingCount">0</strong>
+                        <span style="color:#666; font-size:0.85rem;">Following</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 0 16px 0;">
 
                 <!-- Tabs -->
                 <div style="display:flex; border-top:1px solid #efefef; margin:0 -16px;">
@@ -1616,18 +1824,23 @@
     <!-- Post/Product Modals -->
     <div id="postModal" class="modal-overlay">
         <div class="modal-content">
-            <div class="modal-header">Create New Post</div>
+            <div class="modal-header" style="display:flex; align-items:center; justify-content:space-between;">
+                <span>Create New Post</span>
+                <button onclick="closeModals()" style="background:none; border:none; cursor:pointer; color:#65676b; display:flex; align-items:center; justify-content:center;">
+                    <i data-lucide="x" size="20"></i>
+                </button>
+            </div>
             <div class="modal-body">
-                <input type="file" id="postFile" multiple accept="image/*" hidden onchange="handleFile(this)">
+                <input type="file" id="postFile" multiple accept="image/*,video/*" hidden onchange="handleFile(this)">
                 <div onclick="document.getElementById('postFile').click()" id="uploadPreview"
-                    style="width:100%; aspect-ratio:4/5; border:1px dashed #dbdbdb; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow-x:auto; background:#f9f9f9;">
+                    style="width:100%; aspect-ratio:4/5; border:1px dashed #dbdbdb; border-radius:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow-x:auto; background:#f9f9f9; margin-bottom:15px;">
                     <div style="text-align:center; color:#8e8e8e;">
                         <i data-lucide="image" size="40"></i>
-                        <p>Click to add photo</p>
+                        <p>Click to add photo/video</p>
                     </div>
                 </div>
-                <textarea id="postText" placeholder="Write a caption..."
-                    style="width:100%; border:none; margin-top:15px; resize:none; outline:none; font-family:inherit; min-height:80px;"></textarea>
+                <textarea id="postText" placeholder="What's on your mind?"
+                    style="width:100%; border:1px solid #efefef; border-radius:12px; padding:15px; resize:none; outline:none; font-family:inherit; min-height:80px; font-size:1.1rem; line-height:1.5; background:#f9f9f9;"></textarea>
             </div>
             <div class="modal-footer">
                 <button class="btn-post" onclick="submitPost()">Share Update</button>
@@ -1689,34 +1902,46 @@
         </div>
     </div>
 
-    <!-- Quick Add Modal -->
+    <!-- Quick Add Modal (Redesigned for Premium Feel) -->
     <div id="quickAddModal" class="modal-overlay">
-        <div class="modal-content" style="max-width:350px;">
-            <div class="modal-header">Create Something New</div>
-            <div class="modal-body" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:20px;">
-                <button onclick="closeModals(); openPostModal()"
-                    style="display:flex; flex-direction:column; align-items:center; gap:10px; padding:20px; background:#f0f2f5; border:none; border-radius:12px; cursor:pointer;">
-                    <i data-lucide="image" style="color:#45bd62;"></i>
-                    <span style="font-weight:600;">Photo</span>
+        <div class="modal-content" style="max-width:380px; border-radius: 28px; padding: 10px;">
+            <div class="modal-header" style="border:none; padding: 25px 20px 10px; font-size: 1.4rem; font-weight: 800; color: #1b0f3a; letter-spacing: -0.5px;">Create Something New</div>
+            <div class="modal-body" style="display:grid; grid-template-columns:1fr 1fr; gap:16px; padding:20px;">
+                <button onclick="closeModals(); openPostModal(); setTimeout(()=>document.getElementById('postFile').click(), 100);"
+                    style="display:flex; flex-direction:column; align-items:center; gap:12px; padding:24px 15px; background:white; border:1.5px solid #f0f0f8; border-radius:24px; cursor:pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.02);"
+                    onmouseover="this.style.borderColor='#667eea'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(102, 126, 234, 0.1)';" onmouseout="this.style.borderColor='#f0f0f8'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.02)';">
+                    <div style="background: #f0fdf4; width: 50px; height: 50px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 4px;">
+                        <i data-lucide="image" style="color:#22c55e;" size="28"></i>
+                    </div>
+                    <span style="font-weight:700; color: #1b0f3a; font-size: 1.05rem;">Photo</span>
                 </button>
-                <button onclick="closeModals(); openPostModal()"
-                    style="display:flex; flex-direction:column; align-items:center; gap:10px; padding:20px; background:#f0f2f5; border:none; border-radius:12px; cursor:pointer;">
-                    <i data-lucide="video" style="color:#f3425f;"></i>
-                    <span style="font-weight:600;">Video</span>
+                <button onclick="closeModals(); openPostModal(); setTimeout(()=>document.getElementById('postFile').click(), 100);"
+                    style="display:flex; flex-direction:column; align-items:center; gap:12px; padding:24px 15px; background:white; border:1.5px solid #f0f0f8; border-radius:24px; cursor:pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.02);"
+                    onmouseover="this.style.borderColor='#667eea'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(102, 126, 234, 0.1)';" onmouseout="this.style.borderColor='#f0f0f8'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.02)';">
+                    <div style="background: #fff1f2; width: 50px; height: 50px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 4px;">
+                        <i data-lucide="video" style="color:#ef4444;" size="28"></i>
+                    </div>
+                    <span style="font-weight:700; color: #1b0f3a; font-size: 1.05rem;">Video</span>
                 </button>
                 <button onclick="closeModals(); openProductModal()"
-                    style="display:flex; flex-direction:column; align-items:center; gap:10px; padding:20px; background:#f0f2f5; border:none; border-radius:12px; cursor:pointer;">
-                    <i data-lucide="shopping-bag" style="color:var(--fb-blue);"></i>
-                    <span style="font-weight:600;">Marketplace</span>
+                    style="display:flex; flex-direction:column; align-items:center; gap:12px; padding:24px 15px; background:white; border:1.5px solid #f0f0f8; border-radius:24px; cursor:pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.02);"
+                    onmouseover="this.style.borderColor='#667eea'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(102, 126, 234, 0.1)';" onmouseout="this.style.borderColor='#f0f0f8'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.02)';">
+                    <div style="background: #f0f7ff; width: 50px; height: 50px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 4px;">
+                        <i data-lucide="shopping-bag" style="color:#3b82f6;" size="28"></i>
+                    </div>
+                    <span style="font-weight:700; color: #1b0f3a; font-size: 1.05rem;">Marketplace</span>
                 </button>
                 <button onclick="closeModals(); window.location.href='ads.html'"
-                    style="display:flex; flex-direction:column; align-items:center; gap:10px; padding:20px; background:#f0f2f5; border:none; border-radius:12px; cursor:pointer;">
-                    <i data-lucide="megaphone" style="color:#f7b928;"></i>
-                    <span style="font-weight:600;">Ads</span>
+                    style="display:flex; flex-direction:column; align-items:center; gap:12px; padding:24px 15px; background:white; border:1.5px solid #f0f0f8; border-radius:24px; cursor:pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.02);"
+                    onmouseover="this.style.borderColor='#667eea'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(102, 126, 234, 0.1)';" onmouseout="this.style.borderColor='#f0f0f8'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.02)';">
+                    <div style="background: #fffbeb; width: 50px; height: 50px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 4px;">
+                        <i data-lucide="megaphone" style="color:#f59e0b;" size="28"></i>
+                    </div>
+                    <span style="font-weight:700; color: #1b0f3a; font-size: 1.05rem;">Ads</span>
                 </button>
             </div>
-            <div class="modal-footer" style="padding:15px; border-top:1px solid #efefef;">
-                <button class="btn-cancel" onclick="closeModals()" style="width:100%; margin:0;">Cancel</button>
+            <div class="modal-footer" style="padding:15px 25px 25px; border:none; display: flex; justify-content: center;">
+                <button onclick="closeModals()" style="background:#f8f8fc; border:none; color:#65676b; padding:14px; width:100%; border-radius:18px; font-weight:800; cursor:pointer; font-size: 1rem; transition: background 0.2s;">Dismiss</button>
             </div>
         </div>
     </div>
@@ -1812,12 +2037,7 @@
 
         function initSocket() {
             if (typeof io !== 'undefined') {
-                // Determine socket server URL
-                // When deployed, this should point to the deployed Node.js backend URL (e.g. Render/Heroku)
-                const isLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-                // Replace 'https://tnpvc-backend.onrender.com' with your actual deployed backend URL later
-                const serverUrl = isLocal ? 'http://localhost:3000' : 'https://tnpvc-official-website-11.onrender.com';
-
+                const serverUrl = window.location.origin;
                 socket = io(serverUrl);
 
                 socket.on('initial_sync', (db) => {
@@ -1827,6 +2047,7 @@
                     localStorage.setItem('tnpvc_followers', JSON.stringify(db.followers || {}));
                     localStorage.setItem('tnpvc_local_prods', JSON.stringify(db.prods || []));
                     localStorage.setItem('tnpvc_messages', JSON.stringify(db.messages || []));
+                    localStorage.setItem('tnpvc_work_updates', JSON.stringify(db.work_updates || []));
                     loadInitialData();
                     if (currentUser && currentUser.setupComplete) applyUserUI();
                 });
@@ -1837,6 +2058,8 @@
                     if (type === 'notifications') localStorage.setItem('tnpvc_notifications', JSON.stringify(data));
                     if (type === 'followers') localStorage.setItem('tnpvc_followers', JSON.stringify(data));
                     if (type === 'prods') localStorage.setItem('tnpvc_local_prods', JSON.stringify(data));
+                    if (type === 'work_updates') localStorage.setItem('tnpvc_work_updates', JSON.stringify(data));
+                    if (type === 'users') localStorage.setItem('tnpvc_all_users', JSON.stringify(data));
                     if (type === 'messages') {
                         localStorage.setItem('tnpvc_messages', JSON.stringify(data));
                         // Trigger Browser Notification for new message
@@ -1848,16 +2071,13 @@
 
                     loadInitialData();
                     if (currentUser && currentUser.setupComplete) applyUserUI();
-
-                    if (document.getElementById('updatesView').classList.contains('active')) {
-                        renderNotifications();
-                    }
-                    if (document.getElementById('messagesView').classList.contains('active')) {
-                        renderMessagesList();
-                    }
+                    
+                    // Chat Modal Refresh (Not covered by loadInitialData)
                     if (document.getElementById('chatModal').classList.contains('active') && window.currentChatTarget) {
                         renderChatHistory(window.currentChatTarget);
                     }
+
+                    // Visitor Profile Refresh if viewing someone
                     if (document.getElementById('userProfileView').classList.contains('active')) {
                         const vName = document.getElementById('visitorName').textContent;
                         if (vName) viewUserProfile(vName);
@@ -1896,6 +2116,39 @@
                 document.getElementById('authOverlay').style.display = 'flex';
                 document.querySelector('.navbar').style.display = 'none';
                 document.body.style.overflow = 'hidden';
+
+                // Handle custom login form submission
+                const customLoginForm = document.getElementById('customLoginForm');
+                if (customLoginForm) {
+                    customLoginForm.onsubmit = function(e) {
+                        e.preventDefault();
+                        const fd = new FormData(this);
+                        const nameVal = fd.get('name');
+                        
+                        if (!nameVal || !nameVal.trim()) {
+                            alert('Please enter your Name');
+                            return;
+                        }
+
+                        let allUsers = JSON.parse(localStorage.getItem('tnpvc_all_users') || '[]');
+                        let existingUsr = allUsers.find(u => u.name === nameVal.trim());
+
+                        currentUser = {
+                            name: nameVal.trim(),
+                            email: nameVal.trim().toLowerCase().replace(/[^a-z0-9]/g, '') + '@tnpvc.com',
+                            avatar: existingUsr && existingUsr.avatar ? existingUsr.avatar : "https://ui-avatars.com/api/?name=" + encodeURIComponent(nameVal.trim()) + "&background=00b4db&color=fff",
+                            setupComplete: false,
+                            userId: existingUsr ? existingUsr.userId : null
+                        };
+
+                        // Pre-fill setup if possible
+                        if (fd.get('company')) {
+                            currentUser.shop = fd.get('company').trim();
+                        }
+
+                        loginSuccess();
+                    };
+                }
             }
         }
 
@@ -1943,6 +2196,9 @@
         function showSetup() {
             document.getElementById('setupOverlay').style.display = 'flex';
             document.getElementById('setupName').value = currentUser.name;
+            if (currentUser.shop && document.getElementById('setupShop')) {
+                document.getElementById('setupShop').value = currentUser.shop;
+            }
             document.getElementById('setupPfpPreview').src = currentUser.avatar;
             setupPfpData = currentUser.avatar;
             document.body.style.overflow = 'hidden';
@@ -2097,37 +2353,54 @@
             const navItem = document.getElementById('nav-' + (view === 'messages' ? 'messages' : view) + '-top');
             if (navItem) {
                 navItem.classList.add('active');
-                navItem.style.color = "var(--fb-blue)";
+                navItem.style.color = "#764ba2";
                 navItem.style.borderBottom = "none";
             }
 
-            if (view === 'home' || view === 'account' || view === 'search' || view === 'messages') {
-                // Re-render products or other dynamic content if needed for these views
-                // The original code had `renderProducts();ons for new views` which seems like a typo.
-                // Assuming `renderProducts()` was intended for some views.
-                // For now, just ensure icons are re-rendered.
+            const notifBtn = document.getElementById('nav-notifications-btn');
+            if (notifBtn) {
+                if (view === 'notifications') {
+                    notifBtn.style.background = "#e0e0e0";
+                    notifBtn.style.color = "#764ba2";
+                } else {
+                    notifBtn.style.background = "#f0f2f5";
+                    notifBtn.style.color = "#1b0f3a";
+                }
             }
-            if (typeof lucide !== 'undefined') lucide.createIcons();
 
-            if (view === 'updates' && typeof renderNotifications === 'function') {
+            if (view === 'notifications') {
                 renderNotifications();
+            }
+            if (typeof lucide !== 'undefined') lucide.createIcons({
+                attrs: {
+                    'stroke-width': 2.2
+                }
+            });
+
+            if (view === 'updates') {
+                if (typeof renderWorkUpdates === 'function') renderWorkUpdates();
             }
             updateNotifBadge();
         }
 
         function updateNotifBadge() {
-            const el = document.getElementById('notif-badge-el-tab');
-            if (!el || !currentUser) return;
+            const elTab = document.getElementById('notif-badge-el-tab');
+            const elTop = document.getElementById('notif-badge-top');
+            if (!currentUser) return;
             const notifs = JSON.parse(localStorage.getItem('tnpvc_notifications') || '[]');
-            const count = notifs.filter(n => n.to === currentUser.name && n.status === 'pending').length;
-            if (count > 0) {
-                el.style.display = 'flex';
-                el.className = 'notif-badge';
-                el.innerHTML = count;
-            } else {
-                el.style.display = 'none';
-                el.innerHTML = '';
-            }
+            const count = notifs.filter(n => (n.to || "").trim() === currentUser.name.trim() && n.status === 'pending').length;
+            
+            [elTab, elTop].forEach(badge => {
+                if (badge) {
+                    if (count > 0) {
+                        badge.style.display = 'flex';
+                        badge.innerHTML = count;
+                    } else {
+                        badge.style.display = 'none';
+                        badge.innerHTML = '';
+                    }
+                }
+            });
         }
 
         function switchMenuSection(tab) {
@@ -2136,14 +2409,7 @@
             switchView('home');
         }
 
-        function switchAccountTab(tab) {
-            document.querySelectorAll('.account-tab-content').forEach(c => c.style.display = 'none');
-            const targetId = tab === 'media' ? 'accountMedia' : (tab === 'ads' ? 'accountAds' : 'accountMarketplace');
-            document.getElementById(targetId).style.display = 'block';
 
-            document.querySelectorAll('#accountView .feed-tab-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-        }
 
         function handleHeaderAddClick() {
             const currentView = document.querySelector('.view-section.active');
@@ -2392,33 +2658,45 @@
 
         function submitPost() {
             const text = document.getElementById('postText').value;
-            if (selectedFiles.length === 0 && !text) return;
+            if (!text.trim()) {
+                alert("Please enter some text for your post.");
+                return;
+            }
+
+            if (!currentUser || !currentUser.name) {
+                alert("User session not found. Please refresh or login again.");
+                return;
+            }
 
             const post = {
                 id: Date.now(),
-                user: currentUser.name.trim(),
-                avatar: currentUser.avatar,
+                user: (currentUser.name || 'Unknown').trim(),
+                avatar: currentUser.avatar || 'logo.png',
                 media: selectedFiles.length > 0 ? [...selectedFiles] : null,
-                caption: text,
+                caption: text.trim(),
                 likes: 0,
-                likedBy: [], // Use array for tracking
+                likedBy: [],
                 time: "JUST NOW"
             };
 
-            if (socket) {
+            console.log("Submitting post:", post);
+
+            if (socket && socket.connected) {
                 socket.emit('create_post', post);
+                console.log("Post emitted to socket");
             } else {
+                console.warn("Socket not connected, using local fallback");
                 const localPosts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
                 localPosts.unshift(post);
                 localStorage.setItem('tnpvc_local_posts', JSON.stringify(localPosts));
-                renderPosts();
             }
+            
+            // Immediate local update for better UX
+            renderPosts();
 
             closeModals();
             selectedFiles = [];
             document.getElementById('postText').value = '';
-            document.getElementById('postFile').value = '';
-            document.getElementById('uploadPreview').innerHTML = '<div style="text-align:center; color:#8e8e8e;"><i data-lucide="image" size="40"></i><p>Click to add photo</p></div>';
             lucide.createIcons();
         }
 
@@ -2459,16 +2737,32 @@
         function toggleLike(id) {
             const posts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
             const post = posts.find(p => p.id == id);
-            if (post) {
-                post.liked = !post.liked;
-                post.likes = post.liked ? post.likes + 1 : post.likes - 1;
+            if (!post) return;
 
-                if (socket) {
-                    socket.emit('toggle_like', { postId: id, liked: post.liked, user: currentUser.name.trim() });
-                } else {
-                    localStorage.setItem('tnpvc_local_posts', JSON.stringify(posts));
-                    renderPosts();
-                }
+            const myName = (currentUser.name || '').trim();
+
+            // Ensure likedBy array exists
+            if (!Array.isArray(post.likedBy)) post.likedBy = [];
+
+            const alreadyLiked = post.likedBy.some(u => (u || '').trim() === myName);
+
+            if (alreadyLiked) {
+                // Unlike: remove user from likedBy
+                post.likedBy = post.likedBy.filter(u => (u || '').trim() !== myName);
+                post.likes = Math.max(0, (post.likes || 1) - 1);
+            } else {
+                // Like: add user to likedBy
+                post.likedBy.push(myName);
+                post.likes = (post.likes || 0) + 1;
+            }
+
+            // Always update localStorage immediately for instant UI feedback
+            localStorage.setItem('tnpvc_local_posts', JSON.stringify(posts));
+            renderPosts();
+
+            // Also emit to server to sync across devices
+            if (socket && socket.connected) {
+                socket.emit('toggle_like', { postId: id, liked: !alreadyLiked, user: myName });
             }
         }
 
@@ -2637,13 +2931,14 @@
             <i data-lucide="more-horizontal" style="cursor:pointer"
                 onclick="openOptionsModal(${p.id}, ${(p.user || '').trim() === myName})"></i>
         </div>
-        <div class="post-caption" itemprop="articleBody">${p.caption || ''}</div>
+        <div class="post-caption ${!p.media ? 'text-only' : ''}" itemprop="articleBody">${p.caption || ''}</div>
+        ${p.media ? `
         <div class="post-media" itemprop="image">
-            ${p.media ? makeCarousel(Array.isArray(p.media) ? p.media : [p.media], p.id) : ''}
-        </div>
+            ${makeCarousel(Array.isArray(p.media) ? p.media : [p.media], p.id)}
+        </div>` : ''}
         
         <div class="post-likes-count">
-            ${p.likes > 0 ? `<div style="background:var(--fb-blue); border-radius:50%; width:18px; height:18px; display:flex; align-items:center; justify-content:center; margin-right:4px;"><i data-lucide="thumbs-up" style="color:white; width:10px; height:10px; stroke-width:3px;"></i></div> ${p.likes}` : ''}
+            ${p.likes > 0 ? `<div style="background:#f3425f; border-radius:50%; width:18px; height:18px; display:flex; align-items:center; justify-content:center; margin-right:4px;"><i data-lucide="heart" style="color:white; width:10px; height:10px; fill:white;"></i></div> ${p.likes}` : ''}
         </div>
 
         ${p.comments && p.comments.length > 0 ? `
@@ -2653,16 +2948,15 @@
         
         <div class="post-actions">
             <button class="post-action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike(${p.id})">
-                <i data-lucide="thumbs-up" style="${isLiked ? 'color:var(--fb-blue); fill:var(--fb-blue);' : ''}"></i> Like
+                <i data-lucide="heart" style="${isLiked ? 'color:#f3425f; fill:#f3425f;' : ''}"></i> Like
             </button>
             <button class="post-action-btn" onclick="openCommentModal(${p.id})">
-                <i data-lucide="message-square"></i> Comment
+                <i data-lucide="message-circle"></i> Comment
             </button>
-            <button class="post-action-btn" onclick="navigator.clipboard.writeText(window.location.href); alert('Link copied')">
+            <button class="post-action-btn" onclick="alert('Shared')">
                 <i data-lucide="share-2"></i> Share
             </button>
         </div>
-    </div>
     </div>
     `;
             }).join('');
@@ -2910,6 +3204,7 @@
             renderSearch();
             renderAccountGrid();
             renderMessagesList();
+            if (typeof renderWorkUpdates === 'function') renderWorkUpdates();
             if (typeof updateNotifBadge === 'function') updateNotifBadge();
         }
 
@@ -3069,49 +3364,126 @@
             const list = document.getElementById('notificationsList');
             if (!list || !currentUser) return;
 
-            let notifs = JSON.parse(localStorage.getItem('tnpvc_notifications') || '[]');
-            let myNotifs = notifs.filter(n => n.to && n.to.trim() === currentUser.name.trim());
+            const notifs = JSON.parse(localStorage.getItem('tnpvc_notifications') || '[]');
+            const myName = currentUser.name.trim();
+
+            const myNotifs = notifs.filter(n => (n.to || "").trim() === myName).sort((a, b) => b.id - a.id);
 
             if (myNotifs.length === 0) {
                 list.innerHTML = `
-                    <div style="margin-top:20px; color:#8e8e8e; text-align:center; padding: 40px 0;">
-                        <i data-lucide="bell" size="48" style="margin-bottom:15px;"></i>
-                        <p>No new updates yet.</p>
+                    <div style="text-align:center; padding: 60px 20px; color:#b0b0cf;">
+                        <i data-lucide="bell-off" size="56" style="margin-bottom:20px; opacity: 0.4;"></i>
+                        <p style="font-weight: 500;">No new notifications</p>
+                        <p style="font-size: 0.85rem; margin-top: 5px;">We'll let you know when something happens!</p>
+                    </div>`;
+                lucide.createIcons();
+                return;
+            }
+
+            list.innerHTML = myNotifs.map(n => {
+                const isPending = n.status === 'pending';
+                return `
+                    <div style="display:flex; align-items:center; gap:12px; padding:12px; background:white; border-radius:12px; border:1px solid #efefef; ${isPending ? 'border-left: 4px solid #764ba2;' : ''}">
+                        <div style="width:44px; height:44px; border-radius:50%; overflow:hidden; border:1px solid #eee;">
+                            <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(n.from)}&background=f0f2f5&color=666" style="width:100%; height:100%; object-fit:cover;">
+                        </div>
+                        <div style="flex:1;">
+                            <div style="font-size:0.9rem; color:#050505;">
+                                <strong style="cursor:pointer" onclick="viewUserProfile('${n.from}')">${n.from}</strong> 
+                                ${n.type === 'follow_request' ? 'sent you a follow request.' : 'interacted with you.'}
+                            </div>
+                            ${isPending ? `
+                                <div style="display:flex; gap:8px; margin-top:8px;">
+                                    <button onclick="acceptFollow('${n.id}', '${n.from}')" style="background:#764ba2; color:white; border:none; padding:6px 16px; border-radius:6px; font-weight:700; cursor:pointer; font-size:0.8rem;">Accept</button>
+                                    <button onclick="removeNotification('${n.id}')" style="background:#f0f2f5; color:#050505; border:none; padding:6px 16px; border-radius:6px; font-weight:700; cursor:pointer; font-size:0.8rem;">Delete</button>
+                                </div>
+                            ` : `
+                                <div style="font-size:0.8rem; color:#8e8e8e; margin-top:4px;">Accepted</div>
+                            `}
+                        </div>
+                    </div>`;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        function renderWorkUpdates() {
+            const list = document.getElementById('workUpdatesList');
+            if (!list || !currentUser) return;
+
+            let updates = JSON.parse(localStorage.getItem('tnpvc_work_updates') || '[]');
+            
+            if (updates.length === 0) {
+                list.innerHTML = `
+                    <div style="text-align:center; padding: 40px 0; color:#8e8e8e;">
+                        <i data-lucide="inbox" size="48" style="margin-bottom:15px; opacity: 0.5;"></i>
+                        <p>No work updates posted yet.</p>
                     </div>
                 `;
                 lucide.createIcons();
                 return;
             }
 
-            list.innerHTML = myNotifs.map(n => {
-                if (n.type === 'follow_request') {
-                    if (n.status === 'pending') {
-                        return `
-                            <div style="display:flex; align-items:center; gap:12px; padding:12px; background:white; border-bottom:1px solid #efefef;">
-                                <img src="${n.fromAvatar}" style="width:40px; height:40px; min-width:40px; border-radius:50%; object-fit:cover; flex-shrink:0;">
-                                <div style="flex:1;">
-                                    <span style="font-weight:700;">${n.from}</span> requested to follow you.
-                                    <div style="font-size:0.75rem; color:#8e8e8e;">${n.time}</div>
-                                </div>
-                                <div style="display:flex; gap:8px;">
-                                    <button onclick="acceptFollow(${n.id}, '${n.from}')" style="background:var(--fb-blue); color:white; border:none; padding:6px 12px; border-radius:6px; font-weight:600; cursor:pointer;">Accept</button>
-                                    <button onclick="declineFollow(${n.id})" style="background:#efefef; color:#262626; border:none; padding:6px 12px; border-radius:6px; font-weight:600; cursor:pointer;">Decline</button>
-                                </div>
-                            </div>`;
-                    } else if (n.status === 'accepted') {
-                        return `
-                            <div style="display:flex; align-items:center; gap:12px; padding:12px; background:white; border-bottom:1px solid #efefef;">
-                                <img src="${n.fromAvatar}" style="width:40px; height:40px; min-width:40px; border-radius:50%; object-fit:cover; flex-shrink:0;">
-                                <div style="flex:1;">
-                                    <span style="font-weight:700;">${n.from}</span> started following you.
-                                    <div style="font-size:0.75rem; color:#8e8e8e;">${n.time}</div>
-                                </div>
-                            </div>`;
-                    }
-                }
-                return '';
+            list.innerHTML = updates.map(u => {
+                return `
+                    <div style="display:flex; flex-direction: column; padding:18px; background:white; border-radius:20px; border:1px solid #f0f0f8; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.05); transition: transform 0.2s ease;">
+                        <div style="display:flex; align-items:center; gap:12px; margin-bottom: 15px;">
+                            <img src="${u.avatar}" style="width:44px; height:44px; min-width:44px; border-radius:50%; object-fit:cover; flex-shrink:0; border: 2px solid #f0e6ff;">
+                            <div style="flex:1;">
+                                <div style="font-weight:800; font-size: 1rem; color: #1b0f3a; letter-spacing: -0.2px;">${u.user}</div>
+                                <div style="font-size:0.75rem; color:#8e8e8e; font-weight: 500;">${u.time}</div>
+                            </div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #fdfbff 0%, #f7f3ff 100%); padding: 15px; border-radius: 14px; border-left: 4px solid #764ba2; margin-bottom: 12px;">
+                            <div style="font-size: 0.75rem; color: #764ba2; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Square Footage Given</div>
+                            <div style="font-weight: 900; font-size: 1.4rem; color: #1b0f3a;">${u.given} <span style="font-size:0.85rem; font-weight:600; color: #764ba2;">SQ.FT</span></div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #4a4a6a; display: flex; align-items: flex-start; gap: 8px; padding-top: 5px;">
+                            <i data-lucide="map-pin" size="16" style="margin-top: 2px; color: #764ba2;"></i>
+                            <span style="line-height: 1.4; font-weight: 500;">${u.address}</span>
+                        </div>
+                    </div>`;
             }).join('');
+            
+            lucide.createIcons();
         }
+
+        // Attach work update form listener
+        document.addEventListener('DOMContentLoaded', () => {
+             const form = document.getElementById('workUpdateForm');
+             if(form) {
+                 form.addEventListener('submit', (e) => {
+                     e.preventDefault();
+                     if(!currentUser) return;
+                     
+                     const given = document.getElementById('workGiven').value;
+                     const address = document.getElementById('workAddress').value;
+                     
+                     const updateData = {
+                         id: Date.now(),
+                         user: currentUser.name.trim(),
+                         avatar: currentUser.avatar,
+                         given: given,
+                         address: address,
+                         time: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                     };
+
+                     if (socket) {
+                         socket.emit('create_work_update', updateData);
+                     } else {
+                         let updates = JSON.parse(localStorage.getItem('tnpvc_work_updates') || '[]');
+                         updates.unshift(updateData);
+                         localStorage.setItem('tnpvc_work_updates', JSON.stringify(updates));
+                         renderWorkUpdates();
+                     }
+
+                     // Reset form
+                     form.reset();
+                     alert("Work update posted successfully!");
+                 });
+             }
+        });
+
 
         function acceptFollow(notifId, followerName) {
             if (socket) {
@@ -3136,7 +3508,7 @@
             }
         }
 
-        function declineFollow(notifId) {
+        function removeNotification(notifId) {
             if (socket) {
                 socket.emit('remove_notification', notifId);
             } else {
@@ -3261,7 +3633,7 @@
                 vBtn.style.color = '#262626';
             } else {
                 vBtn.textContent = 'Follow';
-                vBtn.style.background = '#1877f2';
+                vBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
                 vBtn.style.color = 'white';
             }
 
@@ -3339,7 +3711,9 @@
                 });
                 btn.classList.add('active');
                 btn.style.opacity = '1';
-                btn.style.borderBottom = '1px solid #262626';
+                btn.style.borderBottom = '3px solid #764ba2';
+                const icon = btn.querySelector('i');
+                if(icon) icon.style.color = '#764ba2';
             }
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }

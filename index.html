@@ -1,13 +1,12 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" itemscope itemtype="https://schema.org/WebPage">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:;">
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://www.youtube.com https://s.ytimg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https://www.youtube.com https://youtube.com https://www.youtube-nocookie.com;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
     <!-- ============================================================
@@ -762,12 +761,8 @@
                             <span data-i18n="view_services">View Our Services</span>
                         </a>
                     </div>
-                    <div class="hero-overview-img">
-                        <img src="./platform-overview.png"
-                            alt="TNPVC Management Platform - Advanced PVC Window & Door tracking by Srinivasan"
-                            title="TNPVC Digital Interior Coordination Platform | Managing Director Srinivasan"
-                            loading="lazy" itemprop="image">
-                    </div>
+
+
                 </div>
 
 
@@ -965,7 +960,7 @@
 
         <!-- Leadership Section - PIXEL PERFECT RECONSTRUCTION -->
         <section class="leadership-section reveal" style="background-color: #f8f9fa;">
-            <div class="lead-header reveal" style="text-align: center; padding-top: 4rem; margin-bottom: 2rem;">
+            <div class="lead-header reveal" style="text-align: center; padding: 4rem 1.5rem 0; margin-bottom: 2rem;">
                 <h2 style="font-size: 2.2rem; color: #1b0f3a; font-weight: 800;">TNPVC Network Ecosystem</h2>
             </div>
 
@@ -1123,7 +1118,7 @@
                         <h4 style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0px;">Srinivasan</h4>
                         <p style="color: #666; font-size: 0.9rem;">Managing Director, TNPVC Council</p>
                         <a href="story.html" class="btn-zoho"
-                            style="background: #e3001b; padding: 0.6rem 1.5rem; font-size: 0.75rem; border-radius: 4px; border: none; color: #fff; cursor: pointer; text-decoration: none; font-weight: 700; display: inline-block; margin-top: 1rem;">
+                            style="background: #e3001b; padding: 0.8rem 2rem; font-size: 0.85rem; border-radius: 6px; border: none; color: #fff; cursor: pointer; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; width: max-content; margin: 1rem auto 0 auto;">
                             <span data-i18n="read_our_story">READ ARTICLE</span>
                         </a>
                     </div>
@@ -1706,10 +1701,11 @@
                         if (post.media) {
                             mediaSrc = Array.isArray(post.media) ? post.media[0] : post.media;
                         }
-                        return `<div class="popup-feed-slide ${i === 0 ? 'active' : ''}">
+                        return `<div class="popup-feed-slide ${i === 0 ? 'active' : ''}" style="background:#fff; display:flex; flex-direction:column;">
                             ${mediaSrc
-                                ? `<img src="${mediaSrc}" alt="Feed" loading="lazy">`
-                                : `<div class="empty-slide"><svg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5'><rect x='3' y='3' width='18' height='18' rx='2'/><circle cx='8.5' cy='8.5' r='1.5'/><path d='M21 15l-5-5L5 21'/></svg></div>`}
+                                ? `<img src="${mediaSrc}" alt="Feed" loading="lazy" style="flex:1; object-fit:cover;">`
+                                : `<div class="empty-slide" style="flex:1; display:flex; align-items:center; justify-content:center; padding:20px; text-align:center; font-weight:700; color:#1b0f3a; font-size:1.1rem; background:#f8fafc; line-height:1.5;">${post.caption || 'New Community Update'}</div>`}
+                            ${mediaSrc && post.caption ? `<div style="padding:10px 15px; font-size:0.85rem; color:#333; border-top:1px solid #eee; background:#fff; font-weight:500;">${post.caption}</div>` : ''}
                         </div>`;
                     }).join('');
                     dotsContainer.innerHTML = recentPosts.map((_, i) =>

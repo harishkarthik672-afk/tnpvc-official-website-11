@@ -8,6 +8,26 @@
       "shop": "naresh pvc madurai",
       "location": "ffffffffff",
       "bio": "fffffffffffffffffffffffffff"
+    },
+    {
+      "name": "Karthik Mukilan",
+      "email": "karthikmukilan@tnpvc.com",
+      "avatar": "https://ui-avatars.com/api/?name=Karthik%20Mukilan&background=00b4db&color=fff",
+      "setupComplete": true,
+      "userId": "tnpvc#94859445",
+      "shop": "dexaz",
+      "location": "ffffffffff",
+      "bio": ""
+    },
+    {
+      "name": "Test User",
+      "email": "testuser@tnpvc.com",
+      "avatar": "https://ui-avatars.com/api/?name=Test%20User&background=00b4db&color=fff",
+      "setupComplete": true,
+      "userId": "tnpvc#16066193",
+      "shop": "Test Corp",
+      "location": "Chennai",
+      "bio": "Hello"
     }
   ],
   "posts": [
@@ -51,5 +71,25 @@
       "karthik"
     ]
   },
-  "prods": []
+  "prods": [],
+  "messages": [],
+  "work_updates": [
+    {
+      "id": 1773379583670,
+      "user": "Test User",
+      "avatar": "https://ui-avatars.com/api/?name=Test%20User&background=00b4db&color=fff",
+      "given": "3500",
+      "address": "Coimbatore, TN",
+      "time": "3/13/2026 10:56 AM"
+    },
+    {
+      "id": 1773378182642,
+      "user": "Test User",
+      "avatar": "https://ui-avatars.com/api/?name=Test%20User&background=00b4db&color=fff",
+      "given": "2000",
+      "completed": "1200",
+      "address": "Chennai, Tamil Nadu",
+      "time": "3/13/2026 10:33 AM"
+    }
+  ]
 }

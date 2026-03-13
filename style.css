@@ -201,8 +201,8 @@ body {
 }
 
 .bottom-nav-item i {
-    width: 18px;
-    height: 18px;
+    width: 22px;
+    height: 22px;
     stroke-width: 1.5px;
     transition: all 0.3s ease;
 }
@@ -308,7 +308,8 @@ body {
         left: 50%;
         right: auto;
         bottom: 20px;
-        padding: 4px 0;
+        padding: 10px 0;
+        /* Increased padding */
         border-radius: 40px;
         transform: translateX(-50%);
         background: rgba(27, 15, 58, 0.9);
@@ -318,13 +319,16 @@ body {
     }
 
     .bottom-nav-item span {
-        font-size: 0.65rem;
+        font-size: 0.7rem;
+        /* Slightly larger text */
+        margin-top: 4px;
     }
 
     .bottom-nav-item.center-btn {
-        width: 50px;
-        height: 50px;
-        margin-top: -25px;
+        width: 58px;
+        /* Slightly larger center button */
+        height: 58px;
+        margin-top: -28px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 4px rgba(27, 15, 58, 0.9), 0 0 20px rgba(124, 58, 237, 0.5);
     }
 }
@@ -446,13 +450,13 @@ body {
 
 .bottom-nav-item span {
     font-size: 0.75rem;
-    margin-top: 6px;
+    margin-top: 4px;
 }
 
 /* Custom PNG Icon in Bottom Nav */
 .bottom-nav-img {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     object-fit: contain;
     filter: brightness(0) invert(1) opacity(0.5);
     transition: all 0.3s ease;
@@ -1106,6 +1110,9 @@ body {
     align-items: center;
     gap: 6px;
 }
+
+
+
 
 .hero-overview-img {
     margin: 3rem auto 0;

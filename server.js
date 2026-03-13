@@ -15,7 +15,11 @@ const DB_PATH = path.join(__dirname, 'db.json');
 app.use(cors());
 app.use(express.static(__dirname)); // serve all HTML/CSS files from current dir
 
-let dbCache = { all_users: [], posts: [], notifications: [], followers: {}, prods: [], messages: [] };
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dashboard.html'));
+});
+
+let dbCache = { all_users: [], posts: [], notifications: [], followers: {}, prods: [], messages: [], work_updates: [] };
 
 try {
     if (fs.existsSync(DB_PATH)) {
@@ -62,6 +66,14 @@ io.on('connection', (socket) => {
         dbCache.prods.unshift(prodData);
         writeDB();
         io.emit('db_updated', { type: 'prods', data: dbCache.prods });
+    });
+
+    // Create Work Update
+    socket.on('create_work_update', (updateData) => {
+        if(!dbCache.work_updates) dbCache.work_updates = [];
+        dbCache.work_updates.unshift(updateData);
+        writeDB();
+        io.emit('db_updated', { type: 'work_updates', data: dbCache.work_updates });
     });
 
     // Send Notification / Follow Request
@@ -159,6 +171,20 @@ io.on('connection', (socket) => {
         dbCache.prods = dbCache.prods.filter(p => p.id != prodId);
         writeDB();
         io.emit('db_updated', { type: 'prods', data: dbCache.prods });
+    });
+
+    // Delete Work Update
+    socket.on('delete_work_update', (updateId) => {
+        dbCache.work_updates = dbCache.work_updates.filter(u => u.id != updateId);
+        writeDB();
+        io.emit('db_updated', { type: 'work_updates', data: dbCache.work_updates });
+    });
+
+    // Delete User
+    socket.on('delete_user', (userId) => {
+        dbCache.all_users = dbCache.all_users.filter(u => u.userId != userId);
+        writeDB();
+        io.emit('db_updated', { type: 'users', data: dbCache.all_users });
     });
 
     // Send Message
