@@ -2114,7 +2114,8 @@
         }
 
         function initSocket() {
-            if (typeof io === 'undefined') {
+            console.log('initSocket called');
+            // alert('Initializing Real-Time Connection...');
                 console.warn('Socket.IO not loaded — running offline mode');
                 return;
             }

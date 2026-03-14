@@ -98,6 +98,7 @@ io.on('connection', (socket) => {
 
     // ── Create Post ───────────────────────────────────────────────────────────
     socket.on('create_post', (postData) => {
+        console.log('New Post received from:', postData.user);
         dbCache.posts.unshift(postData);
         writeDB();
         io.emit('db_updated', { type: 'posts', data: dbCache.posts });
@@ -217,6 +218,7 @@ io.on('connection', (socket) => {
         msgData.time = msgData.time || new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
         dbCache.messages.push(msgData);
         writeDB();
+        console.log('New Message from', msgData.from, 'to', msgData.to);
         // Broadcast to all (every client updates their local store)
         io.emit('db_updated', { type: 'messages', data: dbCache.messages });
 
