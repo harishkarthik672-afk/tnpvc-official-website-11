@@ -3081,7 +3081,7 @@
                 return;
             }
 
-            const myName = (currentUser.name || '').trim();
+            const myName = (currentUser && currentUser.name) ? currentUser.name.trim() : '';
             const ads = savedAds.map(ad => ({ type: 'ad', data: ad, time: ad.id || 0 }));
             const posts = local.map(post => ({ type: 'post', data: post, time: post.id || 0 }));
             const marketplaceItems = localProds.map(p => ({ type: 'product', data: p, time: p.id || 0 }));
