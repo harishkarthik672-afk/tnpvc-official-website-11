@@ -16,7 +16,7 @@ const io = new Server(server, {
         origin: "*",
         methods: ["GET", "POST"]
     },
-    maxHttpBufferSize: 1e8 // Increase limit to 100MB for videos/images
+    maxHttpBufferSize: 5e8 // Increase limit to 500MB
 });
 
 const PORT = process.env.PORT || 3000;
@@ -28,9 +28,9 @@ const corsHandler = cors({
 });
 app.use(corsHandler);
 
-// Increased limits to 200MB to handle large base64 video data
-app.use(express.json({ limit: '200mb' }));
-app.use(express.urlencoded({ limit: '200mb', extended: true }));
+// Extremely high limits to bypass local/app-level 413 errors
+app.use(express.json({ limit: '500mb' }));
+app.use(express.urlencoded({ limit: '500mb', extended: true }));
 app.use(express.static(path.join(__dirname, '.')));
 
 // Ping route for diagnostic button
