@@ -2262,7 +2262,13 @@
                     }
                     if (type === 'followers') {
                         localStorage.setItem('tnpvc_followers', JSON.stringify(data));
-                        applyUserUI(); // Update counts
+                        applyUserUI(); // Update logged-in user counts
+                        if (typeof renderSearch === 'function') renderSearch(); // Update user search/list buttons
+                        // If viewing a profile, refresh it
+                        const visitorNameHeader = document.getElementById('visitorNameHeader');
+                        if (visitorNameHeader && visitorNameHeader.textContent) {
+                             viewUserProfile(visitorNameHeader.textContent);
+                        }
                     }
                     if (type === 'prods') {
                         localStorage.setItem('tnpvc_local_prods', JSON.stringify(data));
@@ -3738,9 +3744,20 @@
             const notifs = JSON.parse(localStorage.getItem('tnpvc_notifications') || '[]');
             const myName = currentUser.name.trim();
 
-            const myNotifs = notifs.filter(n => (n.to || "").trim() === myName && n.status === 'pending').sort((a, b) => b.id - a.id);
+            // Unique pending notifications (only one per 'from' user)
+            const uniqueNotifs = [];
+            const seen = new Set();
+            
+            notifs.filter(n => (n.to || "").trim() === myName && n.status === 'pending')
+                  .sort((a, b) => b.id - a.id)
+                  .forEach(n => {
+                      if (!seen.has(n.from.trim())) {
+                          uniqueNotifs.push(n);
+                          seen.add(n.from.trim());
+                      }
+                  });
 
-            if (myNotifs.length === 0) {
+            if (uniqueNotifs.length === 0) {
                 list.innerHTML = `
                     <div style="text-align:center; padding: 60px 20px; color:#b0b0cf;">
                         <i data-lucide="bell-off" size="56" style="margin-bottom:20px; opacity: 0.4;"></i>
@@ -3751,7 +3768,7 @@
                 return;
             }
 
-            list.innerHTML = myNotifs.map(n => {
+            list.innerHTML = uniqueNotifs.map(n => {
                 const isPending = n.status === 'pending';
                 return `
                     <div style="display:flex; align-items:center; gap:12px; padding:12px; background:white; border-radius:12px; border:1px solid #efefef; ${isPending ? 'border-left: 4px solid #764ba2;' : ''}">
@@ -3867,15 +3884,27 @@
             if (targetNotif) {
                 targetNotif.status = 'accepted';
                 localStorage.setItem('tnpvc_notifications', JSON.stringify(notifs));
-                if (!followers[target].some(f => f.trim() === from)) {
-                    followers[target].push(from);
-                }
-                localStorage.setItem('tnpvc_followers', JSON.stringify(followers));
+            }
 
-                renderNotifications();
-                applyUserUI();
-                renderAccountGrid();
-                renderSearch();
+            // 2. Add to followers list in localStorage
+            let followers = JSON.parse(localStorage.getItem('tnpvc_followers') || '{}');
+            if (!followers[myName]) followers[myName] = [];
+            
+            // Clean/Check for existing
+            if (!followers[myName].some(f => (f || "").trim() === fromName)) {
+                followers[myName].push(fromName);
+            }
+            localStorage.setItem('tnpvc_followers', JSON.stringify(followers));
+
+            // 3. UI Updates
+            renderNotifications();
+            applyUserUI();
+            if (typeof renderAccountGrid === 'function') renderAccountGrid();
+            if (typeof renderSearch === 'function') renderSearch();
+
+            // 4. SYNC WITH SERVER
+            if (socket && socket.connected) {
+                socket.emit('accept_follow', { notifId, from: fromName, to: myName });
             }
         }
 
