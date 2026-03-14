@@ -2119,13 +2119,18 @@
                 return;
             }
 
-            // Connect to the same server that served this page
-            socket = io({
-                transports: ['polling', 'websocket'], // Force polling first for mobile reliability
+            // Connection strategy: Try current origin, if it fails or if we are on a custom domain, 
+            // the server URL should be the Render backend.
+            const BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+                ? 'http://localhost:3000' 
+                : 'https://tnpvc-backend.onrender.com';
+
+            socket = io(BACKEND_URL, {
+                transports: ['polling', 'websocket'],
                 reconnection: true,
-                reconnectionAttempts: 10,
+                reconnectionAttempts: 15,
                 reconnectionDelay: 1000,
-                timeout: 30000,
+                timeout: 45000,
             });
 
             // ── Connection events ──────────────────────────────────────────────
