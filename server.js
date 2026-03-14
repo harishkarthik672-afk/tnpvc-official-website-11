@@ -10,15 +10,7 @@ const server = http.createServer(app);
 
 // ─── Socket.IO config optimised for Render.com (free tier) ───────────────────
 const io = new Server(server, {
-    cors: { 
-        origin: function (origin, callback) {
-            // Mirror the origin back to the client to satisfy CORS with credentials
-            callback(null, origin || "*");
-        },
-        methods: ["GET", "POST"],
-        credentials: true
-    },
-    transports: ['websocket', 'polling']
+    cors: { origin: "*" }
 });
 
 const PORT = process.env.PORT || 3000;

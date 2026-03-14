@@ -1236,7 +1236,14 @@
                     <i data-lucide="bell" size="24"></i>
                     <div id="notif-badge-top" class="notif-badge" style="display:none; position: absolute; top: -2px; right: -2px; height: 16px; min-width: 16px; font-size: 0.65rem; border: 2px solid white; z-index: 10; align-items: center; justify-content: center; background: #f3425f; color: white; border-radius: 50%; font-weight: bold;"></div>
                 </a>
-                <button onclick="alert('Socket Status: ' + (socket && socket.connected ? 'OK ✅' : 'NO ❌') + '\nError: ' + (socketError || 'None') + '\nURL: ' + (window.location.hostname)); if(socket && !socket.connected) socket.connect();" 
+                <button onclick="
+                    const url = (window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://tnpvc-backend.onrender.com');
+                    fetch(url + '/ping').then(r => r.text()).then(t => {
+                        alert('Server Status: ALIVE ✅ (' + t + ')\nSocket Status: ' + (socket && socket.connected ? 'OK' : 'NO') + '\nError: ' + (socketError || 'None'));
+                    }).catch(e => {
+                        alert('Server Status: DEAD ❌ (Sleeping?)\nError: ' + e.message);
+                    });
+                    if(socket && !socket.connected) socket.connect();" 
                     style="margin-left: 5px; width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; color: #666; font-size: 10px;">
                     ?
                 </button>
@@ -2134,11 +2141,9 @@
             console.log('Connecting to:', BACKEND_URL);
 
             socket = io(BACKEND_URL, {
-                transports: ['websocket'], // Force websocket ONLY
                 reconnection: true,
-                reconnectionAttempts: 25,
-                reconnectionDelay: 2000,
-                withCredentials: true
+                reconnectionAttempts: 10,
+                reconnectionDelay: 3000,
             });
 
             socket.on('connect_error', (err) => {
