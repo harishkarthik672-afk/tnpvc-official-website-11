@@ -470,11 +470,11 @@
 
         function initDashboard() {
             try {
-                // Connect relatively
-                socket = io({
-                    transports: ['polling', 'websocket'], // Reliable polling first
+                // Connect to the same origin to avoid discovery issues
+                socket = io('/', {
+                    transports: ['polling', 'websocket'],
                     reconnection: true,
-                    reconnectionAttempts: 10
+                    reconnectionAttempts: 20
                 });
 
                 const statusDot = document.getElementById('statusDot');

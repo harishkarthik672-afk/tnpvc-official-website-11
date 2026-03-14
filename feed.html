@@ -2170,16 +2170,16 @@
             // Otherwise use the explicit backend URL
             const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
             const isRender = window.location.hostname.includes('onrender.com');
-            let BACKEND_URL = isLocal ? 'http://localhost:3000' : (isRender ? '/' : 'https://tnpvc-backend.onrender.com');
+            // If on Render, connect to the same origin (/). Otherwise fallback to current detected or default.
+            let BACKEND_URL = isRender ? '/' : (isLocal ? 'http://localhost:3000' : window.location.origin);
 
-            if (window.DETECTED_BACKEND) BACKEND_URL = window.DETECTED_BACKEND;
-
-            console.log('Connecting to:', BACKEND_URL);
+            console.log('🔗 Connecting to Backend:', BACKEND_URL);
 
             socket = io(BACKEND_URL, {
                 reconnection: true,
-                reconnectionAttempts: 10,
-                reconnectionDelay: 3000,
+                reconnectionAttempts: 20,
+                reconnectionDelay: 2000,
+                transports: ['polling', 'websocket'] 
             });
 
             socket.on('connect_error', (err) => {
@@ -2191,9 +2191,11 @@
             socket.on('connect', () => {
                 console.log('✅ Socket connected:', socket.id);
                 const liveEl = document.getElementById('socketLive');
-                if (liveEl) liveEl.style.display = 'flex';
-
-                // Tell server who we are so it can route messages/notifs to us
+                if (liveEl) {
+                    liveEl.style.display = 'block';
+                    liveEl.style.background = '#22c55e';
+                }
+                
                 if (currentUser && currentUser.name) {
                     socket.emit('user_online', currentUser.name.trim());
                 }
@@ -2726,35 +2728,15 @@
         function openPostModal() { document.getElementById('postModal').classList.add('active'); }
         function openProductModal() { document.getElementById('productModal').classList.add('active'); }
         function autoWakeup(isManual = false) {
-            const urls = [
-                'https://tnpvc-backend.onrender.com',
-                'https://tnpvc-official-website-11.onrender.com',
-                'https://tnpvc-official-website-11-backend.onrender.com'
-            ];
-            let found = false;
-            
-            if(isManual) alert('Checking for servers...');
-            
-            urls.forEach(u => {
-                fetch(u + '/ping').then(r => {
-                    if(!found) {
-                        found = true;
-                        if(isManual) alert('Found server at: ' + u);
-                        window.DETECTED_BACKEND = u;
-                        if(socket) {
-                            socket.io.uri = u;
-                            socket.connect();
-                        } else {
-                            initSocket();
-                        }
-                    }
-                }).catch(e => {});
+            // Simply ping the current server to wake it up if it's on Render
+            fetch('/ping').then(r => r.json()).then(data => {
+                console.log('💓 Server Health:', data);
+                if (isManual) alert('Server is Live! DB Status: ' + (data.db ? 'Connected' : 'Connecting...'));
+                if (!socket || !socket.connected) initSocket();
+            }).catch(e => {
+                console.warn('Ping failed, server might be sleeping or starting.');
+                if (isManual) alert('Server is still starting... please wait.');
             });
-            
-            // If socket still not connected after 3s, try direct connect to default
-            setTimeout(() => {
-                if(socket && !socket.connected) socket.connect();
-            }, 3000);
         }
 
         // Initialize Everything on Load

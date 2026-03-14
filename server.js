@@ -9,10 +9,12 @@ const mongoose = require('mongoose');
 const app = express();
 const server = http.createServer(app);
 
-// ─── Socket.IO config optimised ─────────────────────────────────────────────
+// ─── Socket.IO config ───────────────────────────────────────────────────────
 const io = new Server(server, {
     cors: { origin: "*", methods: ["GET", "POST"] },
-    maxHttpBufferSize: 5e8 
+    maxHttpBufferSize: 5e8,
+    pingTimeout: 60000,
+    pingInterval: 25000
 });
 
 const PORT = process.env.PORT || 3000;
@@ -26,149 +28,211 @@ app.use(express.static(path.join(__dirname, '.')));
 // ─── MongoDB Connection ──────────────────────────────────────────────────────
 const MONGO_URI = "mongodb+srv://harishkarthik672_db_user:m2lvRLHv0wV7yFev@tnpvcofficialwebsite.ikz3lb3.mongodb.net/tnpvc_db?retryWrites=true&w=majority&appName=tnpvcofficialwebsite";
 
-mongoose.connect(MONGO_URI)
-    .then(() => {
-        console.log('✅ Connected to MongoDB Atlas');
-        migrateIfNeeded();
-    })
-    .catch(err => console.error('❌ MongoDB connection error:', err));
+let isDbConnected = false;
+
+mongoose.connect(MONGO_URI, {
+    connectTimeoutMS: 30000,
+    socketTimeoutMS: 45000,
+})
+.then(() => {
+    console.log('✅ MongoDB Atlas Connected Successfully');
+    isDbConnected = true;
+    migrateIfNeeded();
+})
+.catch(err => {
+    console.error('❌ MongoDB Connection Error:', err.message);
+});
 
 // ─── Schemas & Models ────────────────────────────────────────────────────────
-const User = mongoose.model('User', new mongoose.Schema({
-    userId: String, name: String, email: String, avatar: String, 
-    shop: String, location: String, bio: String, setupComplete: Boolean
-}, { timestamps: true }));
+const userSchema = new mongoose.Schema({
+    userId: { type: String, unique: true },
+    name: { type: String, index: true },
+    email: String,
+    avatar: { type: String, default: 'logo.png' },
+    shop: String,
+    location: String,
+    bio: String,
+    setupComplete: { type: Boolean, default: false }
+}, { timestamps: true });
 
-const Post = mongoose.model('Post', new mongoose.Schema({
-    id: Number, user: String, avatar: String, media: [String], caption: String,
-    likes: { type: Number, default: 0 }, likedBy: [String],
-    comments: [{ user: String, text: String, avatar: String, time: String }],
+const postSchema = new mongoose.Schema({
+    id: { type: Number, index: true },
+    user: { type: String, index: true },
+    avatar: String,
+    media: [String],
+    caption: String,
+    likes: { type: Number, default: 0 },
+    likedBy: [String],
+    comments: [{
+        user: String,
+        text: String,
+        avatar: String,
+        time: String,
+        createdAt: { type: Date, default: Date.now }
+    }],
     time: String
-}, { timestamps: true }));
+}, { timestamps: true });
 
-const Notification = mongoose.model('Notification', new mongoose.Schema({
-    id: Number, from: String, fromAvatar: String, to: String, type: String, status: String, time: String
-}, { timestamps: true }));
+const notifSchema = new mongoose.Schema({
+    id: Number,
+    from: String,
+    fromAvatar: String,
+    to: { type: String, index: true },
+    type: String,
+    status: { type: String, default: 'pending' },
+    time: String
+}, { timestamps: true });
 
-const Message = mongoose.model('Message', new mongoose.Schema({
-    id: Number, from: String, to: String, text: String, time: String
-}, { timestamps: true }));
+const messageSchema = new mongoose.Schema({
+    from: { type: String, index: true },
+    to: { type: String, index: true },
+    text: String,
+    time: String
+}, { timestamps: true });
 
-const WorkUpdate = mongoose.model('WorkUpdate', new mongoose.Schema({
-    id: Number, user: String, avatar: String, given: String, address: String, time: String
-}, { timestamps: true }));
+const workSchema = new mongoose.Schema({
+    id: Number,
+    user: String,
+    avatar: String,
+    given: String,
+    address: String,
+    time: String
+}, { timestamps: true });
 
-const Product = mongoose.model('Product', new mongoose.Schema({
-    id: Number, user: String, name: String, price: String, contact: String, media: [String]
-}, { timestamps: true }));
+const productSchema = new mongoose.Schema({
+    id: Number,
+    user: String,
+    name: String,
+    price: String,
+    contact: String,
+    media: [String]
+}, { timestamps: true });
 
-const Follower = mongoose.model('Follower', new mongoose.Schema({
-    targetUser: String, followersList: [String]
-}));
+const followerSchema = new mongoose.Schema({
+    targetUser: { type: String, unique: true },
+    followersList: [String]
+});
 
-// ─── Migration Logic ────────────────────────────────────────────────────────
+const User = mongoose.model('User', userSchema);
+const Post = mongoose.model('Post', postSchema);
+const Notification = mongoose.model('Notification', notifSchema);
+const Message = mongoose.model('Message', messageSchema);
+const WorkUpdate = mongoose.model('WorkUpdate', workSchema);
+const Product = mongoose.model('Product', productSchema);
+const Follower = mongoose.model('Follower', followerSchema);
+
+// ─── Migration Logic (One-time) ──────────────────────────────────────────────
 async function migrateIfNeeded() {
-    const userCount = await User.countDocuments();
-    if (userCount === 0 && fs.existsSync(DB_PATH)) {
-        console.log('🔄 Migrating local db.json to MongoDB...');
-        try {
-            const raw = fs.readFileSync(DB_PATH, 'utf8');
-            const data = JSON.parse(raw);
-            if (data.all_users) await User.insertMany(data.all_users);
-            if (data.posts) await Post.insertMany(data.posts);
-            if (data.notifications) await Notification.insertMany(data.notifications);
-            if (data.messages) await Message.insertMany(data.messages);
-            if (data.work_updates) await WorkUpdate.insertMany(data.work_updates);
-            if (data.prods) await Product.insertMany(data.prods);
+    try {
+        const userCount = await User.countDocuments();
+        if (userCount === 0 && fs.existsSync(DB_PATH)) {
+            console.log('🔄 Disk db.json detected. Migrating to MongoDB...');
+            const data = JSON.parse(fs.readFileSync(DB_PATH, 'utf8'));
+            
+            if (data.all_users?.length) await User.insertMany(data.all_users);
+            if (data.posts?.length) await Post.insertMany(data.posts);
+            if (data.notifications?.length) await Notification.insertMany(data.notifications);
+            if (data.messages?.length) await Message.insertMany(data.messages);
+            if (data.work_updates?.length) await WorkUpdate.insertMany(data.work_updates);
+            if (data.prods?.length) await Product.insertMany(data.prods);
             
             if (data.followers) {
                 for (let target of Object.keys(data.followers)) {
                     await Follower.create({ targetUser: target, followersList: data.followers[target] });
                 }
             }
-            console.log('✅ Migration complete');
-        } catch (e) {
-            console.error('❌ Migration failed:', e.message);
+            console.log('✅ Migration data moved to MongoDB Atlas');
+            // Rename file to prevent double migration
+            fs.renameSync(DB_PATH, DB_PATH + '.migrated');
         }
+    } catch (e) {
+        console.error('❌ Migration error:', e.message);
     }
 }
 
 // ─── Utility to fetch full state ─────────────────────────────────────────────
 async function getFullState() {
-    const all_users = await User.find().lean();
-    const posts = await Post.find().sort({ createdAt: -1 }).lean();
-    const notifications = await Notification.find().sort({ createdAt: -1 }).lean();
-    const messages = await Message.find().lean();
-    const work_updates = await WorkUpdate.find().sort({ createdAt: -1 }).lean();
-    const prods = await Product.find().sort({ createdAt: -1 }).lean();
-    const followersRaw = await Follower.find().lean();
-    
-    const followers = {};
-    followersRaw.forEach(f => { followers[f.targetUser] = f.followersList; });
+    try {
+        const [all_users, posts, notifications, messages, work_updates, prods, followersRaw] = await Promise.all([
+            User.find().lean(),
+            Post.find().sort({ createdAt: -1 }).limit(100).lean(),
+            Notification.find().sort({ createdAt: -1 }).limit(50).lean(),
+            Message.find().sort({ createdAt: -1 }).limit(200).lean(),
+            WorkUpdate.find().sort({ createdAt: -1 }).limit(50).lean(),
+            Product.find().sort({ createdAt: -1 }).limit(100).lean(),
+            Follower.find().lean()
+        ]);
 
-    return { all_users, posts, notifications, messages, work_updates, prods, followers };
+        const followers = {};
+        followersRaw.forEach(f => { followers[f.targetUser] = f.followersList; });
+
+        return { all_users, posts, notifications, messages, work_updates, prods, followers };
+    } catch (e) {
+        console.error('Error fetching state:', e.message);
+        return { all_users: [], posts: [], notifications: [], messages: [], work_updates: [], prods: [], followers: {} };
+    }
 }
 
 const onlineUsers = {}; 
 
 // ─── Socket.IO Events ────────────────────────────────────────────────────────
 io.on('connection', async (socket) => {
-    console.log('Connected:', socket.id);
+    console.log('📡 Client connected:', socket.id);
     
+    // Send initial sync immediately
     socket.emit('initial_sync', await getFullState());
 
     socket.on('user_online', (userName) => {
         if (userName) {
-            onlineUsers[userName.trim()] = socket.id;
-            socket.data.userName = userName.trim();
+            const name = userName.trim();
+            onlineUsers[name] = socket.id;
+            socket.data.userName = name;
             io.emit('online_users', Object.keys(onlineUsers));
+            console.log(`👤 ${name} is online`);
         }
     });
 
     socket.on('sync_user', async (userData) => {
         const name = (userData.name || '').trim();
+        if (!name) return;
         await User.findOneAndUpdate({ name }, userData, { upsert: true });
         io.emit('db_updated', { type: 'users', data: await User.find().lean() });
     });
 
     socket.on('create_post', async (postData) => {
         await Post.create(postData);
-        io.emit('db_updated', { type: 'posts', data: await Post.find().sort({ createdAt: -1 }).lean() });
+        io.emit('db_updated', { type: 'posts', data: await Post.find().sort({ createdAt: -1 }).limit(100).lean() });
     });
 
     socket.on('create_product', async (prodData) => {
         await Product.create(prodData);
-        io.emit('db_updated', { type: 'prods', data: await Product.find().sort({ createdAt: -1 }).lean() });
+        io.emit('db_updated', { type: 'prods', data: await Product.find().sort({ createdAt: -1 }).limit(100).lean() });
     });
 
     socket.on('create_work_update', async (updateData) => {
         await WorkUpdate.create(updateData);
-        io.emit('db_updated', { type: 'work_updates', data: await WorkUpdate.find().sort({ createdAt: -1 }).lean() });
+        io.emit('db_updated', { type: 'work_updates', data: await WorkUpdate.find().sort({ createdAt: -1 }).limit(100).lean() });
     });
 
     socket.on('send_notification', async (notifData) => {
         const from = (notifData.from || '').trim();
         const to = (notifData.to || '').trim();
+        if (!from || !to) return;
         await Notification.deleteMany({ from, to, type: 'follow_request' });
         await Notification.create(notifData);
-        io.emit('db_updated', { type: 'notifications', data: await Notification.find().sort({ createdAt: -1 }).lean() });
-        
+        io.emit('db_updated', { type: 'notifications', data: await Notification.find().sort({ createdAt: -1 }).limit(50).lean() });
         if (onlineUsers[to]) io.to(onlineUsers[to]).emit('new_notification', notifData);
     });
 
     socket.on('accept_follow', async ({ notifId, from, to }) => {
         await Notification.findOneAndUpdate({ id: notifId }, { status: 'accepted' });
-        const follower = await Follower.findOne({ targetUser: to });
-        if (follower) {
-            if (!follower.followersList.includes(from)) {
-                follower.followersList.push(from);
-                await follower.save();
-            }
-        } else {
-            await Follower.create({ targetUser: to, followersList: [from] });
-        }
+        await Follower.findOneAndUpdate(
+            { targetUser: to },
+            { $addToSet: { followersList: from.trim() } },
+            { upsert: true }
+        );
         
-        io.emit('db_updated', { type: 'notifications', data: await Notification.find().sort({ createdAt: -1 }).lean() });
+        io.emit('db_updated', { type: 'notifications', data: await Notification.find().sort({ createdAt: -1 }).limit(50).lean() });
         const followersRaw = await Follower.find().lean();
         const followers = {};
         followersRaw.forEach(f => { followers[f.targetUser] = f.followersList; });
@@ -177,35 +241,35 @@ io.on('connection', async (socket) => {
 
     socket.on('remove_notification', async (notifId) => {
         await Notification.deleteOne({ id: notifId });
-        io.emit('db_updated', { type: 'notifications', data: await Notification.find().sort({ createdAt: -1 }).lean() });
+        io.emit('db_updated', { type: 'notifications', data: await Notification.find().sort({ createdAt: -1 }).limit(50).lean() });
     });
 
     socket.on('unfollow', async ({ target, me }) => {
-        const follower = await Follower.findOne({ targetUser: target });
-        if (follower) {
-            follower.followersList = follower.followersList.filter(f => f !== me);
-            await follower.save();
-        }
+        await Follower.findOneAndUpdate(
+            { targetUser: target },
+            { $pull: { followersList: me.trim() } }
+        );
         await Notification.deleteMany({ from: me, to: target, type: 'follow_request' });
         
         const followersRaw = await Follower.find().lean();
         const followers = {};
         followersRaw.forEach(f => { followers[f.targetUser] = f.followersList; });
         io.emit('db_updated', { type: 'followers', data: followers });
-        io.emit('db_updated', { type: 'notifications', data: await Notification.find().sort({ createdAt: -1 }).lean() });
+        io.emit('db_updated', { type: 'notifications', data: await Notification.find().sort({ createdAt: -1 }).limit(50).lean() });
     });
 
     socket.on('toggle_like', async ({ postId, liked, user }) => {
         const post = await Post.findOne({ id: postId });
         if (post) {
+            const u = user.trim();
             if (liked) {
-                if (!post.likedBy.includes(user)) post.likedBy.push(user);
+                if (!post.likedBy.includes(u)) post.likedBy.push(u);
             } else {
-                post.likedBy = post.likedBy.filter(u => u !== user);
+                post.likedBy = post.likedBy.filter(name => name !== u);
             }
             post.likes = post.likedBy.length;
             await post.save();
-            io.emit('db_updated', { type: 'posts', data: await Post.find().sort({ createdAt: -1 }).lean() });
+            io.emit('db_updated', { type: 'posts', data: await Post.find().sort({ createdAt: -1 }).limit(100).lean() });
         }
     });
 
@@ -214,29 +278,24 @@ io.on('connection', async (socket) => {
         if (post) {
             post.comments.push(comment);
             await post.save();
-            io.emit('db_updated', { type: 'posts', data: await Post.find().sort({ createdAt: -1 }).lean() });
+            io.emit('db_updated', { type: 'posts', data: await Post.find().sort({ createdAt: -1 }).limit(100).lean() });
         }
     });
 
     socket.on('send_message', async (msgData) => {
         await Message.create(msgData);
-        io.emit('db_updated', { type: 'messages', data: await Message.find().lean() });
+        io.emit('db_updated', { type: 'messages', data: await Message.find().sort({ createdAt: -1 }).limit(200).lean() });
         if (onlineUsers[msgData.to]) io.to(onlineUsers[msgData.to]).emit('incoming_message', msgData);
     });
 
     socket.on('delete_post', async (id) => {
         await Post.deleteOne({ id });
-        io.emit('db_updated', { type: 'posts', data: await Post.find().sort({ createdAt: -1 }).lean() });
+        io.emit('db_updated', { type: 'posts', data: await Post.find().sort({ createdAt: -1 }).limit(100).lean() });
     });
 
     socket.on('delete_product', async (id) => {
         await Product.deleteOne({ id });
-        io.emit('db_updated', { type: 'prods', data: await Product.find().sort({ createdAt: -1 }).lean() });
-    });
-
-    socket.on('delete_work_update', async (id) => {
-        await WorkUpdate.deleteOne({ id });
-        io.emit('db_updated', { type: 'work_updates', data: await WorkUpdate.find().sort({ createdAt: -1 }).lean() });
+        io.emit('db_updated', { type: 'prods', data: await Product.find().sort({ createdAt: -1 }).limit(100).lean() });
     });
 
     socket.on('delete_user', async (userId) => {
@@ -253,9 +312,9 @@ io.on('connection', async (socket) => {
     });
 });
 
-app.get('/ping', (req, res) => res.send('pong ' + new Date().toLocaleTimeString()));
-app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, 'dashboard.html')));
+app.get('/ping', (req, res) => res.json({ status: 'ok', db: isDbConnected, time: new Date() }));
+app.get('/dashboard-page', (req, res) => res.sendFile(path.join(__dirname, 'dashboard.html')));
 
 server.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 TNPVC Server with MongoDB running on port ${PORT}`);
+    console.log(`🚀 TNPVC Node Server started on port ${PORT}`);
 });
