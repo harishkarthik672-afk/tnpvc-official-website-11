@@ -1236,6 +1236,10 @@
                     <i data-lucide="bell" size="24"></i>
                     <div id="notif-badge-top" class="notif-badge" style="display:none; position: absolute; top: -2px; right: -2px; height: 16px; min-width: 16px; font-size: 0.65rem; border: 2px solid white; z-index: 10; align-items: center; justify-content: center; background: #f3425f; color: white; border-radius: 50%; font-weight: bold;"></div>
                 </a>
+                <button onclick="alert('Socket Connected: ' + (socket && socket.connected ? 'YES ('+socket.id+')' : 'NO')); if(socket && !socket.connected) socket.connect();" 
+                    style="margin-left: 5px; width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; color: #666; font-size: 10px;">
+                    ?
+                </button>
             </div>
 
             <!-- Center: Logo and Title -->
@@ -2114,8 +2118,7 @@
         }
 
         function initSocket() {
-            console.log('initSocket called');
-            // alert('Initializing Real-Time Connection...');
+            if (typeof io === 'undefined') {
                 console.warn('Socket.IO not loaded — running offline mode');
                 return;
             }
