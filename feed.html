@@ -2161,7 +2161,7 @@
             const BACKEND_URL = isLocal ? 'http://localhost:3000' : (isRender ? '/' : 'https://tnpvc-backend.onrender.com');
 
             // --- AUTO WAKEUP ---
-            // Wake the server as soon as the page loads
+            // High-priority ping to wake server instantly
             fetch(BACKEND_URL + 'ping').catch(() => {});
 
             console.log('Connecting to:', BACKEND_URL);
@@ -2704,12 +2704,18 @@
                 else if (tabText.includes('ads')) window.location.href = 'ads.html';
                 else openPostModal();
             } else {
-                openPostModal();
             }
         }
 
         function openPostModal() { document.getElementById('postModal').classList.add('active'); }
         function openProductModal() { document.getElementById('productModal').classList.add('active'); }
+        // Initialize Everything on Load
+        document.addEventListener('DOMContentLoaded', () => {
+            initSocket();
+            initAuth();
+            loadInitialData();
+            lucide.createIcons();
+        });
         function openCommentModal(postId) {
             document.getElementById('commentModal').classList.add('active');
             document.getElementById('commentUserAvatar').src = currentUser.avatar;
