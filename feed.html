@@ -3072,7 +3072,7 @@
                 if (isVideo(src)) {
                     return `<div style="aspect-ratio:1/1; width:100%; background:#f8f9fa; overflow:hidden;"><video src="${src}" style="width:100%; height:100%; display:block; object-fit:cover;" autoplay muted loop playsinline></video></div>`;
                 }
-                return `<div style="aspect-ratio:1/1; width:100%; background:#f8f9fa; overflow:hidden;"><img src="${src}" style="width:100%; height:100%; display:block; object-fit:cover;"></div>`;
+                return `<div style="aspect-ratio:1/1; width:100%; background:#f8f9fa; overflow:hidden; display:flex; align-items:center; justify-content:center;"><img src="${src}" style="width:100%; height:100%; display:block; object-fit:cover;"></div>`;
             }
             const id = `car_${postId}`;
             _carouselIdx[id] = _carouselIdx[id] || 0;
@@ -3081,9 +3081,9 @@
             ).join('');
             const imgs = mediaArr.map((src, i) => {
                 if (isVideo(src)) {
-                    return `<video src="${src}" style="width:100%; flex-shrink:0; object-fit:cover; display:block;" autoplay muted loop playsinline id="${id}_img_${i}"></video>`;
+                    return `<video src="${src}" style="width:100%; height:100%; flex-shrink:0; object-fit:cover; display:block;" autoplay muted loop playsinline id="${id}_img_${i}"></video>`;
                 }
-                return `<img src="${src}" style="width:100%; flex-shrink:0; object-fit:cover; display:block;" id="${id}_img_${i}">`;
+                return `<img src="${src}" style="width:100%; height:100%; flex-shrink:0; object-fit:cover; display:block;" id="${id}_img_${i}">`;
             }).join('');
             return `
                 <div style="position:relative; overflow:hidden; background:#f8f9fa; aspect-ratio:1/1; border-radius:4px;">
