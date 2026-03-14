@@ -2972,7 +2972,7 @@
 
             console.log("Submitting post:", post);
 
-            // Optimistic UI: Update local storage immediately
+            // Optimistic UI: Update local storage immediately for INSTANT response
             const localPosts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
             localPosts.unshift(post);
             localStorage.setItem('tnpvc_local_posts', JSON.stringify(localPosts));

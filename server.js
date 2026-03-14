@@ -12,7 +12,11 @@ const server = http.createServer(app);
 
 // ─── Socket.IO config optimised for Render.com (free tier) ───────────────────
 const io = new Server(server, {
-    cors: { origin: "*" }
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+    },
+    maxHttpBufferSize: 1e8 // Increase limit to 100MB for videos/images
 });
 
 const PORT = process.env.PORT || 3000;
@@ -121,6 +125,8 @@ io.on('connection', (socket) => {
         dbCache.work_updates.unshift(updateData);
         writeDB();
         io.emit('db_updated', { type: 'work_updates', data: dbCache.work_updates });
+    }); // Closing bracket added here
+
     // ── Send Notification / Follow Request ────────────────────────────────────
     socket.on('send_notification', (notifData) => {
         const from = (notifData.from || '').trim();
