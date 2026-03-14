@@ -11,11 +11,15 @@ const server = http.createServer(app);
 // ─── Socket.IO config optimised for Render.com (free tier) ───────────────────
 const io = new Server(server, {
     cors: { 
-        origin: "*", 
-        methods: ["GET", "POST"]
+        origin: (origin, callback) => {
+            // Allow all origins to resolve CORS once and for all
+            callback(null, true);
+        },
+        methods: ["GET", "POST"],
+        credentials: true
     },
-    transports: ['polling', 'websocket'], // Allow both, but let it decide
-    allowEIO3: true // Support older clients if any
+    transports: ['polling', 'websocket'],
+    allowEIO3: true
 });
 
 const PORT = process.env.PORT || 3000;

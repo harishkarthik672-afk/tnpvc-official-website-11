@@ -7,7 +7,7 @@
     <title>TNPVC Community Updates | Showcase Your Work</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
     <script src="i18n.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2135,8 +2135,9 @@
 
             socket = io(BACKEND_URL, {
                 reconnection: true,
-                reconnectionAttempts: 15,
-                reconnectionDelay: 1000,
+                reconnectionAttempts: 20,
+                reconnectionDelay: 2000,
+                withCredentials: true
             });
 
             socket.on('connect_error', (err) => {
