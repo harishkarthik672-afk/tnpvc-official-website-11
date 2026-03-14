@@ -1237,12 +1237,34 @@
                     <div id="notif-badge-top" class="notif-badge" style="display:none; position: absolute; top: -2px; right: -2px; height: 16px; min-width: 16px; font-size: 0.65rem; border: 2px solid white; z-index: 10; align-items: center; justify-content: center; background: #f3425f; color: white; border-radius: 50%; font-weight: bold;"></div>
                 </a>
                 <button onclick="
-                    const url = (window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://tnpvc-backend.onrender.com');
-                    fetch(url + '/ping').then(r => r.text()).then(t => {
-                        alert('Server Status: ALIVE ✅ (' + t + ')\nSocket Status: ' + (socket && socket.connected ? 'OK' : 'NO') + '\nError: ' + (socketError || 'None'));
-                    }).catch(e => {
-                        alert('Server Status: DEAD ❌ (Sleeping?)\nError: ' + e.message);
+                    const urls = [
+                        'https://tnpvc-backend.onrender.com',
+                        'https://tnpvc-official-website-11.onrender.com',
+                        'https://tnpvc-official-website-11-backend.onrender.com'
+                    ];
+                    let found = false;
+                    
+                    alert('Checking 3 potential server addresses...');
+                    
+                    urls.forEach(u => {
+                        fetch(u + '/ping').then(r => r.text()).then(t => {
+                            if(!found) {
+                                found = true;
+                                alert('SUCCESS! Server found at: ' + u + '\nStatus: ' + t);
+                                // Update BACKEND_URL globally for this session
+                                window.DETECTED_BACKEND = u;
+                                if(socket) {
+                                    socket.io.uri = u;
+                                    socket.connect();
+                                }
+                            }
+                        }).catch(e => console.log('Failed for ' + u));
                     });
+                    
+                    setTimeout(() => {
+                        if(!found) alert('All potential URLs failed. Using localhost fallback.');
+                    }, 5000);
+                    
                     if(socket && !socket.connected) socket.connect();" 
                     style="margin-left: 5px; width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; color: #666; font-size: 10px;">
                     ?
