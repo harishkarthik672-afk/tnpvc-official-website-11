@@ -2134,10 +2134,9 @@
             console.log('Connecting to:', BACKEND_URL);
 
             socket = io(BACKEND_URL, {
-                transports: ['websocket', 'polling'], // Try websocket first
                 reconnection: true,
-                reconnectionAttempts: 25,
-                reconnectionDelay: 2000,
+                reconnectionAttempts: 15,
+                reconnectionDelay: 1000,
             });
 
             socket.on('connect_error', (err) => {

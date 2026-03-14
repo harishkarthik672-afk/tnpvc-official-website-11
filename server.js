@@ -11,13 +11,11 @@ const server = http.createServer(app);
 // ─── Socket.IO config optimised for Render.com (free tier) ───────────────────
 const io = new Server(server, {
     cors: { 
-        origin: ["https://www.tnpvc.co.in", "https://tnpvc.co.in", "http://localhost:3000", "http://127.0.0.1:3000"],
-        methods: ["GET", "POST"],
-        credentials: true
+        origin: "*", 
+        methods: ["GET", "POST"]
     },
-    transports: ['websocket', 'polling'], // Try websocket first for better CORS bypass
-    pingInterval: 10000, 
-    pingTimeout: 60000
+    transports: ['polling', 'websocket'], // Allow both, but let it decide
+    allowEIO3: true // Support older clients if any
 });
 
 const PORT = process.env.PORT || 3000;
