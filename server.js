@@ -19,7 +19,11 @@ const server = http.createServer(app);
 
 // ─── Socket.IO config ───────────────────────────────────────────────────────
 const io = new Server(server, {
-    cors: { origin: ["https://www.tnpvc.co.in", "http://localhost:3000", "http://127.0.0.1:3000"], methods: ["GET", "POST"], credentials: true },
+    cors: { 
+        origin: ["https://www.tnpvc.co.in", "https://tnpvc.co.in", "http://localhost:3000", "http://127.0.0.1:3000"], 
+        methods: ["GET", "POST"], 
+        credentials: true 
+    },
     maxHttpBufferSize: 5e8,
     pingTimeout: 60000,
     pingInterval: 25000
@@ -28,7 +32,11 @@ const io = new Server(server, {
 const PORT = process.env.PORT || 3000;
 const DB_PATH = path.join(__dirname, 'db.json');
 
-app.use(cors({ origin: ["https://www.tnpvc.co.in", "http://localhost:3000", "http://127.0.0.1:3000"], methods: ["GET", "POST"], credentials: true }));
+app.use(cors({ 
+    origin: ["https://www.tnpvc.co.in", "https://tnpvc.co.in", "http://localhost:3000", "http://127.0.0.1:3000"], 
+    methods: ["GET", "POST"], 
+    credentials: true 
+}));
 app.use(express.json({ limit: '500mb' }));
 app.use(express.urlencoded({ limit: '500mb', extended: true }));
 app.use(express.static(path.join(__dirname, '.')));
@@ -148,15 +156,31 @@ const WorkUpdate = mongoose.model('WorkUpdate', workSchema);
 const Product = mongoose.model('Product', productSchema);
 const Follower = mongoose.model('Follower', followerSchema);
 
-// ─── Migration Logic (One-time) ──────────────────────────────────────────────
+// ─── Migration Logic ────────────────────────────────────────────────────────
 async function migrateIfNeeded() {
     try {
+        // Enforce IDs on all users
+        const usersToFix = await User.find({ $or: [{ userId: { $exists: false } }, { userId: null }, { userId: "" }] });
+        if (usersToFix.length > 0) {
+            console.log(`🔧 Generating IDs for ${usersToFix.length} users...`);
+            for (let u of usersToFix) {
+                u.userId = "tnpvc#" + Math.floor(10000000 + Math.random() * 90000000).toString();
+                await u.save();
+            }
+        }
+
         const userCount = await User.countDocuments();
         if (userCount === 0 && fs.existsSync(DB_PATH)) {
             console.log('🔄 Disk db.json detected. Migrating to MongoDB...');
             const data = JSON.parse(fs.readFileSync(DB_PATH, 'utf8'));
             
-            if (data.all_users?.length) await User.insertMany(data.all_users);
+            if (data.all_users?.length) {
+                // Ensure every migrated user has an ID
+                data.all_users.forEach(u => {
+                    if (!u.userId) u.userId = "tnpvc#" + Math.floor(10000000 + Math.random() * 90000000).toString();
+                });
+                await User.insertMany(data.all_users);
+            }
             if (data.posts?.length) await Post.insertMany(data.posts);
             if (data.notifications?.length) await Notification.insertMany(data.notifications);
             if (data.messages?.length) await Message.insertMany(data.messages);
@@ -169,7 +193,6 @@ async function migrateIfNeeded() {
                 }
             }
             console.log('✅ Migration data moved to MongoDB Atlas');
-            // Rename file to prevent double migration
             fs.renameSync(DB_PATH, DB_PATH + '.migrated');
         }
     } catch (e) {
@@ -244,7 +267,11 @@ io.on('connection', async (socket) => {
         const name = (userData.name || '').trim();
         if (!name || !isDbConnected) return;
         try {
-            await User.findOneAndUpdate({ name }, userData, { upsert: true });
+            // Ensure userId is present
+            if (!userData.userId) {
+                userData.userId = "tnpvc#" + Math.floor(10000000 + Math.random() * 90000000).toString();
+            }
+            await User.findOneAndUpdate({ name }, userData, { upsert: true, new: true });
             io.emit('db_updated', { type: 'users', data: await User.find().lean() });
         } catch (err) { console.error('Sync user error:', err); }
     });
@@ -258,7 +285,7 @@ io.on('connection', async (socket) => {
             } catch (err) { console.error('Create post error:', err); }
         } else {
             console.log('📝 Local post broadcast (DB offline)');
-            io.emit('db_updated', { type: 'posts', data: [postData] });
+            // DO NOT emit just one post, it wipes localStorage. Just ignore if DB is dead.
         }
     });
 
@@ -420,7 +447,7 @@ app.post('/api/upload-post', async (req, res) => {
         if (isDbConnected) {
             await Post.create(postData);
             const allPosts = await Post.find().sort({ createdAt: -1 }).limit(100).lean();
-            io.emit('db_updated', { type: 'posts', data: allPosts });
+            io.emit('db_updated', { type: 'posts', data: await Post.find().sort({ createdAt: -1 }).limit(100).lean() });
         } else {
             // Fallback: update db.json locally
             if (fs.existsSync(DB_PATH)) {
@@ -429,7 +456,7 @@ app.post('/api/upload-post', async (req, res) => {
                 data.posts.unshift(postData);
                 fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
             }
-            io.emit('db_updated', { type: 'posts', data: [postData] });
+            // io.emit('db_updated', { type: 'posts', data: [postData] }); // Removed to avoid feed wipe
         }
         res.status(200).json({ status: 'success' });
     } catch (err) {

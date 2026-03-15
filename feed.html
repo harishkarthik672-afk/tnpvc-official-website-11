@@ -2085,8 +2085,7 @@
 
         // Backend URL detection
         const IS_LOCAL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        const IS_RENDER = window.location.hostname.includes('onrender.com');
-        const GLOBAL_BACKEND_URL = IS_RENDER ? '' : (IS_LOCAL ? 'http://localhost:3000' : 'https://tnpvc-official-website-11.onrender.com');
+        const GLOBAL_BACKEND_URL = IS_LOCAL ? 'http://localhost:3000' : window.location.origin; // Always use current origin unless local
 
         document.addEventListener('DOMContentLoaded', () => {
             // Splash screen: fade out after 1.5s
@@ -2198,6 +2197,8 @@
                 
                 if (currentUser && currentUser.name) {
                     socket.emit('user_online', currentUser.name.trim());
+                    // Proactive sync to ensure server has our latest profile/userId
+                    socket.emit('sync_user', currentUser);
                 }
             });
 
@@ -2249,11 +2250,11 @@
                 });
 
                 try {
-                    if (type === 'users') {
+                    if (type === 'users' && Array.isArray(data)) {
                         localStorage.setItem('tnpvc_all_users', JSON.stringify(data));
-                        if (document.getElementById('membersView').classList.contains('active')) renderSearch();
+                        renderSearch();
                     }
-                    if (type === 'posts') {
+                    if (type === 'posts' && Array.isArray(data)) {
                         localStorage.setItem('tnpvc_local_posts', JSON.stringify(data));
                         renderPosts();
                     }
@@ -3436,7 +3437,7 @@
             const searchResults = document.getElementById('searchResults');
             let allUsers = JSON.parse(localStorage.getItem('tnpvc_all_users') || '[]');
 
-            let members = allUsers.filter(u => u.name !== (currentUser ? currentUser.name : ''));
+            let members = allUsers.filter(u => (u.name || "").trim() !== (currentUser ? currentUser.name.trim() : ''));
 
             if (query) {
                 members = members.filter(m => {
