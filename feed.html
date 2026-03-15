@@ -2083,6 +2083,11 @@
         let setupPfpData = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200";
         let onlineUsersList = [];
 
+        // Backend URL detection
+        const IS_LOCAL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const IS_RENDER = window.location.hostname.includes('onrender.com');
+        const GLOBAL_BACKEND_URL = IS_RENDER ? '' : (IS_LOCAL ? 'http://localhost:3000' : 'https://tnpvc-backend.onrender.com');
+
         document.addEventListener('DOMContentLoaded', () => {
             // Splash screen: fade out after 1.5s
             const feedSplash = document.getElementById('feedSplash');
@@ -2168,14 +2173,9 @@
 
             // If we are literally on the render domain, use '/' to avoid CORS issues
             // Otherwise use the explicit backend URL
-            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-            const isRender = window.location.hostname.includes('onrender.com');
-            // If on Render, connect to the same origin (/). Otherwise fallback to current detected or default.
-            let BACKEND_URL = isRender ? '/' : (isLocal ? 'http://localhost:3000' : window.location.origin);
+            console.log('🔗 Connecting to Backend:', GLOBAL_BACKEND_URL || ' (Same Origin)');
 
-            console.log('🔗 Connecting to Backend:', BACKEND_URL);
-
-            socket = io(BACKEND_URL, {
+            socket = io(GLOBAL_BACKEND_URL || window.location.origin, {
                 reconnection: true,
                 reconnectionAttempts: 20,
                 reconnectionDelay: 2000,
@@ -2729,9 +2729,11 @@
         function openProductModal() { document.getElementById('productModal').classList.add('active'); }
         function autoWakeup(isManual = false) {
             // Simply ping the current server to wake it up if it's on Render
-            fetch('/ping').then(r => r.json()).then(data => {
+            const pingUrl = (GLOBAL_BACKEND_URL && !GLOBAL_BACKEND_URL.startsWith('http') ? window.location.origin : (GLOBAL_BACKEND_URL || '')) + '/ping';
+            
+            fetch(pingUrl).then(r => r.json()).then(data => {
                 console.log('💓 Server Health:', data);
-                if (isManual) alert('Server is Live! DB Status: ' + (data.db ? 'Connected' : 'Connecting...'));
+                if (isManual) alert('Server is Live! DB Status: ' + (data.db ? 'Connected' : 'Connecting (Fallback Active)'));
                 if (!socket || !socket.connected) initSocket();
             }).catch(e => {
                 console.warn('Ping failed, server might be sleeping or starting.');
@@ -3003,9 +3005,7 @@
             txt.textContent = '0%';
             statusTxt.textContent = 'Please wait, do not close the app';
 
-            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-            const isRender = window.location.hostname.includes('onrender.com');
-            const API_URL = window.DETECTED_BACKEND || (isLocal ? 'http://localhost:3000' : (isRender ? '' : 'https://tnpvc-backend.onrender.com'));
+            const API_URL = window.DETECTED_BACKEND || GLOBAL_BACKEND_URL;
             
             const xhr = new XMLHttpRequest();
             const targetUrl = API_URL.endsWith('/') ? API_URL + 'api/upload-post' : API_URL + '/api/upload-post';
