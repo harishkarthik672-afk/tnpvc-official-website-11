@@ -58,26 +58,24 @@ async function connectToDb() {
 
     try {
         const connPromise = mongoose.connect(uri, options);
-        // Race the connection against a hard timeout
-        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Mongoose connection timed out")), 25000));
+        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Mongoose connection timed out")), 45000));
         
         await Promise.race([connPromise, timeoutPromise]);
         
         console.log('✅ MongoDB Atlas Connected Successfully');
         isDbConnected = true;
         dbError = null;
-        migrateIfNeeded();
+        // migrateIfNeeded(); // Disabled temporarily to debug hang
     } catch (err) {
         console.error('❌ MongoDB Connection Error:', err.message);
         dbError = err.message;
-        // Try fallback if we were using SRV and it failed
         if (uri === MONGO_URI_SRV) {
             console.log('🔄 Trying legacy fallback...');
             try {
                 await mongoose.connect(MONGO_URI_LEGACY, options);
                 isDbConnected = true;
                 dbError = null;
-                migrateIfNeeded();
+                // migrateIfNeeded(); // Disabled temporarily
             } catch (err2) {
                 dbError += " | Legacy Fallback Error: " + err2.message;
             }
@@ -452,8 +450,8 @@ app.get('/ping', (req, res) => {
         db: isDbConnected, 
         error: dbError,
         mongoose: mongoose.connection.readyState,
-        startTime: connectStartTime,
-        time: new Date() 
+        startTime: connectStartTime ? connectStartTime.toISOString() : "not_started",
+        time: new Date().toISOString() 
     });
 });
 app.get('/dashboard-page', (req, res) => res.sendFile(path.join(__dirname, 'dashboard.html')));
