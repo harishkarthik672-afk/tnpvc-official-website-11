@@ -7,12 +7,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const dns = require('dns');
 
-// Force using Google DNS for resolve issues with MongoDB SRV records
-try {
-    dns.setServers(['8.8.8.8', '8.8.4.4']);
-} catch (e) {
-    console.warn('⚠️ Could not set custom DNS servers:', e.message);
-}
+// Custom DNS removed as it could cause issues on some cloud platforms
 
 const app = express();
 const server = http.createServer(app);
@@ -50,9 +45,9 @@ let isDbConnected = false;
 async function connectToDb() {
     console.log('⏳ Connecting to MongoDB Atlas...');
     const options = {
-        connectTimeoutMS: 60000,
-        socketTimeoutMS: 60000,
-        serverSelectionTimeoutMS: 60000,
+        connectTimeoutMS: 30000,
+        socketTimeoutMS: 45000,
+        serverSelectionTimeoutMS: 30000,
     };
 
     try {
@@ -437,7 +432,14 @@ io.on('connection', async (socket) => {
     });
 });
 
-app.get('/ping', (req, res) => res.json({ status: 'ok', db: isDbConnected, time: new Date() }));
+app.get('/ping', (req, res) => {
+    res.json({ 
+        status: 'ok', 
+        db: isDbConnected, 
+        mongoose: mongoose.connection.readyState === 1,
+        time: new Date() 
+    });
+});
 app.get('/dashboard-page', (req, res) => res.sendFile(path.join(__dirname, 'dashboard.html')));
 
 // ─── REST Endpoints for Uploads ─────────────────────────────────────────────
