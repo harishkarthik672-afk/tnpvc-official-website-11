@@ -2237,7 +2237,6 @@
                     applyUserUI();
                 }
             });
-
             // ── Real-time updates handler ──────────────────────────────────────
             socket.on('db_updated', ({ type, data }) => {
                 console.log('🔄 Data sync:', type);
@@ -2292,15 +2291,51 @@
                 }
 
                 // Global pulse indicator for sync visibility
+                triggerSyncPulse();
+            });
+
+            socket.on('post_liked', ({ postId, likes, likedBy }) => {
+                const posts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
+                const post = posts.find(p => p.id == postId);
+                if (post) {
+                    post.likes = likes;
+                    post.likedBy = likedBy;
+                    localStorage.setItem('tnpvc_local_posts', JSON.stringify(posts));
+                    updatePostUI(postId);
+                }
+                triggerSyncPulse();
+            });
+
+            socket.on('post_commented', ({ postId, comments }) => {
+                const posts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
+                const post = posts.find(p => p.id == postId);
+                if (post) {
+                    post.comments = comments;
+                    localStorage.setItem('tnpvc_local_posts', JSON.stringify(posts));
+                    updatePostUI(postId);
+                }
+                triggerSyncPulse();
+            });
+
+            socket.on('user_synced', (data) => {
+                if (data && data.name === currentUser.name) {
+                    currentUser = data;
+                    localStorage.setItem('tnpvc_user', JSON.stringify(currentUser));
+                    applyUserUI();
+                    triggerSyncPulse(); // Call triggerSyncPulse after user data is updated
+                }
+            });
+
+            function triggerSyncPulse() {
                 const liveEl = document.getElementById('socketLive');
                 if (liveEl) {
                     liveEl.style.background = '#22c55e';
                     liveEl.style.boxShadow = '0 0 10px rgba(34, 197, 94, 0.6)';
                     setTimeout(() => {
                         liveEl.style.boxShadow = 'none';
-                    }, 500);
+                    }, 400); // Changed from 500ms to 400ms
                 }
-            });
+            }
 
             // ── Targeted: new notification arrives for this user ───────────────
             socket.on('new_notification', (notif) => {
@@ -4080,6 +4115,36 @@
                     setTimeout(() => el.style.backgroundColor = '', 1500);
                 }
             }, 300);
+        }
+
+        // Helper to update JUST the post UI without full re-render
+        function updatePostUI(id) {
+            const posts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
+            const post = posts.find(p => p.id == id);
+            if (!post) return;
+
+            const likeBtn = document.querySelector(`[onclick="toggleLike(${id})"]`);
+            if (likeBtn) {
+                const myName = (currentUser.name || '').trim();
+                const alreadyLiked = post.likedBy && post.likedBy.some(u => (u || '').trim() === myName);
+                likeBtn.style.color = alreadyLiked ? '#ed4956' : '#262626';
+                likeBtn.innerHTML = alreadyLiked ? '<i data-lucide="heart" style="fill:#ed4956"></i> Like' : '<i data-lucide="heart"></i> Like';
+                lucide.createIcons();
+            }
+
+            const likeCountEl = document.getElementById(`likes_${id}`);
+            if (likeCountEl) {
+                likeCountEl.innerHTML = post.likes > 0 ? `<div style="background:#f3425f; border-radius:50%; width:18px; height:18px; display:flex; align-items:center; justify-content:center; margin-right:4px;"><i data-lucide="heart" style="color:white; width:10px; height:10px; fill:white;"></i></div> ${post.likes}` : '';
+                lucide.createIcons();
+            }
+
+            // Update comment count visibility if needed
+            const postCard = document.getElementById(`post-${id}`);
+            if (postCard && post.comments && post.comments.length > 0) {
+                 // Check if comment count row already exists, if not we might need to refresh
+                 // for simplicity if it exists update it, if not refresh
+                 renderPosts(); 
+            }
         }
 
         function switchAccountTab(tab, btn) {

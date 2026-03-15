@@ -53,7 +53,6 @@ async function connectToDb() {
         serverSelectionTimeoutMS: 20000,
     };
 
-    // Use environment variable if available, else fallback to hardcoded
     const uri = process.env.MONGO_URI || MONGO_URI_SRV;
 
     try {
@@ -169,7 +168,6 @@ const Follower = mongoose.model('Follower', followerSchema);
 // ─── Migration Logic ────────────────────────────────────────────────────────
 async function migrateIfNeeded() {
     try {
-        // Enforce IDs on all users
         const usersToFix = await User.find({ $or: [{ userId: { $exists: false } }, { userId: null }, { userId: "" }] });
         if (usersToFix.length > 0) {
             console.log(`🔧 Generating IDs for ${usersToFix.length} users...`);
@@ -185,7 +183,6 @@ async function migrateIfNeeded() {
             const data = JSON.parse(fs.readFileSync(DB_PATH, 'utf8'));
             
             if (data.all_users?.length) {
-                // Ensure every migrated user has an ID
                 data.all_users.forEach(u => {
                     if (!u.userId) u.userId = "tnpvc#" + Math.floor(10000000 + Math.random() * 90000000).toString();
                 });
@@ -212,35 +209,16 @@ async function migrateIfNeeded() {
 
 // ─── Utility to fetch full state ─────────────────────────────────────────────
 async function getFullState() {
-    if (!isDbConnected) {
-        console.warn('⚠️ DB not connected, attempting to serve from db.json fallback...');
-        if (fs.existsSync(DB_PATH)) {
-            try {
-                const data = JSON.parse(fs.readFileSync(DB_PATH, 'utf8'));
-                return {
-                    all_users: data.all_users || [],
-                    posts: data.posts || [],
-                    notifications: data.notifications || [],
-                    messages: data.messages || [],
-                    work_updates: data.work_updates || [],
-                    prods: data.prods || [],
-                    followers: data.followers || {}
-                };
-            } catch (err) {
-                console.error('❌ Error reading db.json fallback:', err.message);
-            }
-        }
-        return { all_users: [], posts: [], notifications: [], messages: [], work_updates: [], prods: [], followers: {} };
-    }
+    if (!isDbConnected) return { all_users: [], posts: [], notifications: [], messages: [], work_updates: [], prods: [], followers: {} };
 
     try {
         const [all_users, posts, notifications, messages, work_updates, prods, followersRaw] = await Promise.all([
             User.find().lean(),
-            Post.find().sort({ createdAt: -1 }).limit(100).lean(),
-            Notification.find().sort({ createdAt: -1 }).limit(50).lean(),
-            Message.find().sort({ createdAt: -1 }).limit(200).lean(),
-            WorkUpdate.find().sort({ createdAt: -1 }).limit(50).lean(),
-            Product.find().sort({ createdAt: -1 }).limit(100).lean(),
+            Post.find().sort({ createdAt: -1 }).limit(25).lean(),
+            Notification.find().sort({ createdAt: -1 }).limit(30).lean(),
+            Message.find().sort({ createdAt: -1 }).limit(50).lean(),
+            WorkUpdate.find().sort({ createdAt: -1 }).limit(30).lean(),
+            Product.find().sort({ createdAt: -1 }).limit(50).lean(),
             Follower.find().lean()
         ]);
 
@@ -259,8 +237,6 @@ const onlineUsers = {};
 // ─── Socket.IO Events ────────────────────────────────────────────────────────
 io.on('connection', async (socket) => {
     console.log('📡 Client connected:', socket.id);
-    
-    // Send initial sync immediately
     socket.emit('initial_sync', await getFullState());
 
     socket.on('user_online', (userName) => {
@@ -269,7 +245,6 @@ io.on('connection', async (socket) => {
             onlineUsers[name] = socket.id;
             socket.data.userName = name;
             io.emit('online_users', Object.keys(onlineUsers));
-            console.log(`👤 ${name} is online`);
         }
     });
 
@@ -277,12 +252,10 @@ io.on('connection', async (socket) => {
         const name = (userData.name || '').trim();
         if (!name || !isDbConnected) return;
         try {
-            // Ensure userId is present
-            if (!userData.userId) {
-                userData.userId = "tnpvc#" + Math.floor(10000000 + Math.random() * 90000000).toString();
-            }
-            await User.findOneAndUpdate({ name }, userData, { upsert: true, new: true });
+            if (!userData.userId) userData.userId = "tnpvc#" + Math.floor(10000000 + Math.random() * 90000000).toString();
+            const updatedUser = await User.findOneAndUpdate({ name }, userData, { upsert: true, new: true }).lean();
             io.emit('db_updated', { type: 'users', data: await User.find().lean() });
+            socket.emit('user_synced', updatedUser);
         } catch (err) { console.error('Sync user error:', err); }
     });
 
@@ -290,12 +263,9 @@ io.on('connection', async (socket) => {
         if (isDbConnected) {
             try {
                 await Post.create(postData);
-                const allPosts = await Post.find().sort({ createdAt: -1 }).limit(100).lean();
+                const allPosts = await Post.find().sort({ createdAt: -1 }).limit(25).lean();
                 io.emit('db_updated', { type: 'posts', data: allPosts });
             } catch (err) { console.error('Create post error:', err); }
-        } else {
-            console.log('📝 Local post broadcast (DB offline)');
-            // DO NOT emit just one post, it wipes localStorage. Just ignore if DB is dead.
         }
     });
 
@@ -303,45 +273,29 @@ io.on('connection', async (socket) => {
         if (isDbConnected) {
             try {
                 await Product.create(prodData);
-                io.emit('db_updated', { type: 'prods', data: await Product.find().sort({ createdAt: -1 }).limit(100).lean() });
+                io.emit('db_updated', { type: 'prods', data: await Product.find().sort({ createdAt: -1 }).limit(50).lean() });
             } catch (err) { console.error('Create product error:', err); }
-        }
-    });
-
-    socket.on('create_work_update', async (updateData) => {
-        if (isDbConnected) {
-            try {
-                await WorkUpdate.create(updateData);
-                io.emit('db_updated', { type: 'work_updates', data: await WorkUpdate.find().sort({ createdAt: -1 }).limit(100).lean() });
-            } catch (err) { console.error('Work update error:', err); }
         }
     });
 
     socket.on('send_notification', async (notifData) => {
         const from = (notifData.from || '').trim();
         const to = (notifData.to || '').trim();
-        if (!from || !to) return;
-        if (isDbConnected) {
-            try {
-                await Notification.deleteMany({ from, to, type: 'follow_request' });
-                await Notification.create({ ...notifData, from, to });
-                io.emit('db_updated', { type: 'notifications', data: await Notification.find().sort({ createdAt: -1 }).limit(50).lean() });
-            } catch (err) { console.error('Send notification error:', err); }
-        }
-        if (onlineUsers[to]) io.to(onlineUsers[to]).emit('new_notification', notifData);
+        if (!from || !to || !isDbConnected) return;
+        try {
+            await Notification.deleteMany({ from, to, type: 'follow_request' });
+            await Notification.create({ ...notifData, from, to });
+            io.emit('db_updated', { type: 'notifications', data: await Notification.find().sort({ createdAt: -1 }).limit(30).lean() });
+            if (onlineUsers[to]) io.to(onlineUsers[to]).emit('new_notification', notifData);
+        } catch (err) { console.error('Send notification error:', err); }
     });
 
     socket.on('accept_follow', async ({ notifId, from, to }) => {
         if (!isDbConnected) return;
         try {
             await Notification.findOneAndUpdate({ id: notifId }, { status: 'accepted' });
-            await Follower.findOneAndUpdate(
-                { targetUser: to },
-                { $addToSet: { followersList: from.trim() } },
-                { upsert: true }
-            );
-            
-            io.emit('db_updated', { type: 'notifications', data: await Notification.find().sort({ createdAt: -1 }).limit(50).lean() });
+            await Follower.findOneAndUpdate({ targetUser: to }, { $addToSet: { followersList: from.trim() } }, { upsert: true });
+            io.emit('db_updated', { type: 'notifications', data: await Notification.find().sort({ createdAt: -1 }).limit(30).lean() });
             const followersRaw = await Follower.find().lean();
             const followers = {};
             followersRaw.forEach(f => { followers[f.targetUser] = f.followersList; });
@@ -349,29 +303,16 @@ io.on('connection', async (socket) => {
         } catch (err) { console.error('Accept follow error:', err); }
     });
 
-    socket.on('remove_notification', async (notifId) => {
-        if (isDbConnected) {
-            try {
-                await Notification.deleteOne({ id: notifId });
-                io.emit('db_updated', { type: 'notifications', data: await Notification.find().sort({ createdAt: -1 }).limit(50).lean() });
-            } catch (err) { console.error('Remove notification error:', err); }
-        }
-    });
-
     socket.on('unfollow', async ({ target, me }) => {
         if (!isDbConnected) return;
         try {
-            await Follower.findOneAndUpdate(
-                { targetUser: target },
-                { $pull: { followersList: me.trim() } }
-            );
+            await Follower.findOneAndUpdate({ targetUser: target }, { $pull: { followersList: me.trim() } });
             await Notification.deleteMany({ from: me, to: target, type: 'follow_request' });
-            
             const followersRaw = await Follower.find().lean();
             const followers = {};
             followersRaw.forEach(f => { followers[f.targetUser] = f.followersList; });
             io.emit('db_updated', { type: 'followers', data: followers });
-            io.emit('db_updated', { type: 'notifications', data: await Notification.find().sort({ createdAt: -1 }).limit(50).lean() });
+            io.emit('db_updated', { type: 'notifications', data: await Notification.find().sort({ createdAt: -1 }).limit(30).lean() });
         } catch (err) { console.error('Unfollow error:', err); }
     });
 
@@ -381,14 +322,11 @@ io.on('connection', async (socket) => {
             const post = await Post.findOne({ id: postId });
             if (post) {
                 const u = user.trim();
-                if (liked) {
-                    if (!post.likedBy.includes(u)) post.likedBy.push(u);
-                } else {
-                    post.likedBy = post.likedBy.filter(name => name !== u);
-                }
+                if (liked) { if (!post.likedBy.includes(u)) post.likedBy.push(u); }
+                else { post.likedBy = post.likedBy.filter(name => name !== u); }
                 post.likes = post.likedBy.length;
                 await post.save();
-                io.emit('db_updated', { type: 'posts', data: await Post.find().sort({ createdAt: -1 }).limit(100).lean() });
+                io.emit('post_liked', { postId: post.id, likes: post.likes, likedBy: post.likedBy });
             }
         } catch (err) { console.error('Toggle like error:', err); }
     });
@@ -400,7 +338,7 @@ io.on('connection', async (socket) => {
             if (post) {
                 post.comments.push(comment);
                 await post.save();
-                io.emit('db_updated', { type: 'posts', data: await Post.find().sort({ createdAt: -1 }).limit(100).lean() });
+                io.emit('post_commented', { postId: post.id, comments: post.comments });
             }
         } catch (err) { console.error('Add comment error:', err); }
     });
@@ -409,7 +347,7 @@ io.on('connection', async (socket) => {
         if (isDbConnected) {
             try {
                 await Message.create(msgData);
-                io.emit('db_updated', { type: 'messages', data: await Message.find().sort({ createdAt: -1 }).limit(200).lean() });
+                io.emit('db_updated', { type: 'messages', data: await Message.find().sort({ createdAt: -1 }).limit(50).lean() });
                 if (onlineUsers[msgData.to]) io.to(onlineUsers[msgData.to]).emit('incoming_message', msgData);
             } catch (err) { console.error('Send message error:', err); }
         }
@@ -419,23 +357,10 @@ io.on('connection', async (socket) => {
         if (isDbConnected) {
             try {
                 await Post.deleteOne({ id });
-                io.emit('db_updated', { type: 'posts', data: await Post.find().sort({ createdAt: -1 }).limit(100).lean() });
+                const allPosts = await Post.find().sort({ createdAt: -1 }).limit(25).lean();
+                io.emit('db_updated', { type: 'posts', data: allPosts });
             } catch (err) { console.error('Delete post error:', err); }
         }
-    });
-
-    socket.on('delete_product', async (id) => {
-        if (isDbConnected) {
-            try {
-                await Product.deleteOne({ id });
-                io.emit('db_updated', { type: 'prods', data: await Product.find().sort({ createdAt: -1 }).limit(100).lean() });
-            } catch (err) { console.error('Delete product error:', err); }
-        }
-    });
-
-    socket.on('delete_user', async (userId) => {
-        await User.deleteOne({ userId });
-        io.emit('db_updated', { type: 'users', data: await User.find().lean() });
     });
 
     socket.on('disconnect', () => {
@@ -457,46 +382,17 @@ app.get('/ping', (req, res) => {
         time: new Date().toISOString() 
     });
 });
-app.get('/dashboard-page', (req, res) => res.sendFile(path.join(__dirname, 'dashboard.html')));
 
-// ─── REST Endpoints for Uploads ─────────────────────────────────────────────
 app.post('/api/upload-post', async (req, res) => {
     try {
         const postData = req.body;
         if (isDbConnected) {
             await Post.create(postData);
-            const allPosts = await Post.find().sort({ createdAt: -1 }).limit(100).lean();
-            io.emit('db_updated', { type: 'posts', data: await Post.find().sort({ createdAt: -1 }).limit(100).lean() });
-        } else {
-            // Fallback: update db.json locally
-            if (fs.existsSync(DB_PATH)) {
-                let data = JSON.parse(fs.readFileSync(DB_PATH, 'utf8'));
-                data.posts = data.posts || [];
-                data.posts.unshift(postData);
-                fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
-            }
-            // io.emit('db_updated', { type: 'posts', data: [postData] }); // Removed to avoid feed wipe
+            const allPosts = await Post.find().sort({ createdAt: -1 }).limit(25).lean();
+            io.emit('db_updated', { type: 'posts', data: allPosts });
         }
         res.status(200).json({ status: 'success' });
-    } catch (err) {
-        console.error('REST Upload Error:', err);
-        res.status(500).send(err.message);
-    }
-});
-
-app.post('/api/sync-user', async (req, res) => {
-    try {
-        const userData = req.body;
-        const name = (userData.name || '').trim();
-        if (!name) return res.status(400).send('Name required');
-        if (isDbConnected) {
-            await User.findOneAndUpdate({ name }, userData, { upsert: true });
-            io.emit('db_updated', { type: 'users', data: await User.find().lean() });
-        }
-        res.status(200).json({ status: 'success' });
-    } catch (err) {
-        res.status(500).send(err.message);
-    }
+    } catch (err) { res.status(500).send(err.message); }
 });
 
 server.listen(PORT, '0.0.0.0', () => {
