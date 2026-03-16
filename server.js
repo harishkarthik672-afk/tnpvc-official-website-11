@@ -46,21 +46,19 @@ let connectStartTime = null;
 
 async function connectToDb() {
     connectStartTime = new Date();
-    console.log('⏳ Connecting to MongoDB Atlas...');
+    const uri = process.env.MONGO_URI || process.env.MONGODB_URI || MONGO_URI_SRV;
+    const maskedUri = uri.replace(/:([^@]+)@/, ":****@");
+    console.log('⏳ Connecting to MongoDB:', maskedUri.substring(0, 30) + '...');
+    
     const options = {
-        connectTimeoutMS: 20000,
-        socketTimeoutMS: 30000,
-        serverSelectionTimeoutMS: 20000,
+        connectTimeoutMS: 30000,
+        socketTimeoutMS: 45000,
+        serverSelectionTimeoutMS: 30000,
+        heartbeatFrequencyMS: 10000
     };
 
-    const uri = process.env.MONGO_URI || MONGO_URI_SRV;
-
     try {
-        const connPromise = mongoose.connect(uri, options);
-        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Mongoose connection timed out")), 45000));
-        
-        await Promise.race([connPromise, timeoutPromise]);
-        
+        await mongoose.connect(uri, options);
         console.log('✅ MongoDB Atlas Connected Successfully');
         isDbConnected = true;
         dbError = null;
@@ -68,8 +66,10 @@ async function connectToDb() {
     } catch (err) {
         console.error('❌ MongoDB Connection Error:', err.message);
         dbError = err.message;
-        if (uri === MONGO_URI_SRV) {
-            console.log('🔄 Trying legacy fallback...');
+        
+        // Try Legacy fallback automatically
+        if (uri !== MONGO_URI_LEGACY) {
+            console.log('🔄 Trying legacy fallback connection...');
             try {
                 await mongoose.connect(MONGO_URI_LEGACY, options);
                 isDbConnected = true;
@@ -77,11 +77,12 @@ async function connectToDb() {
                 migrateIfNeeded();
                 return;
             } catch (err2) {
-                dbError += " | Legacy Fallback Error: " + err2.message;
+                console.error('❌ Legacy Fallback also failed');
             }
         }
-        console.log('🔁 Retrying in 10 seconds...');
-        setTimeout(connectToDb, 10000);
+        
+        console.log('🔁 Retrying in 5 seconds...');
+        setTimeout(connectToDb, 5000);
     }
 }
 
@@ -273,13 +274,22 @@ io.on('connection', async (socket) => {
     });
 
     socket.on('create_post', async (postData) => {
-        if (isDbConnected) {
-            try {
+        try {
+            // PROACTIVE BROADCAST: Send to all clients immediately for 'Live' feel
+            console.log(`📢 Real-time broadcast for post from ${postData.user}`);
+            
+            if (isDbConnected) {
                 await Post.create(postData);
                 const allPosts = await Post.find().sort({ id: -1 }).limit(50).lean();
                 io.emit('db_updated', { type: 'posts', data: allPosts });
-                console.log(`✅ Post created via socket from ${postData.user}`);
-            } catch (err) { console.error('Create post error:', err); }
+            } else {
+                console.warn('⚠️ DB offline. Emitting instant update only.');
+                // Instant update for all connected users
+                io.emit('db_updated', { type: 'posts', data: [postData] }); 
+                socket.emit('error', 'Post visible but not saved to cloud (DB Offline)');
+            }
+        } catch (err) { 
+            console.error('Socket create_post error:', err);
         }
     });
 

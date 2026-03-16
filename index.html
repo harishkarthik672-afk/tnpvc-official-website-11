@@ -100,7 +100,7 @@
         "closes": "21:00"
       },
       "sameAs": [
-        "https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb"
+        "https://chat.whatsapp.com/FgCSKeHKhsP3A5RoirRDcL"
       ]
     }
     </script>
@@ -759,7 +759,7 @@
                 <a href="about.html" data-i18n="nav_about">About</a>
                 <a href="services.html" data-i18n="nav_services">Services</a>
                 <a href="gallery.html" data-i18n="nav_gallery">Gallery</a>
-                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-zoho"
+                <a href="https://chat.whatsapp.com/FgCSKeHKhsP3A5RoirRDcL" class="btn-zoho"
                     style="margin-top: 1rem;"><span data-i18n="nav_join_now">Join Now</span></a>
             </div>
         </div>
@@ -1333,7 +1333,7 @@
             <div class="container animate">
                 <h2 data-i18n="ready_work">Planning a uPVC or PVC project?</h2>
                 <p data-i18n="lets_start">Let's schedule your site inspection.</p>
-                <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" class="btn-ready"><span
+                <a href="https://chat.whatsapp.com/FgCSKeHKhsP3A5RoirRDcL" class="btn-ready"><span
                         data-i18n="join_network_cta">CONNECT WITH TNPVC</span> <i data-lucide="chevron-right"
                         style="width: 18px;"></i></a>
             </div>
@@ -1474,7 +1474,7 @@
                         Verified!</h3>
                     <p style="color:#65676b; margin-bottom:30px; font-weight: 500;">You are now eligible to join the
                         official TNPVC community group.</p>
-                    <a href="https://chat.whatsapp.com/IQGxuB3NY5AETizCRwZRJb" target="_blank" class="btn-download-app"
+                    <a href="https://chat.whatsapp.com/FgCSKeHKhsP3A5RoirRDcL" target="_blank" class="btn-download-app"
                         style="background:#25D366; border-color:#25D366; width:100%; height: 55px; border-radius: 16px; font-weight: 800; font-size: 1.1rem; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);">
                         <i data-lucide="users-2"></i> Join Now
                     </a>
@@ -1518,25 +1518,7 @@
                     </div>
                 </div>
 
-                <!-- 2nd Box (Slides from Right) -->
-                <div class="popup-box box-right">
-                    <!-- Feed Highlights Box -->
-                    <div class="box-section" style="padding-bottom: 20px;">
-                        <span class="box-section-label">Feed Highlights</span>
-                        <div class="popup-feed-carousel">
-                            <div id="popupFeedItems">
-                                <!-- JS fills slides here -->
-                            </div>
-                        </div>
-                        <!-- Arrow navigation -->
-                        <div class="feed-carousel-nav">
-                            <button class="feed-nav-arrow" onclick="popupCarouselPrev()"
-                                aria-label="Previous">‹</button>
-                            <div class="feed-nav-dots" id="feedNavDots"></div>
-                            <button class="feed-nav-arrow" onclick="popupCarouselNext()" aria-label="Next">›</button>
-                        </div>
-                    </div>
-                </div>
+
 
             </div>
         </div>
@@ -1547,17 +1529,11 @@
                 <i data-lucide="swatch-book"></i>
                 <span data-i18n="nav_our_craft">Our Craft</span>
             </a>
-            <a href="ads.html" class="bottom-nav-item">
-                <i data-lucide="rocket"></i>
-                <span data-i18n="nav_ads">Ads</span>
-            </a>
+
             <a href="index.html" class="bottom-nav-item center-btn">
                 <img src="logo.png" class="center-logo" alt="TNPVC Home">
             </a>
-            <a href="feed.html" class="bottom-nav-item">
-                <i data-lucide="layout-list"></i>
-                <span data-i18n="nav_blog">Feed</span>
-            </a>
+
             <a href="dexaz-partnership.html" class="bottom-nav-item">
                 <img src="dexaz.png" class="bottom-nav-img" alt="Dexaz">
                 <span data-i18n="nav_dexaz">Dexaz</span>
@@ -1629,18 +1605,7 @@
                 }
             });
 
-            // -- Popup carousel navigation --
-            let _popupSlideIdx = 0;
-            function popupCarouselGoTo(idx) {
-                const slides = document.querySelectorAll('.popup-feed-slide');
-                const dots = document.querySelectorAll('.feed-dot');
-                if (!slides.length) return;
-                _popupSlideIdx = (idx + slides.length) % slides.length;
-                slides.forEach((s, i) => s.classList.toggle('active', i === _popupSlideIdx));
-                dots.forEach((d, i) => d.classList.toggle('active', i === _popupSlideIdx));
-            }
-            function popupCarouselNext() { popupCarouselGoTo(_popupSlideIdx + 1); }
-            function popupCarouselPrev() { popupCarouselGoTo(_popupSlideIdx - 1); }
+
 
             function triggerFireball() {
                 const confettiFn = typeof window.confetti === 'function' ? window.confetti : (typeof confetti === 'function' ? confetti : null);
@@ -1711,37 +1676,7 @@
             function showWelcomePopup() {
                 const popup = document.getElementById('welcomePopup');
 
-                // Load recent posts from Feed
-                const localPosts = JSON.parse(localStorage.getItem('tnpvc_local_posts') || '[]');
-                const feedContainer = document.getElementById('popupFeedItems');
-                const dotsContainer = document.getElementById('feedNavDots');
-                if (localPosts.length > 0) {
-                    const recentPosts = localPosts.slice(0, 10); // Show up to 10 recent
-                    feedContainer.innerHTML = recentPosts.map((post, i) => {
-                        let mediaSrc = null;
-                        if (post.media) {
-                            mediaSrc = Array.isArray(post.media) ? post.media[0] : post.media;
-                        }
-                        return `
-                        <div class="popup-feed-slide ${i === 0 ? 'active' : ''}">
-                            ${mediaSrc
-                                ? `<img src="${mediaSrc}" alt="Update">`
-                                : `<div style="flex:1; display:flex; align-items:center; justify-content:center; padding:30px; text-align:center; font-weight:800; color:#1b0f3a; font-size:1.2rem; background:#f8fafc;">${post.caption || 'New Community Update'}</div>`}
-                            ${post.caption ? `<div class="popup-feed-caption">${post.caption}</div>` : ''}
-                        </div>`;
-                    }).join('');
 
-                    dotsContainer.innerHTML = recentPosts.map((_, i) =>
-                        `<div class="feed-dot ${i === 0 ? 'active' : ''}" onclick="popupCarouselGoTo(${i})"></div>`
-                    ).join('');
-                } else {
-                    // Placeholder slides when no posts exist yet
-                    feedContainer.innerHTML = `
-                        <div class="popup-feed-slide active">
-                            <img src="logo.png" alt="TNPVC" style="width:100%;height:100%;object-fit:contain;background:#f1f5f9;padding:30px;">
-                        </div>`;
-                    dotsContainer.innerHTML = '';
-                }
 
                 // Show popup first, then fire grand celebration after entrance animation
                 popup.classList.add('active');
